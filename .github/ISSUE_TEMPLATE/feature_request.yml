@@ -2,8 +2,6 @@ name: "✨ 새로운 기능 추가"
 description: "새로운 기능을 추가하는 이슈 템플릿입니다."
 title: "[Feature] " # 기본 제목 템플릿
 labels: ["feature"]
-assignees:
-  - "" # 자동 배정할 사람 (선택 사항)
 body:
   - type: textarea
     attributes:

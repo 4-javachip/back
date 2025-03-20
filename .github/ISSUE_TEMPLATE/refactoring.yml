@@ -1,5 +1,6 @@
 name: "♻️ Refactoring"
 description: "코드 개선 및 최적화 작업"
+title: "[Refactor] " # 기본 제목 템플릿
 labels: ["refactor"]
 body:
   - type: textarea

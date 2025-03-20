@@ -1,5 +1,6 @@
 name: "📖 Documentation"
 description: "문서 관련 요청"
+title: "[Documentation] " # 기본 제목 템플릿
 labels: ["documentation"]
 body:
   - type: textarea

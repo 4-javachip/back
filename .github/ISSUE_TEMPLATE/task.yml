@@ -1,5 +1,6 @@
 name: "📌 Task"
 description: "개발해야 할 작업을 정리해주세요."
+title: "[Task] " # 기본 제목 템플릿
 labels: ["task"]
 body:
   - type: textarea

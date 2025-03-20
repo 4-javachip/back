@@ -1,5 +1,6 @@
 name: "💬 Discussion"
 description: "프로젝트 관련 논의를 위한 이슈"
+title: "[Discussion] " # 기본 제목 템플릿
 labels: ["discussion"]
 body:
   - type: textarea
