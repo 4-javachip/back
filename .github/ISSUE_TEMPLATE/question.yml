@@ -1,7 +1,7 @@
 name: "❓ Question"
 description: "질문이 있나요? 여기에 작성해주세요!"
 title: "[Question] " # 기본 제목 템플릿
-labels: ["question"]
+labels: [ "question" ]
 body:
   - type: textarea
     attributes:

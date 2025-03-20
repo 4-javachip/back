@@ -1,7 +1,7 @@
 name: "🧪 Test Request"
 description: "테스트 관련 요청"
 title: "[Test] " # 기본 제목 템플릿
-labels: ["test"]
+labels: [ "test" ]
 body:
   - type: textarea
     attributes:

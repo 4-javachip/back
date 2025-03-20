@@ -1,7 +1,7 @@
 name: "🐛 Bug Report"
 description: "버그 발생 시 작성해주세요."
 title: "[Bug] " # 기본 제목 템플릿
-labels: ["bug"]
+labels: [ "bug" ]
 body:
   - type: textarea
     attributes:
