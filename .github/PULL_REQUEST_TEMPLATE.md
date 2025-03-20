@@ -7,7 +7,7 @@
 - [ ] 🛠️ Refactoring (리팩토링)
 - [ ] 📝 Documentation Update (문서 수정)
 - [ ] 🚀 Performance Improvement (성능 개선)
-- [ ] ⚡ ETC (기타 - 아래에 작성해주세요)
+- [ ] ⚡ ETC (기타 - 이곳에 작성해주세요)
 
 # 🔗 Related Issue
 
