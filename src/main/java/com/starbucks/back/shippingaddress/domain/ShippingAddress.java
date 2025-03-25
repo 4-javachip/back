@@ -30,6 +30,8 @@ public class ShippingAddress {
     private String secondPhoneNumber;
     @Column(nullable = true, length = 100)
     private String shippingNote;
+    @Column(nullable = false)
+    private Boolean defaultAddress;
 
     @Builder
     public ShippingAddress(
@@ -41,7 +43,8 @@ public class ShippingAddress {
             String detailAddress,
             String phoneNumber,
             String secondPhoneNumber,
-            String shippingNote
+            String shippingNote,
+            Boolean defaultAddress
     ) {
         this.id = id;
         this.addressName = addressName;
@@ -52,5 +55,6 @@ public class ShippingAddress {
         this.phoneNumber = phoneNumber;
         this.secondPhoneNumber = secondPhoneNumber;
         this.shippingNote = shippingNote;
+        this.defaultAddress = defaultAddress;
     }
 }
