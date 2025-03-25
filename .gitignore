@@ -91,9 +91,6 @@ cmake-build-*/
 # File-based project format
 *.iws
 
-# IntelliJ
-out/
-
 # mpeltonen/sbt-idea plugin
 .idea_modules/
 
@@ -185,5 +182,8 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
-*.yml
+application.yml
+application.properties
+application-dev.yml
+application-db.yml
 !/.github/ISSUE_TEMPLATE/*.yml
