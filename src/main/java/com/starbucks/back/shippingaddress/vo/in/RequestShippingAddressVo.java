@@ -1,8 +1,7 @@
-package com.starbucks.back.shippingaddress.vo;
+package com.starbucks.back.shippingaddress.vo.in;
 
 import lombok.Getter;
 
-//
 @Getter
 public class RequestShippingAddressVo {
 
@@ -16,5 +15,4 @@ public class RequestShippingAddressVo {
     private String secondPhoneNumber;
     private String shippingNote;
     private Boolean defaultAddress;
-
 }

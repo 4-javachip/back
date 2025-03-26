@@ -1,7 +1,7 @@
 package com.starbucks.back.shippingaddress.dto.in;
 
 import com.starbucks.back.shippingaddress.domain.ShippingAddress;
-import com.starbucks.back.shippingaddress.vo.RequestShippingAddressVo;
+import com.starbucks.back.shippingaddress.vo.in.RequestShippingAddressVo;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
