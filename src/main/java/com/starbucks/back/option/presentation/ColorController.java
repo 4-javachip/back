@@ -8,7 +8,7 @@ import com.starbucks.back.option.vo.out.ResponseColorVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-@RequestMapping("/api/v1/option/colors")
+@RequestMapping("/api/v1/option/color")
 @RestController
 @RequiredArgsConstructor
 public class ColorController {
@@ -17,12 +17,18 @@ public class ColorController {
 
     @PostMapping
     public void createColor(@RequestBody RequestColorDto requestColorDto) {
-        colorService.createColor(requestColorDto);
+        colorService.addColor(requestColorDto);
     }
 
     @GetMapping("/{id}")
-    public ResponseColorVo findColorById(@PathVariable Long id) {
-        ResponseColorDto responseColorDto = colorService.findColorById(id);
+    public ResponseColorVo getColorById(@PathVariable("id") Long id) {
+        ResponseColorDto responseColorDto = colorService.getColorById(id);
+        return responseColorDto.toVo();
+    }
+
+    @GetMapping("/search")
+    public ResponseColorVo getColorByName(@RequestParam String name) {
+        ResponseColorDto responseColorDto = colorService.getColorByName(name);
         return responseColorDto.toVo();
     }
 
@@ -31,9 +37,9 @@ public class ColorController {
         colorService.updateColor(RequestColorDto.from(requestColorVo));
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteColor(@PathVariable Long id) {
-        colorService.deleteColor(id);
+    @DeleteMapping
+    public void deleteColor(@RequestBody RequestColorVo requestColorVo) {
+        colorService.deleteColor(RequestColorDto.from(requestColorVo));
     }
 
 }

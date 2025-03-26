@@ -1,5 +1,6 @@
 package com.starbucks.back.option.domain;
 
+import com.starbucks.back.common.entity.SoftDeletableEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -12,7 +13,7 @@ import java.time.LocalDateTime;
 @Table(name = "color_option")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Color {
+public class Color extends SoftDeletableEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,7 +22,7 @@ public class Color {
     /**
      * 색상 이름
      */
-    @Column(nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
 
     @Builder
