@@ -26,7 +26,7 @@ public class ColorServiceImpl implements ColorService {
         colorRepository.save(requestColorDto.toEntity());
     }
 
-    
+
     @Override
     public ResponseColorDto getColorById(Long id) {
         Color color = colorRepository.findById(id)
@@ -44,11 +44,6 @@ public class ColorServiceImpl implements ColorService {
     @Transactional
     @Override
     public void updateColor(RequestColorDto requestColorDto) {
-        Optional<Color> existing = colorRepository.findByNameAndDeletedFalse(requestColorDto.getName());
-
-        if (existing.isPresent() && !existing.get().getId().equals(requestColorDto.getId())) {
-            throw new IllegalArgumentException("이미 존재하는 색상 이름입니다.");
-        }
         colorRepository.save(requestColorDto.updateEntity());
     }
 
