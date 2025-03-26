@@ -39,11 +39,4 @@ public class RequestColorDto {
                 .build();
     }
 
-    public RequestColorVo toVo() {
-        return RequestColorVo.builder()
-                .id(id)
-                .name(name)
-                .build();
-    }
-
 }

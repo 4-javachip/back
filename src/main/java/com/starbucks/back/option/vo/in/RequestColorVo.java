@@ -11,10 +11,4 @@ public class RequestColorVo {
     private Long id;
     private String name;
 
-    @Builder
-    public RequestColorVo(Long id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
 }
