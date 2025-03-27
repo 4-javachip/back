@@ -1,4 +1,4 @@
-package com.starbucks.back.event.domain;
+package com.starbucks.back.best.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -7,10 +7,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "event_product")
+@Table(name = "best")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class EventProduct {
+public class Best {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,16 +23,16 @@ public class EventProduct {
     private String productUuid;
 
     /**
-     * 기획전 uuid
+     * 판매량
      */
-    @Column(name = "event_uuid", length = 50, nullable = false)
-    private String eventUuid;
+    @Column(name = "product_sales_count", nullable = false)
+    private Integer productSalesCount;
 
     @Builder
-    public EventProduct(Long id, String productUuid, String eventUuid) {
+    public Best(Long id, String productUuid, Integer productSalesCount) {
         this.id = id;
         this.productUuid = productUuid;
-        this.eventUuid = eventUuid;
+        this.productSalesCount = productSalesCount;
     }
 
 }
