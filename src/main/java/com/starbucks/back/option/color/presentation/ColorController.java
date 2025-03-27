@@ -1,10 +1,10 @@
-package com.starbucks.back.option.presentation;
+package com.starbucks.back.option.color.presentation;
 
-import com.starbucks.back.option.application.ColorService;
-import com.starbucks.back.option.dto.in.RequestColorDto;
-import com.starbucks.back.option.dto.out.ResponseColorDto;
-import com.starbucks.back.option.vo.in.RequestColorVo;
-import com.starbucks.back.option.vo.out.ResponseColorVo;
+import com.starbucks.back.option.color.application.ColorService;
+import com.starbucks.back.option.color.dto.in.RequestColorDto;
+import com.starbucks.back.option.color.dto.out.ResponseColorDto;
+import com.starbucks.back.option.color.vo.in.RequestColorVo;
+import com.starbucks.back.option.color.vo.out.ResponseColorVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

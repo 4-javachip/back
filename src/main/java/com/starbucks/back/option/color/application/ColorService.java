@@ -1,9 +1,7 @@
-package com.starbucks.back.option.application;
+package com.starbucks.back.option.color.application;
 
-import com.starbucks.back.option.dto.in.RequestColorDto;
-import com.starbucks.back.option.dto.out.ResponseColorDto;
-
-import java.util.List;
+import com.starbucks.back.option.color.dto.in.RequestColorDto;
+import com.starbucks.back.option.color.dto.out.ResponseColorDto;
 
 public interface ColorService {
 

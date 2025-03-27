@@ -1,4 +1,4 @@
-package com.starbucks.back.option.domain;
+package com.starbucks.back.option.color.domain;
 
 import com.starbucks.back.common.entity.SoftDeletableEntity;
 import jakarta.persistence.*;

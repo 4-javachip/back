@@ -1,6 +1,6 @@
-package com.starbucks.back.option.infrastructure;
+package com.starbucks.back.option.color.infrastructure;
 
-import com.starbucks.back.option.domain.Color;
+import com.starbucks.back.option.color.domain.Color;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
