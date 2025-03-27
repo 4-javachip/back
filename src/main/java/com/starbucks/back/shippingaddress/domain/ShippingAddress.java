@@ -1,37 +1,48 @@
 package com.starbucks.back.shippingaddress.domain;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Getter
 @Entity
-@NoArgsConstructor
+@Table(name = "shipping_address")
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ShippingAddress {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = true, length = 100)
+    @Column(name = "address_name", length = 50)
     private String addressName;
-    @Column(nullable = false, length = 100)
+
+    @Column(name = "recipient_name", nullable = false, length = 50)
     private String recipientName;
-    @Column(nullable = false, length = 100)
+
+    @Column(name = "zip_code", nullable = false, length = 20)
     private String zipCode;
-    @Column(nullable = false, length = 100)
+
+    @Column(name = "base_address", nullable = false, length = 150)
     private String baseAddress;
-    @Column(nullable = false, length = 100)
+
+    @Column(name = "detail_address", nullable = false, length = 100)
     private String detailAddress;
-    @Column(nullable = false, length = 100)
+
+    @Column(name = "phone_number", nullable = false, length = 20)
     private String phoneNumber;
-    @Column(nullable = true, length = 20)
+
+    @Column(name = "second_phone_number", length = 20)
     private String secondPhoneNumber;
-    @Column(nullable = true, length = 100)
+
+    @Column(name = "shipping_note", length = 1000)
     private String shippingNote;
-    @Column(nullable = false)
-    private Boolean defaultAddress;
+
+    @Column(name = "defaulted", nullable = false)
+    private Boolean defaulted;
+
 
     @Builder
     public ShippingAddress(
@@ -44,7 +55,7 @@ public class ShippingAddress {
             String phoneNumber,
             String secondPhoneNumber,
             String shippingNote,
-            Boolean defaultAddress
+            Boolean defaulted
     ) {
         this.id = id;
         this.addressName = addressName;
@@ -55,6 +66,6 @@ public class ShippingAddress {
         this.phoneNumber = phoneNumber;
         this.secondPhoneNumber = secondPhoneNumber;
         this.shippingNote = shippingNote;
-        this.defaultAddress = defaultAddress;
+        this.defaulted = defaulted;
     }
 }
