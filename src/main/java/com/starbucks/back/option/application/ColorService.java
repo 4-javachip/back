@@ -11,19 +11,19 @@ public interface ColorService {
      * 색상 추가
      * @param requestColorDto
      */
-    void createColor(RequestColorDto requestColorDto);
+    void addColor(RequestColorDto requestColorDto);
 
     /**
      * id로 색상 조회
      * @param id
      */
-    ResponseColorDto findColorById(Long id);
+    ResponseColorDto getColorById(Long id);
 
     /**
      * 색상 이름으로 색상 조회
      * @param name
      */
-    ResponseColorDto findColorByName(String name);
+    ResponseColorDto getColorByName(String name);
 
     /**
      * 색상 수정
@@ -33,8 +33,8 @@ public interface ColorService {
 
     /**
      * 색상 삭제
-     * @param id
+     * @param requestColorDto
      */
-    void deleteColor(Long id);
+    void deleteColor(RequestColorDto requestColorDto);
 
 }
