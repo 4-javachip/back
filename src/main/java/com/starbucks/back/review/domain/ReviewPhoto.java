@@ -1,5 +1,6 @@
 package com.starbucks.back.review.domain;
 
+import com.starbucks.back.common.entity.SoftDeletableEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -10,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "review_photo")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ReviewPhoto {
+public class ReviewPhoto extends SoftDeletableEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
