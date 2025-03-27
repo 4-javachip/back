@@ -2,6 +2,7 @@ package com.starbucks.back.review.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -59,5 +60,18 @@ public class Review {
      */
     @OneToMany(mappedBy = "review")
     private List<ReviewPhoto> photoList;
+
+    @Builder
+    public  Review(Long id, String userUuid, String productUuid, String reviewUuid,
+                   String title, String content, Integer rating) {
+        this.id = id;
+        this.userUuid = userUuid;
+        this.productUuid = productUuid;
+        this.reviewUuid = reviewUuid;
+        this.title = title;
+        this.content = content;
+        this.rating = rating;
+        this.photoList = new ArrayList<>();
+    }
 
 }
