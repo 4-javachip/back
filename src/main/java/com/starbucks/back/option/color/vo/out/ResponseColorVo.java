@@ -1,4 +1,4 @@
-package com.starbucks.back.option.vo.out;
+package com.starbucks.back.option.color.vo.out;
 
 import lombok.Builder;
 import lombok.Getter;

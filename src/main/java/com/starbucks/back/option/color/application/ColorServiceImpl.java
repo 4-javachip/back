@@ -1,15 +1,13 @@
-package com.starbucks.back.option.application;
+package com.starbucks.back.option.color.application;
 
-import com.starbucks.back.option.domain.Color;
-import com.starbucks.back.option.dto.in.RequestColorDto;
-import com.starbucks.back.option.dto.out.ResponseColorDto;
-import com.starbucks.back.option.infrastructure.ColorRepository;
+import com.starbucks.back.option.color.domain.Color;
+import com.starbucks.back.option.color.dto.in.RequestColorDto;
+import com.starbucks.back.option.color.dto.out.ResponseColorDto;
+import com.starbucks.back.option.color.infrastructure.ColorRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

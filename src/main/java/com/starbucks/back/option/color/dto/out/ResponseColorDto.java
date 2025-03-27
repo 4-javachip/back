@@ -1,8 +1,7 @@
-package com.starbucks.back.option.dto.out;
+package com.starbucks.back.option.color.dto.out;
 
-import com.starbucks.back.option.domain.Color;
-import com.starbucks.back.option.vo.in.RequestColorVo;
-import com.starbucks.back.option.vo.out.ResponseColorVo;
+import com.starbucks.back.option.color.domain.Color;
+import com.starbucks.back.option.color.vo.out.ResponseColorVo;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
