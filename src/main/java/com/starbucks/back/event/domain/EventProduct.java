@@ -1,5 +1,6 @@
 package com.starbucks.back.event.domain;
 
+import com.starbucks.back.common.entity.SoftDeletableEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -10,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "event_product")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class EventProduct {
+public class EventProduct extends SoftDeletableEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

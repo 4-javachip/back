@@ -1,5 +1,6 @@
 package com.starbucks.back.season;
 
+import com.starbucks.back.common.entity.SoftDeletableEntity;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -9,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "season_list")
 @Getter
 @NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
-public class SeasonList {
+public class SeasonList extends SoftDeletableEntity {
 
     @Id
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)

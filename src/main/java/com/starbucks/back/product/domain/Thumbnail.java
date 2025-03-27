@@ -1,5 +1,6 @@
 package com.starbucks.back.product.domain;
 
+import com.starbucks.back.common.entity.SoftDeletableEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -10,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "thumbnail")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Thumbnail {
+public class Thumbnail extends SoftDeletableEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
