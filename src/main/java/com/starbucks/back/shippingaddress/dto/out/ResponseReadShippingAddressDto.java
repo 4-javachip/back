@@ -7,7 +7,7 @@ import lombok.Getter;
 
 // id가 주어졌을 때 배송지 조회 dto
 @Getter
-public class ResponseShippingAddressDto {
+public class ResponseReadShippingAddressDto {
     private final Long id;
     private final String addressName;
     private final String recipientName;
@@ -17,10 +17,10 @@ public class ResponseShippingAddressDto {
     private final String phoneNumber;
     private final String secondPhoneNumber;
     private final String shippingNote;
-    private final Boolean defaultAddress;
+    private final Boolean defaulted;
 
     @Builder
-    public ResponseShippingAddressDto(
+    public ResponseReadShippingAddressDto(
             Long id,
             String addressName,
             String recipientName,
@@ -30,7 +30,7 @@ public class ResponseShippingAddressDto {
             String phoneNumber,
             String secondPhoneNumber,
             String shippingNote,
-            Boolean defaultAddress
+            Boolean defaulted
     ) {
         this.id = id;
         this.addressName = addressName;
@@ -41,12 +41,12 @@ public class ResponseShippingAddressDto {
         this.phoneNumber = phoneNumber;
         this.secondPhoneNumber = secondPhoneNumber;
         this.shippingNote = shippingNote;
-        this.defaultAddress = defaultAddress;
+        this.defaulted = defaulted;
     }
 
     // entity => dto
-    public static ResponseShippingAddressDto from(ShippingAddress shippingAddress) {
-        return ResponseShippingAddressDto.builder()
+    public static ResponseReadShippingAddressDto from(ShippingAddress shippingAddress) {
+        return ResponseReadShippingAddressDto.builder()
                 .id(shippingAddress.getId())
                 .addressName(shippingAddress.getAddressName())
                 .recipientName(shippingAddress.getRecipientName())
@@ -56,7 +56,7 @@ public class ResponseShippingAddressDto {
                 .phoneNumber(shippingAddress.getPhoneNumber())
                 .secondPhoneNumber(shippingAddress.getSecondPhoneNumber())
                 .shippingNote(shippingAddress.getShippingNote())
-                .defaultAddress(shippingAddress.getDefaultAddress())
+                .defaulted(shippingAddress.getDefaulted())
                 .build();
     }
 
@@ -72,7 +72,7 @@ public class ResponseShippingAddressDto {
                 .phoneNumber(phoneNumber)
                 .secondPhoneNumber(secondPhoneNumber)
                 .shippingNote(shippingNote)
-                .defaultAddress(defaultAddress)
+                .defaulted(defaulted)
                 .build();
 
     }

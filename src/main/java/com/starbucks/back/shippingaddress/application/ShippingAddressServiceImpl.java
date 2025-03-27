@@ -12,7 +12,7 @@ public class ShippingAddressServiceImpl implements ShippingAddressService {
     private final ShippingAddressRepository shippingAddressRepository;
 
     @Override
-    public void createShippingAddress(RequestShippingAddressDto requestShippingAddressDto) {
+    public void addShippingAddress(RequestShippingAddressDto requestShippingAddressDto) {
         shippingAddressRepository.save(requestShippingAddressDto.toEntity());
     }
 
