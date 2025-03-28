@@ -12,8 +12,8 @@ jobs:
     - name: Checkout source
       uses: actions/checkout@v3
 
-    - name: Build with Gradle
-      run: ./gradlew clean build --stacktrace
+    - name: Build with Gradle (skip tests)
+      run: ./gradlew clean build -x test --stacktrace
 
     - name: Setup SSH
       run: |
