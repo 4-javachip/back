@@ -1,4 +1,4 @@
-name: Deploy Backend
+name: Deploy Frontend
 
 on:
   push:
@@ -12,8 +12,20 @@ jobs:
     - name: Checkout source
       uses: actions/checkout@v3
 
-    - name: Build with Gradle (skip tests)
-      run: ./gradlew clean build -x test --stacktrace
+    - name: Setup Node.js and pnpm
+      uses: actions/setup-node@v4
+      with:
+        node-version: 18
+        cache: 'pnpm'
+
+    - name: Install pnpm
+      run: npm install -g pnpm
+
+    - name: Install dependencies
+      run: pnpm install
+
+    - name: Build frontend
+      run: pnpm build
 
     - name: Setup SSH
       run: |
@@ -25,18 +37,18 @@ jobs:
     - name: Deploy to EC2
       run: |
         ssh ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} \
-          "BACK_APPLICATION_YML='${{ secrets.BACK_APPLICATION_YML }}' bash ~/starbucks-app/deploy/deploy-back.sh"
+          'bash ~/starbucks-app/deploy/deploy-front.sh'
 
     - name: Discord Notify (success)
       if: success()
       run: |
         curl -X POST ${{ secrets.DISCORD_WEBHOOK }} \
         -H "Content-Type: application/json" \
-        -d '{"content": "✅ Backend Deploy 성공\n📦 Commit: ${{ github.event.head_commit.message }}\n👤 By: ${{ github.actor }}"}'
+        -d '{"content": "✅ Frontend Deploy 성공\n📦 Commit: ${{ github.event.head_commit.message }}\n👤 By: ${{ github.actor }}"}'
 
     - name: Discord Notify (fail)
       if: failure()
       run: |
         curl -X POST ${{ secrets.DISCORD_WEBHOOK }} \
         -H "Content-Type: application/json" \
-        -d '{"content": "❌ Backend Deploy 실패\n📦 Commit: ${{ github.event.head_commit.message }}\n👤 By: ${{ github.actor }}"}'
+        -d '{"content": "❌ Frontend Deploy 실패\n📦 Commit: ${{ github.event.head_commit.message }}\n👤 By: ${{ github.actor }}"}'
