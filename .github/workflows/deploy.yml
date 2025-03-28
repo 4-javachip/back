@@ -1,0 +1,44 @@
+# .github/workflows/deploy.yml
+name: Deploy Backend
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Gradle Build
+      run: ./gradlew clean build --stacktrace
+
+    - name: SSH 접속 설정
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
+
+    - name: application.yml 생성
+      run: |
+        ssh ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} <<'EOF'
+          echo "${{ secrets.BACK_APPLICATION_YML }}" > ~/starbucks-app/back/src/main/resources/application.yml
+        EOF
+
+    - name: EC2에 배포
+      run: |
+        ssh ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} \
+          'bash ~/starbucks-app/deploy/deploy-back.sh'
+
+    - name: Discord 알림
+      if: always()
+      uses: Ilshidur/action-discord@master
+      with:
+        webhook: ${{ secrets.DISCORD_WEBHOOK }}
+        message: |
+          ✅ **Backend Deploy - ${{ job.status }}**
+          Commit: ${{ github.event.head_commit.message }}
+          By: ${{ github.actor }}
