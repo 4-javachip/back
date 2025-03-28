@@ -1,4 +1,3 @@
-# .github/workflows/deploy.yml
 name: Deploy Backend
 
 on:
@@ -10,12 +9,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout source
+      uses: actions/checkout@v3
 
-    - name: Gradle Build
+    - name: Build with Gradle
       run: ./gradlew clean build --stacktrace
 
-    - name: SSH 접속 설정
+    - name: Setup SSH
       run: |
         mkdir -p ~/.ssh
         echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_rsa
@@ -28,17 +28,18 @@ jobs:
           echo "${{ secrets.BACK_APPLICATION_YML }}" > ~/starbucks-app/back/src/main/resources/application.yml
         EOF
 
-    - name: EC2에 배포
+    - name: Deploy to EC2
       run: |
         ssh ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} \
           'bash ~/starbucks-app/deploy/deploy-back.sh'
 
-    - name: Discord 알림
+    - name: Discord Notification
       if: always()
-      uses: Ilshidur/action-discord@master
+      uses: reactivecircus/notify-discord@v1
       with:
-        webhook: ${{ secrets.DISCORD_WEBHOOK }}
-        message: |
+        webhook-url: ${{ secrets.DISCORD_WEBHOOK }}
+        description: |
           ✅ **Backend Deploy - ${{ job.status }}**
-          Commit: ${{ github.event.head_commit.message }}
-          By: ${{ github.actor }}
+          📦 Commit: ${{ github.event.head_commit.message }}
+          👤 Author: ${{ github.actor }}
+        severity: ${{ job.status == 'success' && 'info' || 'error' }}
