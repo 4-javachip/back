@@ -1,5 +1,4 @@
-# .github/workflows/deploy.yml
-name: Deploy Backend
+name: Deploy Frontend
 
 on:
   push:
@@ -10,35 +9,43 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout source
+      uses: actions/checkout@v3
 
-    - name: Gradle Build
-      run: ./gradlew clean build --stacktrace
+    - name: Setup Node.js and pnpm
+      uses: actions/setup-node@v4
+      with:
+        node-version: 18
+        cache: 'pnpm'
 
-    - name: SSH 접속 설정
+    - name: Install pnpm
+      run: npm install -g pnpm
+
+    - name: Install dependencies
+      run: pnpm install
+
+    - name: Build frontend
+      run: pnpm build
+
+    - name: Setup SSH
       run: |
         mkdir -p ~/.ssh
         echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
         ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
 
-    - name: application.yml 생성
-      run: |
-        ssh ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} <<'EOF'
-          echo "${{ secrets.BACK_APPLICATION_YML }}" > ~/starbucks-app/back/src/main/resources/application.yml
-        EOF
-
-    - name: EC2에 배포
+    - name: Deploy to EC2
       run: |
         ssh ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} \
-          'bash ~/starbucks-app/deploy/deploy-back.sh'
+          'bash ~/starbucks-app/deploy/deploy-front.sh'
 
-    - name: Discord 알림
+    - name: Discord Notification
       if: always()
-      uses: Ilshidur/action-discord@master
+      uses: reactivecircus/notify-discord@v1
       with:
-        webhook: ${{ secrets.DISCORD_WEBHOOK }}
-        message: |
-          ✅ **Backend Deploy - ${{ job.status }}**
-          Commit: ${{ github.event.head_commit.message }}
-          By: ${{ github.actor }}
+        webhook-url: ${{ secrets.DISCORD_WEBHOOK }}
+        description: |
+          ✅ **Frontend Deploy - ${{ job.status }}**
+          🧾 Commit: ${{ github.event.head_commit.message }}
+          👤 Author: ${{ github.actor }}
+        severity: ${{ job.status == 'success' && 'info' || 'error' }}
