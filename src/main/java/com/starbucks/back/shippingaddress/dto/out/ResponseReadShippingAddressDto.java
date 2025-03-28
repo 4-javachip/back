@@ -9,6 +9,7 @@ import lombok.Getter;
 @Getter
 public class ResponseReadShippingAddressDto {
     private final Long id;
+    private final String shippingAddressUuid;
     private final String addressName;
     private final String recipientName;
     private final String zipCode;
@@ -21,6 +22,7 @@ public class ResponseReadShippingAddressDto {
     @Builder
     public ResponseReadShippingAddressDto(
             Long id,
+            String shippingAddressUuid,
             String addressName,
             String recipientName,
             String zipCode,
@@ -31,6 +33,7 @@ public class ResponseReadShippingAddressDto {
             String shippingNote
     ) {
         this.id = id;
+        this.shippingAddressUuid = shippingAddressUuid;
         this.addressName = addressName;
         this.recipientName = recipientName;
         this.zipCode = zipCode;
@@ -45,6 +48,7 @@ public class ResponseReadShippingAddressDto {
     public static ResponseReadShippingAddressDto from(ShippingAddress shippingAddress) {
         return ResponseReadShippingAddressDto.builder()
                 .id(shippingAddress.getId())
+                .shippingAddressUuid(shippingAddress.getShippingAddressUuid())
                 .addressName(shippingAddress.getAddressName())
                 .recipientName(shippingAddress.getRecipientName())
                 .zipCode(shippingAddress.getZipCode())
@@ -60,6 +64,7 @@ public class ResponseReadShippingAddressDto {
     public ResponseShippingAddressVo toVo() {
         return ResponseShippingAddressVo.builder()
                 .id(id)
+                .shippingAddressUuid(shippingAddressUuid)
                 .addressName(addressName)
                 .recipientName(recipientName)
                 .zipCode(zipCode)

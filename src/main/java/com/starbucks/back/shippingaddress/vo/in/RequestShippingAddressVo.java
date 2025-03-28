@@ -6,6 +6,7 @@ import lombok.Getter;
 public class RequestShippingAddressVo {
 
     private Long id;
+    private String shippingAddressUuid;
     private String addressName;
     private String recipientName;
     private String zipCode;

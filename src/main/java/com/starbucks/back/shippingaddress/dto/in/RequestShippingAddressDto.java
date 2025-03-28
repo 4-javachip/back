@@ -7,11 +7,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.util.UUID;
+
 @ToString
 @Getter
 @NoArgsConstructor
 public class RequestShippingAddressDto {
 
+    private String shippingAddressUuid;
     private String addressName;
     private String recipientName;
     private String zipCode;
@@ -23,6 +26,7 @@ public class RequestShippingAddressDto {
 
     @Builder
     public RequestShippingAddressDto(
+            String shippingAddressUuid,
             String addressName,
             String recipientName,
             String zipCode,
@@ -32,6 +36,7 @@ public class RequestShippingAddressDto {
             String secondPhoneNumber,
             String shippingNote
     ) {
+        this.shippingAddressUuid = shippingAddressUuid;
         this.addressName = addressName;
         this.recipientName = recipientName;
         this.zipCode = zipCode;
@@ -42,10 +47,9 @@ public class RequestShippingAddressDto {
         this.shippingNote = shippingNote;
     }
 
-
-
     public ShippingAddress toEntity(){
         return ShippingAddress.builder()
+                .shippingAddressUuid(UUID.randomUUID().toString())
                 .addressName(addressName)
                 .recipientName(recipientName)
                 .zipCode(zipCode)
@@ -60,6 +64,7 @@ public class RequestShippingAddressDto {
     public ShippingAddress updateEntity(ShippingAddress shippingAddress) {
         return ShippingAddress.builder()
                 .id(shippingAddress.getId())
+                .shippingAddressUuid(shippingAddress.getShippingAddressUuid())
                 .addressName(addressName)
                 .recipientName(recipientName)
                 .zipCode(zipCode)
