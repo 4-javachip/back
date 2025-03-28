@@ -1,4 +1,4 @@
-name: Deploy Frontend
+name: Deploy Backend
 
 on:
   push:
@@ -12,20 +12,8 @@ jobs:
     - name: Checkout source
       uses: actions/checkout@v3
 
-    - name: Setup Node.js and pnpm
-      uses: actions/setup-node@v4
-      with:
-        node-version: 18
-        cache: 'pnpm'
-
-    - name: Install pnpm
-      run: npm install -g pnpm
-
-    - name: Install dependencies
-      run: pnpm install
-
-    - name: Build frontend
-      run: pnpm build
+    - name: Build with Gradle
+      run: ./gradlew clean build --stacktrace
 
     - name: Setup SSH
       run: |
@@ -37,7 +25,7 @@ jobs:
     - name: Deploy to EC2
       run: |
         ssh ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} \
-          'bash ~/starbucks-app/deploy/deploy-front.sh'
+          "BACK_APPLICATION_YML='${{ secrets.BACK_APPLICATION_YML }}' bash ~/starbucks-app/deploy/deploy-back.sh"
 
     - name: Discord Notification
       if: always()
@@ -45,7 +33,7 @@ jobs:
       with:
         webhook-url: ${{ secrets.DISCORD_WEBHOOK }}
         description: |
-          ✅ **Frontend Deploy - ${{ job.status }}**
-          🧾 Commit: ${{ github.event.head_commit.message }}
+          ✅ **Backend Deploy - ${{ job.status }}**
+          📦 Commit: ${{ github.event.head_commit.message }}
           👤 Author: ${{ github.actor }}
         severity: ${{ job.status == 'success' && 'info' || 'error' }}
