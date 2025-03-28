@@ -1,13 +1,10 @@
-package com.starbucks.back.order.orderdetail.domain;
+package com.starbucks.back.order;
 
-import com.starbucks.back.order.orderlist.domain.OrderList;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 @Entity
 @Getter

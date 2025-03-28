@@ -2,6 +2,7 @@ package com.starbucks.back.payment.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -53,4 +54,35 @@ public class Payment {
 
     @Column(name = "approved_at", nullable = false)
     private LocalDateTime approvedAt;
+
+    @Builder
+    public Payment(
+            Long id,
+            String userUuid,
+            String paymentUuid,
+            String paymentCode,
+            String couponUuid,
+            Integer saleAmount,
+            Integer totalAmount,
+            PaymentStatus status,
+            String pgProvider,
+            String pgTid,
+            String paymentToken,
+            String failReason,
+            LocalDateTime approvedAt
+    ) {
+        this.id = id;
+        this.userUuid = userUuid;
+        this.paymentUuid = paymentUuid;
+        this.paymentCode = paymentCode;
+        this.couponUuid = couponUuid;
+        this.saleAmount = saleAmount;
+        this.totalAmount = totalAmount;
+        this.status = status;
+        this.pgProvider = pgProvider;
+        this.pgTid = pgTid;
+        this.paymentToken = paymentToken;
+        this.failReason = failReason;
+        this.approvedAt = approvedAt;
+    }
 }

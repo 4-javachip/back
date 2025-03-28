@@ -1,6 +1,5 @@
-package com.starbucks.back.order.orderlist.domain;
+package com.starbucks.back.order;
 
-import com.starbucks.back.order.orderdetail.domain.OrderDetail;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
