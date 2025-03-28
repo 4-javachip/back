@@ -29,7 +29,7 @@ jobs:
 
     - name: Discord Notification
       if: always()
-      uses: reactivecircus/notify-discord@v1
+      uses: reactivecircus/notify-discord@v1.2.0
       with:
         webhook-url: ${{ secrets.DISCORD_WEBHOOK }}
         description: |
