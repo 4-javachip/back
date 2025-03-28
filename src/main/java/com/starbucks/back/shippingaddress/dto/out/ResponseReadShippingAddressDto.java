@@ -17,7 +17,6 @@ public class ResponseReadShippingAddressDto {
     private final String phoneNumber;
     private final String secondPhoneNumber;
     private final String shippingNote;
-    private final Boolean defaulted;
 
     @Builder
     public ResponseReadShippingAddressDto(
@@ -29,8 +28,7 @@ public class ResponseReadShippingAddressDto {
             String detailAddress,
             String phoneNumber,
             String secondPhoneNumber,
-            String shippingNote,
-            Boolean defaulted
+            String shippingNote
     ) {
         this.id = id;
         this.addressName = addressName;
@@ -41,7 +39,6 @@ public class ResponseReadShippingAddressDto {
         this.phoneNumber = phoneNumber;
         this.secondPhoneNumber = secondPhoneNumber;
         this.shippingNote = shippingNote;
-        this.defaulted = defaulted;
     }
 
     // entity => dto
@@ -56,7 +53,6 @@ public class ResponseReadShippingAddressDto {
                 .phoneNumber(shippingAddress.getPhoneNumber())
                 .secondPhoneNumber(shippingAddress.getSecondPhoneNumber())
                 .shippingNote(shippingAddress.getShippingNote())
-                .defaulted(shippingAddress.getDefaulted())
                 .build();
     }
 
@@ -72,7 +68,6 @@ public class ResponseReadShippingAddressDto {
                 .phoneNumber(phoneNumber)
                 .secondPhoneNumber(secondPhoneNumber)
                 .shippingNote(shippingNote)
-                .defaulted(defaulted)
                 .build();
 
     }

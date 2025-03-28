@@ -20,7 +20,6 @@ public class RequestShippingAddressDto {
     private String phoneNumber;
     private String secondPhoneNumber;
     private String shippingNote;
-    private Boolean defaulted;
 
     @Builder
     public RequestShippingAddressDto(
@@ -31,8 +30,7 @@ public class RequestShippingAddressDto {
             String detailAddress,
             String phoneNumber,
             String secondPhoneNumber,
-            String shippingNote,
-            Boolean defaulted
+            String shippingNote
     ) {
         this.addressName = addressName;
         this.recipientName = recipientName;
@@ -42,7 +40,6 @@ public class RequestShippingAddressDto {
         this.phoneNumber = phoneNumber;
         this.secondPhoneNumber = secondPhoneNumber;
         this.shippingNote = shippingNote;
-        this.defaulted = defaulted;
     }
 
 
@@ -57,7 +54,6 @@ public class RequestShippingAddressDto {
                 .phoneNumber(phoneNumber)
                 .secondPhoneNumber(secondPhoneNumber)
                 .shippingNote(shippingNote)
-                .defaulted(defaulted)
                 .build();
     }
 
@@ -72,7 +68,6 @@ public class RequestShippingAddressDto {
                 .phoneNumber(phoneNumber)
                 .secondPhoneNumber(secondPhoneNumber)
                 .shippingNote(shippingNote)
-                .defaulted(defaulted)
                 .build();
     }
 
@@ -86,7 +81,6 @@ public class RequestShippingAddressDto {
                 .phoneNumber(requestShippingAddressVo.getPhoneNumber())
                 .secondPhoneNumber(requestShippingAddressVo.getSecondPhoneNumber())
                 .shippingNote(requestShippingAddressVo.getShippingNote())
-                .defaulted(requestShippingAddressVo.getDefaulted())
                 .build();
     }
 }

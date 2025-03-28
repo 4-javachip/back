@@ -40,10 +40,6 @@ public class ShippingAddress {
     @Column(name = "shipping_note", length = 1000)
     private String shippingNote;
 
-    @Column(name = "defaulted", nullable = false)
-    private Boolean defaulted;
-
-
     @Builder
     public ShippingAddress(
             Long id,
@@ -55,7 +51,6 @@ public class ShippingAddress {
             String phoneNumber,
             String secondPhoneNumber,
             String shippingNote,
-            Boolean defaulted
     ) {
         this.id = id;
         this.addressName = addressName;
@@ -66,6 +61,5 @@ public class ShippingAddress {
         this.phoneNumber = phoneNumber;
         this.secondPhoneNumber = secondPhoneNumber;
         this.shippingNote = shippingNote;
-        this.defaulted = defaulted;
     }
 }

@@ -17,7 +17,6 @@ public class ResponseShippingAddressVo {
     private String phoneNumber;
     private String secondPhoneNumber;
     private String shippingNote;
-    private Boolean defaulted;
 
     @Builder
     public ResponseShippingAddressVo(
@@ -30,7 +29,6 @@ public class ResponseShippingAddressVo {
             String phoneNumber,
             String secondPhoneNumber,
             String shippingNote,
-            Boolean defaulted
     ) {
         this.id = id;
         this.addressName = addressName;
@@ -41,7 +39,5 @@ public class ResponseShippingAddressVo {
         this.phoneNumber = phoneNumber;
         this.secondPhoneNumber = secondPhoneNumber;
         this.shippingNote = shippingNote;
-        this.defaulted = defaulted;
     }
-
 }
