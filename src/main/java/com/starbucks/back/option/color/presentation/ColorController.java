@@ -25,9 +25,9 @@ public class ColorController {
      * 색상 추가
      * @param requestColorDto
      */
-    @Operation(summary = "CreateColor API", description = "CreateColor API 입니다.", tags = {"Color-service"})
+    @Operation(summary = "AddColor API", description = "AddColor API 입니다.", tags = {"Color-Service"})
     @PostMapping
-    public BaseResponseEntity<Void> createColor(@RequestBody RequestColorDto requestColorDto) {
+    public BaseResponseEntity<Void> addColor(@RequestBody RequestColorDto requestColorDto) {
         colorService.addColor(requestColorDto);
         return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS);
     }
@@ -36,6 +36,7 @@ public class ColorController {
      * 색상 id로 색상 조회
      * @param id
      */
+    @Operation(summary = "GetColorById API", description = "GetColorById API 입니다.", tags = {"Color-Service"})
     @GetMapping("/{id}")
     public BaseResponseEntity<ResponseColorVo> getColorById(@PathVariable("id") Long id) {
         ResponseColorDto responseColorDto = colorService.getColorById(id);
@@ -46,6 +47,7 @@ public class ColorController {
      * 색상 이름으로 색상 조회
      * @param name
      */
+    @Operation(summary = "GetColorByName API", description = "GetColorByName API 입니다.", tags = {"Color-Service"})
     @GetMapping("/search")
     public BaseResponseEntity<ResponseColorVo> getColorByName(@RequestParam String name) {
         ResponseColorDto responseColorDto = colorService.getColorByName(name);
@@ -55,6 +57,7 @@ public class ColorController {
     /**
      * 색상 전체 조회
      */
+    @Operation(summary = "GetAllColors API", description = "GetAllColors API 입니다.", tags = {"Color-Service"})
     @GetMapping("/list")
     public BaseResponseEntity<List<ResponseColorVo>> getAllColors() {
         List<ResponseColorVo> result = colorService.getAllColors().stream()
@@ -67,6 +70,7 @@ public class ColorController {
      * 색상 수정
      * @param requestColorVo
      */
+    @Operation(summary = "UpdateColor API", description = "UpdateColor API 입니다.", tags = {"Color-Service"})
     @PutMapping
     public BaseResponseEntity<Void> updateColor(@RequestBody RequestColorVo requestColorVo) {
         colorService.updateColor(RequestColorDto.from(requestColorVo));
@@ -77,6 +81,7 @@ public class ColorController {
      * 색상 삭제
      * @param requestColorVo
      */
+    @Operation(summary = "DeleteColor API", description = "DeleteColor API 입니다.", tags = {"Color-Service"})
     @DeleteMapping
     public BaseResponseEntity<Void> deleteColor(@RequestBody RequestColorVo requestColorVo) {
         colorService.deleteColor(RequestColorDto.from(requestColorVo));
