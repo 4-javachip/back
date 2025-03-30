@@ -3,6 +3,7 @@ package com.starbucks.back.option.color.infrastructure;
 import com.starbucks.back.option.color.domain.Color;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface ColorRepository extends JpaRepository<Color, Long> {
@@ -18,6 +19,11 @@ public interface ColorRepository extends JpaRepository<Color, Long> {
      * @param name
      */
     Optional<Color> findByNameAndDeletedFalse(String name);
+
+    /**
+     * 삭제되지 않은 색상 전체 조회
+     */
+    List<Color> findAllByDeletedFalse();
 
     /**
      * 색상 이름으로 색상 존재 여부 확인

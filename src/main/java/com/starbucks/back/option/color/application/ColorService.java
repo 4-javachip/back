@@ -3,6 +3,8 @@ package com.starbucks.back.option.color.application;
 import com.starbucks.back.option.color.dto.in.RequestColorDto;
 import com.starbucks.back.option.color.dto.out.ResponseColorDto;
 
+import java.util.List;
+
 public interface ColorService {
 
     /**
@@ -22,6 +24,11 @@ public interface ColorService {
      * @param name
      */
     ResponseColorDto getColorByName(String name);
+
+    /**
+     * 색상 전체 조회
+     */
+    List<ResponseColorDto> getAllColors();
 
     /**
      * 색상 수정
