@@ -1,5 +1,6 @@
 package com.starbucks.back.shippingaddress.domain;
 
+import com.starbucks.back.common.entity.SoftDeletableEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -10,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "user_shipping_address")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class UserShippingAddress {
+public class UserShippingAddress extends SoftDeletableEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

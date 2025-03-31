@@ -11,5 +11,4 @@ public interface ShippingAddressRepository extends JpaRepository<ShippingAddress
      * Uuid로 ShippingAddress 조회
      */
     Optional<ShippingAddress> findByShippingAddressUuidAndDeletedFalse(String uuid);
-
 }
