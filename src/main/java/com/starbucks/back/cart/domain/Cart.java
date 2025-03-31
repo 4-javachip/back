@@ -19,9 +19,6 @@ public class Cart {
     @Column(name = "user_uuid", nullable = false, length = 50)
     private String userUuid;
 
-    @Column(name = "cart_uuid", nullable = false, length = 50)
-    private String cartUuid;
-
     @Column(name = "product_quantity", nullable = false)
     private Integer productQuantity;
 
@@ -35,14 +32,12 @@ public class Cart {
     public Cart(
             Long id,
             String userUuid,
-            String cartUuid,
             Integer productQuantity,
             Boolean checked,
             String productOptionListUuid
     ) {
         this.id = id;
         this.userUuid = userUuid;
-        this.cartUuid = cartUuid;
         this.productQuantity = productQuantity;
         this.checked = checked;
         this.productOptionListUuid = productOptionListUuid;
