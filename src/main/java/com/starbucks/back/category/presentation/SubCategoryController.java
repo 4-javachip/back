@@ -1,8 +1,12 @@
 package com.starbucks.back.category.presentation;
 
 import com.starbucks.back.category.application.SubCategoryService;
+import com.starbucks.back.category.dto.in.RequestAddSubCategoryDto;
+import com.starbucks.back.category.dto.in.RequestDeleteSubCategoryDto;
 import com.starbucks.back.category.dto.in.RequestSubCategoryDto;
+import com.starbucks.back.category.dto.in.RequestUpdateSubCategoryDto;
 import com.starbucks.back.category.dto.out.ResponseSubCategoryDto;
+import com.starbucks.back.category.vo.in.RequestDeleteCategoryVo;
 import com.starbucks.back.category.vo.in.RequestSubCategoryVo;
 import com.starbucks.back.category.vo.out.ResponseSubCategoryVo;
 import com.starbucks.back.common.entity.BaseResponseEntity;
@@ -22,12 +26,12 @@ public class SubCategoryController {
 
     /**
      * 서브 카테고리 추가
-     * @param requestSubCategoryDto
+     * @param requestAddSubCategoryDto
      */
     @Operation(summary = "AddSubCategory API", description = "AddSubCategory API 입니다.", tags = {"Sub-Category-Service"})
     @PostMapping
-    public BaseResponseEntity<Void> addSubCategory(@RequestBody RequestSubCategoryDto requestSubCategoryDto) {
-        subCategoryService.addSubCategory(requestSubCategoryDto);
+    public BaseResponseEntity<Void> addSubCategory(@RequestBody RequestAddSubCategoryDto requestAddSubCategoryDto) {
+        subCategoryService.addSubCategory(requestAddSubCategoryDto);
         return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS);
     }
 
@@ -73,18 +77,18 @@ public class SubCategoryController {
     @Operation(summary = "updateSubCategory API", description = "updateSubCategory API 입니다.", tags = {"Sub-Category-Service"})
     @PutMapping
     public BaseResponseEntity<Void> updateSubCategory(@RequestBody RequestSubCategoryVo requestSubCategoryVo) {
-        subCategoryService.updateSubCategory(RequestSubCategoryDto.from(requestSubCategoryVo));
+        subCategoryService.updateSubCategory(RequestUpdateSubCategoryDto.from(requestSubCategoryVo));
         return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS);
     }
 
     /**
      * 서브 카테고리 삭제
-     * @param requestSubCategoryVo
+     * @param requestDeleteCategoryVo
      */
     @Operation(summary = "deleteSubCategory API", description = "deleteSubCategory API 입니다.", tags = {"Sub-Category-Service"})
     @DeleteMapping
-    public BaseResponseEntity<Void> deleteSubCategory(@RequestBody RequestSubCategoryVo requestSubCategoryVo) {
-        subCategoryService.deleteSubCategory(RequestSubCategoryDto.from(requestSubCategoryVo));
+    public BaseResponseEntity<Void> deleteSubCategory(@RequestBody RequestDeleteCategoryVo requestDeleteCategoryVo) {
+        subCategoryService.deleteSubCategory(RequestDeleteSubCategoryDto.of(requestDeleteCategoryVo));
         return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS);
     }
 
