@@ -6,6 +6,7 @@ import lombok.Getter;
 public class RequestShippingAddressVo {
 
     private Long id;
+    private String shippingAddressUuid;
     private String addressName;
     private String recipientName;
     private String zipCode;
@@ -14,5 +15,4 @@ public class RequestShippingAddressVo {
     private String phoneNumber;
     private String secondPhoneNumber;
     private String shippingNote;
-    private Boolean defaulted;
 }
