@@ -3,7 +3,8 @@ package com.starbucks.back.option.size.application;
 import com.starbucks.back.common.entity.BaseResponseStatus;
 import com.starbucks.back.common.exception.BaseException;
 import com.starbucks.back.option.size.domain.Size;
-import com.starbucks.back.option.size.dto.in.RequestSizeDto;
+import com.starbucks.back.option.size.dto.in.RequestAddSizeDto;
+import com.starbucks.back.option.size.dto.in.RequestUpdateSizeDto;
 import com.starbucks.back.option.size.dto.out.ResponseSizeDto;
 import com.starbucks.back.option.size.infrastructure.SizeRepository;
 import jakarta.transaction.Transactional;
@@ -20,15 +21,15 @@ public class SizeServiceImpl implements SizeService {
 
     /**
      * 사이즈 추가
-     * @param requestSizeDto
+     * @param requestAddSizeDto
      */
     @Transactional
     @Override
-    public void addSize(RequestSizeDto requestSizeDto) {
-        if(sizeRepository.existsByNameAndDeletedFalse(requestSizeDto.getName())) {
+    public void addSize(RequestAddSizeDto requestAddSizeDto) {
+        if(sizeRepository.existsByNameAndDeletedFalse(requestAddSizeDto.getName())) {
             throw new BaseException(BaseResponseStatus.DUPLICATED_OPTION);
         }
-        sizeRepository.save(requestSizeDto.toEntity());
+        sizeRepository.save(requestAddSizeDto.toEntity());
     }
 
     /**
@@ -65,22 +66,22 @@ public class SizeServiceImpl implements SizeService {
 
     /**
      * 사이즈 수정
-     * @param requestSizeDto
+     * @param requestUpdateSizeDto
      */
     @Transactional
     @Override
-    public void updateSize(RequestSizeDto requestSizeDto) {
-        sizeRepository.save(requestSizeDto.updateEntity());
+    public void updateSize(RequestUpdateSizeDto requestUpdateSizeDto) {
+        sizeRepository.save(requestUpdateSizeDto.updateEntity());
     }
 
     /**
      * 사이즈 삭제
-     * @param requestSizeDto
+     * @param requestUpdateSizeDto
      */
     @Transactional
     @Override
-    public void deleteSize(RequestSizeDto requestSizeDto) {
-        Size size = sizeRepository.findById(requestSizeDto.getId())
+    public void deleteSize(RequestUpdateSizeDto requestUpdateSizeDto) {
+        Size size = sizeRepository.findById(requestUpdateSizeDto.getId())
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_OPTION));
         size.softDelete();
     }

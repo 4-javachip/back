@@ -8,21 +8,15 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class RequestSizeDto {
+public class RequestUpdateSizeDto {
 
     private Long id;
     private String name;
 
     @Builder
-    public RequestSizeDto(Long id, String name) {
+    public RequestUpdateSizeDto(Long id, String name) {
         this.id = id;
         this.name = name;
-    }
-
-    public Size toEntity() {
-        return Size.builder()
-                .name(name)
-                .build();
     }
 
     public Size updateEntity() {
@@ -32,8 +26,8 @@ public class RequestSizeDto {
                 .build();
     }
 
-    public static RequestSizeDto from(RequestSizeVo requestSizeVo) {
-        return RequestSizeDto.builder()
+    public static RequestUpdateSizeDto from(RequestSizeVo requestSizeVo) {
+        return RequestUpdateSizeDto.builder()
                 .id(requestSizeVo.getId())
                 .name(requestSizeVo.getName())
                 .build();

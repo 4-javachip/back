@@ -3,7 +3,8 @@ package com.starbucks.back.option.size.presentation;
 import com.starbucks.back.common.entity.BaseResponseEntity;
 import com.starbucks.back.common.entity.BaseResponseStatus;
 import com.starbucks.back.option.size.application.SizeService;
-import com.starbucks.back.option.size.dto.in.RequestSizeDto;
+import com.starbucks.back.option.size.dto.in.RequestAddSizeDto;
+import com.starbucks.back.option.size.dto.in.RequestUpdateSizeDto;
 import com.starbucks.back.option.size.dto.out.ResponseSizeDto;
 import com.starbucks.back.option.size.vo.in.RequestSizeVo;
 import com.starbucks.back.option.size.vo.out.ResponseSizeVo;
@@ -23,12 +24,12 @@ public class SizeController {
 
     /**
      * 사이즈 추가
-     * @param requestSizeDto
+     * @param requestAddSizeDto
      */
     @Operation(summary = "AddSize API", description = "AddSize API 입니다.", tags = {"Size-Service"})
     @PostMapping
-    public BaseResponseEntity<Void> addSize(@RequestBody RequestSizeDto requestSizeDto) {
-        sizeService.addSize(requestSizeDto);
+    public BaseResponseEntity<Void> addSize(@RequestBody RequestAddSizeDto requestAddSizeDto) {
+        sizeService.addSize(requestAddSizeDto);
         return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS);
     }
 
@@ -73,7 +74,7 @@ public class SizeController {
     @Operation(summary = "UpdateSize API", description = "UpdateSize API 입니다.", tags = {"Size-Service"})
     @PutMapping
     public BaseResponseEntity<Void> updateSize(@RequestBody RequestSizeVo requestSizeVo) {
-        sizeService.updateSize(RequestSizeDto.from(requestSizeVo));
+        sizeService.updateSize(RequestUpdateSizeDto.from(requestSizeVo));
         return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS);
     }
 
@@ -84,7 +85,7 @@ public class SizeController {
     @Operation(summary = "DeleteSize API", description = "DeleteSize API 입니다.", tags = {"Size-Service"})
     @DeleteMapping
     public BaseResponseEntity<Void> deleteSize(@RequestBody RequestSizeVo requestSizeVo) {
-        sizeService.deleteSize(RequestSizeDto.from(requestSizeVo));
+        sizeService.deleteSize(RequestUpdateSizeDto.from(requestSizeVo));
         return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS);
     }
 
