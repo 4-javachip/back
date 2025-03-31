@@ -8,7 +8,9 @@ import java.util.Optional;
 public interface ShippingAddressRepository extends JpaRepository<ShippingAddress, Long> {
 
     /**
-     * Uuid로 ShippingAddress 조회
+     * 배송지 uuid로 배송지 조회
+     * @param uuid
+     * @return
      */
     Optional<ShippingAddress> findByShippingAddressUuidAndDeletedFalse(String uuid);
 }

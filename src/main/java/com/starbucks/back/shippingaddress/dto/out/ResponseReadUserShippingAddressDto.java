@@ -16,6 +16,7 @@ public class ResponseReadUserShippingAddressDto {
         this.defaulted = defaulted;
     }
 
+    // entity => dto
     public static ResponseReadUserShippingAddressDto from(UserShippingAddress userShippingAddress) {
         return ResponseReadUserShippingAddressDto.builder()
                 .shippingAddressUuid(userShippingAddress.getShippingAddressUuid())
@@ -23,6 +24,7 @@ public class ResponseReadUserShippingAddressDto {
                 .build();
     }
 
+    // dto => vo
     public ResponseReadShippingAddressUuidVo toVo() {
         return ResponseReadShippingAddressUuidVo.builder()
                 .shippingAddressUuid(shippingAddressUuid)

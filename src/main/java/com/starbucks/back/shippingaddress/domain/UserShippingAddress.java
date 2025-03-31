@@ -17,12 +17,21 @@ public class UserShippingAddress extends SoftDeletableEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    /**
+     * 사용자 uuid
+     */
     @Column(name = "user_uuid", nullable = false, length = 50)
     private String userUuid;
 
+    /**
+     * 배송지 uuid
+     */
     @Column(name = "shipping_address_uuid", nullable = false, length = 100)
     private String shippingAddressUuid;
 
+    /**
+     * 기본 배송지 여부
+     */
     @Column(name = "defaulted", nullable = false)
     private Boolean defaulted;
 

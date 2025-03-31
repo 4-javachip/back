@@ -8,7 +8,9 @@ import java.util.List;
 public interface UserShippingAddressRepository extends JpaRepository<UserShippingAddress, Long> {
 
     /**
-     * 유저 UUID로 배송지 Uuid 리스트 찾기
+     * 유저 UUID로 배송지List 조회
+     * @param userUuid
+     * @return
      */
     List<UserShippingAddress> findByUserUuidAndDeletedFalse(String userUuid);
 }
