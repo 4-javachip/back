@@ -1,5 +1,6 @@
 package com.starbucks.back.shippingaddress.presentation;
 
+import com.starbucks.back.common.entity.BaseResponseEntity;
 import com.starbucks.back.shippingaddress.application.ShippingAddressService;
 import com.starbucks.back.shippingaddress.application.UserShippingAddressService;
 import com.starbucks.back.shippingaddress.dto.out.ResponseReadUserShippingAddressDto;
@@ -27,11 +28,11 @@ public class UserShippingAddressController {
      */
     @Operation(summary = "getUserShippingAddressListByUserUuid API", description = "getUserShippingAddressListByUserUuid API 입니다.", tags = {"ShippingAddress-Service"})
     @GetMapping("/user/{userUuid}")
-    public List<ResponseReadShippingAddressUuidVo> getUserShippingAddressListByUserUuid(@PathVariable("userUuid") String userUuid) {
+    public BaseResponseEntity<List<ResponseReadShippingAddressUuidVo>> getUserShippingAddressListByUserUuid(@PathVariable("userUuid") String userUuid) {
         List<ResponseReadShippingAddressUuidVo> result = userShippingAddressService.getUserShippingAddressListByUserUuid(userUuid)
                 .stream()
                 .map(ResponseReadUserShippingAddressDto::toVo)
                 .toList();
-        return result;
+        return new BaseResponseEntity<>(result);
     }
 }

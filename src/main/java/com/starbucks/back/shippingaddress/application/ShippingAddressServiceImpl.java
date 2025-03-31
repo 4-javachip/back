@@ -1,5 +1,7 @@
 package com.starbucks.back.shippingaddress.application;
 
+import com.starbucks.back.common.entity.BaseResponseStatus;
+import com.starbucks.back.common.exception.BaseException;
 import com.starbucks.back.shippingaddress.domain.ShippingAddress;
 import com.starbucks.back.shippingaddress.domain.UserShippingAddress;
 import com.starbucks.back.shippingaddress.dto.in.RequestShippingAddressDto;
@@ -25,6 +27,13 @@ public class ShippingAddressServiceImpl implements ShippingAddressService {
      */
     @Override
     public void addShippingAddress(RequestShippingAddressDto requestShippingAddressDto) {
+        if (shippingAddressRepository.existsByZipCodeAndBaseAddressAndDetailAddressAndDeletedFalse(
+                requestShippingAddressDto.getZipCode(),
+                requestShippingAddressDto.getBaseAddress(),
+                requestShippingAddressDto.getDetailAddress())
+        ) {
+            throw new BaseException(BaseResponseStatus.DUPLICATED_OPTION);
+        }
         shippingAddressRepository.save(requestShippingAddressDto.toEntity());
     }
 
@@ -36,7 +45,7 @@ public class ShippingAddressServiceImpl implements ShippingAddressService {
     @Override
     public ResponseReadShippingAddressDto getShippingAddressByUuid(String uuid) {
         ShippingAddress shippingAddress = shippingAddressRepository.findByShippingAddressUuidAndDeletedFalse(uuid)
-                .orElseThrow(() -> new EntityNotFoundException("해당 배송지를 찾을 수 없습니다."));
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_OPTION));
         return ResponseReadShippingAddressDto.from(shippingAddress);
     }
 }

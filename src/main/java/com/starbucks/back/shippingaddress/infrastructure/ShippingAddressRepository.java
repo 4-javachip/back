@@ -13,4 +13,17 @@ public interface ShippingAddressRepository extends JpaRepository<ShippingAddress
      * @return
      */
     Optional<ShippingAddress> findByShippingAddressUuidAndDeletedFalse(String uuid);
+
+    /**
+     * 배송지 겹치는지 확인
+     * @param zipCode
+     * @param baseAddress
+     * @param detailAddress
+     * @return
+     */
+    Boolean existsByZipCodeAndBaseAddressAndDetailAddressAndDeletedFalse(
+            String zipCode,
+            String baseAddress,
+            String detailAddress
+    );
 }
