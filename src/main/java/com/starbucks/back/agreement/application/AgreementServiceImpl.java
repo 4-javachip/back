@@ -16,7 +16,15 @@ public class AgreementServiceImpl implements AgreementService {
 
     @Override
     public List<ResponseGetAgreementDto> getSignUpAgreements() {
-        return agreementRepository.findByType(AgreementType.SIGNUP)
+        return agreementRepository.findByType(AgreementType.SIGN_UP)
+                .stream()
+                .map(ResponseGetAgreementDto::from)
+                .toList();
+    }
+
+    @Override
+    public List<ResponseGetAgreementDto> getShippingAddressAgreements() {
+        return agreementRepository.findByType(AgreementType.SHIPPING_ADDRESS)
                 .stream()
                 .map(ResponseGetAgreementDto::from)
                 .toList();

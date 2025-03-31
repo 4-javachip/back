@@ -10,12 +10,12 @@ import java.util.Arrays;
 @Converter
 public class AgreementTypeConverter implements AttributeConverter<AgreementType, Integer> {
 
-    @Override  //Enum을 DB에 저장할 때 어떻게 변환할지 정의
+    @Override
     public Integer convertToDatabaseColumn(AgreementType agreementType) {
         return agreementType != null ? agreementType.getCode() : null;
     }
 
-    @Override  //DB에서 읽어온 값을 Enum으로 변환
+    @Override
     public AgreementType convertToEntityAttribute(Integer code) {
         return Arrays.stream(AgreementType.values())
                 .filter(agreementType -> agreementType.getCode() == code)

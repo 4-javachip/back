@@ -25,4 +25,12 @@ public class AgreementController {
                 .toList();
     }
 
+    @GetMapping("/shipping-address")
+    public List<ResponseGetAgreementVo> getShippingAddressAgreements() {
+        return agreementService.getShippingAddressAgreements()
+                .stream()
+                .map(ResponseGetAgreementDto::toVo)
+                .toList();
+    }
+
 }
