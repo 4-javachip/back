@@ -8,21 +8,15 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class RequestColorDto {
+public class RequestUpdateColorDto {
 
     private Long id;
     private String name;
 
     @Builder
-    public RequestColorDto(Long id, String name) {
+    public RequestUpdateColorDto(Long id, String name) {
         this.id = id;
         this.name = name;
-    }
-
-    public Color toEntity() {
-        return Color.builder()
-                .name(name)
-                .build();
     }
 
     public Color updateEntity() {
@@ -32,8 +26,8 @@ public class RequestColorDto {
                 .build();
     }
 
-    public static RequestColorDto from(RequestColorVo requestColorVo) {
-        return RequestColorDto.builder()
+    public static RequestUpdateColorDto from(RequestColorVo requestColorVo) {
+        return RequestUpdateColorDto.builder()
                 .id(requestColorVo.getId())
                 .name(requestColorVo.getName())
                 .build();
