@@ -1,4 +1,4 @@
-package com.starbucks.back.category.domain;
+package com.starbucks.back.product.domain;
 
 import com.starbucks.back.common.entity.SoftDeletableEntity;
 import jakarta.persistence.*;
@@ -8,13 +8,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "category_list")
+@Table(name = "product_category_list")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class CategoryList extends SoftDeletableEntity {
+public class ProductCategoryList extends SoftDeletableEntity {
 
     @Id
-    @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     /**
@@ -36,7 +36,7 @@ public class CategoryList extends SoftDeletableEntity {
     private Long subCategoryId;
 
     @Builder
-    public CategoryList(String productUuid, Long categoryId, Long subCategoryId) {
+    public ProductCategoryList(String productUuid, Long categoryId, Long subCategoryId) {
         this.productUuid = productUuid;
         this.categoryId = categoryId;
         this.subCategoryId = subCategoryId;
