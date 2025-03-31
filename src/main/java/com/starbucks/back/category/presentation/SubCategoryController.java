@@ -3,7 +3,6 @@ package com.starbucks.back.category.presentation;
 import com.starbucks.back.category.application.SubCategoryService;
 import com.starbucks.back.category.dto.in.RequestAddSubCategoryDto;
 import com.starbucks.back.category.dto.in.RequestDeleteSubCategoryDto;
-import com.starbucks.back.category.dto.in.RequestSubCategoryDto;
 import com.starbucks.back.category.dto.in.RequestUpdateSubCategoryDto;
 import com.starbucks.back.category.dto.out.ResponseSubCategoryDto;
 import com.starbucks.back.category.vo.in.RequestDeleteCategoryVo;
