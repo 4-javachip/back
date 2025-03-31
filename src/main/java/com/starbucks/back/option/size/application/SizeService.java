@@ -1,6 +1,7 @@
 package com.starbucks.back.option.size.application;
 
 import com.starbucks.back.option.size.dto.in.RequestAddSizeDto;
+import com.starbucks.back.option.size.dto.in.RequestDeleteSizeDto;
 import com.starbucks.back.option.size.dto.in.RequestUpdateSizeDto;
 import com.starbucks.back.option.size.dto.out.ResponseSizeDto;
 
@@ -39,8 +40,8 @@ public interface SizeService {
 
     /**
      * 사이즈 삭제
-     * @param requestUpdateSizeDto
+     * @param requestDeleteSizeDto
      */
-    void deleteSize(RequestUpdateSizeDto requestUpdateSizeDto);
+    void deleteSize(RequestDeleteSizeDto requestDeleteSizeDto);
 
 }

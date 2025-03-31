@@ -4,8 +4,10 @@ import com.starbucks.back.common.entity.BaseResponseEntity;
 import com.starbucks.back.common.entity.BaseResponseStatus;
 import com.starbucks.back.option.size.application.SizeService;
 import com.starbucks.back.option.size.dto.in.RequestAddSizeDto;
+import com.starbucks.back.option.size.dto.in.RequestDeleteSizeDto;
 import com.starbucks.back.option.size.dto.in.RequestUpdateSizeDto;
 import com.starbucks.back.option.size.dto.out.ResponseSizeDto;
+import com.starbucks.back.option.size.vo.in.RequestDeleteSizeVo;
 import com.starbucks.back.option.size.vo.in.RequestSizeVo;
 import com.starbucks.back.option.size.vo.out.ResponseSizeVo;
 import io.swagger.v3.oas.annotations.Operation;
@@ -80,12 +82,12 @@ public class SizeController {
 
     /**
      * 사이즈 삭제
-     * @param requestSizeVo
+     * @param requestDeleteSizeVo
      */
     @Operation(summary = "DeleteSize API", description = "DeleteSize API 입니다.", tags = {"Size-Service"})
     @DeleteMapping
-    public BaseResponseEntity<Void> deleteSize(@RequestBody RequestSizeVo requestSizeVo) {
-        sizeService.deleteSize(RequestUpdateSizeDto.from(requestSizeVo));
+    public BaseResponseEntity<Void> deleteSize(@RequestBody RequestDeleteSizeVo requestDeleteSizeVo) {
+        sizeService.deleteSize(RequestDeleteSizeDto.of(requestDeleteSizeVo));
         return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS);
     }
 

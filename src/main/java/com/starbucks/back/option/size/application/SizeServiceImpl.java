@@ -4,6 +4,7 @@ import com.starbucks.back.common.entity.BaseResponseStatus;
 import com.starbucks.back.common.exception.BaseException;
 import com.starbucks.back.option.size.domain.Size;
 import com.starbucks.back.option.size.dto.in.RequestAddSizeDto;
+import com.starbucks.back.option.size.dto.in.RequestDeleteSizeDto;
 import com.starbucks.back.option.size.dto.in.RequestUpdateSizeDto;
 import com.starbucks.back.option.size.dto.out.ResponseSizeDto;
 import com.starbucks.back.option.size.infrastructure.SizeRepository;
@@ -76,12 +77,12 @@ public class SizeServiceImpl implements SizeService {
 
     /**
      * 사이즈 삭제
-     * @param requestUpdateSizeDto
+     * @param requestDeleteSizeDto
      */
     @Transactional
     @Override
-    public void deleteSize(RequestUpdateSizeDto requestUpdateSizeDto) {
-        Size size = sizeRepository.findById(requestUpdateSizeDto.getId())
+    public void deleteSize(RequestDeleteSizeDto requestDeleteSizeDto) {
+        Size size = sizeRepository.findById(requestDeleteSizeDto.getId())
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_OPTION));
         size.softDelete();
     }

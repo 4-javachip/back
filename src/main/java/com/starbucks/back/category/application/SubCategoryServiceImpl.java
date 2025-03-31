@@ -2,7 +2,7 @@ package com.starbucks.back.category.application;
 
 import com.starbucks.back.category.domain.Category;
 import com.starbucks.back.category.domain.SubCategory;
-import com.starbucks.back.category.dto.in.RequestSubCategoryDto;
+import com.starbucks.back.category.dto.in.*;
 import com.starbucks.back.category.dto.out.ResponseSubCategoryDto;
 import com.starbucks.back.category.infrastructure.CategoryRepository;
 import com.starbucks.back.category.infrastructure.SubCategoryRepository;
@@ -24,17 +24,17 @@ public class SubCategoryServiceImpl implements SubCategoryService {
     /**
      * 서브 카테고리 추가
      *
-     * @param requestSubCategoryDto
+     * @param requestAddSubCategoryDto
      */
     @Transactional
     @Override
-    public void addSubCategory(RequestSubCategoryDto requestSubCategoryDto) {
-        Category category = categoryRepository.findById(requestSubCategoryDto.getCategoryId())
+    public void addSubCategory(RequestAddSubCategoryDto requestAddSubCategoryDto) {
+        Category category = categoryRepository.findById(requestAddSubCategoryDto.getCategoryId())
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_CATEGORY));
-        if (subCategoryRepository.existsByNameAndDeletedFalse(requestSubCategoryDto.getName())) {
+        if (subCategoryRepository.existsByNameAndDeletedFalse(requestAddSubCategoryDto.getName())) {
             throw new BaseException(BaseResponseStatus.DUPLICATED_CATEGORY);
         }
-        SubCategory subCategory = requestSubCategoryDto.toEntity(category);
+        SubCategory subCategory = requestAddSubCategoryDto.toEntity(category);
         subCategoryRepository.save(subCategory);
     }
 
@@ -75,27 +75,27 @@ public class SubCategoryServiceImpl implements SubCategoryService {
     /**
      * 서브 카테고리 수정
      *
-     * @param requestSubCategoryDto
+     * @param requestUpdateSubCategoryDto
      */
     @Transactional
     @Override
-    public void updateSubCategory(RequestSubCategoryDto requestSubCategoryDto) {
-        Category category = categoryRepository.findById(requestSubCategoryDto.getCategoryId())
+    public void updateSubCategory(RequestUpdateSubCategoryDto requestUpdateSubCategoryDto) {
+        Category category = categoryRepository.findById(requestUpdateSubCategoryDto.getCategoryId())
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_CATEGORY));
-        SubCategory subCategory = subCategoryRepository.findById(requestSubCategoryDto.getId())
+        SubCategory subCategory = subCategoryRepository.findById(requestUpdateSubCategoryDto.getId())
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_CATEGORY));
-        subCategoryRepository.save(requestSubCategoryDto.updateEntity(category));
+        subCategoryRepository.save(requestUpdateSubCategoryDto.updateEntity(category));
     }
 
     /**
      * 서브 카테고리 삭제
      *
-     * @param requestSubCategoryDto
+     * @param requestDeleteSubCategoryDto
      */
     @Transactional
     @Override
-    public void deleteSubCategory(RequestSubCategoryDto requestSubCategoryDto) {
-        SubCategory subCategory = subCategoryRepository.findById(requestSubCategoryDto.getId())
+    public void deleteSubCategory(RequestDeleteSubCategoryDto requestDeleteSubCategoryDto) {
+        SubCategory subCategory = subCategoryRepository.findById(requestDeleteSubCategoryDto.getId())
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_CATEGORY));
         subCategory.softDelete();
     }
