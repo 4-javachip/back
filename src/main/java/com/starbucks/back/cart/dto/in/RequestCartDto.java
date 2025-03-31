@@ -12,7 +12,6 @@ public class RequestCartDto {
 
     private Long id;
     private String userUuid;
-    private String cartUuid;
     private Integer productQuantity;
     private Boolean checked;
     private String productOptionListUuid;
@@ -21,14 +20,12 @@ public class RequestCartDto {
     public RequestCartDto(
             Long id,
             String userUuid,
-            String cartUuid,
             Integer productQuantity,
             Boolean checked,
             String productOptionListUuid
     ) {
         this.id = id;
         this.userUuid = userUuid;
-        this.cartUuid = cartUuid;
         this.productQuantity = productQuantity;
         this.checked = checked;
         this.productOptionListUuid = productOptionListUuid;
@@ -38,7 +35,6 @@ public class RequestCartDto {
         return Cart.builder()
                 .id(id)
                 .userUuid(userUuid)
-                .cartUuid(cartUuid)
                 .productQuantity(productQuantity)
                 .checked(checked)
                 .productOptionListUuid(productOptionListUuid)
@@ -49,7 +45,6 @@ public class RequestCartDto {
         return Cart.builder()
                 .id(id)
                 .userUuid(userUuid)
-                .cartUuid(cartUuid)
                 .productQuantity(productQuantity)
                 .checked(checked)
                 .productOptionListUuid(productOptionListUuid)
@@ -60,7 +55,6 @@ public class RequestCartDto {
         return RequestCartDto.builder()
                 .id(requestCartVo.getId())
                 .userUuid(requestCartVo.getUserUuid())
-                .cartUuid(requestCartVo.getCartUuid())
                 .productQuantity(requestCartVo.getProductQuantity())
                 .checked(requestCartVo.getChecked())
                 .productOptionListUuid(requestCartVo.getProductOptionListUuid())
