@@ -3,9 +3,11 @@ package com.starbucks.back.shippingaddress.presentation;
 import com.starbucks.back.common.entity.BaseResponseEntity;
 import com.starbucks.back.common.entity.BaseResponseStatus;
 import com.starbucks.back.shippingaddress.application.ShippingAddressService;
+import com.starbucks.back.shippingaddress.dto.in.RequestDeleteShippingAddresdsDto;
 import com.starbucks.back.shippingaddress.dto.in.RequestShippingAddressDto;
 import com.starbucks.back.shippingaddress.dto.in.RequestUpdateqShippingAddressDto;
 import com.starbucks.back.shippingaddress.dto.out.ResponseReadShippingAddressDto;
+import com.starbucks.back.shippingaddress.vo.in.RequestDeleteShippingAddressVo;
 import com.starbucks.back.shippingaddress.vo.in.RequestUpdateShippingAddressVo;
 import com.starbucks.back.shippingaddress.vo.out.ResponseShippingAddressVo;
 import io.swagger.v3.oas.annotations.Operation;
@@ -53,8 +55,19 @@ public class ShippingAddressController {
     public BaseResponseEntity<Void> updateShippingAddressByUuid(
             @RequestBody RequestUpdateShippingAddressVo requestUpdateShippingAddressVo) {
         shippingAddressService
-                .updateShippingAddress(RequestUpdateqShippingAddressDto
-                        .from(requestUpdateShippingAddressVo));
+                .updateShippingAddress(
+                        RequestUpdateqShippingAddressDto.from(requestUpdateShippingAddressVo));
+        return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS);
+    }
+
+    /**
+     * 배송지 삭제
+     * @param uuid
+     */
+    @Operation(summary = "DeleteShippingAddress API", description = "DeleteShippingAddress API 입니다.", tags = {"ShippingAddress-Service"})
+    @DeleteMapping()
+    public BaseResponseEntity<Void> deleteShippingAddressByUuid(@RequestBody RequestDeleteShippingAddressVo requestDeleteShippingAddressVo) {
+        shippingAddressService.deleteShippingAddress(RequestDeleteShippingAddresdsDto.of(requestDeleteShippingAddressVo));
         return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS);
     }
 }
