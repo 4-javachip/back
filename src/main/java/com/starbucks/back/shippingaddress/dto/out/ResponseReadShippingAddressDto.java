@@ -60,7 +60,7 @@ public class ResponseReadShippingAddressDto {
                 .build();
     }
 
-    //
+    // dto => vo
     public ResponseShippingAddressVo toVo() {
         return ResponseShippingAddressVo.builder()
                 .id(id)

@@ -47,6 +47,7 @@ public class RequestShippingAddressDto {
         this.shippingNote = shippingNote;
     }
 
+    // entity => dto
     public ShippingAddress toEntity(){
         return ShippingAddress.builder()
                 .shippingAddressUuid(UUID.randomUUID().toString())
@@ -61,6 +62,7 @@ public class RequestShippingAddressDto {
                 .build();
     }
 
+    // entity => entity
     public ShippingAddress updateEntity(ShippingAddress shippingAddress) {
         return ShippingAddress.builder()
                 .id(shippingAddress.getId())
@@ -76,6 +78,7 @@ public class RequestShippingAddressDto {
                 .build();
     }
 
+    // vo => dto
     public static RequestShippingAddressDto from (RequestShippingAddressVo requestShippingAddressVo) {
         return RequestShippingAddressDto.builder()
                 .addressName(requestShippingAddressVo.getAddressName())

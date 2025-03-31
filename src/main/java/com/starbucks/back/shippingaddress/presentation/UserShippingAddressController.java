@@ -4,6 +4,7 @@ import com.starbucks.back.shippingaddress.application.ShippingAddressService;
 import com.starbucks.back.shippingaddress.application.UserShippingAddressService;
 import com.starbucks.back.shippingaddress.dto.out.ResponseReadUserShippingAddressDto;
 import com.starbucks.back.shippingaddress.vo.out.ResponseReadShippingAddressUuidVo;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,9 +20,15 @@ public class UserShippingAddressController {
 
     private final UserShippingAddressService userShippingAddressService;
 
-    @GetMapping("/users/{userUuid}")
-    public List<ResponseReadShippingAddressUuidVo> getShippingAddressUuidListByUserUuidAndDeletedFalse(@PathVariable("userUuid") String userUuid) {
-        List<ResponseReadShippingAddressUuidVo> result = userShippingAddressService.getShippingAddressUuidListByUserUuidAndDeletedFalse(userUuid)
+    /**
+     * 유저 UUID로 배송지 UUID List 조회
+     * @param userUuid
+     * @return
+     */
+    @Operation(summary = "getUserShippingAddressListByUserUuid API", description = "getUserShippingAddressListByUserUuid API 입니다.", tags = {"ShippingAddress-Service"})
+    @GetMapping("/user/{userUuid}")
+    public List<ResponseReadShippingAddressUuidVo> getUserShippingAddressListByUserUuid(@PathVariable("userUuid") String userUuid) {
+        List<ResponseReadShippingAddressUuidVo> result = userShippingAddressService.getUserShippingAddressListByUserUuid(userUuid)
                 .stream()
                 .map(ResponseReadUserShippingAddressDto::toVo)
                 .toList();
