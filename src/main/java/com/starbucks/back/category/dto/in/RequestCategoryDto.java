@@ -12,16 +12,19 @@ public class RequestCategoryDto {
 
     private Long id;
     private String name;
+    private String image;
 
     @Builder
-    public RequestCategoryDto(Long id, String name) {
+    public RequestCategoryDto(Long id, String name, String image) {
         this.id = id;
         this.name = name;
+        this.image = image;
     }
 
     public Category toEntity() {
         return Category.builder()
                 .name(name)
+                .image(image)
                 .build();
     }
 
@@ -29,6 +32,7 @@ public class RequestCategoryDto {
         return Category.builder()
                 .id(id)
                 .name(name)
+                .image(image)
                 .build();
     }
 
@@ -36,6 +40,7 @@ public class RequestCategoryDto {
         return RequestCategoryDto.builder()
                 .id(requestCategoryVo.getId())
                 .name(requestCategoryVo.getName())
+                .image(requestCategoryVo.getImage())
                 .build();
     }
 

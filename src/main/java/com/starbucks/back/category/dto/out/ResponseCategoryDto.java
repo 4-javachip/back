@@ -12,17 +12,20 @@ public class ResponseCategoryDto {
 
     private Long id;
     private String name;
+    private String image;
 
     @Builder
-    public ResponseCategoryDto(Long id, String name) {
+    public ResponseCategoryDto(Long id, String name, String image) {
         this.id = id;
         this.name = name;
+        this.image = image;
     }
 
     public static ResponseCategoryDto from(Category category) {
         return ResponseCategoryDto.builder()
                 .id(category.getId())
                 .name(category.getName())
+                .image(category.getImage())
                 .build();
     }
 
@@ -30,6 +33,7 @@ public class ResponseCategoryDto {
         return ResponseCategoryVo.builder()
                 .id(id)
                 .name(name)
+                .image(image)
                 .build();
     }
 

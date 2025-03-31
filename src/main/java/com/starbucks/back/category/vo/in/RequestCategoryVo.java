@@ -9,5 +9,6 @@ public class RequestCategoryVo {
 
     private Long id;
     private String name;
+    private String image;
 
 }
