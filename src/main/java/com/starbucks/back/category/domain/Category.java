@@ -31,12 +31,6 @@ public class Category extends SoftDeletableEntity {
     @Column(name = "image", nullable = false)
     private String image;
 
-    /**
-     * 서브 카테고리 리스트
-     */
-    @OneToMany(mappedBy = "category")
-    private List<SubCategory> subCategoryList;
-
     @Builder
     public Category (Long id, String name, String image) {
         this.id = id;
