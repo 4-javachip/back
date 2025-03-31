@@ -3,7 +3,9 @@ package com.starbucks.back.option.color.presentation;
 import com.starbucks.back.common.entity.BaseResponseEntity;
 import com.starbucks.back.common.entity.BaseResponseStatus;
 import com.starbucks.back.option.color.application.ColorService;
-import com.starbucks.back.option.color.dto.in.RequestColorDto;
+import com.starbucks.back.option.color.dto.in.RequestAddColorDto;
+//import com.starbucks.back.option.color.dto.in.RequestColorDto;
+import com.starbucks.back.option.color.dto.in.RequestUpdateColorDto;
 import com.starbucks.back.option.color.dto.out.ResponseColorDto;
 import com.starbucks.back.option.color.vo.in.RequestColorVo;
 import com.starbucks.back.option.color.vo.out.ResponseColorVo;
@@ -23,12 +25,12 @@ public class ColorController {
 
     /**
      * 색상 추가
-     * @param requestColorDto
+     * @param requestAddColorDto
      */
     @Operation(summary = "AddColor API", description = "AddColor API 입니다.", tags = {"Color-Service"})
     @PostMapping
-    public BaseResponseEntity<Void> addColor(@RequestBody RequestColorDto requestColorDto) {
-        colorService.addColor(requestColorDto);
+    public BaseResponseEntity<Void> addColor(@RequestBody RequestAddColorDto requestAddColorDto) {
+        colorService.addColor(requestAddColorDto);
         return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS);
     }
 
@@ -73,7 +75,7 @@ public class ColorController {
     @Operation(summary = "UpdateColor API", description = "UpdateColor API 입니다.", tags = {"Color-Service"})
     @PutMapping
     public BaseResponseEntity<Void> updateColor(@RequestBody RequestColorVo requestColorVo) {
-        colorService.updateColor(RequestColorDto.from(requestColorVo));
+        colorService.updateColor(RequestUpdateColorDto.from(requestColorVo));
         return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS);
     }
 
@@ -84,7 +86,7 @@ public class ColorController {
     @Operation(summary = "DeleteColor API", description = "DeleteColor API 입니다.", tags = {"Color-Service"})
     @DeleteMapping
     public BaseResponseEntity<Void> deleteColor(@RequestBody RequestColorVo requestColorVo) {
-        colorService.deleteColor(RequestColorDto.from(requestColorVo));
+        colorService.deleteColor(RequestUpdateColorDto.from(requestColorVo));
         return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS);
     }
 

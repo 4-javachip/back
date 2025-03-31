@@ -3,7 +3,9 @@ package com.starbucks.back.option.color.application;
 import com.starbucks.back.common.entity.BaseResponseStatus;
 import com.starbucks.back.common.exception.BaseException;
 import com.starbucks.back.option.color.domain.Color;
-import com.starbucks.back.option.color.dto.in.RequestColorDto;
+import com.starbucks.back.option.color.dto.in.RequestAddColorDto;
+//import com.starbucks.back.option.color.dto.in.RequestColorDto;
+import com.starbucks.back.option.color.dto.in.RequestUpdateColorDto;
 import com.starbucks.back.option.color.dto.out.ResponseColorDto;
 import com.starbucks.back.option.color.infrastructure.ColorRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -21,15 +23,15 @@ public class ColorServiceImpl implements ColorService {
 
     /**
      * 색상 추가
-     * @param requestColorDto
+     * @param requestAddColorDto
      */
     @Transactional
     @Override
-    public void addColor(RequestColorDto requestColorDto) {
-        if (colorRepository.existsByNameAndDeletedFalse(requestColorDto.getName())) {
+    public void addColor(RequestAddColorDto requestAddColorDto) {
+        if (colorRepository.existsByNameAndDeletedFalse(requestAddColorDto.getName())) {
             throw new BaseException(BaseResponseStatus.DUPLICATED_OPTION);
         }
-        colorRepository.save(requestColorDto.toEntity());
+        colorRepository.save(requestAddColorDto.toEntity());
     }
 
     /**
@@ -66,22 +68,22 @@ public class ColorServiceImpl implements ColorService {
 
     /**
      * 색상 수정
-     * @param requestColorDto
+     * @param requestUpdateColorDto
      */
     @Transactional
     @Override
-    public void updateColor(RequestColorDto requestColorDto) {
-        colorRepository.save(requestColorDto.updateEntity());
+    public void updateColor(RequestUpdateColorDto requestUpdateColorDto) {
+        colorRepository.save(requestUpdateColorDto.updateEntity());
     }
 
     /**
      * 색상 삭제
-     * @param requestColorDto
+     * @param requestUpdateColorDto
      */
     @Transactional
     @Override
-    public void deleteColor(RequestColorDto requestColorDto) {
-        Color color = colorRepository.findById(requestColorDto.getId())
+    public void deleteColor(RequestUpdateColorDto requestUpdateColorDto) {
+        Color color = colorRepository.findById(requestUpdateColorDto.getId())
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_OPTION));
         color.softDelete();
     }
