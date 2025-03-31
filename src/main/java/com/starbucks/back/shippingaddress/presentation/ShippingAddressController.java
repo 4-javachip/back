@@ -1,5 +1,7 @@
 package com.starbucks.back.shippingaddress.presentation;
 
+import com.starbucks.back.common.entity.BaseResponseEntity;
+import com.starbucks.back.common.entity.BaseResponseStatus;
 import com.starbucks.back.shippingaddress.application.ShippingAddressService;
 import com.starbucks.back.shippingaddress.dto.in.RequestShippingAddressDto;
 import com.starbucks.back.shippingaddress.dto.out.ResponseReadShippingAddressDto;
@@ -26,8 +28,9 @@ public class ShippingAddressController {
     @Operation(summary = "AddShippingAddress API", description = "AddShippingAddress API 입니다.", tags = {"ShippingAddress-Service"})
     @Transactional
     @PostMapping
-    public void addShippingAddress(@RequestBody RequestShippingAddressDto requestShippingAddressDto) {
+    public BaseResponseEntity<Void> addShippingAddress(@RequestBody RequestShippingAddressDto requestShippingAddressDto) {
         shippingAddressService.addShippingAddress(requestShippingAddressDto);
+        return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS);
     }
 
     /**
@@ -36,8 +39,8 @@ public class ShippingAddressController {
      */
     @Operation(summary = "GetShippingAddressByUuid API", description = "GetShippingAddressByUuid API 입니다.", tags = {"ShippingAddress-Service"})
     @GetMapping("/{uuid}")
-    public ResponseShippingAddressVo getShippingAddress(@PathVariable("uuid") String uuid) {
+    public BaseResponseEntity<ResponseShippingAddressVo> getShippingAddress(@PathVariable("uuid") String uuid) {
         ResponseReadShippingAddressDto responseReadShippingAddressDto = shippingAddressService.getShippingAddressByUuid(uuid);
-        return responseReadShippingAddressDto.toVo();
+        return new BaseResponseEntity<>(responseReadShippingAddressDto.toVo());
     }
 }
