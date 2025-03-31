@@ -20,8 +20,8 @@ public class UserShippingAddressController {
     private final UserShippingAddressService userShippingAddressService;
 
     @GetMapping("/user/{userUuid}")
-    public List<ResponseReadShippingAddressUuidVo> getShippingAddressUuidListByUserUuidAndDeletedFalse(@PathVariable("userUuid") String userUuid) {
-        List<ResponseReadShippingAddressUuidVo> result = userShippingAddressService.getShippingAddressUuidListByUserUuidAndDeletedFalse(userUuid)
+    public List<ResponseReadShippingAddressUuidVo> getShippingAddressUuidListByUserUuid(@PathVariable("userUuid") String userUuid) {
+        List<ResponseReadShippingAddressUuidVo> result = userShippingAddressService.getShippingAddressUuidListByUserUuid(userUuid)
                 .stream()
                 .map(ResponseReadUserShippingAddressDto::toVo)
                 .toList();

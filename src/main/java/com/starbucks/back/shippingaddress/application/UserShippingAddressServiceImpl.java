@@ -14,7 +14,7 @@ public class UserShippingAddressServiceImpl implements UserShippingAddressServic
     private final UserShippingAddressRepository userShippingAddressRepository;
 
     @Override
-    public List<ResponseReadUserShippingAddressDto> getShippingAddressUuidListByUserUuidAndDeletedFalse(String userUuid) {
+    public List<ResponseReadUserShippingAddressDto> getShippingAddressUuidListByUserUuid(String userUuid) {
         return userShippingAddressRepository.findByUserUuidAndDeletedFalse(userUuid)
                 .stream()
                 .map(ResponseReadUserShippingAddressDto::from)
