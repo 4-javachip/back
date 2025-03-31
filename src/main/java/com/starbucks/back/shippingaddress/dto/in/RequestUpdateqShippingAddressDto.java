@@ -1,19 +1,15 @@
 package com.starbucks.back.shippingaddress.dto.in;
 
 import com.starbucks.back.shippingaddress.domain.ShippingAddress;
-import com.starbucks.back.shippingaddress.vo.in.RequestShippingAddressVo;
+import com.starbucks.back.shippingaddress.vo.in.RequestUpdateShippingAddressVo;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
-import java.util.UUID;
-
-@ToString
 @Getter
 @NoArgsConstructor
-public class RequestShippingAddressDto {
-
+public class RequestUpdateqShippingAddressDto {
     private String shippingAddressUuid;
     private String addressName;
     private String recipientName;
@@ -25,7 +21,7 @@ public class RequestShippingAddressDto {
     private String shippingNote;
 
     @Builder
-    public RequestShippingAddressDto(
+    public RequestUpdateqShippingAddressDto(
             String shippingAddressUuid,
             String addressName,
             String recipientName,
@@ -47,10 +43,10 @@ public class RequestShippingAddressDto {
         this.shippingNote = shippingNote;
     }
 
-    // entity => dto
-    public ShippingAddress toEntity(){
+    public ShippingAddress updateShippingAddress(ShippingAddress shippingAddress) {
         return ShippingAddress.builder()
-                .shippingAddressUuid(UUID.randomUUID().toString())
+                .id(shippingAddress.getId())
+                .shippingAddressUuid(shippingAddressUuid)
                 .addressName(addressName)
                 .recipientName(recipientName)
                 .zipCode(zipCode)
@@ -62,18 +58,17 @@ public class RequestShippingAddressDto {
                 .build();
     }
 
-    // vo => dto
-    public static RequestShippingAddressDto from (RequestShippingAddressVo requestShippingAddressVo) {
-        return RequestShippingAddressDto.builder()
-                .addressName(requestShippingAddressVo.getAddressName())
-                .recipientName(requestShippingAddressVo.getRecipientName())
-                .zipCode(requestShippingAddressVo.getZipCode())
-                .baseAddress(requestShippingAddressVo.getBaseAddress())
-                .detailAddress(requestShippingAddressVo.getDetailAddress())
-                .phoneNumber(requestShippingAddressVo.getPhoneNumber())
-                .secondPhoneNumber(requestShippingAddressVo.getSecondPhoneNumber())
-                .shippingNote(requestShippingAddressVo.getShippingNote())
+    public static RequestUpdateqShippingAddressDto from(RequestUpdateShippingAddressVo requestUpdateShippingAddressVo) {
+        return RequestUpdateqShippingAddressDto.builder()
+                .shippingAddressUuid(requestUpdateShippingAddressVo.getShippingAddressUuid())
+                .addressName(requestUpdateShippingAddressVo.getAddressName())
+                .recipientName(requestUpdateShippingAddressVo.getRecipientName())
+                .zipCode(requestUpdateShippingAddressVo.getZipCode())
+                .baseAddress(requestUpdateShippingAddressVo.getBaseAddress())
+                .detailAddress(requestUpdateShippingAddressVo.getDetailAddress())
+                .phoneNumber(requestUpdateShippingAddressVo.getPhoneNumber())
+                .secondPhoneNumber(requestUpdateShippingAddressVo.getSecondPhoneNumber())
+                .shippingNote(requestUpdateShippingAddressVo.getShippingNote())
                 .build();
     }
 }
-

@@ -5,6 +5,7 @@ import com.starbucks.back.common.exception.BaseException;
 import com.starbucks.back.shippingaddress.domain.ShippingAddress;
 import com.starbucks.back.shippingaddress.domain.UserShippingAddress;
 import com.starbucks.back.shippingaddress.dto.in.RequestShippingAddressDto;
+import com.starbucks.back.shippingaddress.dto.in.RequestUpdateqShippingAddressDto;
 import com.starbucks.back.shippingaddress.dto.out.ResponseReadShippingAddressDto;
 import com.starbucks.back.shippingaddress.dto.out.ResponseReadUserShippingAddressDto;
 import com.starbucks.back.shippingaddress.infrastructure.ShippingAddressRepository;
@@ -47,5 +48,12 @@ public class ShippingAddressServiceImpl implements ShippingAddressService {
         ShippingAddress shippingAddress = shippingAddressRepository.findByShippingAddressUuidAndDeletedFalse(uuid)
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_OPTION));
         return ResponseReadShippingAddressDto.from(shippingAddress);
+    }
+
+    @Override
+    public void updateShippingAddress(RequestUpdateqShippingAddressDto requestShippingAddressDto) {
+        ShippingAddress shippingAddress = shippingAddressRepository.findByShippingAddressUuidAndDeletedFalse(requestShippingAddressDto.getShippingAddressUuid())
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_OPTION));
+        shippingAddressRepository.save(requestShippingAddressDto.updateShippingAddress(shippingAddress));
     }
 }

@@ -4,8 +4,9 @@ import com.starbucks.back.common.entity.BaseResponseEntity;
 import com.starbucks.back.common.entity.BaseResponseStatus;
 import com.starbucks.back.shippingaddress.application.ShippingAddressService;
 import com.starbucks.back.shippingaddress.dto.in.RequestShippingAddressDto;
+import com.starbucks.back.shippingaddress.dto.in.RequestUpdateqShippingAddressDto;
 import com.starbucks.back.shippingaddress.dto.out.ResponseReadShippingAddressDto;
-import com.starbucks.back.shippingaddress.vo.out.ResponseReadShippingAddressUuidVo;
+import com.starbucks.back.shippingaddress.vo.in.RequestUpdateShippingAddressVo;
 import com.starbucks.back.shippingaddress.vo.out.ResponseShippingAddressVo;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.transaction.Transactional;
@@ -42,5 +43,18 @@ public class ShippingAddressController {
     public BaseResponseEntity<ResponseShippingAddressVo> getShippingAddress(@PathVariable("uuid") String uuid) {
         ResponseReadShippingAddressDto responseReadShippingAddressDto = shippingAddressService.getShippingAddressByUuid(uuid);
         return new BaseResponseEntity<>(responseReadShippingAddressDto.toVo());
+    }
+
+    /**
+     * 배송지 수정
+     * @param requestUpdateShippingAddressVo
+     */
+    @PutMapping
+    public BaseResponseEntity<Void> updateShippingAddressByUuid(
+            @RequestBody RequestUpdateShippingAddressVo requestUpdateShippingAddressVo) {
+        shippingAddressService
+                .updateShippingAddress(RequestUpdateqShippingAddressDto
+                        .from(requestUpdateShippingAddressVo));
+        return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS);
     }
 }
