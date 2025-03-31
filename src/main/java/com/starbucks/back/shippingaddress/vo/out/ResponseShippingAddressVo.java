@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 public class ResponseShippingAddressVo {
 
     private Long id;
+    private String shippingAddressUuid;
     private String addressName;
     private String recipientName;
     private String zipCode;
@@ -17,11 +18,11 @@ public class ResponseShippingAddressVo {
     private String phoneNumber;
     private String secondPhoneNumber;
     private String shippingNote;
-    private Boolean defaulted;
 
     @Builder
     public ResponseShippingAddressVo(
             Long id,
+            String shippingAddressUuid,
             String addressName,
             String recipientName,
             String zipCode,
@@ -29,10 +30,10 @@ public class ResponseShippingAddressVo {
             String detailAddress,
             String phoneNumber,
             String secondPhoneNumber,
-            String shippingNote,
-            Boolean defaulted
+            String shippingNote
     ) {
         this.id = id;
+        this.shippingAddressUuid = shippingAddressUuid;
         this.addressName = addressName;
         this.recipientName = recipientName;
         this.zipCode = zipCode;
@@ -41,7 +42,5 @@ public class ResponseShippingAddressVo {
         this.phoneNumber = phoneNumber;
         this.secondPhoneNumber = secondPhoneNumber;
         this.shippingNote = shippingNote;
-        this.defaulted = defaulted;
     }
-
 }

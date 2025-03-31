@@ -9,6 +9,7 @@ import lombok.Getter;
 @Getter
 public class ResponseReadShippingAddressDto {
     private final Long id;
+    private final String shippingAddressUuid;
     private final String addressName;
     private final String recipientName;
     private final String zipCode;
@@ -17,11 +18,11 @@ public class ResponseReadShippingAddressDto {
     private final String phoneNumber;
     private final String secondPhoneNumber;
     private final String shippingNote;
-    private final Boolean defaulted;
 
     @Builder
     public ResponseReadShippingAddressDto(
             Long id,
+            String shippingAddressUuid,
             String addressName,
             String recipientName,
             String zipCode,
@@ -29,10 +30,10 @@ public class ResponseReadShippingAddressDto {
             String detailAddress,
             String phoneNumber,
             String secondPhoneNumber,
-            String shippingNote,
-            Boolean defaulted
+            String shippingNote
     ) {
         this.id = id;
+        this.shippingAddressUuid = shippingAddressUuid;
         this.addressName = addressName;
         this.recipientName = recipientName;
         this.zipCode = zipCode;
@@ -41,13 +42,13 @@ public class ResponseReadShippingAddressDto {
         this.phoneNumber = phoneNumber;
         this.secondPhoneNumber = secondPhoneNumber;
         this.shippingNote = shippingNote;
-        this.defaulted = defaulted;
     }
 
     // entity => dto
     public static ResponseReadShippingAddressDto from(ShippingAddress shippingAddress) {
         return ResponseReadShippingAddressDto.builder()
                 .id(shippingAddress.getId())
+                .shippingAddressUuid(shippingAddress.getShippingAddressUuid())
                 .addressName(shippingAddress.getAddressName())
                 .recipientName(shippingAddress.getRecipientName())
                 .zipCode(shippingAddress.getZipCode())
@@ -56,7 +57,6 @@ public class ResponseReadShippingAddressDto {
                 .phoneNumber(shippingAddress.getPhoneNumber())
                 .secondPhoneNumber(shippingAddress.getSecondPhoneNumber())
                 .shippingNote(shippingAddress.getShippingNote())
-                .defaulted(shippingAddress.getDefaulted())
                 .build();
     }
 
@@ -64,6 +64,7 @@ public class ResponseReadShippingAddressDto {
     public ResponseShippingAddressVo toVo() {
         return ResponseShippingAddressVo.builder()
                 .id(id)
+                .shippingAddressUuid(shippingAddressUuid)
                 .addressName(addressName)
                 .recipientName(recipientName)
                 .zipCode(zipCode)
@@ -72,7 +73,6 @@ public class ResponseReadShippingAddressDto {
                 .phoneNumber(phoneNumber)
                 .secondPhoneNumber(secondPhoneNumber)
                 .shippingNote(shippingNote)
-                .defaulted(defaulted)
                 .build();
 
     }

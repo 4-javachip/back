@@ -7,11 +7,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.util.UUID;
+
 @ToString
 @Getter
 @NoArgsConstructor
 public class RequestShippingAddressDto {
 
+    private String shippingAddressUuid;
     private String addressName;
     private String recipientName;
     private String zipCode;
@@ -20,10 +23,10 @@ public class RequestShippingAddressDto {
     private String phoneNumber;
     private String secondPhoneNumber;
     private String shippingNote;
-    private Boolean defaulted;
 
     @Builder
     public RequestShippingAddressDto(
+            String shippingAddressUuid,
             String addressName,
             String recipientName,
             String zipCode,
@@ -31,9 +34,9 @@ public class RequestShippingAddressDto {
             String detailAddress,
             String phoneNumber,
             String secondPhoneNumber,
-            String shippingNote,
-            Boolean defaulted
+            String shippingNote
     ) {
+        this.shippingAddressUuid = shippingAddressUuid;
         this.addressName = addressName;
         this.recipientName = recipientName;
         this.zipCode = zipCode;
@@ -42,13 +45,11 @@ public class RequestShippingAddressDto {
         this.phoneNumber = phoneNumber;
         this.secondPhoneNumber = secondPhoneNumber;
         this.shippingNote = shippingNote;
-        this.defaulted = defaulted;
     }
-
-
 
     public ShippingAddress toEntity(){
         return ShippingAddress.builder()
+                .shippingAddressUuid(UUID.randomUUID().toString())
                 .addressName(addressName)
                 .recipientName(recipientName)
                 .zipCode(zipCode)
@@ -57,13 +58,13 @@ public class RequestShippingAddressDto {
                 .phoneNumber(phoneNumber)
                 .secondPhoneNumber(secondPhoneNumber)
                 .shippingNote(shippingNote)
-                .defaulted(defaulted)
                 .build();
     }
 
     public ShippingAddress updateEntity(ShippingAddress shippingAddress) {
         return ShippingAddress.builder()
                 .id(shippingAddress.getId())
+                .shippingAddressUuid(shippingAddress.getShippingAddressUuid())
                 .addressName(addressName)
                 .recipientName(recipientName)
                 .zipCode(zipCode)
@@ -72,7 +73,6 @@ public class RequestShippingAddressDto {
                 .phoneNumber(phoneNumber)
                 .secondPhoneNumber(secondPhoneNumber)
                 .shippingNote(shippingNote)
-                .defaulted(defaulted)
                 .build();
     }
 
@@ -86,7 +86,6 @@ public class RequestShippingAddressDto {
                 .phoneNumber(requestShippingAddressVo.getPhoneNumber())
                 .secondPhoneNumber(requestShippingAddressVo.getSecondPhoneNumber())
                 .shippingNote(requestShippingAddressVo.getShippingNote())
-                .defaulted(requestShippingAddressVo.getDefaulted())
                 .build();
     }
 }
