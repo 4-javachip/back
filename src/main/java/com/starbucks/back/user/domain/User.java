@@ -15,11 +15,11 @@ import java.time.LocalDate;
 
 @Entity
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)  //기본 생성자 생성, 외부에서 생성자 호출 방지
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User extends BaseEntity {
-    @Id  //primary key
-    @GeneratedValue(strategy = GenerationType.IDENTITY)  //auto increment
-    @JsonIgnore  //json으로 변환 시 제외 (혹시 모를 직렬화 방지)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     private Long id;
 
     @Column(name = "user_uuid", nullable = false, unique = true, length = 36, updatable = false)
@@ -43,7 +43,6 @@ public class User extends BaseEntity {
     @Column(name = "birthdate", nullable = false)
     private LocalDate birthdate;
 
-    //@Enumerated(EnumType.STRING)
     @Convert(converter = UserGenderConverter.class)
     @Column(name = "gender", nullable = false, length = 1)
     private UserGender gender;

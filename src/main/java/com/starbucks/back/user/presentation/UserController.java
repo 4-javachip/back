@@ -20,17 +20,17 @@ public class UserController {
 
     private final UserService userService;
 
-    @PostMapping("/sign-up") // 회원가입
+    @PostMapping("/sign-up")
     public void signUp(@RequestBody RequestSignUpVo requestSignUpVo) {
         userService.signUp(RequestSignUpDto.from(requestSignUpVo));
     }
 
-    @PostMapping("/email/exists") // 이메일 중복 확인
+    @PostMapping("/email/exists")
     public boolean emailExists(@RequestBody RequestExistsEmailVo requestExistsEmailVo) {
         return userService.existsEmail(RequestExistsEmailDto.from(requestExistsEmailVo).getEmail());
     }
 
-    @PostMapping("/nickname/exists") // 닉네임 중복 확인
+    @PostMapping("/nickname/exists")
     public boolean nicknameExists(@RequestBody RequestExistsNicknameVo requestExistsNicknameVo) {
         return userService.existsNickname(RequestExistsNicknameDto.from(requestExistsNicknameVo).getNickname());
     }

@@ -9,12 +9,12 @@ import java.util.Arrays;
 @Converter
 public class UserGenderConverter implements AttributeConverter<UserGender, String> {
 
-    @Override //Enum을 DB에 저장할 때 어떻게 변환할지 정의
+    @Override
     public String convertToDatabaseColumn(UserGender gender) {
         return gender != null ? gender.getCode() : null;
     }
 
-    @Override //DB에서 읽어온 값을 Enum으로 변환
+    @Override
     public UserGender convertToEntityAttribute(String code) {
         return Arrays.stream(UserGender.values())
                 .filter(gender -> gender.getCode().equals(code))

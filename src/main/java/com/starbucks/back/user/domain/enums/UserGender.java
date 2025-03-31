@@ -13,7 +13,7 @@ public enum UserGender {
 
     private final String code;
     private final String input;
-    @JsonValue  // json으로 변환 시 해당 값을 사용
+    @JsonValue
     private final String label;
 
     UserGender(String code, String input, String label) {
@@ -22,7 +22,7 @@ public enum UserGender {
         this.label = label;
     }
 
-    @JsonCreator /* 입력받은 값에 해당하는 UserGender를 찾아 반환하는 메소드 */
+    @JsonCreator
     public static UserGender fromInput(String input) {
         return Arrays.stream(UserGender.values())
                 .filter(gender -> gender.input.equals(input))

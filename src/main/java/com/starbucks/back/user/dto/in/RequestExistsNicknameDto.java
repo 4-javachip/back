@@ -13,7 +13,6 @@ public class RequestExistsNicknameDto {
         this.nickname = nickname;
     }
 
-    /* RequestExistsNicknameVo -> RequestExistsNicknameDto */
     public static RequestExistsNicknameDto from(RequestExistsNicknameVo requestExistsNicknameVo) {
         return RequestExistsNicknameDto.builder()
                 .nickname(requestExistsNicknameVo.getNickname())
