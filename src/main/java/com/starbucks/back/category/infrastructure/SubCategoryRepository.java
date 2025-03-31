@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 import java.util.Optional;
 
-public interface SubCategoryRepository extends JpaRepository<SubCategoryRepository, Long> {
+public interface SubCategoryRepository extends JpaRepository<SubCategory, Long> {
 
     /**
      * 서브 카테고리 이름으로 서브 카테고리 찾기

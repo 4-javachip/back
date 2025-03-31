@@ -27,7 +27,6 @@ public class CategoryController {
      * @param requestCategoryDto
      */
     @Operation(summary = "AddCategory API", description = "AddCategory API 입니다.", tags = {"Category-Service"})
-    @Transactional
     @PostMapping
     public BaseResponseEntity<Void> addCategory(@RequestBody RequestCategoryDto requestCategoryDto) {
         categoryService.addCategory(requestCategoryDto);
@@ -73,7 +72,6 @@ public class CategoryController {
      * @param requestCategoryVo
      */
     @Operation(summary = "UpdateCategory API", description = "UpdateCategory API 입니다.", tags = {"Category-Service"})
-    @Transactional
     @PutMapping
     public BaseResponseEntity<Void> updateCategory(@RequestBody RequestCategoryVo requestCategoryVo) {
         categoryService.updateCategory(RequestCategoryDto.from(requestCategoryVo));
@@ -85,7 +83,6 @@ public class CategoryController {
      * @param requestCategoryVo
      */
     @Operation(summary = "DeleteCategory API", description = "DeleteCategory API 입니다.", tags = {"Category-Service"})
-    @Transactional
     @DeleteMapping
     public BaseResponseEntity<Void> deleteCategory(@RequestBody RequestCategoryVo requestCategoryVo) {
         categoryService.deleteCategory(RequestCategoryDto.from(requestCategoryVo));
