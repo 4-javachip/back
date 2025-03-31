@@ -3,21 +3,14 @@ package com.starbucks.back.shippingaddress.application;
 import com.starbucks.back.common.entity.BaseResponseStatus;
 import com.starbucks.back.common.exception.BaseException;
 import com.starbucks.back.shippingaddress.domain.ShippingAddress;
-import com.starbucks.back.shippingaddress.domain.UserShippingAddress;
-import com.starbucks.back.shippingaddress.dto.in.RequestDeleteShippingAddresdsDto;
+import com.starbucks.back.shippingaddress.dto.in.RequestDeleteShippingAddressDto;
 import com.starbucks.back.shippingaddress.dto.in.RequestShippingAddressDto;
-import com.starbucks.back.shippingaddress.dto.in.RequestUpdateqShippingAddressDto;
+import com.starbucks.back.shippingaddress.dto.in.RequestUpdateShippingAddressDto;
 import com.starbucks.back.shippingaddress.dto.out.ResponseReadShippingAddressDto;
-import com.starbucks.back.shippingaddress.dto.out.ResponseReadUserShippingAddressDto;
 import com.starbucks.back.shippingaddress.infrastructure.ShippingAddressRepository;
-import com.starbucks.back.shippingaddress.infrastructure.UserShippingAddressRepository;
-import com.starbucks.back.shippingaddress.vo.in.RequestDeleteShippingAddressVo;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -61,7 +54,7 @@ public class ShippingAddressServiceImpl implements ShippingAddressService {
      */
     @Transactional
     @Override
-    public void updateShippingAddress(RequestUpdateqShippingAddressDto requestShippingAddressDto) {
+    public void updateShippingAddress(RequestUpdateShippingAddressDto requestShippingAddressDto) {
         ShippingAddress shippingAddress = shippingAddressRepository.findByShippingAddressUuidAndDeletedFalse(requestShippingAddressDto.getShippingAddressUuid())
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_OPTION));
         shippingAddressRepository.save(requestShippingAddressDto.updateShippingAddress(shippingAddress));
@@ -72,7 +65,7 @@ public class ShippingAddressServiceImpl implements ShippingAddressService {
      */
     @Transactional
     @Override
-    public void deleteShippingAddress(RequestDeleteShippingAddresdsDto requestDeleteShippingAddressDto) {
+    public void deleteShippingAddress(RequestDeleteShippingAddressDto requestDeleteShippingAddressDto) {
         ShippingAddress shippingAddress = shippingAddressRepository.findByShippingAddressUuidAndDeletedFalse(requestDeleteShippingAddressDto.getShippingAddressUuid())
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_OPTION));
         shippingAddress.softDelete();

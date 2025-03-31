@@ -2,14 +2,13 @@ package com.starbucks.back.shippingaddress.dto.in;
 
 import com.starbucks.back.shippingaddress.domain.ShippingAddress;
 import com.starbucks.back.shippingaddress.vo.in.RequestUpdateShippingAddressVo;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class RequestUpdateqShippingAddressDto {
+public class RequestUpdateShippingAddressDto {
     private String shippingAddressUuid;
     private String addressName;
     private String recipientName;
@@ -21,7 +20,7 @@ public class RequestUpdateqShippingAddressDto {
     private String shippingNote;
 
     @Builder
-    public RequestUpdateqShippingAddressDto(
+    public RequestUpdateShippingAddressDto(
             String shippingAddressUuid,
             String addressName,
             String recipientName,
@@ -58,8 +57,8 @@ public class RequestUpdateqShippingAddressDto {
                 .build();
     }
 
-    public static RequestUpdateqShippingAddressDto from(RequestUpdateShippingAddressVo requestUpdateShippingAddressVo) {
-        return RequestUpdateqShippingAddressDto.builder()
+    public static RequestUpdateShippingAddressDto from(RequestUpdateShippingAddressVo requestUpdateShippingAddressVo) {
+        return RequestUpdateShippingAddressDto.builder()
                 .shippingAddressUuid(requestUpdateShippingAddressVo.getShippingAddressUuid())
                 .addressName(requestUpdateShippingAddressVo.getAddressName())
                 .recipientName(requestUpdateShippingAddressVo.getRecipientName())
