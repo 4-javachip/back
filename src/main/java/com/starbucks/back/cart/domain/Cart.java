@@ -16,15 +16,27 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    /**
+     * 유저 uuid
+     */
     @Column(name = "user_uuid", nullable = false, length = 50)
     private String userUuid;
 
+    /**
+     * 상품 수량
+     */
     @Column(name = "product_quantity", nullable = false)
     private Integer productQuantity;
 
+    /**
+     * 체크 여부
+     */
     @Column(name = "checked", nullable = false)
     private Boolean checked;
 
+    /**
+     * 상품 옵션 리스트 uuid
+     */
     @Column(name = "product_option_list_uuid", nullable = false, length = 50)
     private String productOptionListUuid;
 
