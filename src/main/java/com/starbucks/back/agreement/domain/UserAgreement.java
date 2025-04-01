@@ -17,19 +17,24 @@ public class UserAgreement extends BaseEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "agreement_id", nullable = false)
     private Agreement agreement;
 
     @Column(name = "agreed", nullable = false)
     private Boolean agreed;
 
-    @Column(name = "user_uuid", nullable = false, length = 36)
+    @Column(name = "user_uuid", nullable = false, length = 40)
     private String userUuid;
 
+    @Column(name = "user_agreement_uuid", nullable = false, length = 40)
+    private String userAgreementUuid;
+
     @Builder
-    public UserAgreement(Long id, Agreement agreement, Boolean agreed, String userUuid) {
+    public UserAgreement(Long id, Agreement agreement, Boolean agreed, String userUuid, String userAgreementUuid) {
         this.id = id;
         this.agreement = agreement;
         this.agreed = agreed;
         this.userUuid = userUuid;
+        this.userAgreementUuid = userAgreementUuid;
     }
 }

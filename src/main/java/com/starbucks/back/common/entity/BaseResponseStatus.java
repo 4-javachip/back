@@ -52,6 +52,9 @@ public enum BaseResponseStatus {
     DUPLICATED_NICKNAME(HttpStatus.CONFLICT, false, 2013, "이미 사용중인 닉네임입니다."),
     DUPLICATED_PHONE_NUMBER(HttpStatus.CONFLICT, false, 2014, "이미 사용 중인 전화번호입니다."),
 
+    // Agreement
+    INVALID_AGREEMENT_ID(HttpStatus.BAD_REQUEST, false, 2113, "존재하지 않는 약관 ID 입니다."),
+
     /**
      * 3000: product service error
      */

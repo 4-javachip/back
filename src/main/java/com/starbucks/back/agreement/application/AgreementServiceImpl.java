@@ -1,8 +1,12 @@
 package com.starbucks.back.agreement.application;
 
 import com.starbucks.back.agreement.domain.enums.AgreementType;
+import com.starbucks.back.agreement.dto.in.RequestAddUserAgreementDto;
 import com.starbucks.back.agreement.dto.out.ResponseGetAgreementDto;
 import com.starbucks.back.agreement.infrastructure.AgreementRepository;
+import com.starbucks.back.agreement.infrastructure.UserAgreementRepository;
+import com.starbucks.back.common.entity.BaseResponseStatus;
+import com.starbucks.back.common.exception.BaseException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +17,7 @@ import java.util.List;
 public class AgreementServiceImpl implements AgreementService {
 
     private final AgreementRepository agreementRepository;
+    private final UserAgreementRepository userAgreementRepository;
 
     @Override
     public List<ResponseGetAgreementDto> getSignUpAgreements() {
@@ -29,4 +34,5 @@ public class AgreementServiceImpl implements AgreementService {
                 .map(ResponseGetAgreementDto::from)
                 .toList();
     }
+
 }

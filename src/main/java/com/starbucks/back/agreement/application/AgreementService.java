@@ -9,4 +9,5 @@ public interface AgreementService {
     List<ResponseGetAgreementDto> getSignUpAgreements();
 
     List<ResponseGetAgreementDto> getShippingAddressAgreements();
+
 }

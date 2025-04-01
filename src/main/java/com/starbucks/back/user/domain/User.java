@@ -22,33 +22,33 @@ public class User extends SoftDeletableEntity {
     @JsonIgnore
     private Long id;
 
-    @Column(name = "user_uuid", nullable = false, unique = true, length = 36, updatable = false)
+    @Column(name = "user_uuid", nullable = false, unique = true, length = 40, updatable = false)
     private String userUuid;
 
-    @Column(name = "email", nullable = false, unique = true, updatable = false)
+    @Column(name = "email", nullable = false, unique = true, updatable = false, length = 100)
     private String email;
 
-    @Column(name = "password", nullable = false, length = 60)
+    @Column(name = "password", nullable = false, length = 65)
     private String password;
 
-    @Column(name = "nickname", unique = true)
+    @Column(name = "nickname", unique = true, length = 50)
     private String nickname;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name", nullable = false, length = 50)
     private String name;
 
     @Column(name = "phone_number", nullable = false, unique = true)
     private String phoneNumber;
 
-    @Column(name = "birthdate", nullable = false)
+    @Column(name = "birthdate", nullable = false, length = 20)
     private LocalDate birthdate;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "gender", nullable = false, length = 1)
+    @Column(name = "gender", nullable = false, length = 20)
     private UserGender gender;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "state", nullable = false, length = 1)
+    @Column(name = "state", nullable = false, length = 20)
     private UserState state;
 
 
