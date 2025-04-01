@@ -54,6 +54,7 @@ public enum BaseResponseStatus {
 
     // Agreement
     INVALID_AGREEMENT_ID(HttpStatus.BAD_REQUEST, false, 2113, "존재하지 않는 약관 ID 입니다."),
+    INVALID_USER_AGREEMENT_UUID(HttpStatus.BAD_REQUEST, false, 2114, "존재하지 않는 유저-약관 UUID 입니다."),
 
     /**
      * 3000: product service error

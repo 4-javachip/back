@@ -1,6 +1,7 @@
 package com.starbucks.back.agreement.application;
 
 import com.starbucks.back.agreement.dto.in.RequestAddUserAgreementDto;
+import com.starbucks.back.agreement.dto.out.ResponseGetUserAgreementDto;
 import com.starbucks.back.agreement.infrastructure.AgreementRepository;
 import com.starbucks.back.agreement.infrastructure.UserAgreementRepository;
 import com.starbucks.back.common.entity.BaseResponseStatus;
@@ -24,6 +25,16 @@ public class UserAgreementServiceImpl implements UserAgreementService {
                                         () -> new BaseException(BaseResponseStatus.INVALID_AGREEMENT_ID)
                                 )
                 )
+        );
+    }
+
+    @Override
+    public ResponseGetUserAgreementDto getUserAgreementByUserAgreementUuid(String userAgreementUuid) {
+        return ResponseGetUserAgreementDto.from(
+                userAgreementRepository.findByUserAgreementUuid(userAgreementUuid)
+                        .orElseThrow(
+                                () -> new BaseException(BaseResponseStatus.INVALID_USER_AGREEMENT_UUID)
+                        )
         );
     }
 }

@@ -25,11 +25,11 @@ public class RequestAddUserAgreementDto {
 
     public UserAgreement toEntity(Agreement agreement) {
         return UserAgreement.builder()
-            .agreement(agreement)
-            .agreed(agreed)
-            .userUuid(userUuid)
+                .agreement(agreement)
+                .agreed(agreed)
+                .userUuid(userUuid)
                 .userAgreementUuid(randomUUID().toString())
-            .build();
+                .build();
     }
 
     public static RequestAddUserAgreementDto from(RequestAddUserAgreementVo requestAddUserAgreementVo) {
