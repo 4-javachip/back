@@ -2,31 +2,20 @@ package com.starbucks.back.user.domain.enums;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 import java.util.Arrays;
 
 @Getter
+@RequiredArgsConstructor
 public enum UserGender {
-    MALE("M", "남", "남성"),
-    FEMALE("F", "여", "여성");
+    MALE("남성"),
+    FEMALE("여성");
 
-    private final String code;
-    private final String input;
     @JsonValue
-    private final String label;
+    private final String code;
 
-    UserGender(String code, String input, String label) {
-        this.code = code;
-        this.input = input;
-        this.label = label;
-    }
-
-    @JsonCreator
-    public static UserGender fromInput(String input) {
-        return Arrays.stream(UserGender.values())
-                .filter(gender -> gender.input.equals(input))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Invalid gender input: " + input));
-    }
 }

@@ -2,7 +2,6 @@ package com.starbucks.back.user.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.starbucks.back.common.entity.BaseEntity;
-import com.starbucks.back.user.domain.converter.UserGenderConverter;
 import com.starbucks.back.user.domain.enums.UserGender;
 import com.starbucks.back.user.domain.enums.UserState;
 import jakarta.persistence.*;
@@ -43,10 +42,11 @@ public class User extends BaseEntity {
     @Column(name = "birthdate", nullable = false)
     private LocalDate birthdate;
 
-    @Convert(converter = UserGenderConverter.class)
+    @Enumerated(EnumType.STRING)
     @Column(name = "gender", nullable = false, length = 1)
     private UserGender gender;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "state", nullable = false, length = 1)
     private UserState state;
 

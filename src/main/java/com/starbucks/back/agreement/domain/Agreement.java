@@ -1,7 +1,6 @@
 package com.starbucks.back.agreement.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.starbucks.back.agreement.domain.converter.AgreementTypeConverter;
 import com.starbucks.back.agreement.domain.enums.AgreementType;
 import com.starbucks.back.common.entity.BaseEntity;
 import jakarta.persistence.*;
@@ -27,19 +26,19 @@ public class Agreement extends BaseEntity {
     @Column(name = "description", columnDefinition = "TEXT", nullable = false)
     private String description;
 
-    @Column(name = "is_required", nullable = false)
-    private boolean isRequired;
+    @Column(name = "required", nullable = false)
+    private boolean required;
 
-    @Convert(converter = AgreementTypeConverter.class)
+    @Enumerated(EnumType.STRING)
     @Column(name = "type", nullable = false)
     private AgreementType type;
 
     @Builder
-    public Agreement(Long id, String name, String description, boolean isRequired) {
+    public Agreement(Long id, String name, String description, boolean required) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.isRequired = isRequired;
+        this.required = required;
     }
 
 
