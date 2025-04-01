@@ -7,5 +7,4 @@ public interface UserService {
     boolean existsEmail(String email);
     boolean existsNickname(String nickname);
 
-
 }
