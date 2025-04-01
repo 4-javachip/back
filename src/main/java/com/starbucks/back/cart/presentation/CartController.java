@@ -3,10 +3,12 @@ package com.starbucks.back.cart.presentation;
 import com.starbucks.back.cart.application.CartService;
 import com.starbucks.back.cart.dto.in.RequestAddCartDto;
 import com.starbucks.back.cart.dto.in.RequestCartDto;
+import com.starbucks.back.cart.dto.in.RequestUpdateCartCheckedDto;
 import com.starbucks.back.cart.dto.in.RequestUpdateCartCountDto;
 import com.starbucks.back.cart.dto.out.ResponseCartDto;
 import com.starbucks.back.cart.vo.in.RequestAddCartVo;
 import com.starbucks.back.cart.vo.in.RequestCartVo;
+import com.starbucks.back.cart.vo.in.RequestUpdateCartCheckedVo;
 import com.starbucks.back.cart.vo.in.RequestUpdateCartCountVo;
 import com.starbucks.back.cart.vo.out.ResponseCartVo;
 import com.starbucks.back.common.entity.BaseResponseEntity;
@@ -51,6 +53,17 @@ public class CartController {
     public BaseResponseEntity<Void> updateCart(@RequestBody RequestUpdateCartCountVo requestUpdateCartCountVo) {
         RequestUpdateCartCountDto requestUpdateCartCountDto = RequestUpdateCartCountDto.from(requestUpdateCartCountVo);
         cartService.updateCart(requestUpdateCartCountDto);
+        return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS);
+    }
+
+    /**
+     * 장바구니 체크박스 수정
+     */
+    @PutMapping("/checked")
+    @Operation(summary = "UpdateCartChecked API", description = "UpdateCartChecked API 입니다.", tags = {"Cart-Service"})
+    public BaseResponseEntity<Void> updateCartChecked(@RequestBody RequestUpdateCartCheckedVo requestUpdateCartCheckedVo) {
+        RequestUpdateCartCheckedDto requestUpdateCartCheckedDto = RequestUpdateCartCheckedDto.from(requestUpdateCartCheckedVo);
+        cartService.updateCartChecked(requestUpdateCartCheckedDto);
         return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS);
     }
 }
