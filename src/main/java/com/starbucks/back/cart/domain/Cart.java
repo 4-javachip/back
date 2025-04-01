@@ -1,5 +1,6 @@
 package com.starbucks.back.cart.domain;
 
+import com.starbucks.back.common.entity.SoftDeletableEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -7,10 +8,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Getter
 @Table(name = "cart")
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Cart {
+public class Cart extends SoftDeletableEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,7 +20,7 @@ public class Cart {
     /**
      * 유저 uuid
      */
-    @Column(name = "user_uuid", nullable = false, length = 50)
+    @Column(name = "user_uuid", nullable = false, length = 100)
     private String userUuid;
 
     /**
@@ -37,7 +38,7 @@ public class Cart {
     /**
      * 상품 옵션 리스트 uuid
      */
-    @Column(name = "product_option_list_uuid", nullable = false, length = 50)
+    @Column(name = "product_option_list_uuid", nullable = false, length = 100)
     private String productOptionListUuid;
 
     @Builder

@@ -1,7 +1,7 @@
 package com.starbucks.back.cart.dto.in;
 
+import com.starbucks.back.cart.application.CartService;
 import com.starbucks.back.cart.domain.Cart;
-import com.starbucks.back.cart.vo.in.RequestCartVo;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,16 +31,7 @@ public class RequestCartDto {
         this.productOptionListUuid = productOptionListUuid;
     }
 
-    public Cart updateEntity(Cart cart) {
-        return Cart.builder()
-                .id(id)
-                .userUuid(userUuid)
-                .productQuantity(productQuantity)
-                .checked(checked)
-                .productOptionListUuid(productOptionListUuid)
-                .build();
-    }
-
+    // dto => entity
     public Cart toEntity() {
         return Cart.builder()
                 .id(id)
@@ -51,13 +42,14 @@ public class RequestCartDto {
                 .build();
     }
 
-    public static RequestCartDto from (RequestCartVo requestCartVo) {
+    // vo => dto
+    public static RequestCartDto from(Cart cart) {
         return RequestCartDto.builder()
-                .id(requestCartVo.getId())
-                .userUuid(requestCartVo.getUserUuid())
-                .productQuantity(requestCartVo.getProductQuantity())
-                .checked(requestCartVo.getChecked())
-                .productOptionListUuid(requestCartVo.getProductOptionListUuid())
+                .id(cart.getId())
+                .userUuid(cart.getUserUuid())
+                .productQuantity(cart.getProductQuantity())
+                .checked(cart.getChecked())
+                .productOptionListUuid(cart.getProductOptionListUuid())
                 .build();
     }
 }
