@@ -2,6 +2,7 @@ package com.starbucks.back.user.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.starbucks.back.common.entity.BaseEntity;
+import com.starbucks.back.common.entity.SoftDeletableEntity;
 import com.starbucks.back.user.domain.enums.UserGender;
 import com.starbucks.back.user.domain.enums.UserState;
 import jakarta.persistence.*;
@@ -15,7 +16,7 @@ import java.time.LocalDate;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class User extends BaseEntity {
+public class User extends SoftDeletableEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonIgnore

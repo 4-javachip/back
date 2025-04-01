@@ -20,13 +20,13 @@ public class UserAgreement extends BaseEntity {
     private Agreement agreement;
 
     @Column(name = "agreed", nullable = false)
-    private boolean agreed;
+    private Boolean agreed;
 
     @Column(name = "user_uuid", nullable = false, length = 36)
     private String userUuid;
 
     @Builder
-    public UserAgreement(Long id, Agreement agreement, boolean agreed, String userUuid) {
+    public UserAgreement(Long id, Agreement agreement, Boolean agreed, String userUuid) {
         this.id = id;
         this.agreement = agreement;
         this.agreed = agreed;

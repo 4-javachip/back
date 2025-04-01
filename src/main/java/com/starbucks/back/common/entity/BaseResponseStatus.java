@@ -46,9 +46,11 @@ public enum BaseResponseStatus {
     PASSWORD_CONTAIN_NUM_FAILED(HttpStatus.BAD_REQUEST, false, 2107, "휴대폰 번호를 포함한 비밀번호 입니다."),
     PASSWORD_MATCH_FAILED(HttpStatus.BAD_REQUEST, false, 2108, "패스워드를 다시 확인해주세요."),
     NO_SUPPORTED_PROVIDER(HttpStatus.BAD_REQUEST, false, 2109, "지원하지 않는 플랫폼입니다"),
-    DUPLICATED_NICKNAME(HttpStatus.CONFLICT, false, 2010, "이미 사용중인 닉네임입니다."),
-    SAME_NICKNAME(HttpStatus.CONFLICT, false, 2011, "현재 사용중인 닉네임입니다."),
-    INVALID_EMAIL_ADDRESS(HttpStatus.BAD_REQUEST, false, 2012, "이메일을 다시 확인해주세요."),
+    SAME_NICKNAME(HttpStatus.CONFLICT, false, 2010, "현재 사용중인 닉네임입니다."),
+    INVALID_EMAIL_ADDRESS(HttpStatus.BAD_REQUEST, false, 2011, "이메일을 다시 확인해주세요."),
+    DUPLICATED_EMAIL(HttpStatus.CONFLICT, false, 2012, "이미 사용 중인 이메일입니다."),
+    DUPLICATED_NICKNAME(HttpStatus.CONFLICT, false, 2013, "이미 사용중인 닉네임입니다."),
+    DUPLICATED_PHONE_NUMBER(HttpStatus.CONFLICT, false, 2014, "이미 사용 중인 전화번호입니다."),
 
     /**
      * 3000: product service error

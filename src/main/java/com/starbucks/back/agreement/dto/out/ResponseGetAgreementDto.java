@@ -30,7 +30,7 @@ public class ResponseGetAgreementDto {
                 .id(agreement.getId())
                 .name(agreement.getName())
                 .description(agreement.getDescription())
-                .required(agreement.isRequired())
+                .required(agreement.getRequired())
                 .type(agreement.getType())
                 .build();
     }
