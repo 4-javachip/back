@@ -9,6 +9,7 @@ import lombok.Getter;
 public class ResponseCartDto {
 
     private final String userUuid;
+    private final String cartUuid;
     private final Integer productQuantity;
     private final Boolean checked;
     private final String productOptionListUuid;
@@ -16,11 +17,13 @@ public class ResponseCartDto {
     @Builder
     public ResponseCartDto(
             String userUuid,
+            String cartUuid,
             Integer productQuantity,
             Boolean checked,
             String productOptionListUuid
     ) {
         this.userUuid = userUuid;
+        this.cartUuid = cartUuid;
         this.productQuantity = productQuantity;
         this.checked = checked;
         this.productOptionListUuid = productOptionListUuid;
@@ -30,6 +33,7 @@ public class ResponseCartDto {
     public static ResponseCartDto from(Cart cart) {
         return ResponseCartDto.builder()
                 .userUuid(cart.getUserUuid())
+                .cartUuid(cart.getCartUuid())
                 .productQuantity(cart.getProductQuantity())
                 .checked(cart.getChecked())
                 .productOptionListUuid(cart.getProductOptionListUuid())
@@ -40,6 +44,7 @@ public class ResponseCartDto {
     public ResponseCartVo toVo() {
         return ResponseCartVo.builder()
                 .userUuid(userUuid)
+                .cartUuid(cartUuid)
                 .productQuantity(productQuantity)
                 .checked(checked)
                 .productOptionListUuid(productOptionListUuid)

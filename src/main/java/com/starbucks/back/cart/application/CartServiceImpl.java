@@ -1,6 +1,7 @@
 package com.starbucks.back.cart.application;
 
 import com.starbucks.back.cart.domain.Cart;
+import com.starbucks.back.cart.dto.in.RequestAddCartDto;
 import com.starbucks.back.cart.dto.in.RequestCartDto;
 import com.starbucks.back.cart.dto.out.ResponseCartDto;
 import com.starbucks.back.cart.infrastructure.CartRepository;
@@ -31,13 +32,13 @@ public class CartServiceImpl implements CartService{
      */
     @Transactional
     @Override
-    public void addCart(RequestCartDto requestCartDto) {
+    public void addCart(RequestAddCartDto requestAddCartDto) {
         if (cartRepository.existsByUserUuidAndProductOptionListUuid(
-                requestCartDto.getUserUuid(),
-                requestCartDto.getProductOptionListUuid()
+                requestAddCartDto.getUserUuid(),
+                requestAddCartDto.getProductOptionListUuid()
         )) {
             throw new BaseException(BaseResponseStatus.DUPLICATED_OPTION);
         }
-        cartRepository.save(requestCartDto.toEntity());
+        cartRepository.save(requestAddCartDto.toEntity());
     }
 }
