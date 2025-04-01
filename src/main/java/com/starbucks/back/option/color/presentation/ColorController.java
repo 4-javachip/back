@@ -83,7 +83,7 @@ public class ColorController {
 
     /**
      * 색상 삭제
-     * @param requestColorVo
+     * @param requestDeleteColorVo
      */
     @Operation(summary = "DeleteColor API", description = "DeleteColor API 입니다.", tags = {"Color-Service"})
     @DeleteMapping
