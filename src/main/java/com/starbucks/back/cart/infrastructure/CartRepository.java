@@ -13,4 +13,12 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
      * @return
      */
     Optional<Cart> findByUserUuid(String userUuid);
+
+    /**
+     * 장바구니 겹치는지 확인
+     * @param userUuid
+     * @param productOptionListUuid
+     * @return
+     */
+    Boolean existsByUserUuidAndProductOptionListUuid(String userUuid, String productOptionListUuid);
 }

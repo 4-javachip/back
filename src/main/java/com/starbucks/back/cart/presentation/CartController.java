@@ -1,15 +1,14 @@
 package com.starbucks.back.cart.presentation;
 
 import com.starbucks.back.cart.application.CartService;
+import com.starbucks.back.cart.dto.in.RequestCartDto;
 import com.starbucks.back.cart.dto.out.ResponseCartDto;
 import com.starbucks.back.cart.vo.out.ResponseCartVo;
 import com.starbucks.back.common.entity.BaseResponseEntity;
+import com.starbucks.back.common.entity.BaseResponseStatus;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/cart")
@@ -26,5 +25,15 @@ public class CartController {
     public BaseResponseEntity<ResponseCartVo> getCart(@PathVariable("userUuid") String userUuid) {
         ResponseCartDto responseCartDto = cartService.getCartByUserUuid(userUuid);
         return new BaseResponseEntity<>(responseCartDto.toVo());
+    }
+
+    /**
+     * 장바구니 생성
+     */
+    @PostMapping
+    @Operation(summary = "CreateCart API", description = "CreateCart API 입니다.", tags = {"Cart-Service"})
+    public BaseResponseEntity<Void> addCart(@RequestBody RequestCartDto requestCartDto) {
+        cartService.addCart(requestCartDto);
+        return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS);
     }
 }
