@@ -3,9 +3,11 @@ package com.starbucks.back.cart.presentation;
 import com.starbucks.back.cart.application.CartService;
 import com.starbucks.back.cart.dto.in.RequestAddCartDto;
 import com.starbucks.back.cart.dto.in.RequestCartDto;
+import com.starbucks.back.cart.dto.in.RequestUpdateCartCountDto;
 import com.starbucks.back.cart.dto.out.ResponseCartDto;
 import com.starbucks.back.cart.vo.in.RequestAddCartVo;
 import com.starbucks.back.cart.vo.in.RequestCartVo;
+import com.starbucks.back.cart.vo.in.RequestUpdateCartCountVo;
 import com.starbucks.back.cart.vo.out.ResponseCartVo;
 import com.starbucks.back.common.entity.BaseResponseEntity;
 import com.starbucks.back.common.entity.BaseResponseStatus;
@@ -38,6 +40,17 @@ public class CartController {
     public BaseResponseEntity<Void> addCart(@RequestBody RequestAddCartVo requestAddCartVo) {
         RequestAddCartDto requestAddCartDto = RequestAddCartDto.from(requestAddCartVo);
         cartService.addCart(requestAddCartDto);
+        return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS);
+    }
+
+    /**
+     * 장바구니 수량 수정
+     */
+    @PutMapping("/quantity")
+    @Operation(summary = "UpdateCart API", description = "UpdateCart API 입니다.", tags = {"Cart-Service"})
+    public BaseResponseEntity<Void> updateCart(@RequestBody RequestUpdateCartCountVo requestUpdateCartCountVo) {
+        RequestUpdateCartCountDto requestUpdateCartCountDto = RequestUpdateCartCountDto.from(requestUpdateCartCountVo);
+        cartService.updateCart(requestUpdateCartCountDto);
         return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS);
     }
 }

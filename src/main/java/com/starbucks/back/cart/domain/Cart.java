@@ -49,12 +49,14 @@ public class Cart extends SoftDeletableEntity {
 
     @Builder
     public Cart (
+            Long id,
             String userUuid,
             String cartUuid,
             Integer productQuantity,
             Boolean checked,
             String productOptionListUuid
     ) {
+        this.id = id;
         this.userUuid = userUuid;
         this.cartUuid = cartUuid;
         this.productQuantity = productQuantity;

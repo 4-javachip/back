@@ -8,7 +8,7 @@ import java.util.Optional;
 public interface CartRepository extends JpaRepository<Cart, Long> {
 
     /**
-     * 장바구니 조회
+     * 장바구니 UserUuid로 조회
      * @param userUuid 사용자 UUID
      * @return
      */
@@ -21,4 +21,11 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
      * @return
      */
     Boolean existsByUserUuidAndProductOptionListUuid(String userUuid, String productOptionListUuid);
+
+    /**
+     * 장바구니 UUID로 조회
+     * @param cartUuid
+     * @return
+     */
+    Optional<Cart> findByCartUuid(String cartUuid);
 }
