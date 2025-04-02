@@ -65,7 +65,7 @@ public class ProductDescriptionController {
     @Operation(summary = "updateProductDescription API", description = "updateProductDescription API 입니다.", tags = {"Product-Description-Service"})
     @PutMapping
     public BaseResponseEntity<Void> updateProductDescription(@RequestBody RequestProductDescriptionVo requestProductDescriptionVo) {
-        productDescriptionService.updateProductDescription(RequestUpdateProductDescriptionDto.from(requestProductDescriptionVo));
+        productDescriptionService.updateProductDescription(RequestUpdateProductDescriptionDto.of(requestProductDescriptionVo));
         return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS);
     }
 

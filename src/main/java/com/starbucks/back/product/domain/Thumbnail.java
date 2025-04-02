@@ -26,8 +26,8 @@ public class Thumbnail extends SoftDeletableEntity {
     /**
      * 썸네일 이미지
      */
-    @Column(name = "thumbnail", nullable = false)
-    private String thumbnail;
+    @Column(name = "thumbnail_url", nullable = false)
+    private String thumbnailUrl;
 
     /**
      * 썸네일 이미지 설명
@@ -36,10 +36,10 @@ public class Thumbnail extends SoftDeletableEntity {
     private String description;
 
     @Builder
-    public Thumbnail(Long id, String productUuid, String thumbnail, String description) {
+    public Thumbnail(Long id, String productUuid, String thumbnailUrl, String description) {
         this.id = id;
         this.productUuid = productUuid;
-        this.thumbnail = thumbnail;
+        this.thumbnailUrl = thumbnailUrl;
         this.description = description;
     }
 

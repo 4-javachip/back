@@ -76,7 +76,7 @@ public class ProductController {
     @Operation(summary = "DeleteProduct API", description = "DeleteProduct API 입니다.", tags = {"Product-Service"})
     @DeleteMapping
     public BaseResponseEntity<Void> deleteProduct(@RequestBody RequestDeleteProductVo requestDeleteProductVo) {
-        productService.deleteProduct(RequestDeleteProductDto.of(requestDeleteProductVo));
+        productService.deleteProduct(RequestDeleteProductDto.from(requestDeleteProductVo));
         return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS);
     }
 

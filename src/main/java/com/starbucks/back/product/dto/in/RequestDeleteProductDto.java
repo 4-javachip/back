@@ -16,7 +16,7 @@ public class RequestDeleteProductDto {
         this.productUuid = productUuid;
     }
 
-    public static RequestDeleteProductDto of (RequestDeleteProductVo requestDeleteProductVo) {
+    public static RequestDeleteProductDto from(RequestDeleteProductVo requestDeleteProductVo) {
         return RequestDeleteProductDto.builder()
                 .productUuid(requestDeleteProductVo.getProductUuid())
                 .build();
