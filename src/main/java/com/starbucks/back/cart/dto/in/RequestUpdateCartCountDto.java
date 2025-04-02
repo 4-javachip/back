@@ -28,6 +28,7 @@ public class RequestUpdateCartCountDto {
                 .cartUuid(cartUuid)
                 .productQuantity(productQuantity)
                 .checked(cart.getChecked())
+                .productUuid(cart.getProductUuid())
                 .productOptionListUuid(cart.getProductOptionListUuid())
                 .build();
     }

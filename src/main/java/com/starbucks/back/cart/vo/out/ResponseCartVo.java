@@ -12,6 +12,7 @@ public class ResponseCartVo {
     private String cartUuid;
     private Integer productQuantity;
     private Boolean checked;
+    private String productUuid;
     private String productOptionListUuid;
 
     @Builder
@@ -20,12 +21,14 @@ public class ResponseCartVo {
             String cartUuid,
             Integer productQuantity,
             Boolean checked,
+            String productUuid,
             String productOptionListUuid
     ) {
         this.userUuid = userUuid;
         this.cartUuid = cartUuid;
         this.productQuantity = productQuantity;
         this.checked = checked;
+        this.productUuid = productUuid;
         this.productOptionListUuid = productOptionListUuid;
     }
 }

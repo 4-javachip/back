@@ -42,6 +42,12 @@ public class Cart extends SoftDeletableEntity {
     private Boolean checked;
 
     /**
+     * 상품 uuid
+     */
+    @Column(name = "product_uuid", nullable = false, length = 100)
+    private String productUuid;
+
+    /**
      * 상품 옵션 리스트 uuid
      */
     @Column(name = "product_option_list_uuid", nullable = false, length = 100)
@@ -54,6 +60,7 @@ public class Cart extends SoftDeletableEntity {
             String cartUuid,
             Integer productQuantity,
             Boolean checked,
+            String productUuid,
             String productOptionListUuid
     ) {
         this.id = id;
@@ -61,6 +68,7 @@ public class Cart extends SoftDeletableEntity {
         this.cartUuid = cartUuid;
         this.productQuantity = productQuantity;
         this.checked = checked;
+        this.productUuid = productUuid;
         this.productOptionListUuid = productOptionListUuid;
     }
 }

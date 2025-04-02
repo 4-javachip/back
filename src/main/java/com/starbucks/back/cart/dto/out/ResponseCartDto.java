@@ -12,6 +12,7 @@ public class ResponseCartDto {
     private final String cartUuid;
     private final Integer productQuantity;
     private final Boolean checked;
+    private final String productUuid;
     private final String productOptionListUuid;
 
     @Builder
@@ -20,12 +21,14 @@ public class ResponseCartDto {
             String cartUuid,
             Integer productQuantity,
             Boolean checked,
+            String productUuid,
             String productOptionListUuid
     ) {
         this.userUuid = userUuid;
         this.cartUuid = cartUuid;
         this.productQuantity = productQuantity;
         this.checked = checked;
+        this.productUuid = productUuid;
         this.productOptionListUuid = productOptionListUuid;
     }
 
@@ -36,6 +39,7 @@ public class ResponseCartDto {
                 .cartUuid(cart.getCartUuid())
                 .productQuantity(cart.getProductQuantity())
                 .checked(cart.getChecked())
+                .productUuid(cart.getProductUuid())
                 .productOptionListUuid(cart.getProductOptionListUuid())
                 .build();
     }
@@ -47,6 +51,7 @@ public class ResponseCartDto {
                 .cartUuid(cartUuid)
                 .productQuantity(productQuantity)
                 .checked(checked)
+                .productUuid(productUuid)
                 .productOptionListUuid(productOptionListUuid)
                 .build();
     }

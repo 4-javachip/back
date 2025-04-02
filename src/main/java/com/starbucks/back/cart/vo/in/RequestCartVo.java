@@ -9,5 +9,6 @@ public class RequestCartVo {
     private String cartUuid;
     private Integer productQuantity;
     private Boolean checked;
+    private String productUuid;
     private String productOptionListUuid;
 }

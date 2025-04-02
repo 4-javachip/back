@@ -12,6 +12,7 @@ public class RequestCartDto {
     private String userUuid;
     private Integer productQuantity;
     private Boolean checked;
+    private String productUuid;
     private String productOptionListUuid;
 
     @Builder
@@ -19,6 +20,7 @@ public class RequestCartDto {
             String userUuid,
             Integer productQuantity,
             Boolean checked,
+            String productUuid,
             String productOptionListUuid
     ) {
         this.userUuid = userUuid;

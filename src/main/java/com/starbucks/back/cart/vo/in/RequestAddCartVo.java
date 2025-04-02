@@ -7,5 +7,6 @@ public class RequestAddCartVo {
     private String userUuid;
     private Integer productQuantity;
     private Boolean checked;
+    private String productUuid;
     private String productOptionListUuid;
 }
