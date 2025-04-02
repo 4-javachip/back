@@ -2,6 +2,7 @@ package com.starbucks.back.cart.application;
 
 import com.starbucks.back.cart.domain.Cart;
 import com.starbucks.back.cart.dto.in.RequestAddCartDto;
+import com.starbucks.back.cart.dto.in.RequestDeleteCartDto;
 import com.starbucks.back.cart.dto.in.RequestUpdateCartCheckedDto;
 import com.starbucks.back.cart.dto.in.RequestUpdateCartCountDto;
 import com.starbucks.back.cart.dto.out.ResponseCartDto;
@@ -61,9 +62,22 @@ public class CartServiceImpl implements CartService{
     /**
      * 장바구니 체크박스 수정
      */
+    @Transactional
+    @Override
     public void updateCartChecked(RequestUpdateCartCheckedDto requestUpdateCartCheckedDto) {
         Cart cart = cartRepository.findByCartUuid(requestUpdateCartCheckedDto.getCartUuid())
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_OPTION));
         cartRepository.save(requestUpdateCartCheckedDto.updateCart(cart));
+    }
+
+    /**
+     * 장바구니 삭제
+     */
+    @Transactional
+    @Override
+    public void deleteCart(RequestDeleteCartDto requestDeleteCartDto) {
+        Cart cart = cartRepository.findByCartUuid(requestDeleteCartDto.getCartUuid())
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_OPTION));
+        cart.softDelete();
     }
 }
