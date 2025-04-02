@@ -13,6 +13,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class CartServiceImpl implements CartService{
@@ -23,10 +25,11 @@ public class CartServiceImpl implements CartService{
      */
     @Transactional
     @Override
-    public ResponseCartDto getCartByUserUuid(String userUuid) {
-        Cart cart = cartRepository.findByUserUuid(userUuid)
-                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_OPTION));
-        return ResponseCartDto.from(cart);
+    public List<ResponseCartDto> getCartListByUserUuid(String userUuid) {
+        return cartRepository.findAllByUserUuid(userUuid)
+                .stream()
+                .map(ResponseCartDto::from)
+                .toList();
     }
 
     /**

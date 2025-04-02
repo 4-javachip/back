@@ -26,6 +26,7 @@ public class RequestCartDto {
         this.userUuid = userUuid;
         this.productQuantity = productQuantity;
         this.checked = checked;
+        this.productUuid = productUuid;
         this.productOptionListUuid = productOptionListUuid;
     }
 
@@ -35,6 +36,7 @@ public class RequestCartDto {
                 .userUuid(userUuid)
                 .productQuantity(productQuantity)
                 .checked(checked)
+                .productUuid(productUuid)
                 .productOptionListUuid(productOptionListUuid)
                 .build();
     }
@@ -45,6 +47,7 @@ public class RequestCartDto {
                 .userUuid(cart.getUserUuid())
                 .productQuantity(cart.getProductQuantity())
                 .checked(cart.getChecked())
+                .productUuid(cart.getProductUuid())
                 .productOptionListUuid(cart.getProductOptionListUuid())
                 .build();
     }

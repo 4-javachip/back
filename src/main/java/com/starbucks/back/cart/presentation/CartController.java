@@ -11,6 +11,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/cart")
 @RequiredArgsConstructor
@@ -21,11 +23,14 @@ public class CartController {
     /**
      * 장바구니 조회(userUuid)
      */
-    @GetMapping("/{userUuid}")
+    @GetMapping("/user/{userUuid}")
     @Operation(summary = "GetCartByUserUuid API", description = "GetCartByUserUuid API 입니다.", tags = {"Cart-Service"})
-    public BaseResponseEntity<ResponseCartVo> getCart(@PathVariable("userUuid") String userUuid) {
-        ResponseCartDto responseCartDto = cartService.getCartByUserUuid(userUuid);
-        return new BaseResponseEntity<>(responseCartDto.toVo());
+    public BaseResponseEntity<List<ResponseCartVo>> getCart(@PathVariable("userUuid") String userUuid) {
+        List<ResponseCartVo> result = cartService.getCartListByUserUuid(userUuid)
+                .stream()
+                .map(ResponseCartDto::toVo)
+                .toList();
+        return new BaseResponseEntity<>(result);
     }
 
     /**
