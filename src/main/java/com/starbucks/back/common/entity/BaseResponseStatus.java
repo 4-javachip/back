@@ -31,6 +31,12 @@ public enum BaseResponseStatus {
     SSE_SEND_FAIL(HttpStatus.INTERNAL_SERVER_ERROR, false, 901, "알림 전송에 실패하였습니다."),
 
     /**
+     * Request 유효성 에러
+     */
+    INVALID_REQUEST(HttpStatus.BAD_REQUEST, false, 1000, "잘못된 요청입니다."),
+
+
+    /**
      * 2000: users service error
      */
     // token

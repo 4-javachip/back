@@ -9,6 +9,7 @@ import com.starbucks.back.agreement.vo.out.ResponseGetUserAgreementVo;
 import com.starbucks.back.common.entity.BaseResponseEntity;
 import com.starbucks.back.common.entity.BaseResponseStatus;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,7 +26,7 @@ public class    UserAgreementController {
     @PostMapping
     public BaseResponseEntity<Void> addUserAgreement(
             @RequestHeader("Uuid") String userUuid,
-            @RequestBody RequestAddUserAgreementVo requestAddUserAgreementVo
+            @Valid @RequestBody RequestAddUserAgreementVo requestAddUserAgreementVo
     ) {
         userAgreementService.addUserAgreement(RequestAddUserAgreementDto.of(userUuid, requestAddUserAgreementVo));
         return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS);

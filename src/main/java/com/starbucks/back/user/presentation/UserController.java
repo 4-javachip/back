@@ -11,6 +11,7 @@ import com.starbucks.back.user.vo.in.RequestExistsNicknameVo;
 import com.starbucks.back.user.vo.in.RequestSignUpVo;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,14 +27,14 @@ public class UserController {
 
     @Operation(summary = "SignUp API", description = "회원가입", tags = {"User-service"})
     @PostMapping("/sign-up")
-    public BaseResponseEntity<Void> signUp(@RequestBody RequestSignUpVo requestSignUpVo) {
+    public BaseResponseEntity<Void> signUp(@Valid @RequestBody RequestSignUpVo requestSignUpVo) {
         userService.signUp(RequestSignUpDto.from(requestSignUpVo));
         return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS);
     }
 
     @Operation(summary = "Check Email API", description = "이메일 중복 확인", tags = {"User-service"})
     @PostMapping("/email/exists")
-    public BaseResponseEntity<Boolean> emailExists(@RequestBody RequestExistsEmailVo requestExistsEmailVo) {
+    public BaseResponseEntity<Boolean> emailExists(@Valid @RequestBody RequestExistsEmailVo requestExistsEmailVo) {
         return new BaseResponseEntity<>(
                 userService.existsEmail(RequestExistsEmailDto.from(requestExistsEmailVo).getEmail())
         );
@@ -41,7 +42,7 @@ public class UserController {
 
     @Operation(summary = "Check Nickname API", description = "닉네임 중복 확인", tags = {"User-service"})
     @PostMapping("/nickname/exists")
-    public BaseResponseEntity<Boolean> nicknameExists(@RequestBody RequestExistsNicknameVo requestExistsNicknameVo) {
+    public BaseResponseEntity<Boolean> nicknameExists(@Valid @RequestBody RequestExistsNicknameVo requestExistsNicknameVo) {
         return new BaseResponseEntity<>(
                 userService.existsNickname(RequestExistsNicknameDto.from(requestExistsNicknameVo).getNickname())
         );
