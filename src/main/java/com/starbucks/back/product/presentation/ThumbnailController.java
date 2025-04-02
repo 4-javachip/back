@@ -38,7 +38,7 @@ public class ThumbnailController {
      * id로 썸네일 조회
      * @param id
      */
-    @Operation(summary = "GetThumbnailByProductUuid API", description = "GetThumbnailByProductUuid API 입니다.", tags = {"Product-Thumbnail-Service"})
+    @Operation(summary = "getThumbnailById API", description = "getThumbnailById API 입니다.", tags = {"Product-Thumbnail-Service"})
     @GetMapping("/{id}")
     public BaseResponseEntity<ResponseThumbnailVo> getThumbnailById(@PathVariable(name = "id") Long id) {
         ResponseThumbnailDto responseThumbnailDto = thumbnailService.getThumbnailById(id);
@@ -50,8 +50,8 @@ public class ThumbnailController {
      * @param productUuid
      */
     @Operation(summary = "GetThumbnailByProductUuid API", description = "GetThumbnailByProductUuid API 입니다.", tags = {"Product-Thumbnail-Service"})
-    @GetMapping("/search")
-    public BaseResponseEntity<List<ResponseThumbnailVo>> getThumbnailByProductUuid(@RequestParam String productUuid) {
+    @GetMapping("/list/{productUuid}")
+    public BaseResponseEntity<List<ResponseThumbnailVo>> getThumbnailByProductUuid(@PathVariable String productUuid) {
         List<ResponseThumbnailVo> result = thumbnailService.getThumbnailByProductUuid(productUuid)
                 .stream()
                 .map(ResponseThumbnailDto::toVo)

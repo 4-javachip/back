@@ -39,8 +39,8 @@ public class ProductDescriptionController {
      * @param productUuid
      */
     @Operation(summary = "getProductDescriptionByProductUuid API", description = "getProductDescriptionByProductUuid API 입니다.", tags = {"Product-Description-Service"})
-    @GetMapping("/search")
-    public BaseResponseEntity<ResponseProductDescriptionVo> getProductDescriptionByProductUuid(@RequestParam String productUuid) {
+    @GetMapping("/{productUuid}")
+    public BaseResponseEntity<ResponseProductDescriptionVo> getProductDescriptionByProductUuid(@PathVariable String productUuid) {
         ResponseProductDescriptionDto responseProductDescriptionDto = productDescriptionService.getProductDescriptionByProductUuid(productUuid);
         return new BaseResponseEntity<>(responseProductDescriptionDto.toVo());
     }

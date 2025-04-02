@@ -37,8 +37,8 @@ public class ProductCategoryListController {
      * @param productUuid
      */
     @Operation(summary = "getProductCategoryListByProductUuid API", description = "getProductCategoryListByProductUuid API 입니다.", tags = {"Product-Category-List-Service"})
-    @GetMapping("/search")
-    public BaseResponseEntity<ResponseProductCategoryListVo> getProductCategoryListByProductUuid(@RequestParam String productUuid) {
+    @GetMapping("/{productUuid}")
+    public BaseResponseEntity<ResponseProductCategoryListVo> getProductCategoryListByProductUuid(@PathVariable String productUuid) {
         ResponseProductCategoryListDto responseProductCategoryListDto = productCategoryListService.getProductCategoryListByProductUuid(productUuid);
         return  new BaseResponseEntity<>(responseProductCategoryListDto.toVo());
     }
