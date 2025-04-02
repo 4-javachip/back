@@ -31,12 +31,11 @@ public class RequestAddUserAgreementDto {
                 .userAgreementUuid(randomUUID().toString())
                 .build();
     }
-
-    public static RequestAddUserAgreementDto from(RequestAddUserAgreementVo requestAddUserAgreementVo) {
+    public static RequestAddUserAgreementDto of(String userUuid, RequestAddUserAgreementVo requestAddUserAgreementVo) {
         return RequestAddUserAgreementDto.builder()
-            .agreementId(requestAddUserAgreementVo.getAgreementId())
-            .agreed(requestAddUserAgreementVo.getAgreed())
-            .userUuid(requestAddUserAgreementVo.getUserUuid())
-            .build();
+                .agreementId(requestAddUserAgreementVo.getAgreementId())
+                .agreed(requestAddUserAgreementVo.getAgreed())
+                .userUuid(userUuid)
+                .build();
     }
 }

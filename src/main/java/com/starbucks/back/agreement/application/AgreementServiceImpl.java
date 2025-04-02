@@ -1,5 +1,6 @@
 package com.starbucks.back.agreement.application;
 
+import com.starbucks.back.agreement.domain.Agreement;
 import com.starbucks.back.agreement.domain.enums.AgreementType;
 import com.starbucks.back.agreement.dto.in.RequestAddUserAgreementDto;
 import com.starbucks.back.agreement.dto.out.ResponseGetAgreementDto;
@@ -18,6 +19,23 @@ public class AgreementServiceImpl implements AgreementService {
 
     private final AgreementRepository agreementRepository;
     private final UserAgreementRepository userAgreementRepository;
+
+    @Override
+    public ResponseGetAgreementDto getAgreementById(Long id) {
+        return ResponseGetAgreementDto.from(
+                agreementRepository.findById(id)
+                        .orElseThrow(
+                                () -> new BaseException(BaseResponseStatus.INVALID_AGREEMENT_ID)
+                        )
+        );
+    }
+
+    public Agreement getAgreement(Long id) {
+        return agreementRepository.findById(id)
+                .orElseThrow(
+                        () -> new BaseException(BaseResponseStatus.INVALID_AGREEMENT_ID)
+                );
+    }
 
     @Override
     public List<ResponseGetAgreementDto> getSignUpAgreements() {

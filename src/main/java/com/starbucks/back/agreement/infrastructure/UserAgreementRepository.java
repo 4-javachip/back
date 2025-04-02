@@ -10,4 +10,6 @@ public interface UserAgreementRepository extends JpaRepository<UserAgreement, Lo
     List<UserAgreement> findByUserUuid(String userUuid);
 
     Optional<UserAgreement> findByUserAgreementUuid(String userAgreementUuid);
+
+    Optional<UserAgreement> findByUserUuidAndAgreementId(String userUuid, Long agreementId);
 }

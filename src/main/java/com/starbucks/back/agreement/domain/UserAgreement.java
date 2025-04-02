@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"user_uuid", "agreement_id"}))
 public class UserAgreement extends BaseEntity {
 
     @Id
@@ -36,5 +37,9 @@ public class UserAgreement extends BaseEntity {
         this.agreed = agreed;
         this.userUuid = userUuid;
         this.userAgreementUuid = userAgreementUuid;
+    }
+
+    public void updateAgreed(Boolean agreed) {
+        this.agreed = agreed;
     }
 }

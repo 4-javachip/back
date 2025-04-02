@@ -7,5 +7,4 @@ import lombok.Getter;
 public class RequestAddUserAgreementVo {
     private Long agreementId;
     private Boolean agreed;
-    private String userUuid;
 }

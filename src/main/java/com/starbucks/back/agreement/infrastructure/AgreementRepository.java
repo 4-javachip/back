@@ -9,6 +9,5 @@ import java.util.Optional;
 
 public interface AgreementRepository extends JpaRepository<Agreement, Long> {
     List<Agreement> findByType(AgreementType type);
-
     Optional<Agreement> findById(Long id);
 }
