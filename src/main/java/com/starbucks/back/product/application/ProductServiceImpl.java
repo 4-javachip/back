@@ -45,6 +45,17 @@ public class ProductServiceImpl implements ProductService {
     }
 
     /**
+     * 상품 UUID로 조회
+     * @param productUuid
+     */
+    @Override
+    public ResponseProductDto getProductByUuid(String productUuid) {
+        Product product = productRepository.findByProductUuidAndDeletedFalse(productUuid)
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_PRODUCT));
+        return ResponseProductDto.from(product);
+    }
+
+    /**
      * 상품 전체 조회
      */
     @Override

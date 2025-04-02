@@ -4,6 +4,7 @@ import com.starbucks.back.product.domain.ProductDescription;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ProductDescriptionRepository extends JpaRepository<ProductDescription, Long> {
 
@@ -16,7 +17,7 @@ public interface ProductDescriptionRepository extends JpaRepository<ProductDescr
      * 상품 UUID로 삭제되지 않은 상품 설명 찾기
      * @param productUuid
      */
-    List<ProductDescription> findByProductUuidAndDeletedFalse(String productUuid);
+    Optional<ProductDescription> findByProductUuidAndDeletedFalse(String productUuid);
 
 
 
