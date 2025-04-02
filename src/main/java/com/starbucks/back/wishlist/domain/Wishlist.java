@@ -1,4 +1,4 @@
-package com.starbucks.back.wishitem.domain;
+package com.starbucks.back.wishlist.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -8,16 +8,16 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
-@Table(name = "wish_item")
+@Table(name = "wishlist")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class WishItem {
+public class Wishlist {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "wish_item_uuid", nullable = false, length = 50)
-    private String wishItemUuid;
+    @Column(name = "wishlist_uuid", nullable = false, length = 50)
+    private String wishlistUuid;
 
     @Column(name = "user_uuid", nullable = false, length = 50)
     private String userUuid;
@@ -26,14 +26,14 @@ public class WishItem {
     private String productUuid;
 
     @Builder
-    public WishItem(
+    public Wishlist(
             Long id,
-            String wishItemUuid,
+            String wishlistUuid,
             String userUuid,
             String productUuid
     ) {
         this.id = id;
-        this.wishItemUuid = wishItemUuid;
+        this.wishlistUuid = wishlistUuid;
         this.userUuid = userUuid;
         this.productUuid = productUuid;
     }
