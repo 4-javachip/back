@@ -1,5 +1,6 @@
 package com.starbucks.back.wishlist.domain;
 
+import com.starbucks.back.common.entity.SoftDeletableEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -10,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @Table(name = "wishlist")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Wishlist {
+public class Wishlist extends SoftDeletableEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
