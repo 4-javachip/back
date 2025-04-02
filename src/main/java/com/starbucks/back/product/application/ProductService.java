@@ -22,6 +22,12 @@ public interface ProductService {
     ResponseProductDto getProductByName(String name);
 
     /**
+     * 상품 UUID로 조회
+     * @param productUuid
+     */
+    ResponseProductDto getProductByUuid(String productUuid);
+
+    /**
      * 상품 전체 조회
      */
     List<ResponseProductDto> getAllProducts();

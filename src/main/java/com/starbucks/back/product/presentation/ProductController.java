@@ -35,13 +35,13 @@ public class ProductController {
     }
 
     /**
-     * 상품 이름으로 상품 조회
-     * @param name
+     * 상품 UUID로 상품 조회
+     * @param productUuid
      */
-    @Operation(summary = "GetProductByName API", description = "GetProductByName API 입니다.", tags = {"Product-Service"})
+    @Operation(summary = "GetProductByUuid API", description = "GetProductByUuid API 입니다.", tags = {"Product-Service"})
     @GetMapping("/search")
-    public BaseResponseEntity<ResponseProductVo> getProductByName(@RequestParam String name) {
-        ResponseProductDto responseProductDto = productService.getProductByName(name);
+    public BaseResponseEntity<ResponseProductVo> getProductByUuid(@RequestParam String productUuid) {
+        ResponseProductDto responseProductDto = productService.getProductByUuid(productUuid);
         return new BaseResponseEntity<>(responseProductDto.toVo());
     }
 

@@ -8,10 +8,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "product_option_list")
+@Table(name = "product_option")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ProductOptionList extends SoftDeletableEntity {
+public class ProductOption extends SoftDeletableEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,8 +20,8 @@ public class ProductOptionList extends SoftDeletableEntity {
     /**
      * 상품 옵션 리스트 uuid
      */
-    @Column(name = "product_option_list_uuid", length = 50, nullable = false, unique = true)
-    private String productOptionListUuid;
+    @Column(name = "product_option_uuid", length = 50, nullable = false, unique = true)
+    private String productOptionUuid;
 
     /**
      * 상품 uuid
@@ -66,11 +66,11 @@ public class ProductOptionList extends SoftDeletableEntity {
     private Integer discountPrice;
 
     @Builder
-    public ProductOptionList(Long id, String productOptionListUuid, String productUuid,
-                             Long colorOptionId, Long sizeOptionId, Integer stock, Integer price,
-                             Integer discountRate, Integer discountPrice) {
+    public ProductOption(Long id, String productOptionUuid, String productUuid,
+                         Long colorOptionId, Long sizeOptionId, Integer stock, Integer price,
+                         Integer discountRate, Integer discountPrice) {
         this.id = id;
-        this.productOptionListUuid = productOptionListUuid;
+        this.productOptionUuid = productOptionUuid;
         this.productUuid = productUuid;
         this.colorOptionId = colorOptionId;
         this.sizeOptionId = sizeOptionId;
