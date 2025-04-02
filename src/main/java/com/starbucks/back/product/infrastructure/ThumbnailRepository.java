@@ -9,10 +9,16 @@ import java.util.Optional;
 public interface ThumbnailRepository extends JpaRepository<Thumbnail, Long> {
 
     /**
-     * 삭제되지 않은 썸네일 productUuid로 찾기
+     * 썸네일 id로 삭제되지 않은 썸네일 조회
+     * @param id
+     */
+    Optional<Thumbnail> findByIdAndDeletedFalse(Long id);
+
+    /**
+     * 상품 UUID로 삭제되지 않은 썸네일 조회
      * @param productUuid
      */
-    Optional<Thumbnail> findByProductUuidAndDeletedFalse(String productUuid);
+    List<Thumbnail> findAllByProductUuidAndDeletedFalse(String productUuid);
 
     /**
      * 삭제되지 않은 썸네일 전체 조회

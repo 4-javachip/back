@@ -30,7 +30,7 @@ public class RequestUpdateProductDescriptionDto {
                 .build();
     }
 
-    public static RequestUpdateProductDescriptionDto from(RequestProductDescriptionVo requestProductDescriptionVo) {
+    public static RequestUpdateProductDescriptionDto of(RequestProductDescriptionVo requestProductDescriptionVo) {
         return RequestUpdateProductDescriptionDto.builder()
                 .productUuid(requestProductDescriptionVo.getProductUuid())
                 .description(requestProductDescriptionVo.getDescription())

@@ -63,7 +63,7 @@ public class ProductCategoryListController {
     @Operation(summary = "deleteProductCategoryList API", description = "deleteProductCategoryList API 입니다.", tags = {"Product-Category-List-Service"})
     @DeleteMapping
     public BaseResponseEntity<Void> deleteProductCategoryList(@RequestBody RequestDeleteProductCategoryListVo requestDeleteProductCategoryListVo) {
-        productCategoryListService.deleteProductCategoryList(RequestDeleteProductCategoryListDto.of(requestDeleteProductCategoryListVo));
+        productCategoryListService.deleteProductCategoryList(RequestDeleteProductCategoryListDto.from(requestDeleteProductCategoryListVo));
         return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS);
     }
 
