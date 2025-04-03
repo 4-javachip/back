@@ -23,7 +23,6 @@ import java.util.List;
 public class ShippingAddressController {
 
     private final ShippingAddressService shippingAddressService;
-
     /**
      * 배송지 추가
      * @param requestShippingAddressDto

@@ -20,7 +20,7 @@ public class UserShippingAddressServiceImpl implements UserShippingAddressServic
      */
     @Override
     public List<ResponseReadUserShippingAddressDto> getUserShippingAddressListByUserUuid(String userUuid) {
-        return userShippingAddressRepository.findByUserUuidAndDeletedFalse(userUuid)
+        return userShippingAddressRepository.findByUserUuidAndDefaultedFalseAndDeletedFalse(userUuid)
                 .stream()
                 .map(ResponseReadUserShippingAddressDto::from)
                 .toList();

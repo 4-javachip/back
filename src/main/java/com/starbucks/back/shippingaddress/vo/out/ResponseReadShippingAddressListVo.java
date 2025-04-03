@@ -4,14 +4,12 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class ResponseReadShippingAddressUuidVo {
+public class ResponseReadShippingAddressListVo {
 
     private String shippingAddressUuid;
-    private Boolean defaulted;
 
     @Builder
-    public ResponseReadShippingAddressUuidVo(String shippingAddressUuid, Boolean defaulted) {
+    public ResponseReadShippingAddressListVo(String shippingAddressUuid) {
         this.shippingAddressUuid = shippingAddressUuid;
-        this.defaulted = defaulted;
     }
 }
