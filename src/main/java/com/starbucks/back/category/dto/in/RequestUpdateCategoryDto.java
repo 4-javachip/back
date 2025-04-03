@@ -13,12 +13,14 @@ public class RequestUpdateCategoryDto {
     private Long id;
     private String name;
     private String image;
+    private String description;
 
     @Builder
-    public RequestUpdateCategoryDto(Long id, String name, String image) {
+    public RequestUpdateCategoryDto(Long id, String name, String image, String description) {
         this.id = id;
         this.name = name;
         this.image = image;
+        this.description = description;
     }
 
     public Category updateEntity() {
@@ -26,6 +28,7 @@ public class RequestUpdateCategoryDto {
                 .id(id)
                 .name(name)
                 .image(image)
+                .description(description)
                 .build();
     }
 
@@ -34,6 +37,7 @@ public class RequestUpdateCategoryDto {
                 .id(requestCategoryVo.getId())
                 .name(requestCategoryVo.getName())
                 .image(requestCategoryVo.getImage())
+                .description(requestCategoryVo.getDescription())
                 .build();
     }
 
