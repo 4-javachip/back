@@ -31,7 +31,7 @@ public class User extends SoftDeletableEntity {
     @Column(name = "password", nullable = false, length = 65)
     private String password;
 
-    @Column(name = "nickname", unique = true, length = 50)
+    @Column(name = "nickname", nullable = false, unique = true, length = 50)
     private String nickname;
 
     @Column(name = "name", nullable = false, length = 50)
