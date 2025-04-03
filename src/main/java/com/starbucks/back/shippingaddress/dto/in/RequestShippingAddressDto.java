@@ -62,22 +62,6 @@ public class RequestShippingAddressDto {
                 .build();
     }
 
-    // entity => entity
-    public ShippingAddress updateEntity(ShippingAddress shippingAddress) {
-        return ShippingAddress.builder()
-                .id(shippingAddress.getId())
-                .shippingAddressUuid(shippingAddress.getShippingAddressUuid())
-                .addressName(addressName)
-                .recipientName(recipientName)
-                .zipCode(zipCode)
-                .baseAddress(baseAddress)
-                .detailAddress(detailAddress)
-                .phoneNumber(phoneNumber)
-                .secondPhoneNumber(secondPhoneNumber)
-                .shippingNote(shippingNote)
-                .build();
-    }
-
     // vo => dto
     public static RequestShippingAddressDto from (RequestShippingAddressVo requestShippingAddressVo) {
         return RequestShippingAddressDto.builder()

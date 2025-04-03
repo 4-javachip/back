@@ -1,6 +1,9 @@
 package com.starbucks.back.option.color.application;
 
-import com.starbucks.back.option.color.dto.in.RequestColorDto;
+import com.starbucks.back.option.color.dto.in.RequestAddColorDto;
+//import com.starbucks.back.option.color.dto.in.RequestColorDto;
+import com.starbucks.back.option.color.dto.in.RequestDeleteColorDto;
+import com.starbucks.back.option.color.dto.in.RequestUpdateColorDto;
 import com.starbucks.back.option.color.dto.out.ResponseColorDto;
 
 import java.util.List;
@@ -9,9 +12,9 @@ public interface ColorService {
 
     /**
      * 색상 추가
-     * @param requestColorDto
+     * @param requestAddColorDto
      */
-    void addColor(RequestColorDto requestColorDto);
+    void addColor(RequestAddColorDto requestAddColorDto);
 
     /**
      * id로 색상 조회
@@ -32,14 +35,14 @@ public interface ColorService {
 
     /**
      * 색상 수정
-     * @param requestColorDto
+     * @param requestUpdateColorDto
      */
-    void updateColor(RequestColorDto requestColorDto);
+    void updateColor(RequestUpdateColorDto requestUpdateColorDto);
 
     /**
      * 색상 삭제
-     * @param requestColorDto
+     * @param requestDeleteColorDto
      */
-    void deleteColor(RequestColorDto requestColorDto);
+    void deleteColor(RequestDeleteColorDto requestDeleteColorDto);
 
 }

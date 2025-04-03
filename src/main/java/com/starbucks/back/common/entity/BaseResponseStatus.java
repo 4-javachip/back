@@ -90,7 +90,13 @@ public enum BaseResponseStatus {
      * 6000: gpt-api error
      */
     // Media
-    NO_EXIST_MEDIA(HttpStatus.NOT_FOUND, false, 6001, "존재하지 않는 미디어입니다");
+    NO_EXIST_MEDIA(HttpStatus.NOT_FOUND, false, 6001, "존재하지 않는 미디어입니다"),
+
+    /**
+     * 7000: cart service error
+     */
+    // Cart
+    INVALID_CART_QUANTITY(HttpStatus.BAD_REQUEST, false, 7001, "장바구니 수량이 유효하지 않습니다");
 
     private final HttpStatusCode httpStatusCode;
     private final boolean isSuccess;

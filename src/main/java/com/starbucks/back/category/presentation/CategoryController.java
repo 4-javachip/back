@@ -1,14 +1,16 @@
 package com.starbucks.back.category.presentation;
 
 import com.starbucks.back.category.application.CategoryService;
-import com.starbucks.back.category.dto.in.RequestCategoryDto;
+import com.starbucks.back.category.dto.in.RequestAddCategoryDto;
+import com.starbucks.back.category.dto.in.RequestDeleteCategoryDto;
+import com.starbucks.back.category.dto.in.RequestUpdateCategoryDto;
 import com.starbucks.back.category.dto.out.ResponseCategoryDto;
 import com.starbucks.back.category.vo.in.RequestCategoryVo;
+import com.starbucks.back.category.vo.in.RequestDeleteCategoryVo;
 import com.starbucks.back.category.vo.out.ResponseCategoryVo;
 import com.starbucks.back.common.entity.BaseResponseEntity;
 import com.starbucks.back.common.entity.BaseResponseStatus;
 import io.swagger.v3.oas.annotations.Operation;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,12 +26,12 @@ public class CategoryController {
 
     /**
      * 카테고리 추가
-     * @param requestCategoryDto
+     * @param requestAddCategoryDto
      */
     @Operation(summary = "AddCategory API", description = "AddCategory API 입니다.", tags = {"Category-Service"})
     @PostMapping
-    public BaseResponseEntity<Void> addCategory(@RequestBody RequestCategoryDto requestCategoryDto) {
-        categoryService.addCategory(requestCategoryDto);
+    public BaseResponseEntity<Void> addCategory(@RequestBody RequestAddCategoryDto requestAddCategoryDto) {
+        categoryService.addCategory(requestAddCategoryDto);
         return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS);
     }
 
@@ -74,18 +76,18 @@ public class CategoryController {
     @Operation(summary = "UpdateCategory API", description = "UpdateCategory API 입니다.", tags = {"Category-Service"})
     @PutMapping
     public BaseResponseEntity<Void> updateCategory(@RequestBody RequestCategoryVo requestCategoryVo) {
-        categoryService.updateCategory(RequestCategoryDto.from(requestCategoryVo));
+        categoryService.updateCategory(RequestUpdateCategoryDto.from(requestCategoryVo));
         return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS);
     }
 
     /**
      * 카테고리 삭제
-     * @param requestCategoryVo
+     * @param requestDeleteCategoryVo
      */
     @Operation(summary = "DeleteCategory API", description = "DeleteCategory API 입니다.", tags = {"Category-Service"})
     @DeleteMapping
-    public BaseResponseEntity<Void> deleteCategory(@RequestBody RequestCategoryVo requestCategoryVo) {
-        categoryService.deleteCategory(RequestCategoryDto.from(requestCategoryVo));
+    public BaseResponseEntity<Void> deleteCategory(@RequestBody RequestDeleteCategoryVo requestDeleteCategoryVo) {
+        categoryService.deleteCategory(RequestDeleteCategoryDto.of(requestDeleteCategoryVo));
         return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS);
     }
 

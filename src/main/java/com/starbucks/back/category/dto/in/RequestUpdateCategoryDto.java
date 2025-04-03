@@ -8,24 +8,17 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class RequestCategoryDto {
+public class RequestUpdateCategoryDto {
 
     private Long id;
     private String name;
     private String image;
 
     @Builder
-    public RequestCategoryDto(Long id, String name, String image) {
+    public RequestUpdateCategoryDto(Long id, String name, String image) {
         this.id = id;
         this.name = name;
         this.image = image;
-    }
-
-    public Category toEntity() {
-        return Category.builder()
-                .name(name)
-                .image(image)
-                .build();
     }
 
     public Category updateEntity() {
@@ -36,8 +29,8 @@ public class RequestCategoryDto {
                 .build();
     }
 
-    public static RequestCategoryDto from(RequestCategoryVo requestCategoryVo) {
-        return RequestCategoryDto.builder()
+    public static RequestUpdateCategoryDto from(RequestCategoryVo requestCategoryVo) {
+        return RequestUpdateCategoryDto.builder()
                 .id(requestCategoryVo.getId())
                 .name(requestCategoryVo.getName())
                 .image(requestCategoryVo.getImage())

@@ -1,7 +1,9 @@
 package com.starbucks.back.category.application;
 
 import com.starbucks.back.category.domain.Category;
-import com.starbucks.back.category.dto.in.RequestCategoryDto;
+import com.starbucks.back.category.dto.in.RequestAddCategoryDto;
+import com.starbucks.back.category.dto.in.RequestDeleteCategoryDto;
+import com.starbucks.back.category.dto.in.RequestUpdateCategoryDto;
 import com.starbucks.back.category.dto.out.ResponseCategoryDto;
 import com.starbucks.back.category.infrastructure.CategoryRepository;
 import com.starbucks.back.common.entity.BaseResponseStatus;
@@ -20,15 +22,15 @@ public class CategoryServiceImpl implements CategoryService {
 
     /**
      * 카테고리 추가
-     * @param requestCategoryDto
+     * @param requestAddCategoryDto
      */
     @Transactional
     @Override
-    public void addCategory(RequestCategoryDto requestCategoryDto) {
-        if(categoryRepository.existsByNameAndDeletedFalse(requestCategoryDto.getName())) {
+    public void addCategory(RequestAddCategoryDto requestAddCategoryDto) {
+        if(categoryRepository.existsByNameAndDeletedFalse(requestAddCategoryDto.getName())) {
             throw new BaseException(BaseResponseStatus.DUPLICATED_CATEGORY);
         }
-        categoryRepository.save(requestCategoryDto.toEntity());
+        categoryRepository.save(requestAddCategoryDto.toEntity());
     }
 
     /**
@@ -65,22 +67,22 @@ public class CategoryServiceImpl implements CategoryService {
 
     /**
      * 카테고리 수정
-     * @param requestCategoryDto
+     * @param requestUpdateCategoryDto
      */
     @Transactional
     @Override
-    public void updateCategory(RequestCategoryDto requestCategoryDto) {
-        categoryRepository.save(requestCategoryDto.updateEntity());
+    public void updateCategory(RequestUpdateCategoryDto requestUpdateCategoryDto) {
+        categoryRepository.save(requestUpdateCategoryDto.updateEntity());
     }
 
     /**
      * 카테고리 삭제
-     * @param requestCategoryDto
+     * @param requestDeleteCategoryDto
      */
     @Transactional
     @Override
-    public void deleteCategory(RequestCategoryDto requestCategoryDto) {
-        Category category = categoryRepository.findById(requestCategoryDto.getId())
+    public void deleteCategory(RequestDeleteCategoryDto requestDeleteCategoryDto) {
+        Category category = categoryRepository.findById(requestDeleteCategoryDto.getId())
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_CATEGORY));
         category.softDelete();
     }

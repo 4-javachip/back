@@ -1,7 +1,6 @@
 package com.starbucks.back.cart.dto.in;
 
 import com.starbucks.back.cart.domain.Cart;
-import com.starbucks.back.cart.vo.in.RequestCartVo;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,60 +9,46 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RequestCartDto {
 
-    private Long id;
     private String userUuid;
-    private String cartUuid;
     private Integer productQuantity;
     private Boolean checked;
+    private String productUuid;
     private String productOptionListUuid;
 
     @Builder
     public RequestCartDto(
-            Long id,
             String userUuid,
-            String cartUuid,
             Integer productQuantity,
             Boolean checked,
+            String productUuid,
             String productOptionListUuid
     ) {
-        this.id = id;
         this.userUuid = userUuid;
-        this.cartUuid = cartUuid;
         this.productQuantity = productQuantity;
         this.checked = checked;
+        this.productUuid = productUuid;
         this.productOptionListUuid = productOptionListUuid;
     }
 
-    public Cart updateEntity(Cart cart) {
-        return Cart.builder()
-                .id(id)
-                .userUuid(userUuid)
-                .cartUuid(cartUuid)
-                .productQuantity(productQuantity)
-                .checked(checked)
-                .productOptionListUuid(productOptionListUuid)
-                .build();
-    }
-
+    // dto => entity
     public Cart toEntity() {
         return Cart.builder()
-                .id(id)
                 .userUuid(userUuid)
-                .cartUuid(cartUuid)
                 .productQuantity(productQuantity)
                 .checked(checked)
+                .productUuid(productUuid)
                 .productOptionListUuid(productOptionListUuid)
                 .build();
     }
 
-    public static RequestCartDto from (RequestCartVo requestCartVo) {
+    // vo => dto
+    public static RequestCartDto from(Cart cart) {
         return RequestCartDto.builder()
-                .id(requestCartVo.getId())
-                .userUuid(requestCartVo.getUserUuid())
-                .cartUuid(requestCartVo.getCartUuid())
-                .productQuantity(requestCartVo.getProductQuantity())
-                .checked(requestCartVo.getChecked())
-                .productOptionListUuid(requestCartVo.getProductOptionListUuid())
+                .userUuid(cart.getUserUuid())
+                .productQuantity(cart.getProductQuantity())
+                .checked(cart.getChecked())
+                .productUuid(cart.getProductUuid())
+                .productOptionListUuid(cart.getProductOptionListUuid())
                 .build();
     }
 }

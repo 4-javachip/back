@@ -1,5 +1,6 @@
-package com.starbucks.back.wishitem.domain;
+package com.starbucks.back.wishlist.domain;
 
+import com.starbucks.back.common.entity.SoftDeletableEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -8,16 +9,16 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
-@Table(name = "wish_item")
+@Table(name = "wishlist")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class WishItem {
+public class Wishlist extends SoftDeletableEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "wish_item_uuid", nullable = false, length = 50)
-    private String wishItemUuid;
+    @Column(name = "wishlist_uuid", nullable = false, length = 50)
+    private String wishlistUuid;
 
     @Column(name = "user_uuid", nullable = false, length = 50)
     private String userUuid;
@@ -25,16 +26,21 @@ public class WishItem {
     @Column(name = "product_uuid", nullable = false, length = 50)
     private String productUuid;
 
+    @Column(name = "product_option_list_uuid", length = 50)
+    private String productOptionListUuid;
+
     @Builder
-    public WishItem(
+    public Wishlist(
             Long id,
-            String wishItemUuid,
+            String wishlistUuid,
             String userUuid,
-            String productUuid
+            String productUuid,
+            String productOptionListUuid
     ) {
         this.id = id;
-        this.wishItemUuid = wishItemUuid;
+        this.wishlistUuid = wishlistUuid;
         this.userUuid = userUuid;
         this.productUuid = productUuid;
+        this.productOptionListUuid = productOptionListUuid;
     }
 }
