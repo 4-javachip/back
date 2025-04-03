@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/v1/category")
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class CategoryController {
 
     private final CategoryService categoryService;

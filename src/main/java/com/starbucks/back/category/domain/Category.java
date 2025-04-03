@@ -31,11 +31,18 @@ public class Category extends SoftDeletableEntity {
     @Column(name = "image", nullable = false)
     private String image;
 
+    /**
+     * 카테고리 설명
+     */
+    @Column(name = "description", nullable = false)
+    private String description;
+
     @Builder
-    public Category (Long id, String name, String image) {
+    public Category (Long id, String name, String image, String description) {
         this.id = id;
         this.name = name;
         this.image = image;
+        this.description = description;
     }
 
 }
