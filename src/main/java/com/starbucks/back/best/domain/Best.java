@@ -1,5 +1,7 @@
 package com.starbucks.back.best.domain;
 
+import com.starbucks.back.common.entity.BaseEntity;
+import com.starbucks.back.common.entity.SoftDeletableEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -10,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "best")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Best {
+public class Best extends SoftDeletableEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
