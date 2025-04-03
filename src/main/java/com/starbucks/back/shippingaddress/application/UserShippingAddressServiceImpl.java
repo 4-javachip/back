@@ -17,7 +17,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserShippingAddressServiceImpl implements UserShippingAddressService{
     private final UserShippingAddressRepository userShippingAddressRepository;
-    private final ShippingAddressRepository shippingAddressRepository;
+//    private final ShippingAddressRepository shippingAddressRepository;
+    private final ShippingAddressService shippingAddressService;
+
     /**
      * 유저 UUID로 기본 외 배송지List 조회
      * @param userUuid
@@ -42,11 +44,21 @@ public class UserShippingAddressServiceImpl implements UserShippingAddressServic
         UserShippingAddress userShippingAddress = userShippingAddressRepository
                 .findByUserUuidAndDefaultedTrueAndDeletedFalse(userUuid);
 
-        // 배송지 UUID로 배송지 조회
-        ShippingAddress shippingAddress = shippingAddressRepository
-                .findByShippingAddressUuidAndDeletedFalse(userShippingAddress.getShippingAddressUuid())
-                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_OPTION));
+        // 배송지 UUID로 배송지 조회 (배송지 service의 getShippingAddressByUuid 메서드 사용)
+        ResponseReadShippingAddressDto result = shippingAddressService.
+                getShippingAddressByUuid(userShippingAddress.getShippingAddressUuid());
 
-        return ResponseReadShippingAddressDto.from(shippingAddress);
+        return result;
+    }
+
+    /**
+     * 배송지 전부 삭제 by userUuid
+     */
+    @Override
+    public void deleteAllShippingAddressByUserUuid(String userUuid) {
+        // 배송지 목록 삭제
+        shippingAddressService.deleteAllShippingAddressByUserUuid(userUuid);
+        // 유저-배송지 목록 삭제
+        userShippingAddressRepository.bulkSoftDeleteUserShippingAddressesByUserUuid(userUuid);
     }
 }

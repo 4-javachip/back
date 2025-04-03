@@ -9,6 +9,7 @@ import com.starbucks.back.shippingaddress.dto.out.ResponseReadUserShippingAddres
 import com.starbucks.back.shippingaddress.vo.out.ResponseReadShippingAddressListVo;
 import com.starbucks.back.shippingaddress.vo.out.ResponseShippingAddressVo;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,5 +51,17 @@ public class UserShippingAddressController {
                 .getDefaultShippingAddressByUserUuid(userUuid);
 
         return new BaseResponseEntity<>(responseReadShippingAddressDto.toVo());
+    }
+
+    /**
+     * 배송지 전부 삭제 by userUuid
+     */
+    @Transactional
+    @Operation(summary = "deleteAllShippingAddressByUserUuid API", description = "deleteAllShippingAddressByUserUuid API 입니다.", tags = {"ShippingAddress-Service"})
+    @DeleteMapping("/user")
+    public BaseResponseEntity<Void> deleteAllShippingAddressByUserUuid(@RequestHeader("userUuid") String userUuid) {
+
+        userShippingAddressService.deleteAllShippingAddressByUserUuid(userUuid);
+        return null;
     }
 }

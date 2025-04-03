@@ -10,4 +10,5 @@ public interface ShippingAddressService {
     ResponseReadShippingAddressDto getShippingAddressByUuid(String Uuid);
     void updateShippingAddress(RequestUpdateShippingAddressDto requestShippingAddressDto);
     void deleteShippingAddress(RequestDeleteShippingAddressDto requestDeleteShippingAddressDto);
+    void deleteAllShippingAddressByUserUuid(String userUuid);
 }

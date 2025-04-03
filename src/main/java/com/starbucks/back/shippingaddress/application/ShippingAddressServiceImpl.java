@@ -68,6 +68,13 @@ public class ShippingAddressServiceImpl implements ShippingAddressService {
         ShippingAddress shippingAddress = shippingAddressRepository.findByShippingAddressUuidAndDeletedFalse(requestDeleteShippingAddressDto.getShippingAddressUuid())
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_OPTION));
         shippingAddress.softDelete();
-        System.out.println("Hello World");
+    }
+
+    /**
+     * 배송지 전부 삭제 by userUuid
+     */
+    @Override
+    public void deleteAllShippingAddressByUserUuid(String userUuid) {
+        shippingAddressRepository.bulkSoftDeleteShippingAddressesByUserUuid(userUuid);
     }
 }

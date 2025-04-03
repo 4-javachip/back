@@ -9,4 +9,5 @@ import java.util.List;
 public interface UserShippingAddressService {
     List<ResponseReadUserShippingAddressDto> getUserShippingAddressListByUserUuid(String userUuid);
     ResponseReadShippingAddressDto getDefaultShippingAddressByUserUuid(String userUuid);
+    void deleteAllShippingAddressByUserUuid(String userUuid);
 }
