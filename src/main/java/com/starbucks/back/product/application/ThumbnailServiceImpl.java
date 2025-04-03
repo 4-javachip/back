@@ -47,7 +47,18 @@ public class ThumbnailServiceImpl implements ThumbnailService {
      */
     @Override
     public List<ResponseThumbnailDto> getThumbnailByProductUuid(String productUuid) {
-        return thumbnailRepository.findAllByProductUuidAndDeletedFalse(productUuid)
+        return thumbnailRepository.findAllByProductUuidAndDeletedFalseOrderByDefaultedDescIdAsc(productUuid)
+                .stream()
+                .map(ResponseThumbnailDto::from)
+                .toList();
+    }
+
+    /**
+     * 삭제되지 않은 메인 이미지 전체 조회
+     */
+    @Override
+    public List<ResponseThumbnailDto> getThumbnailByDefaultedTrue() {
+        return thumbnailRepository.findAllByDeletedFalseAndDefaultedTrue()
                 .stream()
                 .map(ResponseThumbnailDto::from)
                 .toList();
