@@ -2,6 +2,7 @@ package com.starbucks.back.agreement.application;
 
 import com.starbucks.back.agreement.domain.Agreement;
 import com.starbucks.back.agreement.domain.UserAgreement;
+import com.starbucks.back.agreement.domain.enums.AgreementType;
 import com.starbucks.back.agreement.dto.in.RequestAddUserAgreementDto;
 import com.starbucks.back.agreement.dto.out.ResponseGetUserAgreementDto;
 import com.starbucks.back.agreement.infrastructure.AgreementRepository;
@@ -13,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -43,8 +45,6 @@ public class UserAgreementServiceImpl implements UserAgreementService {
                 .toList();
     }
 
-
-
     @Override
     public ResponseGetUserAgreementDto getUserAgreementByUserAgreementUuid(String userAgreementUuid) {
         return ResponseGetUserAgreementDto.from(
@@ -53,5 +53,31 @@ public class UserAgreementServiceImpl implements UserAgreementService {
                                 () -> new BaseException(BaseResponseStatus.INVALID_USER_AGREEMENT_UUID)
                         )
         );
+    }
+
+    @Override
+    public List<ResponseGetUserAgreementDto> getUserShippingAddressAgreementByUserUuid(String userUuid) {
+        List<UserAgreement> agreements = userAgreementRepository.findByUserUuidAndAgreement_Type(userUuid, AgreementType.SHIPPING_ADDRESS);
+
+        if (agreements.isEmpty()) {
+            throw new BaseException(BaseResponseStatus.NO_USER_SHIPPING_ADDRESS_AGREEMENT);
+        }
+
+        return agreements.stream()
+                .map(ResponseGetUserAgreementDto::from)
+                .toList();
+    }
+
+    @Override
+    public List<ResponseGetUserAgreementDto> getUserSignUpAgreementByUserUuid(String userUuid) {
+        List<UserAgreement> agreements = userAgreementRepository.findByUserUuidAndAgreement_Type(userUuid, AgreementType.SIGN_UP);
+
+        if (agreements.isEmpty()) {
+            throw new BaseException(BaseResponseStatus.NO_USER_SIGN_UP_AGREEMENT);
+        }
+
+        return agreements.stream()
+                .map(ResponseGetUserAgreementDto::from)
+                .toList();
     }
 }

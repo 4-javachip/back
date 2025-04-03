@@ -9,14 +9,12 @@ import com.starbucks.back.user.dto.in.RequestSignUpDto;
 import com.starbucks.back.user.vo.in.RequestExistsEmailVo;
 import com.starbucks.back.user.vo.in.RequestExistsNicknameVo;
 import com.starbucks.back.user.vo.in.RequestSignUpVo;
+import com.starbucks.back.user.vo.in.RequestUpdateNickname;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/api/v1/user")
 @RestController
@@ -47,6 +45,16 @@ public class UserController {
                 userService.existsNickname(RequestExistsNicknameDto.from(requestExistsNicknameVo).getNickname())
         );
     }
+
+//    @Operation(summary = "Update Nickname API", description = "닉네임 변경", tags = {"User-service"})
+//    @PatchMapping("/nickname/update")
+//    public BaseResponseEntity<Void> updateNickname(
+//            @RequestHeader("Uuid") String userUuid,
+//            @Valid @RequestBody RequestUpdateNickname requestUpdateNickname
+//    ) {
+//        userService.updateNickname(userUuid, requestUpdateNickname);
+//        return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS);
+//    }
 
 
 }

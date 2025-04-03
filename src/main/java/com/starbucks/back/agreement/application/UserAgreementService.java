@@ -11,4 +11,8 @@ public interface UserAgreementService {
 
     List<ResponseGetUserAgreementDto> getUserAgreementsByUserUuid(String userUuid);
     ResponseGetUserAgreementDto getUserAgreementByUserAgreementUuid(String userAgreementUuid);
+
+    List<ResponseGetUserAgreementDto> getUserShippingAddressAgreementByUserUuid(String userUuid);
+
+    List<ResponseGetUserAgreementDto> getUserSignUpAgreementByUserUuid(String userUuid);
 }
