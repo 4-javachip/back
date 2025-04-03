@@ -14,13 +14,15 @@ public class RequestUpdateThumbnailDto {
     private String productUuid;
     private String thumbnailUrl;
     private String description;
+    private Boolean defaulted;
 
     @Builder
-    public RequestUpdateThumbnailDto(Long id, String productUuid, String thumbnailUrl, String description) {
+    public RequestUpdateThumbnailDto(Long id, String productUuid, String thumbnailUrl, String description, Boolean defaulted) {
         this.id = id;
         this.productUuid = productUuid;
         this.thumbnailUrl = thumbnailUrl;
         this.description = description;
+        this.defaulted = defaulted;
     }
 
     public Thumbnail updateEntity(Thumbnail thumbnail) {
@@ -29,6 +31,7 @@ public class RequestUpdateThumbnailDto {
                 .productUuid(productUuid)
                 .thumbnailUrl(thumbnailUrl)
                 .description(description)
+                .defaulted(defaulted)
                 .build();
     }
 
@@ -38,6 +41,7 @@ public class RequestUpdateThumbnailDto {
                 .productUuid(requestThumbnailVo.getProductUuid())
                 .thumbnailUrl(requestThumbnailVo.getThumbnailUrl())
                 .description(requestThumbnailVo.getDescription())
+                .defaulted(requestThumbnailVo.getDefaulted())
                 .build();
     }
 

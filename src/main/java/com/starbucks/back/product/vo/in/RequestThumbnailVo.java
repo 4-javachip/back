@@ -11,5 +11,6 @@ public class RequestThumbnailVo {
     private String productUuid;
     private String thumbnailUrl;
     private String description;
+    private Boolean defaulted;
 
 }

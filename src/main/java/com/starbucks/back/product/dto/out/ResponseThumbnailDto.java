@@ -14,13 +14,15 @@ public class ResponseThumbnailDto {
     private String productUuid;
     private String thumbnailUrl;
     private String description;
+    private Boolean defaulted;
 
     @Builder
-    public ResponseThumbnailDto(Long id, String productUuid, String thumbnailUrl, String description) {
+    public ResponseThumbnailDto(Long id, String productUuid, String thumbnailUrl, String description, Boolean defaulted) {
         this.id = id;
         this.productUuid = productUuid;
         this.thumbnailUrl = thumbnailUrl;
         this.description = description;
+        this.defaulted = defaulted;
     }
 
     public static ResponseThumbnailDto from(Thumbnail thumbnail) {
@@ -29,6 +31,7 @@ public class ResponseThumbnailDto {
                 .productUuid(thumbnail.getProductUuid())
                 .thumbnailUrl(thumbnail.getThumbnailUrl())
                 .description(thumbnail.getDescription())
+                .defaulted(thumbnail.getDefaulted())
                 .build();
     }
 
@@ -38,6 +41,7 @@ public class ResponseThumbnailDto {
                 .productUuid(productUuid)
                 .thumbnailUrl(thumbnailUrl)
                 .description(description)
+                .defaulted(defaulted)
                 .build();
     }
 

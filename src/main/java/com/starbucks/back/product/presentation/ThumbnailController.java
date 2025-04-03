@@ -60,6 +60,19 @@ public class ThumbnailController {
     }
 
     /**
+     * 메인 이미지 전체 조회
+     */
+    @Operation(summary = "GetThumbnailByDefaultedTrue API", description = "GetThumbnailByDefaultedTrue API 입니다.", tags = {"Product-Thumbnail-Service"})
+    @GetMapping("/defaulted")
+    public BaseResponseEntity<List<ResponseThumbnailVo>> getThumbnailByDefaultedTrue() {
+        List<ResponseThumbnailVo> result = thumbnailService.getThumbnailByDefaultedTrue()
+                .stream()
+                .map(ResponseThumbnailDto::toVo)
+                .toList();
+        return new BaseResponseEntity<>(result);
+    }
+
+    /**
      * 썸네일 전체 조회
      */
     @Operation(summary = "GetAllThumbnails API", description = "GetAllThumbnails API 입니다.", tags = {"Product-Thumbnail-Service"})

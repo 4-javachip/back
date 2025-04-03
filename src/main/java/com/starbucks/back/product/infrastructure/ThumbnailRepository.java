@@ -18,7 +18,12 @@ public interface ThumbnailRepository extends JpaRepository<Thumbnail, Long> {
      * 상품 UUID로 삭제되지 않은 썸네일 조회
      * @param productUuid
      */
-    List<Thumbnail> findAllByProductUuidAndDeletedFalse(String productUuid);
+    List<Thumbnail> findAllByProductUuidAndDeletedFalseOrderByDefaultedDescIdAsc(String productUuid);
+
+    /**
+     * 삭제되지 않은 메인 이미지 전체 조회
+     */
+    List<Thumbnail> findAllByDeletedFalseAndDefaultedTrue();
 
     /**
      * 삭제되지 않은 썸네일 전체 조회
