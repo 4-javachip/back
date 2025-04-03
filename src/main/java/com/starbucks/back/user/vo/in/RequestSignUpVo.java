@@ -24,6 +24,7 @@ public class RequestSignUpVo {
     @Size(min=2, max=20, message = "이름은 2자 이상 20자 이하로 입력해주세요.")
     private String name;
 
+    @NotBlank
     @Size(min=2, max=10, message = "닉네임은 2자 이상 10자 이하로 입력해주세요.")
     private String nickname;
 
