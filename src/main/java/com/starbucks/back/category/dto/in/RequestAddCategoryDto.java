@@ -11,17 +11,20 @@ public class RequestAddCategoryDto {
 
     private String name;
     private String image;
+    private String description;
 
     @Builder
-    public RequestAddCategoryDto(String name, String image) {
+    public RequestAddCategoryDto(String name, String image, String description) {
         this.name = name;
         this.image = image;
+        this.description = description;
     }
 
     public Category toEntity() {
         return Category.builder()
                 .name(name)
                 .image(image)
+                .description(description)
                 .build();
     }
 
