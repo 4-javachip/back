@@ -9,10 +9,16 @@ import java.util.Optional;
 public interface ProductOptionRepository extends JpaRepository<ProductOption, Long> {
 
     /**
-     * 상품 UUID로 삭제되지 않은 상품 옵션 찾기
+     * 상품 UUID로 삭제되지 않은 상품 옵션 리스트 찾기
      * @param productUuid
      */
-    Optional<ProductOption> findByProductUuidAndDeletedFalse(String productUuid);
+    List<ProductOption> findByProductUuidAndDeletedFalse(String productUuid);
+
+    /**
+     * 상품 옵션 UUID로 삭제되지 않은 상품 옵션 찾기
+     * @param productOptionUuid
+     */
+    Optional<ProductOption> findByProductOptionUuidAndDeletedFalse(String productOptionUuid);
 
     /**
      * 삭제되지 않은 상품 옵션 전체 조회
