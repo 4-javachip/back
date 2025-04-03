@@ -40,7 +40,6 @@ public class ShippingAddressServiceImpl implements ShippingAddressService {
      * @param uuid
      * @return
      */
-    @Transactional
     @Override
     public ResponseReadShippingAddressDto getShippingAddressByUuid(String uuid) {
         ShippingAddress shippingAddress = shippingAddressRepository.findByShippingAddressUuidAndDeletedFalse(uuid)

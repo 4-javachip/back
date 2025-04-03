@@ -15,6 +15,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/shipping-address")
 @RequiredArgsConstructor
@@ -36,12 +38,12 @@ public class ShippingAddressController {
 
     /**
      * 배송지 uuid로 배송지 조회
-     * @param uuid
+     * @param shippingAddressUuid
      */
     @Operation(summary = "GetShippingAddressByUuid API", description = "GetShippingAddressByUuid API 입니다.", tags = {"ShippingAddress-Service"})
-    @GetMapping("/{uuid}")
-    public BaseResponseEntity<ResponseShippingAddressVo> getShippingAddress(@PathVariable("uuid") String uuid) {
-        ResponseReadShippingAddressDto responseReadShippingAddressDto = shippingAddressService.getShippingAddressByUuid(uuid);
+    @GetMapping("/{shippingAddressUuid}")
+    public BaseResponseEntity<ResponseShippingAddressVo> getShippingAddress(@PathVariable("shippingAddressUuid") String shippingAddressUuid) {
+        ResponseReadShippingAddressDto responseReadShippingAddressDto = shippingAddressService.getShippingAddressByUuid(shippingAddressUuid);
         return new BaseResponseEntity<>(responseReadShippingAddressDto.toVo());
     }
 
