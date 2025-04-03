@@ -60,15 +60,15 @@ public class ProductOption extends SoftDeletableEntity {
     private Integer discountRate;
 
     /**
-     * 할인 가격
+     * 최종 가격
      */
-    @Column(name = "discount_price")
-    private Integer discountPrice;
+    @Column(name = "total_price")
+    private Integer totalPrice;
 
     @Builder
     public ProductOption(Long id, String productOptionUuid, String productUuid,
                          Long colorOptionId, Long sizeOptionId, Integer stock, Integer price,
-                         Integer discountRate, Integer discountPrice) {
+                         Integer discountRate, Integer totalPrice) {
         this.id = id;
         this.productOptionUuid = productOptionUuid;
         this.productUuid = productUuid;
@@ -77,7 +77,7 @@ public class ProductOption extends SoftDeletableEntity {
         this.stock = stock;
         this.price = price;
         this.discountRate = discountRate;
-        this.discountPrice = discountPrice;
+        this.totalPrice = totalPrice;
     }
 
 }
