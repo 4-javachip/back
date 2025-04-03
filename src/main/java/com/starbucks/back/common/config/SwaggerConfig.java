@@ -26,7 +26,6 @@ import org.springframework.context.annotation.Profile;
         scheme = "bearer"
 )
 
-@Profile("!prod")
 @Configuration
 public class SwaggerConfig {
 
