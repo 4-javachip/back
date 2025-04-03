@@ -18,10 +18,10 @@ public class ProductDescription extends SoftDeletableEntity {
     private Long id;
 
     /**
-     * 상품 옵션 uuid
+     * 상품 uuid
      */
-    @Column(name = "product_option_uuid", length = 50, nullable = false)
-    private String productOptionUuid;
+    @Column(name = "product_uuid", length = 50, nullable = false)
+    private String productUuid;
 
     /**
      * 상품 간단 설명
@@ -36,9 +36,9 @@ public class ProductDescription extends SoftDeletableEntity {
     private String detailDescription;
 
     @Builder
-    public ProductDescription(Long id, String productOptionUuid, String description, String detailDescription) {
+    public ProductDescription(Long id, String productUuid, String description, String detailDescription) {
         this.id = id;
-        this.productOptionUuid = productOptionUuid;
+        this.productUuid = productUuid;
         this.description = description;
         this.detailDescription = detailDescription;
     }

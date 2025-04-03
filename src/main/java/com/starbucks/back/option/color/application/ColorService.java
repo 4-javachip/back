@@ -2,6 +2,7 @@ package com.starbucks.back.option.color.application;
 
 import com.starbucks.back.option.color.dto.in.RequestAddColorDto;
 //import com.starbucks.back.option.color.dto.in.RequestColorDto;
+import com.starbucks.back.option.color.dto.in.RequestDeleteColorDto;
 import com.starbucks.back.option.color.dto.in.RequestUpdateColorDto;
 import com.starbucks.back.option.color.dto.out.ResponseColorDto;
 
@@ -40,8 +41,8 @@ public interface ColorService {
 
     /**
      * 색상 삭제
-     * @param requestUpdateColorDto
+     * @param requestDeleteColorDto
      */
-    void deleteColor(RequestUpdateColorDto requestUpdateColorDto);
+    void deleteColor(RequestDeleteColorDto requestDeleteColorDto);
 
 }

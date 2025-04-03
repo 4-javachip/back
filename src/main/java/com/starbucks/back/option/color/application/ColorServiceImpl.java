@@ -4,11 +4,10 @@ import com.starbucks.back.common.entity.BaseResponseStatus;
 import com.starbucks.back.common.exception.BaseException;
 import com.starbucks.back.option.color.domain.Color;
 import com.starbucks.back.option.color.dto.in.RequestAddColorDto;
-//import com.starbucks.back.option.color.dto.in.RequestColorDto;
+import com.starbucks.back.option.color.dto.in.RequestDeleteColorDto;
 import com.starbucks.back.option.color.dto.in.RequestUpdateColorDto;
 import com.starbucks.back.option.color.dto.out.ResponseColorDto;
 import com.starbucks.back.option.color.infrastructure.ColorRepository;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -78,12 +77,12 @@ public class ColorServiceImpl implements ColorService {
 
     /**
      * 색상 삭제
-     * @param requestUpdateColorDto
+     * @param requestDeleteColorDto
      */
     @Transactional
     @Override
-    public void deleteColor(RequestUpdateColorDto requestUpdateColorDto) {
-        Color color = colorRepository.findById(requestUpdateColorDto.getId())
+    public void deleteColor(RequestDeleteColorDto requestDeleteColorDto) {
+        Color color = colorRepository.findById(requestDeleteColorDto.getId())
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_OPTION));
         color.softDelete();
     }

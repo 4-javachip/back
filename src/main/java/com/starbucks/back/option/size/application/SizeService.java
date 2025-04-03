@@ -1,6 +1,8 @@
 package com.starbucks.back.option.size.application;
 
-import com.starbucks.back.option.size.dto.in.RequestSizeDto;
+import com.starbucks.back.option.size.dto.in.RequestAddSizeDto;
+import com.starbucks.back.option.size.dto.in.RequestDeleteSizeDto;
+import com.starbucks.back.option.size.dto.in.RequestUpdateSizeDto;
 import com.starbucks.back.option.size.dto.out.ResponseSizeDto;
 
 import java.util.List;
@@ -9,9 +11,9 @@ public interface SizeService {
 
     /**
      * 사이즈 추가
-     * @param requestSizeDto
+     * @param requestAddSizeDto
      */
-    void addSize(RequestSizeDto requestSizeDto);
+    void addSize(RequestAddSizeDto requestAddSizeDto);
 
     /**
      * 사이즈 id로 사이즈 조회
@@ -32,14 +34,14 @@ public interface SizeService {
 
     /**
      * 사이즈 수정
-     * @param requestSizeDto
+     * @param requestUpdateSizeDto
      */
-    void updateSize(RequestSizeDto requestSizeDto);
+    void updateSize(RequestUpdateSizeDto requestUpdateSizeDto);
 
     /**
      * 사이즈 삭제
-     * @param requestSizeDto
+     * @param requestDeleteSizeDto
      */
-    void deleteSize(RequestSizeDto requestSizeDto);
+    void deleteSize(RequestDeleteSizeDto requestDeleteSizeDto);
 
 }

@@ -1,6 +1,8 @@
 package com.starbucks.back.category.application;
 
-import com.starbucks.back.category.dto.in.RequestCategoryDto;
+import com.starbucks.back.category.dto.in.RequestAddCategoryDto;
+import com.starbucks.back.category.dto.in.RequestDeleteCategoryDto;
+import com.starbucks.back.category.dto.in.RequestUpdateCategoryDto;
 import com.starbucks.back.category.dto.out.ResponseCategoryDto;
 
 import java.util.List;
@@ -9,9 +11,9 @@ public interface CategoryService {
 
     /**
      * 카테고리 추가
-     * @param requestCategoryDto
+     * @param requestAddCategoryDto
      */
-    void addCategory(RequestCategoryDto requestCategoryDto);
+    void addCategory(RequestAddCategoryDto requestAddCategoryDto);
 
     /**
      * 카테고리 id로 카테고리 조회
@@ -32,14 +34,14 @@ public interface CategoryService {
 
     /**
      * 카테고리 수정
-     * @param requestCategoryDto
+     * @param requestUpdateCategoryDto
      */
-    void updateCategory(RequestCategoryDto requestCategoryDto);
+    void updateCategory(RequestUpdateCategoryDto requestUpdateCategoryDto);
 
     /**
      * 카테고리 삭제
-     * @param requestCategoryDto
+     * @param requestDeleteCategoryDto
      */
-    void deleteCategory(RequestCategoryDto requestCategoryDto);
+    void deleteCategory(RequestDeleteCategoryDto requestDeleteCategoryDto);
 
 }

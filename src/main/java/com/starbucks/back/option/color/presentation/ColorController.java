@@ -5,9 +5,11 @@ import com.starbucks.back.common.entity.BaseResponseStatus;
 import com.starbucks.back.option.color.application.ColorService;
 import com.starbucks.back.option.color.dto.in.RequestAddColorDto;
 //import com.starbucks.back.option.color.dto.in.RequestColorDto;
+import com.starbucks.back.option.color.dto.in.RequestDeleteColorDto;
 import com.starbucks.back.option.color.dto.in.RequestUpdateColorDto;
 import com.starbucks.back.option.color.dto.out.ResponseColorDto;
 import com.starbucks.back.option.color.vo.in.RequestColorVo;
+import com.starbucks.back.option.color.vo.in.RequestDeleteColorVo;
 import com.starbucks.back.option.color.vo.out.ResponseColorVo;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -81,12 +83,12 @@ public class ColorController {
 
     /**
      * 색상 삭제
-     * @param requestColorVo
+     * @param requestDeleteColorVo
      */
     @Operation(summary = "DeleteColor API", description = "DeleteColor API 입니다.", tags = {"Color-Service"})
     @DeleteMapping
-    public BaseResponseEntity<Void> deleteColor(@RequestBody RequestColorVo requestColorVo) {
-        colorService.deleteColor(RequestUpdateColorDto.from(requestColorVo));
+    public BaseResponseEntity<Void> deleteColor(@RequestBody RequestDeleteColorVo requestDeleteColorVo) {
+        colorService.deleteColor(RequestDeleteColorDto.of(requestDeleteColorVo));
         return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS);
     }
 
