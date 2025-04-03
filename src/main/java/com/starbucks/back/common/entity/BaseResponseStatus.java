@@ -31,6 +31,12 @@ public enum BaseResponseStatus {
     SSE_SEND_FAIL(HttpStatus.INTERNAL_SERVER_ERROR, false, 901, "알림 전송에 실패하였습니다."),
 
     /**
+     * Request 유효성 에러
+     */
+    INVALID_REQUEST(HttpStatus.BAD_REQUEST, false, 1000, "잘못된 요청입니다."),
+
+
+    /**
      * 2000: users service error
      */
     // token
@@ -46,9 +52,17 @@ public enum BaseResponseStatus {
     PASSWORD_CONTAIN_NUM_FAILED(HttpStatus.BAD_REQUEST, false, 2107, "휴대폰 번호를 포함한 비밀번호 입니다."),
     PASSWORD_MATCH_FAILED(HttpStatus.BAD_REQUEST, false, 2108, "패스워드를 다시 확인해주세요."),
     NO_SUPPORTED_PROVIDER(HttpStatus.BAD_REQUEST, false, 2109, "지원하지 않는 플랫폼입니다"),
-    DUPLICATED_NICKNAME(HttpStatus.CONFLICT, false, 2010, "이미 사용중인 닉네임입니다."),
-    SAME_NICKNAME(HttpStatus.CONFLICT, false, 2011, "현재 사용중인 닉네임입니다."),
-    INVALID_EMAIL_ADDRESS(HttpStatus.BAD_REQUEST, false, 2012, "이메일을 다시 확인해주세요."),
+    SAME_NICKNAME(HttpStatus.CONFLICT, false, 2010, "현재 사용중인 닉네임입니다."),
+    INVALID_EMAIL_ADDRESS(HttpStatus.BAD_REQUEST, false, 2011, "이메일을 다시 확인해주세요."),
+    DUPLICATED_EMAIL(HttpStatus.CONFLICT, false, 2012, "이미 사용 중인 이메일입니다."),
+    DUPLICATED_NICKNAME(HttpStatus.CONFLICT, false, 2013, "이미 사용중인 닉네임입니다."),
+    DUPLICATED_PHONE_NUMBER(HttpStatus.CONFLICT, false, 2014, "이미 사용 중인 전화번호입니다."),
+
+    // Agreement
+    INVALID_AGREEMENT_ID(HttpStatus.BAD_REQUEST, false, 2113, "존재하지 않는 약관 ID 입니다."),
+    INVALID_USER_AGREEMENT_UUID(HttpStatus.BAD_REQUEST, false, 2114, "존재하지 않는 유저-약관 UUID 입니다."),
+    NO_USER_SHIPPING_ADDRESS_AGREEMENT(HttpStatus.NOT_FOUND, false, 2115, "유저의 배송지 약관 동의&비동의 여부가 존재하지 않습니다"),
+    NO_USER_SIGN_UP_AGREEMENT(HttpStatus.NOT_FOUND, false, 2116, "유저의 회원가입 약관 동의&비동의 여부가 존재하지 않습니다"),
 
     /**
      * 3000: product service error
