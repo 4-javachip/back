@@ -66,7 +66,9 @@ public class ShippingAddressServiceImpl implements ShippingAddressService {
     @Transactional
     @Override
     public void deleteShippingAddress(RequestDeleteShippingAddressDto requestDeleteShippingAddressDto) {
-        ShippingAddress shippingAddress = shippingAddressRepository.findByShippingAddressUuidAndDeletedFalse(requestDeleteShippingAddressDto.getShippingAddressUuid())
+        ShippingAddress shippingAddress = shippingAddressRepository.findByShippingAddressUuidAndDeletedFalse(
+                requestDeleteShippingAddressDto.getShippingAddressUuid()
+                )
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_OPTION));
         shippingAddress.softDelete();
     }

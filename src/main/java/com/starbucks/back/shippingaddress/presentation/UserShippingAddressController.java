@@ -3,10 +3,12 @@ package com.starbucks.back.shippingaddress.presentation;
 import com.starbucks.back.common.entity.BaseResponseEntity;
 import com.starbucks.back.common.entity.BaseResponseStatus;
 import com.starbucks.back.shippingaddress.application.UserShippingAddressService;
+import com.starbucks.back.shippingaddress.dto.in.RequestDeleteShippingAddressDto;
 import com.starbucks.back.shippingaddress.dto.in.RequestShippingAddressAndUserDto;
 import com.starbucks.back.shippingaddress.dto.in.RequestUpdateUserShippingAddressDto;
 import com.starbucks.back.shippingaddress.dto.out.ResponseReadShippingAddressDto;
 import com.starbucks.back.shippingaddress.dto.out.ResponseReadUserShippingAddressDto;
+import com.starbucks.back.shippingaddress.vo.in.RequestDeleteShippingAddressVo;
 import com.starbucks.back.shippingaddress.vo.in.RequestShippingAddressAndUserVo;
 import com.starbucks.back.shippingaddress.vo.in.RequestUpdateUserShippingAddressVo;
 import com.starbucks.back.shippingaddress.vo.out.ResponseReadShippingAddressListVo;
@@ -55,6 +57,22 @@ public class UserShippingAddressController {
 
         return new BaseResponseEntity<>(responseReadShippingAddressDto.toVo());
     }
+
+    /**
+     * 배송지 삭제
+     * @param
+     */
+    @Operation(summary = "DeleteShippingAddress API", description = "DeleteShippingAddress API 입니다.", tags = {"ShippingAddress-Service"})
+    @Transactional
+    @DeleteMapping
+    public BaseResponseEntity<Void> deleteShippingAddress(
+            @RequestHeader("userUuid") String userUuid,
+            @RequestBody RequestDeleteShippingAddressVo requestDeleteShippingAddressVo
+    ) {
+        userShippingAddressService.deleteShippingAddress(RequestDeleteShippingAddressDto.from(userUuid, requestDeleteShippingAddressVo));
+        return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS);
+    }
+
     /**
      * 배송지 전부 삭제 by userUuid
      */

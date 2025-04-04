@@ -3,6 +3,7 @@ package com.starbucks.back.shippingaddress.application;
 import com.starbucks.back.common.entity.BaseResponseStatus;
 import com.starbucks.back.common.exception.BaseException;
 import com.starbucks.back.shippingaddress.domain.UserShippingAddress;
+import com.starbucks.back.shippingaddress.dto.in.RequestDeleteShippingAddressDto;
 import com.starbucks.back.shippingaddress.dto.in.RequestShippingAddressAndUserDto;
 import com.starbucks.back.shippingaddress.dto.in.RequestUpdateUserShippingAddressDto;
 import com.starbucks.back.shippingaddress.dto.out.ResponseReadShippingAddressDto;
@@ -64,6 +65,24 @@ public class UserShippingAddressServiceImpl implements UserShippingAddressServic
         userShippingAddressRepository.save(userShippingAddress);
         // 배송지 추가
         shippingAddressService.addShippingAddress(userShippingAddress.getShippingAddressUuid(), requestShippingAddressAndUserDto);
+    }
+
+    /**
+     * 배송지 삭제
+     * @param
+     */
+    @Transactional
+    @Override
+    public void deleteShippingAddress(RequestDeleteShippingAddressDto requestDeleteShippingAddressDto) {
+        // 배송지 삭제
+        shippingAddressService.deleteShippingAddress(requestDeleteShippingAddressDto);
+        // 유저 배송지 삭제
+        UserShippingAddress userShippingAddress = userShippingAddressRepository.findByUserUuidAndShippingAddressUuidAndDeletedFalse(
+                requestDeleteShippingAddressDto.getUserUuid(),
+                requestDeleteShippingAddressDto.getShippingAddressUuid()
+        )
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_OPTION));
+        userShippingAddress.softDelete();
     }
 
     /**

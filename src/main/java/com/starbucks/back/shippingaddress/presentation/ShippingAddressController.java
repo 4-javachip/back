@@ -20,24 +20,6 @@ import org.springframework.web.bind.annotation.*;
 public class ShippingAddressController {
 
     private final ShippingAddressService shippingAddressService;
-//    /**
-//     * 배송지 추가
-//     * @param
-//     */
-//    @Operation(summary = "AddShippingAddress API", description = "AddShippingAddress API 입니다.", tags = {"ShippingAddress-Service"})
-//    @Transactional
-//    @PostMapping
-//    public BaseResponseEntity<Void> addShippingAddress(
-//            @RequestHeader("userUuid") String userUuid,
-//            @RequestBody RequestShippingAddressAndUserVo requestShippingAddressAndUserVo
-//    ) {
-//        RequestShippingAddressAndUserDto requestShippingAddressAndUserDto= RequestShippingAddressAndUserDto.from(
-//                userUuid,
-//                requestShippingAddressAndUserVo
-//        );
-//        shippingAddressService.addShippingAddress(requestShippingAddressAndUserDto);
-//        return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS);
-//    }
 
     /**
      * 배송지 uuid로 배송지 조회
@@ -63,14 +45,5 @@ public class ShippingAddressController {
         return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS);
     }
 
-    /**
-     * 배송지 삭제
-     * @param
-     */
-    @Operation(summary = "DeleteShippingAddress API", description = "DeleteShippingAddress API 입니다.", tags = {"ShippingAddress-Service"})
-    @DeleteMapping()
-    public BaseResponseEntity<Void> deleteShippingAddressByUuid(@RequestBody RequestDeleteShippingAddressVo requestDeleteShippingAddressVo) {
-        shippingAddressService.deleteShippingAddress(RequestDeleteShippingAddressDto.of(requestDeleteShippingAddressVo));
-        return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS);
-    }
+
 }
