@@ -9,15 +9,24 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RequestDeleteShippingAddressDto {
 
+    private String userUuid;
     private String shippingAddressUuid;
 
     @Builder
-    public RequestDeleteShippingAddressDto(String shippingAddressUuid) {
+    public RequestDeleteShippingAddressDto(
+            String userUuid,
+            String shippingAddressUuid
+    ) {
+        this.userUuid = userUuid;
         this.shippingAddressUuid = shippingAddressUuid;
     }
 
-    public static RequestDeleteShippingAddressDto of(RequestDeleteShippingAddressVo requestDeleteShippingAddressVo) {
+    public static RequestDeleteShippingAddressDto from (
+            String userUuid,
+            RequestDeleteShippingAddressVo requestDeleteShippingAddressVo
+    ) {
         return RequestDeleteShippingAddressDto.builder()
+                .userUuid(userUuid)
                 .shippingAddressUuid(requestDeleteShippingAddressVo.getShippingAddressUuid())
                 .build();
     }

@@ -4,7 +4,6 @@ import com.starbucks.back.common.entity.BaseResponseEntity;
 import com.starbucks.back.common.entity.BaseResponseStatus;
 import com.starbucks.back.shippingaddress.application.ShippingAddressService;
 import com.starbucks.back.shippingaddress.dto.in.RequestDeleteShippingAddressDto;
-import com.starbucks.back.shippingaddress.dto.in.RequestShippingAddressDto;
 import com.starbucks.back.shippingaddress.dto.in.RequestUpdateShippingAddressDto;
 import com.starbucks.back.shippingaddress.dto.out.ResponseReadShippingAddressDto;
 import com.starbucks.back.shippingaddress.vo.in.RequestDeleteShippingAddressVo;
@@ -23,25 +22,13 @@ public class ShippingAddressController {
     private final ShippingAddressService shippingAddressService;
 
     /**
-     * 배송지 추가
-     * @param requestShippingAddressDto
-     */
-    @Operation(summary = "AddShippingAddress API", description = "AddShippingAddress API 입니다.", tags = {"ShippingAddress-Service"})
-    @Transactional
-    @PostMapping
-    public BaseResponseEntity<Void> addShippingAddress(@RequestBody RequestShippingAddressDto requestShippingAddressDto) {
-        shippingAddressService.addShippingAddress(requestShippingAddressDto);
-        return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS);
-    }
-
-    /**
      * 배송지 uuid로 배송지 조회
-     * @param uuid
+     * @param shippingAddressUuid
      */
     @Operation(summary = "GetShippingAddressByUuid API", description = "GetShippingAddressByUuid API 입니다.", tags = {"ShippingAddress-Service"})
-    @GetMapping("/{uuid}")
-    public BaseResponseEntity<ResponseShippingAddressVo> getShippingAddress(@PathVariable("uuid") String uuid) {
-        ResponseReadShippingAddressDto responseReadShippingAddressDto = shippingAddressService.getShippingAddressByUuid(uuid);
+    @GetMapping("/{shippingAddressUuid}")
+    public BaseResponseEntity<ResponseShippingAddressVo> getShippingAddress(@PathVariable("shippingAddressUuid") String shippingAddressUuid) {
+        ResponseReadShippingAddressDto responseReadShippingAddressDto = shippingAddressService.getShippingAddressByUuid(shippingAddressUuid);
         return new BaseResponseEntity<>(responseReadShippingAddressDto.toVo());
     }
 
@@ -58,14 +45,5 @@ public class ShippingAddressController {
         return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS);
     }
 
-    /**
-     * 배송지 삭제
-     * @param uuid
-     */
-    @Operation(summary = "DeleteShippingAddress API", description = "DeleteShippingAddress API 입니다.", tags = {"ShippingAddress-Service"})
-    @DeleteMapping()
-    public BaseResponseEntity<Void> deleteShippingAddressByUuid(@RequestBody RequestDeleteShippingAddressVo requestDeleteShippingAddressVo) {
-        shippingAddressService.deleteShippingAddress(RequestDeleteShippingAddressDto.of(requestDeleteShippingAddressVo));
-        return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS);
-    }
+
 }
