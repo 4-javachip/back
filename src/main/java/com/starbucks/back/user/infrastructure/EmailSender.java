@@ -26,7 +26,7 @@ public class EmailSender {
                     "sbremail00@gmail.com",
                     "스타벅스 스토어",
                     "UTF-8"));
-                helper.setTo(to);
+            helper.setTo(to);
             helper.setSubject("Starbucks 이메일 인증");
             helper.setText(html, true);
             javaMailSender.send(message);
