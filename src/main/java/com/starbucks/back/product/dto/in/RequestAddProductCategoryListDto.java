@@ -1,6 +1,7 @@
 package com.starbucks.back.product.dto.in;
 
 import com.starbucks.back.product.domain.ProductCategoryList;
+import com.starbucks.back.product.vo.in.RequestAddProductCategoryListVo;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,6 +26,14 @@ public class RequestAddProductCategoryListDto {
                 .productUuid(productUuid)
                 .categoryId(categoryId)
                 .subCategoryId(subCategoryId)
+                .build();
+    }
+
+    public static RequestAddProductCategoryListDto from(RequestAddProductCategoryListVo requestAddProductCategoryListVo) {
+        return RequestAddProductCategoryListDto.builder()
+                .productUuid(requestAddProductCategoryListVo.getProductUuid())
+                .categoryId(requestAddProductCategoryListVo.getCategoryId())
+                .subCategoryId(requestAddProductCategoryListVo.getSubCategoryId())
                 .build();
     }
 
