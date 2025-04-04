@@ -13,6 +13,7 @@ public enum BaseResponseStatus {
      * 200: 요청 성공
      **/
     SUCCESS(HttpStatus.OK, true, 200, "요청에 성공하였습니다."),
+    EMAIL_CODE_SUCCESS(HttpStatus.OK, true, 201, "이메일 인증코드 발송에 성공하였습니다."),
 
     /**
      * 400 : security 에러
