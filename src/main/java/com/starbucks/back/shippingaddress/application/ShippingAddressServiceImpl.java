@@ -4,7 +4,7 @@ import com.starbucks.back.common.entity.BaseResponseStatus;
 import com.starbucks.back.common.exception.BaseException;
 import com.starbucks.back.shippingaddress.domain.ShippingAddress;
 import com.starbucks.back.shippingaddress.dto.in.RequestDeleteShippingAddressDto;
-import com.starbucks.back.shippingaddress.dto.in.RequestShippingAddressDto;
+import com.starbucks.back.shippingaddress.dto.in.RequestShippingAddressAndUserDto;
 import com.starbucks.back.shippingaddress.dto.in.RequestUpdateShippingAddressDto;
 import com.starbucks.back.shippingaddress.dto.out.ResponseReadShippingAddressDto;
 import com.starbucks.back.shippingaddress.infrastructure.ShippingAddressRepository;
@@ -20,19 +20,20 @@ public class ShippingAddressServiceImpl implements ShippingAddressService {
 
     /**
      * 배송지 추가
-     * @param requestShippingAddressDto
+     * @param requestShippingAddressAndUserDto
      */
     @Transactional
     @Override
-    public void addShippingAddress(RequestShippingAddressDto requestShippingAddressDto) {
+    public void addShippingAddress(String shippingAddressUuid, RequestShippingAddressAndUserDto requestShippingAddressAndUserDto) {
         if (shippingAddressRepository.existsByZipCodeAndBaseAddressAndDetailAddressAndDeletedFalse(
-                requestShippingAddressDto.getZipCode(),
-                requestShippingAddressDto.getBaseAddress(),
-                requestShippingAddressDto.getDetailAddress())
+                requestShippingAddressAndUserDto.getZipCode(),
+                requestShippingAddressAndUserDto.getBaseAddress(),
+                requestShippingAddressAndUserDto.getDetailAddress())
         ) {
             throw new BaseException(BaseResponseStatus.DUPLICATED_OPTION);
         }
-        shippingAddressRepository.save(requestShippingAddressDto.toEntity());
+        // ShippingAddress 생성
+        shippingAddressRepository.save(requestShippingAddressAndUserDto.toShippingAddressEntity(shippingAddressUuid));
     }
 
     /**

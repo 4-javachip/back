@@ -3,10 +3,8 @@ package com.starbucks.back.shippingaddress.vo.in;
 import lombok.Getter;
 
 @Getter
-public class RequestShippingAddressVo {
+public class RequestShippingAddressAndUserVo {
 
-    private Long id;
-    private String shippingAddressUuid;
     private String addressName;
     private String recipientName;
     private String zipCode;
@@ -15,4 +13,5 @@ public class RequestShippingAddressVo {
     private String phoneNumber;
     private String secondPhoneNumber;
     private String shippingNote;
+    private Boolean defaulted;
 }

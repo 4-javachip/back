@@ -3,6 +3,7 @@ package com.starbucks.back.shippingaddress.application;
 import com.starbucks.back.common.entity.BaseResponseStatus;
 import com.starbucks.back.common.exception.BaseException;
 import com.starbucks.back.shippingaddress.domain.UserShippingAddress;
+import com.starbucks.back.shippingaddress.dto.in.RequestShippingAddressAndUserDto;
 import com.starbucks.back.shippingaddress.dto.in.RequestUpdateUserShippingAddressDto;
 import com.starbucks.back.shippingaddress.dto.out.ResponseReadShippingAddressDto;
 import com.starbucks.back.shippingaddress.dto.out.ResponseReadUserShippingAddressDto;
@@ -49,6 +50,20 @@ public class UserShippingAddressServiceImpl implements UserShippingAddressServic
                 getShippingAddressByUuid(userShippingAddress.getShippingAddressUuid());
 
         return result;
+    }
+
+    /**
+     * 유저 배송지 추가
+     * @param requestShippingAddressAndUserDto
+     */
+    @Transactional
+    @Override
+    public void addUserShippingAddress(RequestShippingAddressAndUserDto requestShippingAddressAndUserDto) {
+        UserShippingAddress userShippingAddress = requestShippingAddressAndUserDto.toUserShippingAddressEntity();
+        // 유저배송지 추가
+        userShippingAddressRepository.save(userShippingAddress);
+        // 배송지 추가
+        shippingAddressService.addShippingAddress(userShippingAddress.getShippingAddressUuid(), requestShippingAddressAndUserDto);
     }
 
     /**

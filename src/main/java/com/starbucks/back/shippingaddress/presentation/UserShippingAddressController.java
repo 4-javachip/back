@@ -3,9 +3,11 @@ package com.starbucks.back.shippingaddress.presentation;
 import com.starbucks.back.common.entity.BaseResponseEntity;
 import com.starbucks.back.common.entity.BaseResponseStatus;
 import com.starbucks.back.shippingaddress.application.UserShippingAddressService;
+import com.starbucks.back.shippingaddress.dto.in.RequestShippingAddressAndUserDto;
 import com.starbucks.back.shippingaddress.dto.in.RequestUpdateUserShippingAddressDto;
 import com.starbucks.back.shippingaddress.dto.out.ResponseReadShippingAddressDto;
 import com.starbucks.back.shippingaddress.dto.out.ResponseReadUserShippingAddressDto;
+import com.starbucks.back.shippingaddress.vo.in.RequestShippingAddressAndUserVo;
 import com.starbucks.back.shippingaddress.vo.in.RequestUpdateUserShippingAddressVo;
 import com.starbucks.back.shippingaddress.vo.out.ResponseReadShippingAddressListVo;
 import com.starbucks.back.shippingaddress.vo.out.ResponseShippingAddressVo;
@@ -53,7 +55,6 @@ public class UserShippingAddressController {
 
         return new BaseResponseEntity<>(responseReadShippingAddressDto.toVo());
     }
-
     /**
      * 배송지 전부 삭제 by userUuid
      */
@@ -79,6 +80,25 @@ public class UserShippingAddressController {
         userShippingAddressService.updateUserShippingAddressDefaulted(
                 RequestUpdateUserShippingAddressDto.of(userUuid, requestUpdateUserShippingAddressVo)
         );
+        return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS);
+    }
+
+    /**
+     * 배송지 추가
+     * @param
+     */
+    @Operation(summary = "AddShippingAddress API", description = "AddShippingAddress API 입니다.", tags = {"ShippingAddress-Service"})
+    @Transactional
+    @PostMapping
+    public BaseResponseEntity<Void> addShippingAddress(
+            @RequestHeader("userUuid") String userUuid,
+            @RequestBody RequestShippingAddressAndUserVo requestShippingAddressAndUserVo
+    ) {
+        RequestShippingAddressAndUserDto requestShippingAddressAndUserDto= RequestShippingAddressAndUserDto.from(
+                userUuid,
+                requestShippingAddressAndUserVo
+        );
+        userShippingAddressService.addUserShippingAddress(requestShippingAddressAndUserDto);
         return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS);
     }
 }
