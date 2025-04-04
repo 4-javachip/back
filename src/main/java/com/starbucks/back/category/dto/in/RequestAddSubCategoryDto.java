@@ -2,6 +2,7 @@ package com.starbucks.back.category.dto.in;
 
 import com.starbucks.back.category.domain.Category;
 import com.starbucks.back.category.domain.SubCategory;
+import com.starbucks.back.category.vo.in.RequestAddSubCategoryVo;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,6 +24,13 @@ public class RequestAddSubCategoryDto {
         return SubCategory.builder()
                 .name(name)
                 .category(category)
+                .build();
+    }
+
+    public static RequestAddSubCategoryDto from(RequestAddSubCategoryVo requestAddSubCategoryVo) {
+        return RequestAddSubCategoryDto.builder()
+                .name(requestAddSubCategoryVo.getName())
+                .categoryId(requestAddSubCategoryVo.getCategoryId())
                 .build();
     }
 

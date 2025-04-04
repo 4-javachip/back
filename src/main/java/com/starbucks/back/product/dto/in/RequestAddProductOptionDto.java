@@ -1,6 +1,7 @@
 package com.starbucks.back.product.dto.in;
 
 import com.starbucks.back.product.domain.ProductOption;
+import com.starbucks.back.product.vo.in.RequestAddProductOptionVo;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -38,6 +39,17 @@ public class RequestAddProductOptionDto {
                 .price(price)
                 .discountRate(discountRate)
                 .totalPrice(totalPrice())
+                .build();
+    }
+
+    public static RequestAddProductOptionDto from(RequestAddProductOptionVo requestAddProductOptionVo) {
+        return RequestAddProductOptionDto.builder()
+                .productUuid(requestAddProductOptionVo.getProductUuid())
+                .colorOptionId(requestAddProductOptionVo.getColorOptionId())
+                .sizeOptionId(requestAddProductOptionVo.getSizeOptionId())
+                .stock(requestAddProductOptionVo.getStock())
+                .price(requestAddProductOptionVo.getPrice())
+                .discountRate(requestAddProductOptionVo.getDiscountRate())
                 .build();
     }
 

@@ -1,6 +1,7 @@
 package com.starbucks.back.category.dto.in;
 
 import com.starbucks.back.category.domain.Category;
+import com.starbucks.back.category.vo.in.RequestAddCategoryVo;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,6 +26,14 @@ public class RequestAddCategoryDto {
                 .name(name)
                 .image(image)
                 .description(description)
+                .build();
+    }
+
+    public static RequestAddCategoryDto from(RequestAddCategoryVo requestAddCategoryVo) {
+        return RequestAddCategoryDto.builder()
+                .name(requestAddCategoryVo.getName())
+                .image(requestAddCategoryVo.getImage())
+                .description(requestAddCategoryVo.getDescription())
                 .build();
     }
 

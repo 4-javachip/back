@@ -7,6 +7,7 @@ import com.starbucks.back.product.dto.in.RequestAddProductOptionDto;
 import com.starbucks.back.product.dto.in.RequestDeleteProductOptionDto;
 import com.starbucks.back.product.dto.in.RequestUpdateProductOptionDto;
 import com.starbucks.back.product.dto.out.ResponseProductOptionDto;
+import com.starbucks.back.product.vo.in.RequestAddProductOptionVo;
 import com.starbucks.back.product.vo.in.RequestDeleteProductOptionVo;
 import com.starbucks.back.product.vo.in.RequestProductOptionVo;
 import com.starbucks.back.product.vo.out.ResponseProductOptionVo;
@@ -25,12 +26,12 @@ public class ProductOptionController {
 
     /**
      * 상품 옵션 추가
-     * @param requestAddProductOptionDto
+     * @param requestAddProductOptionVo
      */
-    @Operation(summary = "AddProductOption API", description = "AddProductOption API 입니다.", tags = {"Product-Option-Service"})
+    @Operation(summary = "상품 옵션 추가 API", description = "상품 옵션 추가 API 입니다.", tags = {"Product-Option-Service"})
     @PostMapping
-    public BaseResponseEntity<Void> addProductOption(@RequestBody RequestAddProductOptionDto requestAddProductOptionDto) {
-        productOptionService.addProductOption(requestAddProductOptionDto);
+    public BaseResponseEntity<Void> addProductOption(@RequestBody RequestAddProductOptionVo requestAddProductOptionVo) {
+        productOptionService.addProductOption(RequestAddProductOptionDto.from(requestAddProductOptionVo));
         return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS);
     }
 
@@ -38,7 +39,7 @@ public class ProductOptionController {
      * 상품 옵션 UUID로 상품 옵션 조회
      * @param productOptionUuid
      */
-    @Operation(summary = "GetProductOptionByProductOptionUuid API", description = "GetProductOptionByProductOptionUuid API 입니다.", tags = {"Product-Option-Service"})
+    @Operation(summary = "상품 옵션 uuid로 상품 옵션 조회 API", description = "상품 옵션 uuid로 상품 옵션 조회 API 입니다.", tags = {"Product-Option-Service"})
     @GetMapping("/{productOptionUuid}")
     public BaseResponseEntity<ResponseProductOptionVo> getProductOptionByProductOptionUuid(@PathVariable String productOptionUuid) {
         ResponseProductOptionDto responseProductOptionDto = productOptionService.getProductOptionByProductOptionUuid(productOptionUuid);
@@ -49,7 +50,7 @@ public class ProductOptionController {
      * 상품 UUID로 상품 옵션 리스트 조회
      * @param productUuid
      */
-    @Operation(summary = "GetProductOptionByProductUuid API", description = "GetProductOptionByProductUuid API 입니다.", tags = {"Product-Option-Service"})
+    @Operation(summary = "상품 uuid로 상품 옵션 리스트 조회 API", description = "상품 uuid로 상품 옵션 리스트 조회 API 입니다.", tags = {"Product-Option-Service"})
     @GetMapping("/list/{productUuid}")
     public BaseResponseEntity<List<ResponseProductOptionVo>> getProductOptionsByProductUuid(@PathVariable String productUuid) {
         List<ResponseProductOptionVo> result = productOptionService.getProductOptionsByProductUuid(productUuid)
@@ -62,7 +63,7 @@ public class ProductOptionController {
     /**
      * 상품 옵션 리스트 전체 조회
      */
-    @Operation(summary = "GetAllProductOption API", description = "GetAllProductOption API 입니다.", tags = {"Product-Option-Service"})
+    @Operation(summary = "상품 옵션 리스트 전체 조회 API", description = "상품 옵션 리스트 전체 조회 API 입니다.", tags = {"Product-Option-Service"})
     @GetMapping("/list")
     public BaseResponseEntity<List<ResponseProductOptionVo>> getAllProductOptions() {
         List<ResponseProductOptionVo> result = productOptionService.getAllProductOptions()
@@ -76,7 +77,7 @@ public class ProductOptionController {
      * 상품 옵션 수정
      * @param requestProductOptionVo
      */
-    @Operation(summary = "UpdateProductOption API", description = "UpdateProductOption API 입니다.", tags = {"Product-Option-Service"})
+    @Operation(summary = "상품 옵션 수정 API", description = "상품 옵션 수정 API 입니다.", tags = {"Product-Option-Service"})
     @PutMapping
     public BaseResponseEntity<Void> updateProductOption(@RequestBody RequestProductOptionVo requestProductOptionVo) {
         productOptionService.updateProductOption(RequestUpdateProductOptionDto.from(requestProductOptionVo));
@@ -87,7 +88,7 @@ public class ProductOptionController {
      * 상품 옵션 삭제
      * @param requestDeleteProductOptionVo
      */
-    @Operation(summary = "DeleteProductOption API", description = "DeleteProductOption API 입니다.", tags = {"Product-Option-Service"})
+    @Operation(summary = "상품 옵션 삭제 API", description = "상품 옵션 삭제 API 입니다.", tags = {"Product-Option-Service"})
     @DeleteMapping
     public BaseResponseEntity<Void> deleteProductOption(@RequestBody RequestDeleteProductOptionVo requestDeleteProductOptionVo) {
         productOptionService.deleteProductOption(RequestDeleteProductOptionDto.from(requestDeleteProductOptionVo));
