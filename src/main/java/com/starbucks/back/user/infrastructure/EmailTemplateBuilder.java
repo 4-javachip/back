@@ -1,21 +1,9 @@
-package com.starbucks.back.user.infrastructure;
+package com.starbucks.back.user.infrastructure.template;
 
 import org.springframework.stereotype.Component;
 
 @Component
 public class EmailTemplateBuilder {
-//    public String buildVerificationEmail(String code) {
-//        return """
-//            <html>
-//                <body style='font-family: Arial;'>
-//                    <h2>Starbucks 이메일 인증</h2>
-//                    <p>아래 인증번호를 입력해주세요.</p>
-//                    <h3 style='color: #2d7f3e;'>%s</h3>
-//                    <p>인증번호는 5분간 유효합니다.</p>
-//                </body>
-//            </html>
-//        """.formatted(code);
-//    }
     public String buildVerificationEmail(String code) {
         return """
                 <html>

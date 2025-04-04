@@ -25,14 +25,18 @@ public class UserController {
 
     @Operation(summary = "SignUp API", description = "회원가입", tags = {"User-service"})
     @PostMapping("/sign-up")
-    public BaseResponseEntity<Void> signUp(@Valid @RequestBody RequestSignUpVo requestSignUpVo) {
+    public BaseResponseEntity<Void> signUp(
+            @Valid @RequestBody RequestSignUpVo requestSignUpVo
+    ) {
         userService.signUp(RequestSignUpDto.from(requestSignUpVo));
         return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS);
     }
 
     @Operation(summary = "Check Email API", description = "이메일 중복 확인", tags = {"User-service"})
     @PostMapping("/email/exists")
-    public BaseResponseEntity<Boolean> emailExists(@Valid @RequestBody RequestExistsEmailVo requestExistsEmailVo) {
+    public BaseResponseEntity<Boolean> emailExists(
+            @Valid @RequestBody RequestExistsEmailVo requestExistsEmailVo
+    ) {
         return new BaseResponseEntity<>(
                 userService.existsEmail(RequestExistsEmailDto.from(requestExistsEmailVo).getEmail())
         );
@@ -40,11 +44,14 @@ public class UserController {
 
     @Operation(summary = "Check Nickname API", description = "닉네임 중복 확인", tags = {"User-service"})
     @PostMapping("/nickname/exists")
-    public BaseResponseEntity<Boolean> nicknameExists(@Valid @RequestBody RequestExistsNicknameVo requestExistsNicknameVo) {
+    public BaseResponseEntity<Boolean> nicknameExists(
+            @Valid @RequestBody RequestExistsNicknameVo requestExistsNicknameVo
+    ) {
         return new BaseResponseEntity<>(
                 userService.existsNickname(RequestExistsNicknameDto.from(requestExistsNicknameVo).getNickname())
         );
     }
+
 
 //    @Operation(summary = "Update Nickname API", description = "닉네임 변경", tags = {"User-service"})
 //    @PatchMapping("/nickname/update")

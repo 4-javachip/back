@@ -14,7 +14,7 @@ public enum BaseResponseStatus {
      **/
     SUCCESS(HttpStatus.OK, true, 200, "요청에 성공하였습니다."),
     EMAIL_CODE_SUCCESS(HttpStatus.OK, true, 201, "이메일 인증코드 발송에 성공하였습니다."),
-
+    EMAIL_CODE_VERIFICATION_SUCCESS(HttpStatus.OK, true, 202, "이메일 인증에 성공하였습니다."),
     /**
      * 400 : security 에러
      */
@@ -64,6 +64,10 @@ public enum BaseResponseStatus {
     INVALID_USER_AGREEMENT_UUID(HttpStatus.BAD_REQUEST, false, 2114, "존재하지 않는 유저-약관 UUID 입니다."),
     NO_USER_SHIPPING_ADDRESS_AGREEMENT(HttpStatus.NOT_FOUND, false, 2115, "유저의 배송지 약관 동의&비동의 여부가 존재하지 않습니다"),
     NO_USER_SIGN_UP_AGREEMENT(HttpStatus.NOT_FOUND, false, 2116, "유저의 회원가입 약관 동의&비동의 여부가 존재하지 않습니다"),
+
+    // mail
+    INVALID_EMAIL_CODE(HttpStatus.BAD_REQUEST, false, 2117, "인증코드가 틀렸습니다."),
+    EXPIRED_EMAIL_CODE(HttpStatus.BAD_REQUEST, false, 2118, "인증코드의 유효기간이 만료되었습니다."),
 
     /**
      * 3000: product service error
