@@ -1,11 +1,12 @@
 package com.starbucks.back.shippingaddress.presentation;
 
 import com.starbucks.back.common.entity.BaseResponseEntity;
+import com.starbucks.back.common.entity.BaseResponseStatus;
 import com.starbucks.back.shippingaddress.application.UserShippingAddressService;
-import com.starbucks.back.shippingaddress.domain.ShippingAddress;
-import com.starbucks.back.shippingaddress.domain.UserShippingAddress;
+import com.starbucks.back.shippingaddress.dto.in.RequestUpdateUserShippingAddressDto;
 import com.starbucks.back.shippingaddress.dto.out.ResponseReadShippingAddressDto;
 import com.starbucks.back.shippingaddress.dto.out.ResponseReadUserShippingAddressDto;
+import com.starbucks.back.shippingaddress.vo.in.RequestUpdateUserShippingAddressVo;
 import com.starbucks.back.shippingaddress.vo.out.ResponseReadShippingAddressListVo;
 import com.starbucks.back.shippingaddress.vo.out.ResponseShippingAddressVo;
 import io.swagger.v3.oas.annotations.Operation;
@@ -63,5 +64,21 @@ public class UserShippingAddressController {
 
         userShippingAddressService.deleteAllShippingAddressByUserUuid(userUuid);
         return null;
+    }
+
+    /**
+     * 배송지 default 변경 by userUuid, shippingAddressUuid, defaulted
+     */
+    @Transactional
+    @Operation(summary = "updateUserShippingAddressDefaulted API", description = "updateUserShippingAddressDefaulted API 입니다.", tags = {"ShippingAddress-Service"})
+    @PutMapping("/user/default")
+    public BaseResponseEntity<Void> updateUserShippingAddressDefaulted(
+            @RequestHeader("userUuid") String userUuid,
+            @RequestBody RequestUpdateUserShippingAddressVo requestUpdateUserShippingAddressVo
+    ) {
+        userShippingAddressService.updateUserShippingAddressDefaulted(
+                RequestUpdateUserShippingAddressDto.of(userUuid, requestUpdateUserShippingAddressVo)
+        );
+        return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS);
     }
 }

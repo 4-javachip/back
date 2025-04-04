@@ -2,12 +2,12 @@ package com.starbucks.back.shippingaddress.application;
 
 import com.starbucks.back.common.entity.BaseResponseStatus;
 import com.starbucks.back.common.exception.BaseException;
-import com.starbucks.back.shippingaddress.domain.ShippingAddress;
 import com.starbucks.back.shippingaddress.domain.UserShippingAddress;
+import com.starbucks.back.shippingaddress.dto.in.RequestUpdateUserShippingAddressDto;
 import com.starbucks.back.shippingaddress.dto.out.ResponseReadShippingAddressDto;
 import com.starbucks.back.shippingaddress.dto.out.ResponseReadUserShippingAddressDto;
-import com.starbucks.back.shippingaddress.infrastructure.ShippingAddressRepository;
 import com.starbucks.back.shippingaddress.infrastructure.UserShippingAddressRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +17,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserShippingAddressServiceImpl implements UserShippingAddressService{
     private final UserShippingAddressRepository userShippingAddressRepository;
-//    private final ShippingAddressRepository shippingAddressRepository;
     private final ShippingAddressService shippingAddressService;
 
     /**
@@ -42,7 +41,8 @@ public class UserShippingAddressServiceImpl implements UserShippingAddressServic
     public ResponseReadShippingAddressDto getDefaultShippingAddressByUserUuid(String userUuid) {
         // 기본 배송지 UUID 조회
         UserShippingAddress userShippingAddress = userShippingAddressRepository
-                .findByUserUuidAndDefaultedTrueAndDeletedFalse(userUuid);
+                .findByUserUuidAndDefaultedTrueAndDeletedFalse(userUuid)
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_OPTION));
 
         // 배송지 UUID로 배송지 조회 (배송지 service의 getShippingAddressByUuid 메서드 사용)
         ResponseReadShippingAddressDto result = shippingAddressService.
@@ -54,11 +54,28 @@ public class UserShippingAddressServiceImpl implements UserShippingAddressServic
     /**
      * 배송지 전부 삭제 by userUuid
      */
+    @Transactional
     @Override
     public void deleteAllShippingAddressByUserUuid(String userUuid) {
         // 배송지 목록 삭제
         shippingAddressService.deleteAllShippingAddressByUserUuid(userUuid);
         // 유저-배송지 목록 삭제
         userShippingAddressRepository.bulkSoftDeleteUserShippingAddressesByUserUuid(userUuid);
+    }
+
+    /**
+     * 배송지 기본 배송지로 변경
+     * @param requestUpdateUserShippingAddressDto
+     */
+    @Transactional
+    @Override
+    public void updateUserShippingAddressDefaulted(RequestUpdateUserShippingAddressDto requestUpdateUserShippingAddressDto) {
+        UserShippingAddress userShippingAddress = userShippingAddressRepository.findByUserUuidAndShippingAddressUuidAndDeletedFalse(
+                requestUpdateUserShippingAddressDto.getUserUuid(),
+                requestUpdateUserShippingAddressDto.getShippingAddressUuid()
+        )
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_OPTION));
+        userShippingAddressRepository.save(requestUpdateUserShippingAddressDto
+                .updateUserShippingAddress(userShippingAddress));
     }
 }
