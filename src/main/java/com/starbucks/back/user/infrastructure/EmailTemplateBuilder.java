@@ -1,4 +1,4 @@
-package com.starbucks.back.user.infrastructure;
+package com.starbucks.back.user.infrastructure.template;
 
 import org.springframework.stereotype.Component;
 

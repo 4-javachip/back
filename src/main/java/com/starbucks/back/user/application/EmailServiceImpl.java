@@ -5,7 +5,7 @@ import com.starbucks.back.common.exception.BaseException;
 import com.starbucks.back.user.dto.in.RequestSendEmailCodeDto;
 import com.starbucks.back.user.dto.in.RequestVerificationEmailDto;
 import com.starbucks.back.user.infrastructure.EmailSender;
-import com.starbucks.back.user.infrastructure.EmailTemplateBuilder;
+import com.starbucks.back.user.infrastructure.template.EmailTemplateBuilder;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.data.redis.core.RedisTemplate;
