@@ -1,4 +1,4 @@
-package com.starbucks.back.season;
+package com.starbucks.back.season.domain;
 
 import com.starbucks.back.common.entity.SoftDeletableEntity;
 import jakarta.persistence.*;
