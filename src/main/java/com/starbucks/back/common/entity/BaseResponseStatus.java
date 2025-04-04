@@ -96,6 +96,7 @@ public enum BaseResponseStatus {
 
     DUPLICATED_SEASON(HttpStatus.CONFLICT, false, 3013, "이미 등록된 시즌입니다"),
     NO_EXIST_SEASON(HttpStatus.NOT_FOUND, false, 3014, "존재하지 않는 시즌입니다"),
+    NO_EXIST_SEASON_LIST(HttpStatus.NOT_FOUND, false, 3015, "존재하지 않는 시즌 리스트입니다"),
 
     /**
      * 4000: comment service error
