@@ -84,6 +84,16 @@ public enum BaseResponseStatus {
 
     NO_EXIST_OPTIONS_IN_PRODUCT(HttpStatus.NOT_FOUND, false, 3007, "해당 상품에 옵션이 존재하지 않습니다"),
 
+    NO_EXIST_PRODUCT_CATEGORY_LIST(HttpStatus.NOT_FOUND, false, 3008, "존재하지 않는 상품 카테고리 리스트입니다"),
+
+    NO_EXIST_PRODUCT_OPTION(HttpStatus.NOT_FOUND, false, 3009, "존재하지 않는 상품 옵션입니다"),
+
+    NO_EXIST_PRODUCT_DESCRIPTION(HttpStatus.NOT_FOUND, false, 3010, "존재하지 않는 상품 설명입니다"),
+
+    NO_EXIST_PRODUCT_THUMBNAIL(HttpStatus.NOT_FOUND, false, 3011, "존재하지 않는 상품 썸네일입니다"),
+
+    NO_EXIST_SUB_CATEGORY(HttpStatus.NOT_FOUND, false, 3012, "존재하지 않는 서브 카테고리입니다"),
+
     /**
      * 4000: comment service error
      */

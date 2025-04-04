@@ -31,9 +31,7 @@ public class SubCategoryServiceImpl implements SubCategoryService {
     public void addSubCategory(RequestAddSubCategoryDto requestAddSubCategoryDto) {
         Category category = categoryRepository.findById(requestAddSubCategoryDto.getCategoryId())
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_CATEGORY));
-        if (subCategoryRepository.existsByNameAndDeletedFalse(requestAddSubCategoryDto.getName())) {
-            throw new BaseException(BaseResponseStatus.DUPLICATED_CATEGORY);
-        }
+
         SubCategory subCategory = requestAddSubCategoryDto.toEntity(category);
         subCategoryRepository.save(subCategory);
     }
@@ -46,7 +44,7 @@ public class SubCategoryServiceImpl implements SubCategoryService {
     @Override
     public ResponseSubCategoryDto getSubCategoryById(Long id) {
         SubCategory subCategory = subCategoryRepository.findById(id)
-                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_CATEGORY));
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_SUB_CATEGORY));
         return ResponseSubCategoryDto.from(subCategory);
     }
 
@@ -58,7 +56,7 @@ public class SubCategoryServiceImpl implements SubCategoryService {
     @Override
     public ResponseSubCategoryDto getSubCategoryByName(String name) {
         SubCategory subCategory = subCategoryRepository.findByNameAndDeletedFalse(name)
-                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_CATEGORY));
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_SUB_CATEGORY));
         return ResponseSubCategoryDto.from(subCategory);
     }
 
@@ -83,7 +81,7 @@ public class SubCategoryServiceImpl implements SubCategoryService {
         Category category = categoryRepository.findById(requestUpdateSubCategoryDto.getCategoryId())
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_CATEGORY));
         SubCategory subCategory = subCategoryRepository.findById(requestUpdateSubCategoryDto.getId())
-                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_CATEGORY));
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_SUB_CATEGORY));
         subCategoryRepository.save(requestUpdateSubCategoryDto.updateEntity(category));
     }
 
@@ -96,7 +94,7 @@ public class SubCategoryServiceImpl implements SubCategoryService {
     @Override
     public void deleteSubCategory(RequestDeleteSubCategoryDto requestDeleteSubCategoryDto) {
         SubCategory subCategory = subCategoryRepository.findById(requestDeleteSubCategoryDto.getId())
-                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_CATEGORY));
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_SUB_CATEGORY));
         subCategory.softDelete();
     }
 }
