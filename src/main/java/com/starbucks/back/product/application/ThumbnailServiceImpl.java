@@ -37,7 +37,7 @@ public class ThumbnailServiceImpl implements ThumbnailService {
     @Override
     public ResponseThumbnailDto getThumbnailById(Long id) {
         Thumbnail thumbnail = thumbnailRepository.findByIdAndDeletedFalse(id)
-                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_PRODUCT));
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_PRODUCT_THUMBNAIL));
         return ResponseThumbnailDto.from(thumbnail);
     }
 
@@ -83,7 +83,7 @@ public class ThumbnailServiceImpl implements ThumbnailService {
     @Override
     public void updateThumbnail(RequestUpdateThumbnailDto requestUpdateThumbnailDto) {
         Thumbnail thumbnail = thumbnailRepository.findByIdAndDeletedFalse(requestUpdateThumbnailDto.getId())
-                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_PRODUCT));
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_PRODUCT_THUMBNAIL));
         thumbnailRepository.save(requestUpdateThumbnailDto.updateEntity(thumbnail));
     }
 
@@ -95,7 +95,7 @@ public class ThumbnailServiceImpl implements ThumbnailService {
     @Override
     public void deleteThumbnail(RequestDeleteThumbnailDto requestDeleteThumbnailDto) {
         Thumbnail thumbnail = thumbnailRepository.findByIdAndDeletedFalse(requestDeleteThumbnailDto.getId())
-                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_PRODUCT));
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_PRODUCT_THUMBNAIL));
         thumbnail.softDelete();
     }
 }
