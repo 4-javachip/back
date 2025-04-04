@@ -1,6 +1,7 @@
 package com.starbucks.back.product.dto.in;
 
 import com.starbucks.back.product.domain.ProductDescription;
+import com.starbucks.back.product.vo.in.RequestAddProductDescriptionVo;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,6 +26,14 @@ public class RequestAddProductDescriptionDto {
                 .productUuid(productUuid)
                 .description(description)
                 .detailDescription(detailDescription)
+                .build();
+    }
+
+    public static RequestAddProductDescriptionDto from(RequestAddProductDescriptionVo requestAddProductDescriptionVo) {
+        return RequestAddProductDescriptionDto.builder()
+                .productUuid(requestAddProductDescriptionVo.getProductUuid())
+                .description(requestAddProductDescriptionVo.getDescription())
+                .detailDescription(requestAddProductDescriptionVo.getDetailDescription())
                 .build();
     }
 
