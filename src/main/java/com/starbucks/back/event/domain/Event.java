@@ -7,7 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "event")
@@ -44,23 +44,27 @@ public class Event extends SoftDeletableEntity {
      * 시작 시간
      */
     @Column(name = "start_at", columnDefinition = "DATETIME(0)", nullable = false)
-    private LocalDateTime startAt;
+    private LocalDate startAt;
 
     /**
      * 종료 시간
      */
     @Column(name = "end_at", columnDefinition = "DATETIME(0)", nullable = false)
-    private LocalDateTime endAt;
+    private LocalDate endAt;
 
     /**
      * 활성화 여부
      */
     @Column(name = "state", nullable = false)
-    private Boolean state;
+    private Boolean state = false;
+
+    public void updateState(Boolean state) {
+        this.state = state;
+    }
 
     @Builder
     public Event(Long id, String eventUuid, String name, String description,
-                 String precaution, LocalDateTime startAt, LocalDateTime endAt, Boolean state) {
+                 String precaution, LocalDate startAt, LocalDate endAt, Boolean state) {
         this.id = id;
         this.eventUuid = eventUuid;
         this.name = name;

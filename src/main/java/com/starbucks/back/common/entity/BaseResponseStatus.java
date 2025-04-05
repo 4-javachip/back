@@ -98,6 +98,8 @@ public enum BaseResponseStatus {
     NO_EXIST_SEASON(HttpStatus.NOT_FOUND, false, 3014, "존재하지 않는 시즌입니다"),
     NO_EXIST_SEASON_LIST(HttpStatus.NOT_FOUND, false, 3015, "존재하지 않는 시즌 리스트입니다"),
 
+    NO_EXIST_EVENT(HttpStatus.NOT_FOUND, false, 3016, "존재하지 않는 기획전입니다"),
+
     /**
      * 4000: comment service error
      */
