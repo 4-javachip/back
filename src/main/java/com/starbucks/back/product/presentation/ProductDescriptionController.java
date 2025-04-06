@@ -7,6 +7,7 @@ import com.starbucks.back.product.dto.in.RequestAddProductDescriptionDto;
 import com.starbucks.back.product.dto.in.RequestDeleteProductDescriptionDto;
 import com.starbucks.back.product.dto.in.RequestUpdateProductDescriptionDto;
 import com.starbucks.back.product.dto.out.ResponseProductDescriptionDto;
+import com.starbucks.back.product.vo.in.RequestAddProductDescriptionVo;
 import com.starbucks.back.product.vo.in.RequestDeleteProductDescriptionVo;
 import com.starbucks.back.product.vo.in.RequestProductDescriptionVo;
 import com.starbucks.back.product.vo.out.ResponseProductDescriptionVo;
@@ -25,12 +26,12 @@ public class ProductDescriptionController {
 
     /**
      * 상품 설명 추가
-     * @param requestAddProductDescriptionDto
+     * @param requestAddProductDescriptionVo
      */
-    @Operation(summary = "addProductDescription API", description = "addProductDescription API 입니다.", tags = {"Product-Description-Service"})
+    @Operation(summary = "상품 설명 추가 API", description = "상품 설명 추가 API 입니다.", tags = {"Product-Description-Service"})
     @PostMapping
-    public BaseResponseEntity<Void> addProductDescription(@RequestBody RequestAddProductDescriptionDto requestAddProductDescriptionDto) {
-        productDescriptionService.addProductDescription(requestAddProductDescriptionDto);
+    public BaseResponseEntity<Void> addProductDescription(@RequestBody RequestAddProductDescriptionVo requestAddProductDescriptionVo) {
+        productDescriptionService.addProductDescription(RequestAddProductDescriptionDto.from(requestAddProductDescriptionVo));
         return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS);
     }
 
@@ -38,7 +39,7 @@ public class ProductDescriptionController {
      * 상품 uuid로 상품 설명 조회
      * @param productUuid
      */
-    @Operation(summary = "getProductDescriptionByProductUuid API", description = "getProductDescriptionByProductUuid API 입니다.", tags = {"Product-Description-Service"})
+    @Operation(summary = "상품 uuid로 상품 설명 조회 API", description = "상품 uuid로 상품 설명 조회 API 입니다.", tags = {"Product-Description-Service"})
     @GetMapping("/{productUuid}")
     public BaseResponseEntity<ResponseProductDescriptionVo> getProductDescriptionByProductUuid(@PathVariable String productUuid) {
         ResponseProductDescriptionDto responseProductDescriptionDto = productDescriptionService.getProductDescriptionByProductUuid(productUuid);
@@ -48,7 +49,7 @@ public class ProductDescriptionController {
     /**
      * 상품 설명 전체 조회
      */
-    @Operation(summary = "getAllProductDescription API", description = "getAllProductDescription API 입니다.", tags = {"Product-Description-Service"})
+    @Operation(summary = "상품 설명 전체 조회 API", description = "상품 설명 전체 조회 API 입니다.", tags = {"Product-Description-Service"})
     @GetMapping("/list")
     public BaseResponseEntity<List<ResponseProductDescriptionVo>> getAllProductDescription() {
         List<ResponseProductDescriptionVo> result = productDescriptionService.getAllProductDescription()
@@ -62,7 +63,7 @@ public class ProductDescriptionController {
      * 상품 설명 수정
      * @param requestProductDescriptionVo
      */
-    @Operation(summary = "updateProductDescription API", description = "updateProductDescription API 입니다.", tags = {"Product-Description-Service"})
+    @Operation(summary = "상품 설명 수정 API", description = "상품 설명 수정 API 입니다.", tags = {"Product-Description-Service"})
     @PutMapping
     public BaseResponseEntity<Void> updateProductDescription(@RequestBody RequestProductDescriptionVo requestProductDescriptionVo) {
         productDescriptionService.updateProductDescription(RequestUpdateProductDescriptionDto.of(requestProductDescriptionVo));
@@ -73,7 +74,7 @@ public class ProductDescriptionController {
      * 상품 설명 삭제
      * @param requestDeleteProductDescriptionVo
      */
-    @Operation(summary = "deleteProductDescription API", description = "deleteProductDescription API 입니다.", tags = {"Product-Description-Service"})
+    @Operation(summary = "상품 설명 삭제 API", description = "상품 설명 삭제 API 입니다.", tags = {"Product-Description-Service"})
     @DeleteMapping
     public BaseResponseEntity<Void> deleteProductDescription(@RequestBody RequestDeleteProductDescriptionVo requestDeleteProductDescriptionVo){
         productDescriptionService.deleteProductDescription(RequestDeleteProductDescriptionDto.from(requestDeleteProductDescriptionVo));

@@ -4,7 +4,7 @@ import com.starbucks.back.common.entity.BaseResponseStatus;
 import com.starbucks.back.common.exception.BaseException;
 import com.starbucks.back.shippingaddress.domain.ShippingAddress;
 import com.starbucks.back.shippingaddress.dto.in.RequestDeleteShippingAddressDto;
-import com.starbucks.back.shippingaddress.dto.in.RequestShippingAddressDto;
+import com.starbucks.back.shippingaddress.dto.in.RequestShippingAddressAndUserDto;
 import com.starbucks.back.shippingaddress.dto.in.RequestUpdateShippingAddressDto;
 import com.starbucks.back.shippingaddress.dto.out.ResponseReadShippingAddressDto;
 import com.starbucks.back.shippingaddress.infrastructure.ShippingAddressRepository;
@@ -20,19 +20,20 @@ public class ShippingAddressServiceImpl implements ShippingAddressService {
 
     /**
      * 배송지 추가
-     * @param requestShippingAddressDto
+     * @param requestShippingAddressAndUserDto
      */
     @Transactional
     @Override
-    public void addShippingAddress(RequestShippingAddressDto requestShippingAddressDto) {
+    public void addShippingAddress(String shippingAddressUuid, RequestShippingAddressAndUserDto requestShippingAddressAndUserDto) {
         if (shippingAddressRepository.existsByZipCodeAndBaseAddressAndDetailAddressAndDeletedFalse(
-                requestShippingAddressDto.getZipCode(),
-                requestShippingAddressDto.getBaseAddress(),
-                requestShippingAddressDto.getDetailAddress())
+                requestShippingAddressAndUserDto.getZipCode(),
+                requestShippingAddressAndUserDto.getBaseAddress(),
+                requestShippingAddressAndUserDto.getDetailAddress())
         ) {
             throw new BaseException(BaseResponseStatus.DUPLICATED_OPTION);
         }
-        shippingAddressRepository.save(requestShippingAddressDto.toEntity());
+        // ShippingAddress 생성
+        shippingAddressRepository.save(requestShippingAddressAndUserDto.toShippingAddressEntity(shippingAddressUuid));
     }
 
     /**
@@ -40,7 +41,6 @@ public class ShippingAddressServiceImpl implements ShippingAddressService {
      * @param uuid
      * @return
      */
-    @Transactional
     @Override
     public ResponseReadShippingAddressDto getShippingAddressByUuid(String uuid) {
         ShippingAddress shippingAddress = shippingAddressRepository.findByShippingAddressUuidAndDeletedFalse(uuid)
@@ -66,9 +66,18 @@ public class ShippingAddressServiceImpl implements ShippingAddressService {
     @Transactional
     @Override
     public void deleteShippingAddress(RequestDeleteShippingAddressDto requestDeleteShippingAddressDto) {
-        ShippingAddress shippingAddress = shippingAddressRepository.findByShippingAddressUuidAndDeletedFalse(requestDeleteShippingAddressDto.getShippingAddressUuid())
+        ShippingAddress shippingAddress = shippingAddressRepository.findByShippingAddressUuidAndDeletedFalse(
+                requestDeleteShippingAddressDto.getShippingAddressUuid()
+                )
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_OPTION));
         shippingAddress.softDelete();
-        System.out.println("Hello World");
+    }
+
+    /**
+     * 배송지 전부 삭제 by userUuid
+     */
+    @Override
+    public void deleteAllShippingAddressByUserUuid(String userUuid) {
+        shippingAddressRepository.bulkSoftDeleteShippingAddressesByUserUuid(userUuid);
     }
 }

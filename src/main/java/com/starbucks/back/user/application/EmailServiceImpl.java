@@ -1,8 +1,11 @@
 package com.starbucks.back.user.application;
 
+import com.starbucks.back.common.entity.BaseResponseStatus;
+import com.starbucks.back.common.exception.BaseException;
 import com.starbucks.back.user.dto.in.RequestSendEmailCodeDto;
+import com.starbucks.back.user.dto.in.RequestVerificationEmailDto;
 import com.starbucks.back.user.infrastructure.EmailSender;
-import com.starbucks.back.user.infrastructure.EmailTemplateBuilder;
+import com.starbucks.back.user.infrastructure.template.EmailTemplateBuilder;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -23,15 +26,31 @@ public class EmailServiceImpl implements EmailService{
         final String email = requestSendEmailCodeDto.getEmail();
 
         redisTemplate.opsForValue().set(
-                email, // key
-                code, //value
-                5, // TTL : 유효시간
-                TimeUnit.MINUTES // 시간 단위 : 분
+                email,
+                code,
+                5,
+                TimeUnit.MINUTES
         );
 
         emailSender.send(
                 email,
                 templateBuilder.buildVerificationEmail(code)
         );
+    }
+
+    @Override
+    public void verifyEmailCode(RequestVerificationEmailDto requestVerificationEmailDto) {
+        final String email = requestVerificationEmailDto.getEmail();
+        final String redisCode = redisTemplate.opsForValue().get(email);
+
+        if (redisCode == null) {
+            throw new BaseException(BaseResponseStatus.EXPIRED_EMAIL_CODE);
+        }
+
+        if (!redisCode.equals(requestVerificationEmailDto.getVerificationCode())) {
+            throw new BaseException(BaseResponseStatus.INVALID_EMAIL_CODE);
+        }
+
+        redisTemplate.delete(email);
     }
 }
