@@ -37,14 +37,16 @@ public class ShippingAddressServiceImpl implements ShippingAddressService {
     }
 
     /**
-     * 배송지 uuid로 배송지 조회
-     * @param uuid
+     * 배송지 조회 by shippingAddressUuid
+     * @param shippingAddressUuid
      * @return
      */
     @Override
-    public ResponseReadShippingAddressDto getShippingAddressByUuid(String uuid) {
-        ShippingAddress shippingAddress = shippingAddressRepository.findByShippingAddressUuidAndDeletedFalse(uuid)
+    public ResponseReadShippingAddressDto getShippingAddressByUuid(String shippingAddressUuid) {
+        ShippingAddress shippingAddress = shippingAddressRepository
+                .findByShippingAddressUuidAndDeletedFalse(shippingAddressUuid)
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_OPTION));
+        
         return ResponseReadShippingAddressDto.from(shippingAddress);
     }
 
