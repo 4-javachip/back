@@ -7,6 +7,7 @@ import com.starbucks.back.user.dto.in.RequestSendEmailCodeDto;
 import com.starbucks.back.user.dto.in.RequestVerificationEmailDto;
 import com.starbucks.back.user.vo.in.RequestSendEmailCodeVo;
 import com.starbucks.back.user.vo.in.RequestVerificationEmailVo;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,6 +22,7 @@ public class EmailController {
 
     private final EmailService emailService;
 
+    @Operation(summary = "Send Email Code API", description = "이메일 인증 코드 발송", tags = {"User-service"})
     @PostMapping("/send-code")
     public BaseResponseEntity<Void> sendEmailCode(
             @Valid @RequestBody RequestSendEmailCodeVo requestSendEmailCodeVo
@@ -29,6 +31,7 @@ public class EmailController {
         return new BaseResponseEntity<>(BaseResponseStatus.EMAIL_CODE_SUCCESS);
     }
 
+    @Operation(summary = "Verify Email Code API", description = "이메일 인증 코드 검증", tags = {"User-service"})
     @PostMapping("/verify")
     public BaseResponseEntity<Void> verifyEmailCode(
             @Valid @RequestBody RequestVerificationEmailVo requestVerificationEmailVo

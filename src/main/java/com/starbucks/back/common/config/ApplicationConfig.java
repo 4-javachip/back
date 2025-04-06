@@ -1,3 +1,5 @@
+package com.starbucks.back.common.config;
+
 import com.starbucks.back.user.infrastructure.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

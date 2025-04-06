@@ -37,10 +37,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        jwt = authHeader.substring(7);
-//        uuid = Jwts.parser().verifyWith((SecretKey) jwtTokenProvider.getSignKey())
-//                .build().parseSignedClaims(jwt).getPayload().get("uuid", String.class);
-        uuid = jwtProvider.validateAndGetUserUuid(jwt);
+        try {
+            jwt = authHeader.substring(7);
+            uuid = jwtProvider.validateAndGetUserUuid(jwt);
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 401에러 보내주기
+            return;
+        }
 
         if(SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = this.userService.loadUserByUsername(uuid);

@@ -4,6 +4,7 @@ import com.starbucks.back.common.jwt.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -26,16 +27,6 @@ public class SecurityConfig {
     private final AuthenticationProvider daoAuthenticationProvider;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
-//    @Bean
-//    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-//        http
-//                .csrf(csrf -> csrf.disable())
-//                .authorizeHttpRequests(auth -> auth
-//                        .anyRequest().permitAll()
-//                )
-//                .addFilterBefore(corsFilter(), org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class);
-//        return http.build();
-//    }
 @Bean
 public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http
@@ -43,20 +34,22 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
             .authorizeHttpRequests(
                     authorizeRequests -> authorizeRequests
                             .requestMatchers(
-//                                    "/api/v1/member/**",
-//                                    "/api/v1/size/**",
-//                                    "/api/v1/color/**",
-//                                    "/api/v1/product/**",
-//                                    "/api/v1/category/**",
-//                                    "/api/v1/vendor/**",
-//                                    "/swagger-ui/**",
-//                                    "/v3/api-docs/**",
-//                                    "/error"
-                                    "/**"
+                                    "/api/v1/auth/**",
+                                    "/api/v1/email/**",
+                                    "/api/v1/agreement/**",
+                                    "/api/v1/option/**",
+                                    "/api/v1/product/**",
+                                    "/api/v1/category/**",
+                                    "/api/v1/season/**",
+                                    "/api/v1/best/**",
+                                    "/api/v1/event/**",
+                                    "/swagger-ui/**",
+                                    "/v3/api-docs/**",
+                                    "/error"
                             )
                             .permitAll()
 //                               .requestMatchers("/api/v1/review/**").permitAll()
-//                            .requestMatchers(HttpMethod.GET, "/api/v1/review/**").permitAll()  // GET 요청 허용
+                            .requestMatchers(HttpMethod.GET, "/api/v1/review/**").permitAll()  // GET 요청 허용
 //                               .requestMatchers(HttpMethod.POST, "/api/v1/review/**").denyAll()   // POST 요청 차단
 //                               .requestMatchers(HttpMethod.PUT, "/api/v1/review/**").denyAll()    // PUT 요청 차단
 //                               .requestMatchers(HttpMethod.DELETE, "/api/v1/review/**").denyAll() // DELETE 요청 차단

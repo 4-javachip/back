@@ -1,6 +1,6 @@
-package com.starbucks.back.user.dto.in;
+package com.starbucks.back.auth.dto.in;
 
-import com.starbucks.back.user.vo.in.RequestExistsNicknameVo;
+import com.starbucks.back.auth.vo.in.RequestExistsNicknameVo;
 import lombok.Builder;
 import lombok.Getter;
 
