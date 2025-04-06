@@ -67,7 +67,8 @@ public enum BaseResponseStatus {
 
     // mail
     INVALID_EMAIL_CODE(HttpStatus.BAD_REQUEST, false, 2117, "인증코드가 틀렸습니다."),
-    EXPIRED_EMAIL_CODE(HttpStatus.BAD_REQUEST, false, 2118, "인증코드의 유효기간이 만료되었습니다."),
+    EXPIRED_EMAIL_CODE(HttpStatus.BAD_REQUEST, false, 2118, "틀리거나 만료된 인증코드입니다."),
+
 
     /**
      * 3000: product service error
