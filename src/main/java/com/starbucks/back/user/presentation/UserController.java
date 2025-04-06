@@ -15,9 +15,8 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
-@RequestMapping("/api/v1/user")
 @RestController
+@RequestMapping("/api/v1/user")
 @RequiredArgsConstructor
 public class UserController {
 
