@@ -7,6 +7,7 @@ import com.starbucks.back.product.dto.in.RequestAddThumbnailDto;
 import com.starbucks.back.product.dto.in.RequestDeleteThumbnailDto;
 import com.starbucks.back.product.dto.in.RequestUpdateThumbnailDto;
 import com.starbucks.back.product.dto.out.ResponseThumbnailDto;
+import com.starbucks.back.product.vo.in.RequestAddThumbnailVo;
 import com.starbucks.back.product.vo.in.RequestDeleteThumbnailVo;
 import com.starbucks.back.product.vo.in.RequestThumbnailVo;
 import com.starbucks.back.product.vo.out.ResponseThumbnailVo;
@@ -25,12 +26,12 @@ public class ThumbnailController {
 
     /**
      * 썸네일 추가
-     * @param requestAddThumbnailDto
+     * @param requestAddThumbnailVo
      */
-    @Operation(summary = "AddThumbnail API", description = "AddThumbnail API 입니다.", tags = {"Product-Thumbnail-Service"})
+    @Operation(summary = "썸네일 추가 API", description = "썸네일 추가 API 입니다.", tags = {"Product-Thumbnail-Service"})
     @PostMapping
-    public BaseResponseEntity<Void> addThumbnail(@RequestBody RequestAddThumbnailDto requestAddThumbnailDto) {
-        thumbnailService.addThumbnail(requestAddThumbnailDto);
+    public BaseResponseEntity<Void> addThumbnail(@RequestBody RequestAddThumbnailVo requestAddThumbnailVo) {
+        thumbnailService.addThumbnail(RequestAddThumbnailDto.from(requestAddThumbnailVo));
         return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS);
     }
 
@@ -38,7 +39,7 @@ public class ThumbnailController {
      * id로 썸네일 조회
      * @param id
      */
-    @Operation(summary = "getThumbnailById API", description = "getThumbnailById API 입니다.", tags = {"Product-Thumbnail-Service"})
+    @Operation(summary = "id로 썸네일 조회 API", description = "id로 썸네일 조회 API 입니다.", tags = {"Product-Thumbnail-Service"})
     @GetMapping("/{id}")
     public BaseResponseEntity<ResponseThumbnailVo> getThumbnailById(@PathVariable(name = "id") Long id) {
         ResponseThumbnailDto responseThumbnailDto = thumbnailService.getThumbnailById(id);
@@ -49,7 +50,7 @@ public class ThumbnailController {
      * 상품 UUID로 썸네일 조회
      * @param productUuid
      */
-    @Operation(summary = "GetThumbnailByProductUuid API", description = "GetThumbnailByProductUuid API 입니다.", tags = {"Product-Thumbnail-Service"})
+    @Operation(summary = "상품 uuid로 썸네일 조회 API", description = "상품 uuid로 썸네일 조회 API 입니다.", tags = {"Product-Thumbnail-Service"})
     @GetMapping("/list/{productUuid}")
     public BaseResponseEntity<List<ResponseThumbnailVo>> getThumbnailByProductUuid(@PathVariable String productUuid) {
         List<ResponseThumbnailVo> result = thumbnailService.getThumbnailByProductUuid(productUuid)
@@ -60,9 +61,9 @@ public class ThumbnailController {
     }
 
     /**
-     * 메인 이미지 전체 조회
+     * 메인 썸네일 전체 조회
      */
-    @Operation(summary = "GetThumbnailByDefaultedTrue API", description = "GetThumbnailByDefaultedTrue API 입니다.", tags = {"Product-Thumbnail-Service"})
+    @Operation(summary = "메인 썸네일 전체 조회 API", description = "메인 썸네일 전체 조회 API 입니다.", tags = {"Product-Thumbnail-Service"})
     @GetMapping("/defaulted")
     public BaseResponseEntity<List<ResponseThumbnailVo>> getThumbnailByDefaultedTrue() {
         List<ResponseThumbnailVo> result = thumbnailService.getThumbnailByDefaultedTrue()
@@ -75,7 +76,7 @@ public class ThumbnailController {
     /**
      * 썸네일 전체 조회
      */
-    @Operation(summary = "GetAllThumbnails API", description = "GetAllThumbnails API 입니다.", tags = {"Product-Thumbnail-Service"})
+    @Operation(summary = "썸네일 전체 조회 API", description = "썸네일 전체 조회 API 입니다.", tags = {"Product-Thumbnail-Service"})
     @GetMapping("/list")
     public BaseResponseEntity<List<ResponseThumbnailVo>> getAllThumbnails() {
         List<ResponseThumbnailVo> result = thumbnailService.getAllThumbnails()
@@ -89,7 +90,7 @@ public class ThumbnailController {
      * 썸네일 수정
      * @param requestThumbnailVo
      */
-    @Operation(summary = "UpdateThumbnail API", description = "UpdateThumbnail API 입니다.", tags = {"Product-Thumbnail-Service"})
+    @Operation(summary = "썸네일 수정 API", description = "썸네일 수정 API 입니다.", tags = {"Product-Thumbnail-Service"})
     @PutMapping
     public BaseResponseEntity<Void> updateThumbnail(@RequestBody RequestThumbnailVo requestThumbnailVo) {
         thumbnailService.updateThumbnail(RequestUpdateThumbnailDto.of(requestThumbnailVo));
@@ -100,7 +101,7 @@ public class ThumbnailController {
      * 썸네일 삭제
      * @param requestDeleteThumbnailVo
      */
-    @Operation(summary = "DeleteThumbnail API", description = "DeleteThumbnail API 입니다.", tags = {"Product-Thumbnail-Service"})
+    @Operation(summary = "썸네일 삭제 API", description = "썸네일 삭제 API 입니다.", tags = {"Product-Thumbnail-Service"})
     @DeleteMapping
     public BaseResponseEntity<Void> deleteThumbnail(@RequestBody RequestDeleteThumbnailVo requestDeleteThumbnailVo) {
         thumbnailService.deleteThumbnail(RequestDeleteThumbnailDto.from(requestDeleteThumbnailVo));

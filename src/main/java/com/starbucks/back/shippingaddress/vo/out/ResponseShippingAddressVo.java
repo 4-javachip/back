@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 @Getter
 public class ResponseShippingAddressVo {
 
-    private Long id;
     private String shippingAddressUuid;
     private String addressName;
     private String recipientName;
@@ -21,7 +20,6 @@ public class ResponseShippingAddressVo {
 
     @Builder
     public ResponseShippingAddressVo(
-            Long id,
             String shippingAddressUuid,
             String addressName,
             String recipientName,
@@ -32,7 +30,6 @@ public class ResponseShippingAddressVo {
             String secondPhoneNumber,
             String shippingNote
     ) {
-        this.id = id;
         this.shippingAddressUuid = shippingAddressUuid;
         this.addressName = addressName;
         this.recipientName = recipientName;

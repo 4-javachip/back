@@ -1,6 +1,7 @@
 package com.starbucks.back.product.dto.in;
 
 import com.starbucks.back.product.domain.Thumbnail;
+import com.starbucks.back.product.vo.in.RequestAddThumbnailVo;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,6 +29,15 @@ public class RequestAddThumbnailDto {
                 .thumbnailUrl(thumbnailUrl)
                 .description(description)
                 .defaulted(defaulted)
+                .build();
+    }
+
+    public static RequestAddThumbnailDto from(RequestAddThumbnailVo requestAddThumbnailVo) {
+        return RequestAddThumbnailDto.builder()
+                .productUuid(requestAddThumbnailVo.getProductUuid())
+                .thumbnailUrl(requestAddThumbnailVo.getThumbnailUrl())
+                .description(requestAddThumbnailVo.getDescription())
+                .defaulted(requestAddThumbnailVo.getDefaulted())
                 .build();
     }
 

@@ -1,6 +1,7 @@
 package com.starbucks.back.option.color.dto.in;
 
 import com.starbucks.back.option.color.domain.Color;
+import com.starbucks.back.option.color.vo.in.RequestAddColorVo;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,6 +20,12 @@ public class RequestAddColorDto {
     public Color toEntity() {
         return Color.builder()
                 .name(name)
+                .build();
+    }
+
+    public static RequestAddColorDto from(RequestAddColorVo requestAddColorVo) {
+        return RequestAddColorDto.builder()
+                .name(requestAddColorVo.getName())
                 .build();
     }
 

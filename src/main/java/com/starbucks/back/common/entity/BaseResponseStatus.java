@@ -69,6 +69,7 @@ public enum BaseResponseStatus {
     INVALID_EMAIL_CODE(HttpStatus.BAD_REQUEST, false, 2117, "인증코드가 틀렸습니다."),
     EXPIRED_EMAIL_CODE(HttpStatus.BAD_REQUEST, false, 2118, "틀리거나 만료된 인증코드입니다."),
 
+
     /**
      * 3000: product service error
      */
@@ -83,6 +84,22 @@ public enum BaseResponseStatus {
     DUPLICATED_CATEGORY(HttpStatus.CONFLICT, false, 3006, "이미 등록된 카테고리입니다"),
 
     NO_EXIST_OPTIONS_IN_PRODUCT(HttpStatus.NOT_FOUND, false, 3007, "해당 상품에 옵션이 존재하지 않습니다"),
+
+    NO_EXIST_PRODUCT_CATEGORY_LIST(HttpStatus.NOT_FOUND, false, 3008, "존재하지 않는 상품 카테고리 리스트입니다"),
+
+    NO_EXIST_PRODUCT_OPTION(HttpStatus.NOT_FOUND, false, 3009, "존재하지 않는 상품 옵션입니다"),
+
+    NO_EXIST_PRODUCT_DESCRIPTION(HttpStatus.NOT_FOUND, false, 3010, "존재하지 않는 상품 설명입니다"),
+
+    NO_EXIST_PRODUCT_THUMBNAIL(HttpStatus.NOT_FOUND, false, 3011, "존재하지 않는 상품 썸네일입니다"),
+
+    NO_EXIST_SUB_CATEGORY(HttpStatus.NOT_FOUND, false, 3012, "존재하지 않는 서브 카테고리입니다"),
+
+    DUPLICATED_SEASON(HttpStatus.CONFLICT, false, 3013, "이미 등록된 시즌입니다"),
+    NO_EXIST_SEASON(HttpStatus.NOT_FOUND, false, 3014, "존재하지 않는 시즌입니다"),
+    NO_EXIST_SEASON_LIST(HttpStatus.NOT_FOUND, false, 3015, "존재하지 않는 시즌 리스트입니다"),
+
+    NO_EXIST_EVENT(HttpStatus.NOT_FOUND, false, 3016, "존재하지 않는 기획전입니다"),
 
     /**
      * 4000: comment service error

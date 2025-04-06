@@ -7,6 +7,7 @@ import com.starbucks.back.option.size.dto.in.RequestAddSizeDto;
 import com.starbucks.back.option.size.dto.in.RequestDeleteSizeDto;
 import com.starbucks.back.option.size.dto.in.RequestUpdateSizeDto;
 import com.starbucks.back.option.size.dto.out.ResponseSizeDto;
+import com.starbucks.back.option.size.vo.in.RequestAddSizeVo;
 import com.starbucks.back.option.size.vo.in.RequestDeleteSizeVo;
 import com.starbucks.back.option.size.vo.in.RequestSizeVo;
 import com.starbucks.back.option.size.vo.out.ResponseSizeVo;
@@ -26,12 +27,12 @@ public class SizeController {
 
     /**
      * 사이즈 추가
-     * @param requestAddSizeDto
+     * @param requestAddSizeVo
      */
-    @Operation(summary = "AddSize API", description = "AddSize API 입니다.", tags = {"Size-Service"})
+    @Operation(summary = "사이즈 옵션 추가 API", description = "사이즈 옵션 추가 API 입니다.", tags = {"Size-Service"})
     @PostMapping
-    public BaseResponseEntity<Void> addSize(@RequestBody RequestAddSizeDto requestAddSizeDto) {
-        sizeService.addSize(requestAddSizeDto);
+    public BaseResponseEntity<Void> addSize(@RequestBody RequestAddSizeVo requestAddSizeVo) {
+        sizeService.addSize(RequestAddSizeDto.from(requestAddSizeVo));
         return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS);
     }
 
@@ -39,7 +40,7 @@ public class SizeController {
      * 사이즈 id로 사이즈 조회
      * @param id
      */
-    @Operation(summary = "GetSizeById API", description = "GetSizeById API 입니다.", tags = {"Size-Service"})
+    @Operation(summary = "id로 사이즈 옵션 조회 API", description = "id로 사이즈 옵션 조회 API 입니다.", tags = {"Size-Service"})
     @GetMapping("/{id}")
     public BaseResponseEntity<ResponseSizeVo> getSizeById(@PathVariable("id") Long id) {
         ResponseSizeDto responseSizeDto = sizeService.getSizeById(id);
@@ -50,7 +51,7 @@ public class SizeController {
      * 사이즈 이름으로 사이즈 조회
      * @param name
      */
-    @Operation(summary = "GetSizeByName API", description = "GetSizeByName API 입니다.", tags = {"Size-Service"})
+    @Operation(summary = "이름으로 사이즈 옵션 조회 API", description = "이름으로 사이즈 옵션 조회 API 입니다.", tags = {"Size-Service"})
     @GetMapping("/search")
     public BaseResponseEntity<ResponseSizeVo> getSizeByName(@RequestParam String name) {
         ResponseSizeDto responseSizeDto = sizeService.getSizeByName(name);
@@ -60,7 +61,7 @@ public class SizeController {
     /**
      * 사이즈 전체 조회
      */
-    @Operation(summary = "GetAllSizes API", description = "GetAllSizes API 입니다.", tags = {"Size-Service"})
+    @Operation(summary = "사이즈 옵션 전체 조회 API", description = "사이즈 옵션 전체 조회 API 입니다.", tags = {"Size-Service"})
     @GetMapping("/list")
     public BaseResponseEntity<List<ResponseSizeVo>> getAllSizes() {
         List<ResponseSizeVo> result = sizeService.getAllSizes().stream()
@@ -73,7 +74,7 @@ public class SizeController {
      * 사이즈 수정
      * @param requestSizeVo
      */
-    @Operation(summary = "UpdateSize API", description = "UpdateSize API 입니다.", tags = {"Size-Service"})
+    @Operation(summary = "사이즈 옵션 수정 API", description = "사이즈 옵션 수정 API 입니다.", tags = {"Size-Service"})
     @PutMapping
     public BaseResponseEntity<Void> updateSize(@RequestBody RequestSizeVo requestSizeVo) {
         sizeService.updateSize(RequestUpdateSizeDto.from(requestSizeVo));
@@ -84,7 +85,7 @@ public class SizeController {
      * 사이즈 삭제
      * @param requestDeleteSizeVo
      */
-    @Operation(summary = "DeleteSize API", description = "DeleteSize API 입니다.", tags = {"Size-Service"})
+    @Operation(summary = "사이즈 옵션 삭제 API", description = "사이즈 옵션 삭제 API 입니다.", tags = {"Size-Service"})
     @DeleteMapping
     public BaseResponseEntity<Void> deleteSize(@RequestBody RequestDeleteSizeVo requestDeleteSizeVo) {
         sizeService.deleteSize(RequestDeleteSizeDto.of(requestDeleteSizeVo));
