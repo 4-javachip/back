@@ -1,54 +1,38 @@
 package com.starbucks.back.user.presentation;
 
 import com.starbucks.back.common.entity.BaseResponseEntity;
-import com.starbucks.back.common.entity.BaseResponseStatus;
+import com.starbucks.back.common.util.SecurityUtil;
 import com.starbucks.back.user.application.UserService;
-import com.starbucks.back.user.dto.in.RequestExistsEmailDto;
-import com.starbucks.back.user.dto.in.RequestExistsNicknameDto;
-import com.starbucks.back.user.dto.in.RequestSignUpDto;
-import com.starbucks.back.user.vo.in.RequestExistsEmailVo;
-import com.starbucks.back.user.vo.in.RequestExistsNicknameVo;
-import com.starbucks.back.user.vo.in.RequestSignUpVo;
-import com.starbucks.back.user.vo.in.RequestUpdateNickname;
+import com.starbucks.back.user.domain.User;
+import com.starbucks.back.user.vo.out.ResponseGetUserInfoVo;
 import io.swagger.v3.oas.annotations.Operation;
-import jakarta.transaction.Transactional;
-import jakarta.validation.Valid;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-
-@RequestMapping("/api/v1/user")
 @RestController
+@RequestMapping("/api/v1/user")
 @RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
+    private final SecurityUtil securityUtil;
 
-    @Operation(summary = "SignUp API", description = "회원가입", tags = {"User-service"})
-    @PostMapping("/sign-up")
-    public BaseResponseEntity<Void> signUp(
-            @Valid @RequestBody RequestSignUpVo requestSignUpVo
-    ) {
-        userService.signUp(RequestSignUpDto.from(requestSignUpVo));
-        return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS);
-    }
-
-    @Operation(summary = "Check Email API", description = "이메일 중복 확인", tags = {"User-service"})
-    @PostMapping("/email/exists")
-    public BaseResponseEntity<Boolean> emailExists(
-            @Valid @RequestBody RequestExistsEmailVo requestExistsEmailVo
-    ) {
+    @Operation(summary = "Get User Info API", description = "유저 정보 조회", tags = {"User-service"})
+    @GetMapping()
+    public BaseResponseEntity<ResponseGetUserInfoVo> getUserInfo() {
         return new BaseResponseEntity<>(
-                userService.existsEmail(RequestExistsEmailDto.from(requestExistsEmailVo).getEmail())
+                userService.getUserInfo(
+                        securityUtil.getCurrentUserUuid()
+                ).toVo()
         );
     }
 
-    @Operation(summary = "Check Nickname API", description = "닉네임 중복 확인", tags = {"User-service"})
-    @PostMapping("/nickname/exists")
-    public BaseResponseEntity<Boolean> nicknameExists(
-            @Valid @RequestBody RequestExistsNicknameVo requestExistsNicknameVo
-    ) {
+    @GetMapping("/detail")
+    public BaseResponseEntity<UserDetails> getUserDetails() {
         return new BaseResponseEntity<>(
-                userService.existsNickname(RequestExistsNicknameDto.from(requestExistsNicknameVo).getNickname())
+                securityUtil.getCurrentUserDetails()
         );
     }
 

@@ -1,7 +1,7 @@
 package com.starbucks.back.shippingaddress.dto.out;
 
 import com.starbucks.back.shippingaddress.domain.UserShippingAddress;
-import com.starbucks.back.shippingaddress.vo.out.ResponseReadShippingAddressUuidVo;
+import com.starbucks.back.shippingaddress.vo.out.ResponseReadShippingAddressListVo;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -20,15 +20,15 @@ public class ResponseReadUserShippingAddressDto {
     public static ResponseReadUserShippingAddressDto from(UserShippingAddress userShippingAddress) {
         return ResponseReadUserShippingAddressDto.builder()
                 .shippingAddressUuid(userShippingAddress.getShippingAddressUuid())
-                .defaulted(userShippingAddress.getDefaulted())
+//                .defaulted(userShippingAddress.getDefaulted())
                 .build();
     }
 
     // dto => vo
-    public ResponseReadShippingAddressUuidVo toVo() {
-        return ResponseReadShippingAddressUuidVo.builder()
+    public ResponseReadShippingAddressListVo toVo() {
+        return ResponseReadShippingAddressListVo.builder()
                 .shippingAddressUuid(shippingAddressUuid)
-                .defaulted(defaulted)
+//                .defaulted(defaulted)
                 .build();
     }
 }

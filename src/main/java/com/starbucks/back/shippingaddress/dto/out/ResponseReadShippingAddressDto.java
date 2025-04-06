@@ -63,7 +63,6 @@ public class ResponseReadShippingAddressDto {
     // dto => vo
     public ResponseShippingAddressVo toVo() {
         return ResponseShippingAddressVo.builder()
-                .id(id)
                 .shippingAddressUuid(shippingAddressUuid)
                 .addressName(addressName)
                 .recipientName(recipientName)

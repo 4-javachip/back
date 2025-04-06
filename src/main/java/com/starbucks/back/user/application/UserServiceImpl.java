@@ -1,12 +1,9 @@
 package com.starbucks.back.user.application;
 
-import com.starbucks.back.common.entity.BaseResponseStatus;
-import com.starbucks.back.common.exception.BaseException;
-import com.starbucks.back.user.dto.in.RequestSignUpDto;
+import com.starbucks.back.user.dto.out.ResponseGetUserInfoDto;
 import com.starbucks.back.user.infrastructure.UserRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 
@@ -15,30 +12,19 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService{
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
 
-    @Transactional
     @Override
-    public void signUp(RequestSignUpDto requestSignUpDto) {
-        if(userRepository.existsByEmail(requestSignUpDto.getEmail())){
-            throw new BaseException(BaseResponseStatus.DUPLICATED_EMAIL);
-        } else if (userRepository.existsByNickname(requestSignUpDto.getNickname())){
-            throw new BaseException(BaseResponseStatus.DUPLICATED_NICKNAME);
-        } else if (userRepository.existsByPhoneNumber(requestSignUpDto.getPhoneNumber())){
-            throw new BaseException(BaseResponseStatus.DUPLICATED_PHONE_NUMBER);
-        }
-
-        userRepository.save(requestSignUpDto.toEntity(passwordEncoder));
+    public UserDetails loadUserByUsername(String userUuid) {
+        return userRepository.findByUserUuid(userUuid).orElseThrow(() -> new IllegalArgumentException(userUuid));
     }
 
     @Override
-    public boolean existsEmail(String email) {
-        return userRepository.existsByEmail(email);
-    }
-
-    @Override
-    public boolean existsNickname(String nickname) {
-        return userRepository.existsByNickname(nickname);
+    public ResponseGetUserInfoDto getUserInfo(String userUuid) {
+        return ResponseGetUserInfoDto.from(
+                userRepository.findByUserUuid(userUuid).orElseThrow(
+                        () -> new IllegalArgumentException(userUuid)
+                )
+        );
     }
 
 }

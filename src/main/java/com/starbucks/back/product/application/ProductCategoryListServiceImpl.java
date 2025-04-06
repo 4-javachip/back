@@ -36,7 +36,7 @@ public class ProductCategoryListServiceImpl implements ProductCategoryListServic
     @Override
     public ResponseProductCategoryListDto getProductCategoryListByProductUuid(String productUuid) {
         ProductCategoryList productCategoryList = productCategoryListRepository.findByProductUuidAndDeletedFalse(productUuid)
-                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_CATEGORY));
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_PRODUCT));
         return ResponseProductCategoryListDto.from(productCategoryList);
     }
 
@@ -59,7 +59,7 @@ public class ProductCategoryListServiceImpl implements ProductCategoryListServic
     @Override
     public void deleteProductCategoryList(RequestDeleteProductCategoryListDto requestDeleteProductCategoryListDto) {
         ProductCategoryList productCategoryList = productCategoryListRepository.findByProductUuidAndDeletedFalse(requestDeleteProductCategoryListDto.getProductUuid())
-                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_CATEGORY));
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_PRODUCT));
         productCategoryList.softDelete();
     }
 

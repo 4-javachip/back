@@ -5,7 +5,6 @@ import com.starbucks.back.agreement.domain.UserAgreement;
 import com.starbucks.back.agreement.domain.enums.AgreementType;
 import com.starbucks.back.agreement.dto.in.RequestAddUserAgreementDto;
 import com.starbucks.back.agreement.dto.out.ResponseGetUserAgreementDto;
-import com.starbucks.back.agreement.infrastructure.AgreementRepository;
 import com.starbucks.back.agreement.infrastructure.UserAgreementRepository;
 import com.starbucks.back.common.entity.BaseResponseStatus;
 import com.starbucks.back.common.exception.BaseException;
@@ -23,10 +22,11 @@ public class UserAgreementServiceImpl implements UserAgreementService {
     private final AgreementService agreementService;
     private final UserAgreementRepository userAgreementRepository;
 
-    @Transactional
+
     @Override
+    @Transactional
     public void addUserAgreement(RequestAddUserAgreementDto requestAddUserAgreementDto) {
-        Agreement agreement = agreementService.getAgreement(requestAddUserAgreementDto.getAgreementId());
+        final Agreement agreement = agreementService.getAgreement(requestAddUserAgreementDto.getAgreementId());
 
         userAgreementRepository.findByUserUuidAndAgreementId(
                     requestAddUserAgreementDto.getUserUuid(), requestAddUserAgreementDto.getAgreementId()
@@ -57,7 +57,7 @@ public class UserAgreementServiceImpl implements UserAgreementService {
 
     @Override
     public List<ResponseGetUserAgreementDto> getUserShippingAddressAgreementByUserUuid(String userUuid) {
-        List<UserAgreement> agreements = userAgreementRepository.findByUserUuidAndAgreement_Type(userUuid, AgreementType.SHIPPING_ADDRESS);
+        final List<UserAgreement> agreements = userAgreementRepository.findByUserUuidAndAgreement_Type(userUuid, AgreementType.SHIPPING_ADDRESS);
 
         if (agreements.isEmpty()) {
             throw new BaseException(BaseResponseStatus.NO_USER_SHIPPING_ADDRESS_AGREEMENT);
@@ -70,7 +70,7 @@ public class UserAgreementServiceImpl implements UserAgreementService {
 
     @Override
     public List<ResponseGetUserAgreementDto> getUserSignUpAgreementByUserUuid(String userUuid) {
-        List<UserAgreement> agreements = userAgreementRepository.findByUserUuidAndAgreement_Type(userUuid, AgreementType.SIGN_UP);
+        final List<UserAgreement> agreements = userAgreementRepository.findByUserUuidAndAgreement_Type(userUuid, AgreementType.SIGN_UP);
 
         if (agreements.isEmpty()) {
             throw new BaseException(BaseResponseStatus.NO_USER_SIGN_UP_AGREEMENT);

@@ -12,7 +12,4 @@ public class RequestSendEmailCodeVo {
     @Email(message = "올바른 이메일 형식을 입력해주세요.")
     private String email;
 
-//    @NotBlank
-//    @Size(min=6, max=6, message = "인증번호는 6글자 합니다.")
-//    private String verificationCode;
 }
