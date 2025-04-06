@@ -35,4 +35,18 @@ public record BaseResponseEntity<T>(@Schema(hidden = true) HttpStatusCode httpSt
     public BaseResponseEntity(BaseResponseStatus status) {
         this(status.getHttpStatusCode(), status.isSuccess(), status.getMessage(), status.getCode(), null);
     }
+
+    /**
+     * Return 객체가 필요하고 커스텀 상태값이 필요한 경우 -> 성공
+     * @param message
+     * @param result
+     */
+    public BaseResponseEntity(BaseResponseStatus base, T result) {
+        this(base.getHttpStatusCode(),
+                base.isSuccess(),
+                base.getMessage(),
+                base.getCode(),
+                result
+        );
+    }
 }

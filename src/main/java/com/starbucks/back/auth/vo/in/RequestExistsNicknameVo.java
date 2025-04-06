@@ -1,4 +1,4 @@
-package com.starbucks.back.user.vo.in;
+package com.starbucks.back.auth.vo.in;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;

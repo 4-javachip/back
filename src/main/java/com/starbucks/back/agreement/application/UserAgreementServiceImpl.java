@@ -26,7 +26,7 @@ public class UserAgreementServiceImpl implements UserAgreementService {
     @Override
     @Transactional
     public void addUserAgreement(RequestAddUserAgreementDto requestAddUserAgreementDto) {
-        Agreement agreement = agreementService.getAgreement(requestAddUserAgreementDto.getAgreementId());
+        final Agreement agreement = agreementService.getAgreement(requestAddUserAgreementDto.getAgreementId());
 
         userAgreementRepository.findByUserUuidAndAgreementId(
                     requestAddUserAgreementDto.getUserUuid(), requestAddUserAgreementDto.getAgreementId()
@@ -57,7 +57,7 @@ public class UserAgreementServiceImpl implements UserAgreementService {
 
     @Override
     public List<ResponseGetUserAgreementDto> getUserShippingAddressAgreementByUserUuid(String userUuid) {
-        List<UserAgreement> agreements = userAgreementRepository.findByUserUuidAndAgreement_Type(userUuid, AgreementType.SHIPPING_ADDRESS);
+        final List<UserAgreement> agreements = userAgreementRepository.findByUserUuidAndAgreement_Type(userUuid, AgreementType.SHIPPING_ADDRESS);
 
         if (agreements.isEmpty()) {
             throw new BaseException(BaseResponseStatus.NO_USER_SHIPPING_ADDRESS_AGREEMENT);
@@ -70,7 +70,7 @@ public class UserAgreementServiceImpl implements UserAgreementService {
 
     @Override
     public List<ResponseGetUserAgreementDto> getUserSignUpAgreementByUserUuid(String userUuid) {
-        List<UserAgreement> agreements = userAgreementRepository.findByUserUuidAndAgreement_Type(userUuid, AgreementType.SIGN_UP);
+        final List<UserAgreement> agreements = userAgreementRepository.findByUserUuidAndAgreement_Type(userUuid, AgreementType.SIGN_UP);
 
         if (agreements.isEmpty()) {
             throw new BaseException(BaseResponseStatus.NO_USER_SIGN_UP_AGREEMENT);

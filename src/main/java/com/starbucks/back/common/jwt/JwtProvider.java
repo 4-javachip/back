@@ -3,14 +3,22 @@ package com.starbucks.back.common.jwt;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.env.Environment;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
 import java.security.Key;
+import java.time.Duration;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
 @Service
@@ -35,10 +43,15 @@ public class JwtProvider {
      * @throws IllegalArgumentException
      */
     public String validateAndGetUserUuid(String token) throws IllegalArgumentException {
+        Claims claims = Jwts.parser()
+                .verifyWith((SecretKey) getSignKey())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
         try {
-            return extractClaim(token, Claims::getSubject);
-        } catch (NullPointerException e) {
-            throw new IllegalArgumentException("토큰에 담긴 유저 정보가 없습니다");
+            return claims.get("uuid", String.class);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("토큰에서 UUID를 추출할 수 없습니다", e);
         }
     }
 
@@ -72,17 +85,84 @@ public class JwtProvider {
      * @return 액세스 토큰
      */
     public String generateAccessToken(Authentication authentication) {
-
+        String userUuid = (String) authentication.getPrincipal();
         Claims claims = Jwts.claims().subject(authentication.getName()).build();
         Date now = new Date();
         Date expiration = new Date(now.getTime() + env.getProperty("JWT.token.access-expire-time", Long.class));
 
         return Jwts.builder()
                 .signWith(getSignKey())
-                .claim("uuid", claims.getSubject())
-                .issuedAt(expiration)
+                .claim("uuid", userUuid)
+                .issuedAt(now)
+                .expiration(expiration)
                 .compact();
     }
+
+    /**
+     * 5. refresh 토큰 생성
+     * @param authentication
+     * @return refresh 토큰
+     */
+    public String generateRefreshToken(Authentication authentication) {
+        String userUuid = (String) authentication.getPrincipal();
+        Claims claims = Jwts.claims().subject(authentication.getName()).build();
+        Date now = new Date();
+        Date expiration = new Date(now.getTime() + env.getProperty("JWT.token.refresh-expire-time", Long.class));
+
+        return Jwts.builder()
+                .signWith(getSignKey())
+                .claim("uuid", userUuid)
+                .issuedAt(now)
+                .expiration(expiration)
+                .compact();
+    }
+
+    /**
+     * 6. refreshToken을 HttpOnly 쿠키로 설정
+     * @param httpServletResponse
+     * @param refreshToken
+     */
+    public void setRefreshTokenToCookie(HttpServletResponse httpServletResponse, String refreshToken) {
+        ResponseCookie cookie = ResponseCookie.from("refresh-token", refreshToken)
+                .httpOnly(true)
+                .secure(false) // 개발 환경에서만 사용, 배포 시 true로 변경
+                .sameSite("None") // 크로스 오리진 허용
+                .path("/")
+                .maxAge(Duration.ofDays(14))
+                .build();
+
+        httpServletResponse.addHeader("Set-Cookie", cookie.toString());
+    }
+
+    /**
+     * 7. 쿠키에서 refreshToken 추출
+     * @param httpServletRequest
+     */
+    public Optional<String> extractRefreshTokenFromCookie(HttpServletRequest httpServletRequest) {
+        if (httpServletRequest.getCookies() == null) return Optional.empty();
+        return Arrays.stream(httpServletRequest.getCookies())
+                .filter(cookie -> "refresh-token".equals(cookie.getName()))
+                .map(Cookie::getValue)
+                .findFirst();
+    }
+
+    /**
+     * 8. 쿠키 삭제
+     * @return
+     */
+    public void clearRefreshTokenCookie(HttpServletResponse response) {
+        ResponseCookie cookie = ResponseCookie.from("refresh-token", "")
+                .httpOnly(true)
+                .secure(false) // 개발 환경에서만 사용, 배포 시 true로 변경
+                .path("/")
+                .maxAge(0)
+                .sameSite("None")
+                .build();
+
+        response.addHeader("Set-Cookie", cookie.toString());
+    }
+
+
 
     public Key getSignKey() {
         return Keys.hmacShaKeyFor(env.getProperty("JWT.secret-key").getBytes());
