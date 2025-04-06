@@ -6,6 +6,7 @@ import com.starbucks.back.user.dto.in.RequestSignUpDto;
 import com.starbucks.back.user.infrastructure.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -39,6 +40,11 @@ public class UserServiceImpl implements UserService{
     @Override
     public boolean existsNickname(String nickname) {
         return userRepository.existsByNickname(nickname);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String userUuid) {
+        return userRepository.findByUserUuid(userUuid).orElseThrow(() -> new IllegalArgumentException(userUuid));
     }
 
 }
