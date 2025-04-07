@@ -9,6 +9,6 @@ public interface ShippingAddressService {
     void addShippingAddress(String shippingAddressUuid, RequestShippingAddressAndUserDto requestShippingAddressAndUserDto);
     ResponseReadShippingAddressDto getShippingAddressByUuid(String Uuid);
     void updateShippingAddress(RequestUpdateShippingAddressDto requestShippingAddressDto);
-    void deleteShippingAddress(RequestDeleteShippingAddressDto requestDeleteShippingAddressDto);
-    void deleteAllShippingAddressByUserUuid(String userUuid);
+//    void deleteShippingAddress(RequestDeleteShippingAddressDto requestDeleteShippingAddressDto);
+//    void deleteAllShippingAddressByUserUuid(String userUuid);
 }

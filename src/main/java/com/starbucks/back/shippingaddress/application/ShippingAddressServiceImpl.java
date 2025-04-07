@@ -73,8 +73,8 @@ public class ShippingAddressServiceImpl implements ShippingAddressService {
     /**
      * 배송지 전부 삭제 by userUuid
      */
-    @Override
-    public void deleteAllShippingAddressByUserUuid(String userUuid) {
-        shippingAddressRepository.bulkSoftDeleteShippingAddressesByUserUuid(userUuid);
-    }
+//    @Override
+//    public void deleteAllShippingAddressByUserUuid(String userUuid) {
+//        shippingAddressRepository.bulkSoftDeleteShippingAddressesByUserUuid(userUuid);
+//    }
 }

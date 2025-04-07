@@ -77,8 +77,6 @@ public class UserShippingAddressServiceImpl implements UserShippingAddressServic
     @Transactional
     @Override
     public void deleteShippingAddress(RequestDeleteShippingAddressDto requestDeleteShippingAddressDto) {
-        // 배송지 삭제
-        shippingAddressService.deleteShippingAddress(requestDeleteShippingAddressDto);
         // 유저 배송지 삭제
         UserShippingAddress userShippingAddress = userShippingAddressRepository
                 .findByUserUuidAndShippingAddressUuidAndDeletedFalse(
@@ -95,8 +93,6 @@ public class UserShippingAddressServiceImpl implements UserShippingAddressServic
     @Transactional
     @Override
     public void deleteAllShippingAddressByUserUuid(String userUuid) {
-        // 배송지 목록 삭제
-        shippingAddressService.deleteAllShippingAddressByUserUuid(userUuid);
         // 유저-배송지 목록 삭제
         userShippingAddressRepository.bulkSoftDeleteUserShippingAddressesByUserUuid(userUuid);
     }

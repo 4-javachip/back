@@ -22,15 +22,15 @@ public interface ShippingAddressRepository extends JpaRepository<ShippingAddress
      * @param userUuid
      * @return
      */
-    @Modifying
-    @Query("""
-        UPDATE ShippingAddress sa SET sa.deleted = true
-        WHERE sa.shippingAddressUuid IN (
-            SELECT usa.shippingAddressUuid
-            FROM UserShippingAddress usa
-            WHERE usa.userUuid = :userUuid AND usa.deleted = false
-        )
-        AND sa.deleted = false
-    """)
-    void bulkSoftDeleteShippingAddressesByUserUuid(@Param("userUuid") String userUuid);
+//    @Modifying
+//    @Query("""
+//        UPDATE ShippingAddress sa SET sa.deleted = true
+//        WHERE sa.shippingAddressUuid IN (
+//            SELECT usa.shippingAddressUuid
+//            FROM UserShippingAddress usa
+//            WHERE usa.userUuid = :userUuid AND usa.deleted = false
+//        )
+//        AND sa.deleted = false
+//    """)
+//    void bulkSoftDeleteShippingAddressesByUserUuid(@Param("userUuid") String userUuid);
 }
