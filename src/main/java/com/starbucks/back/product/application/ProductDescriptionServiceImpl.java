@@ -23,6 +23,7 @@ public class ProductDescriptionServiceImpl implements ProductDescriptionService 
 
     /**
      * 상품 설명 추가
+     * TODO 상품 상세 설명 html 코드 파싱 필요
      * @param requestAddProductDescriptionDto
      */
     @Transactional
