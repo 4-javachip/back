@@ -9,11 +9,11 @@ import java.util.Optional;
 public interface CartRepository extends JpaRepository<Cart, Long> {
 
     /**
-     * 장바구니 UserUuid로 조회
+     * 장바구니 조회 by userUuid
      * @param userUuid 사용자 UUID
      * @return
      */
-    List<Cart> findAllByUserUuid(String userUuid);
+    List<Cart> findAllByUserUuidAndDeletedFalse(String userUuid);
 
     /**
      * 장바구니 겹치는지 확인
@@ -21,7 +21,10 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
      * @param productOptionListUuid
      * @return
      */
-    Boolean existsByUserUuidAndProductOptionListUuid(String userUuid, String productOptionListUuid);
+    Boolean existsByUserUuidAndProductOptionListUuidAndDeletedFalse(
+            String userUuid,
+            String productOptionListUuid
+    );
 
     /**
      * 장바구니 UUID로 조회

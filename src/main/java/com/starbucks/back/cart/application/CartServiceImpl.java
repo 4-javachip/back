@@ -26,7 +26,7 @@ public class CartServiceImpl implements CartService{
     @Transactional
     @Override
     public List<ResponseCartDto> getCartListByUserUuid(String userUuid) {
-        return cartRepository.findAllByUserUuid(userUuid)
+        return cartRepository.findAllByUserUuidAndDeletedFalse(userUuid)
                 .stream()
                 .map(ResponseCartDto::from)
                 .toList();
@@ -38,7 +38,7 @@ public class CartServiceImpl implements CartService{
     @Transactional
     @Override
     public void addCart(RequestAddCartDto requestAddCartDto) {
-        if (cartRepository.existsByUserUuidAndProductOptionListUuid(
+        if (cartRepository.existsByUserUuidAndProductOptionListUuidAndDeletedFalse(
                 requestAddCartDto.getUserUuid(),
                 requestAddCartDto.getProductOptionListUuid()
         )) {
