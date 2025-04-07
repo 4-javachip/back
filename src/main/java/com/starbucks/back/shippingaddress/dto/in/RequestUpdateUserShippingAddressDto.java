@@ -31,6 +31,7 @@ public class RequestUpdateUserShippingAddressDto {
     }
 
     public UserShippingAddress updateUserShippingAddress(UserShippingAddress userShippingAddress) {
+
         return UserShippingAddress.builder()
                 .id(userShippingAddress.getId())
                 .shippingAddressUuid(shippingAddressUuid)

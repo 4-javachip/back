@@ -125,7 +125,6 @@ public class UserShippingAddressController {
                 requestShippingAddressAndUserVo
         );
         userShippingAddressService.addUserShippingAddress(requestShippingAddressAndUserDto);
-
         return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS);
     }
 }

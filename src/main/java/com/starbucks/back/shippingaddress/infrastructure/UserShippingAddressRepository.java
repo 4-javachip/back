@@ -1,5 +1,6 @@
 package com.starbucks.back.shippingaddress.infrastructure;
 
+import com.starbucks.back.shippingaddress.application.UserShippingAddressService;
 import com.starbucks.back.shippingaddress.domain.UserShippingAddress;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
