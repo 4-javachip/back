@@ -21,7 +21,7 @@ public class CartServiceImpl implements CartService{
 
     private final CartRepository cartRepository;
     /**
-     * 장바구니 조회
+     * 장바구니 조회 by userUuid
      */
     @Transactional
     @Override
@@ -33,7 +33,7 @@ public class CartServiceImpl implements CartService{
     }
 
     /**
-     * 장바구니 겹치는지 확인
+     * 장바구니 생성 by userUuid, productOptionListUuid
      */
     @Transactional
     @Override
@@ -48,7 +48,7 @@ public class CartServiceImpl implements CartService{
     }
 
     /**
-     * 장바구니 수량 수정
+     * 장바구니 수량 수정 by userUuid, cartUuid, productQuantity
      */
     @Transactional
     @Override
@@ -57,18 +57,24 @@ public class CartServiceImpl implements CartService{
         if (requestUpdateCartCountDto.getProductQuantity() < 1) {
             throw new BaseException(BaseResponseStatus.INVALID_CART_QUANTITY);
         }
-        Cart cart = cartRepository.findByCartUuid(requestUpdateCartCountDto.getCartUuid())
+        Cart cart = cartRepository.findByCartUuidAndUserUuid(
+                    requestUpdateCartCountDto.getUserUuid(),
+                    requestUpdateCartCountDto.getCartUuid()
+                )
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_OPTION));
         cartRepository.save(requestUpdateCartCountDto.updateCart(cart));
     }
 
     /**
-     * 장바구니 체크박스 수정
+     * 장바구니 체크박스 수정 by userUuid, cartUuid
      */
     @Transactional
     @Override
     public void updateCartChecked(RequestUpdateCartCheckedDto requestUpdateCartCheckedDto) {
-        Cart cart = cartRepository.findByCartUuid(requestUpdateCartCheckedDto.getCartUuid())
+        Cart cart = cartRepository.findByCartUuidAndUserUuid(
+                requestUpdateCartCheckedDto.getUserUuid(),
+                requestUpdateCartCheckedDto.getCartUuid()
+                )
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_OPTION));
         cartRepository.save(requestUpdateCartCheckedDto.updateCart(cart));
     }
@@ -79,7 +85,10 @@ public class CartServiceImpl implements CartService{
     @Transactional
     @Override
     public void deleteCart(RequestDeleteCartDto requestDeleteCartDto) {
-        Cart cart = cartRepository.findByCartUuid(requestDeleteCartDto.getCartUuid())
+        Cart cart = cartRepository.findByCartUuidAndUserUuid(
+                requestDeleteCartDto.getUserUuid(),
+                requestDeleteCartDto.getCartUuid()
+                )
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_OPTION));
         cart.softDelete();
     }

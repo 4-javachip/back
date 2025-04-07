@@ -7,11 +7,13 @@ import lombok.Getter;
 
 @Getter
 public class RequestUpdateCartCheckedDto {
+    private String userUuid;
     private String cartUuid;
     private Boolean checked;
 
     @Builder
-    public RequestUpdateCartCheckedDto(String cartUuid, Boolean checked) {
+    public RequestUpdateCartCheckedDto(String userUuid, String cartUuid, Boolean checked) {
+        this.userUuid = userUuid;
         this.cartUuid = cartUuid;
         this.checked = checked;
     }
@@ -20,7 +22,7 @@ public class RequestUpdateCartCheckedDto {
     public Cart updateCart(Cart cart) {
         return Cart.builder()
                 .id(cart.getId())
-                .userUuid(cart.getUserUuid())
+                .userUuid(userUuid)
                 .cartUuid(cartUuid)
                 .productQuantity(cart.getProductQuantity())
                 .checked(checked)
@@ -29,8 +31,12 @@ public class RequestUpdateCartCheckedDto {
                 .build();
     }
 
-    public static RequestUpdateCartCheckedDto from(RequestUpdateCartCheckedVo requestUpdateCartCheckedVo) {
+    public static RequestUpdateCartCheckedDto from(
+            String userUuid,
+            RequestUpdateCartCheckedVo requestUpdateCartCheckedVo
+    ) {
         return RequestUpdateCartCheckedDto.builder()
+                .userUuid(userUuid)
                 .cartUuid(requestUpdateCartCheckedVo.getCartUuid())
                 .checked(requestUpdateCartCheckedVo.getChecked())
                 .build();

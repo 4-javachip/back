@@ -27,9 +27,9 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
     );
 
     /**
-     * 장바구니 UUID로 조회
+     * 장바구니 조회 by userUuid, cartUuid
      * @param cartUuid
      * @return
      */
-    Optional<Cart> findByCartUuid(String cartUuid);
+    Optional<Cart> findByCartUuidAndUserUuid(String userUuid, String cartUuid);
 }
