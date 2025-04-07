@@ -50,9 +50,12 @@ public class EventProductController {
      */
     @Operation(summary = "상품 uuid로 기획전 상품 조회 API", description = "상품 uuid로 기획전 상품 조회 API 입니다.", tags = {"Event-Product-Service"})
     @GetMapping("/search")
-    public BaseResponseEntity<ResponseEventProductVo> getEventProductByProductUuid(@RequestParam("productUuid") String productUuid) {
-        ResponseEventProductDto responseEventProductDto = eventProductService.getEventProductByProductUuid(productUuid);
-        return new BaseResponseEntity<>(responseEventProductDto.toVo());
+    public BaseResponseEntity<List<ResponseEventProductVo>> getEventProductByProductUuid(@RequestParam("productUuid") String productUuid) {
+        List<ResponseEventProductVo> result = eventProductService.getEventProductByProductUuid(productUuid)
+                .stream()
+                .map(ResponseEventProductDto::toVo)
+                .toList();
+        return new BaseResponseEntity<>(result);
     }
 
     /**
