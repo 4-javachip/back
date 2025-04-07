@@ -1,6 +1,7 @@
 package com.starbucks.back.product.application;
 
 import com.starbucks.back.common.entity.BaseResponseStatus;
+import com.starbucks.back.common.entity.SoftDeletableEntity;
 import com.starbucks.back.common.exception.BaseException;
 import com.starbucks.back.product.domain.ProductCategoryList;
 import com.starbucks.back.product.dto.in.RequestAddProductCategoryListDto;
@@ -26,7 +27,16 @@ public class ProductCategoryListServiceImpl implements ProductCategoryListServic
     @Transactional
     @Override
     public void addProductCategoryList(RequestAddProductCategoryListDto requestAddProductCategoryListDto) {
-        productCategoryListRepository.save(requestAddProductCategoryListDto.toEntity());
+        // 1. 이미 살아있는 데이터가 있는지 확인
+        if (productCategoryListRepository.findByProductUuidAndDeletedFalse(requestAddProductCategoryListDto.getProductUuid()).isPresent()) {
+            throw new BaseException(BaseResponseStatus.DUPLICATED_PRODUCT);
+        }
+
+        // 2. soft deleted 된 row가 있다면 복구
+        productCategoryListRepository.findByProductUuid(requestAddProductCategoryListDto.getProductUuid())
+                .ifPresentOrElse(SoftDeletableEntity::restore,
+                        () -> productCategoryListRepository.save(requestAddProductCategoryListDto.toEntity())
+                );
     }
 
     /**
