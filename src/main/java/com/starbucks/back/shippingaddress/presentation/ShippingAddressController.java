@@ -33,20 +33,4 @@ public class ShippingAddressController {
 
         return new BaseResponseEntity<>(responseReadShippingAddressDto.toVo());
     }
-
-    /**
-     * 배송지 수정 by shippingAddressUuid
-     * @param requestUpdateShippingAddressVo
-     */
-    @Operation(summary = "UpdateShippingAddressByUuid API", description = "UpdateShippingAddressByUuid API 입니다.", tags = {"ShippingAddress-Service"})
-    @Transactional
-    @PutMapping
-    public BaseResponseEntity<Void> updateShippingAddressByUuid(
-            @RequestBody RequestUpdateShippingAddressVo requestUpdateShippingAddressVo
-    ) {
-        shippingAddressService.updateShippingAddress(
-                        RequestUpdateShippingAddressDto.from(requestUpdateShippingAddressVo));
-
-        return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS);
-    }
 }

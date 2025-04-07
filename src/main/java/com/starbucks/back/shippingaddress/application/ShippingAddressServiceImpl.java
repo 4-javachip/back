@@ -47,14 +47,15 @@ public class ShippingAddressServiceImpl implements ShippingAddressService {
 
     /**
      * 배송지 수정
-     * @param requestShippingAddressDto
+     * @param requestUpdateShippingAddressDto
      */
     @Transactional
     @Override
-    public void updateShippingAddress(RequestUpdateShippingAddressDto requestShippingAddressDto) {
-        ShippingAddress shippingAddress = shippingAddressRepository.findByShippingAddressUuid(requestShippingAddressDto.getShippingAddressUuid())
+    public void updateShippingAddress(RequestUpdateShippingAddressDto requestUpdateShippingAddressDto) {
+        ShippingAddress shippingAddress = shippingAddressRepository.findByShippingAddressUuid(
+                        requestUpdateShippingAddressDto.getShippingAddressUuid())
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_OPTION));
-        shippingAddressRepository.save(requestShippingAddressDto.updateShippingAddress(shippingAddress));
+        shippingAddressRepository.save(requestUpdateShippingAddressDto.updateShippingAddress(shippingAddress));
     }
 
 //    /**

@@ -34,6 +34,17 @@ public interface UserShippingAddressRepository extends JpaRepository<UserShippin
     List<UserShippingAddress> findAllByUserUuidAndDeletedFalse(String userUuid);
 
     /**
+     * 배송지 존재 조회 by userUuid, shippingAddressUuid
+     * @param userUuid
+     * @param shippingAddressUuid
+     * @return
+     */
+    Boolean existsByUserUuidAndShippingAddressUuidAndDeletedFalse(
+            String userUuid,
+            String shippingAddressUuid
+    );
+
+    /**
      * 유저배송지 전부 삭제 by userUuid
      */
     @Modifying
