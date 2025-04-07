@@ -9,21 +9,25 @@ import org.springframework.security.core.Authentication;
 @Getter
 public class ResponseSignInDto {
     private String accessToken;
+    private String refreshToken;
 
     @Builder
-    public ResponseSignInDto(String accessToken) {
+    public ResponseSignInDto(String accessToken, String refreshToken) {
         this.accessToken = accessToken;
+        this.refreshToken = refreshToken;
     }
 
-    public static ResponseSignInDto of(JwtProvider jwtProvider, Authentication authentication) {
+    public static ResponseSignInDto of(String accessToken, String refreshToken) {
         return ResponseSignInDto.builder()
-                .accessToken(jwtProvider.generateAccessToken(authentication))
+                .accessToken(accessToken)
+                .refreshToken(refreshToken)
                 .build();
     }
 
     public ResponseSignInVo toVo() {
         return ResponseSignInVo.builder()
                 .accessToken(accessToken)
+                .refreshToken(refreshToken)
                 .build();
     }
 }

@@ -92,6 +92,7 @@ public class JwtProvider {
 
         return Jwts.builder()
                 .signWith(getSignKey())
+                .claim("token_type", "access")
                 .claim("uuid", userUuid)
                 .issuedAt(now)
                 .expiration(expiration)
@@ -111,6 +112,7 @@ public class JwtProvider {
 
         return Jwts.builder()
                 .signWith(getSignKey())
+                .claim("token_type", "refresh")
                 .claim("uuid", userUuid)
                 .issuedAt(now)
                 .expiration(expiration)
@@ -118,48 +120,21 @@ public class JwtProvider {
     }
 
     /**
-     * 6. refreshToken을 HttpOnly 쿠키로 설정
-     * @param httpServletResponse
-     * @param refreshToken
-     */
-    public void setRefreshTokenToCookie(HttpServletResponse httpServletResponse, String refreshToken) {
-        ResponseCookie cookie = ResponseCookie.from("refresh-token", refreshToken)
-                .httpOnly(true)
-                .secure(false) // 개발 환경에서만 사용, 배포 시 true로 변경
-                .sameSite("None")
-                .path("/")
-                .maxAge(Duration.ofDays(14))
-                .build();
-
-        httpServletResponse.addHeader("Set-Cookie", cookie.toString());
-    }
-
-    /**
-     * 7. 쿠키에서 refreshToken 추출
-     * @param httpServletRequest
-     */
-    public Optional<String> extractRefreshTokenFromCookie(HttpServletRequest httpServletRequest) {
-        if (httpServletRequest.getCookies() == null) return Optional.empty();
-        return Arrays.stream(httpServletRequest.getCookies())
-                .filter(cookie -> "refresh-token".equals(cookie.getName()))
-                .map(Cookie::getValue)
-                .findFirst();
-    }
-
-    /**
-     * 8. 쿠키 삭제
+     * JWT 토큰에서 type 추출
      * @return
      */
-    public void clearRefreshTokenCookie(HttpServletResponse response) {
-        ResponseCookie cookie = ResponseCookie.from("refresh-token", "")
-                .httpOnly(true)
-                .secure(false) // 개발 환경에서만 사용, 배포 시 true로 변경
-                .path("/")
-                .maxAge(0)
-                .sameSite("None")
-                .build();
+    public String extractTokenType(String token) {
+        try {
+            Claims claims = Jwts.parser()
+                    .setSigningKey(getSignKey())
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
 
-        response.addHeader("Set-Cookie", cookie.toString());
+            return (String) claims.get("token_type");
+        } catch (Exception e) {
+            return null;
+        }
     }
 
 
