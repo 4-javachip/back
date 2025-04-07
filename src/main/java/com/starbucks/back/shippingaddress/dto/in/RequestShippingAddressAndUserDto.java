@@ -10,7 +10,6 @@ import lombok.ToString;
 
 import java.util.UUID;
 
-@ToString
 @Getter
 @NoArgsConstructor
 public class RequestShippingAddressAndUserDto {

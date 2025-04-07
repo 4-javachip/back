@@ -11,14 +11,14 @@ import java.util.Optional;
 public interface ShippingAddressRepository extends JpaRepository<ShippingAddress, Long> {
 
     /**
-     * 배송지 uuid로 배송지 조회
-     * @param uuid
+     * 배송지 조회 by shippingAddressUuid
+     * @param shippingAddressUuid
      * @return
      */
-    Optional<ShippingAddress> findByShippingAddressUuidAndDeletedFalse(String uuid);
+    Optional<ShippingAddress> findByShippingAddressUuidAndDeletedFalse(String shippingAddressUuid);
 
     /**
-     * 배송지 겹치는지 확인
+     * 배송지 겹치는지 확인 by zipCode, baseAddress, detailAddress
      * @param zipCode
      * @param baseAddress
      * @param detailAddress
