@@ -9,18 +9,14 @@ import com.starbucks.back.common.exception.BaseException;
 import com.starbucks.back.common.jwt.JwtProvider;
 import com.starbucks.back.common.util.RedisUtil;
 import com.starbucks.back.user.infrastructure.UserRepository;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -29,7 +25,6 @@ public class AuthServiceImpl implements AuthService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final AuthenticationManager authenticationManager;
     private final JwtProvider jwtProvider;
     private final RedisUtil<String> redisUtil;
 
@@ -50,8 +45,7 @@ public class AuthServiceImpl implements AuthService {
     @Transactional
     @Override
     public ResponseSignInDto signIn(
-            RequestSignInDto requestSignInDto,
-            HttpServletResponse httpServletResponse
+            RequestSignInDto requestSignInDto
     ) {
         final UserAuthDto userAuthDto = UserAuthDto.from(
                 userRepository.findByEmail(requestSignInDto.getEmail())
@@ -71,17 +65,24 @@ public class AuthServiceImpl implements AuthService {
                     List.of() // 권한 필요 시 추가하도록 빈 리스트 넣음
             );
 
+            final String accessToken = jwtProvider.generateAccessToken(authentication);
             final String refreshToken = jwtProvider.generateRefreshToken(authentication);
+
+            redisUtil.set(
+                    "Access:" + authentication.getName(),
+                    accessToken,
+                    30,
+                    TimeUnit.MINUTES
+            );
 
             redisUtil.set(
                     "Refresh:" + authentication.getName(),
                     refreshToken,
                     14,
-                    TimeUnit.DAYS);
+                    TimeUnit.DAYS
+            );
 
-            jwtProvider.setRefreshTokenToCookie(httpServletResponse, refreshToken);
-
-            return ResponseSignInDto.of(jwtProvider, authentication);
+            return ResponseSignInDto.of(accessToken, refreshToken);
         } catch (Exception e) {
             throw new BaseException(BaseResponseStatus.LOGIN_FAILED);
         }
@@ -89,18 +90,14 @@ public class AuthServiceImpl implements AuthService {
 
     @Transactional
     @Override
-    public ResponseSignInDto reissueToken(
-            HttpServletRequest httpServletRequest,
-            HttpServletResponse httpServletResponse
+    public ResponseSignInDto reissueAllToken(
+            String refreshToken
     ) {
-        // 쿠키에서 refreshToken 추출
-        final String refreshToken = jwtProvider.extractRefreshTokenFromCookie(httpServletRequest)
-                .orElseThrow(() -> new BaseException(BaseResponseStatus.REFRESH_TOKEN_NOT_FOUND));
-
         final String userUuid = jwtProvider.validateAndGetUserUuid(refreshToken);
-        final String redisKey = "Refresh:" + userUuid;
+        final String redisAccessTokenKey = "Access:" + userUuid;
+        final String redisRefreshTokenKey = "Refresh:" + userUuid;
 
-        if (redisUtil.get(redisKey) == null) {
+        if (redisUtil.get(redisRefreshTokenKey) == null || !redisUtil.get(redisRefreshTokenKey).equals(refreshToken)) {
             throw new BaseException(BaseResponseStatus.INVALID_REFRESH_TOKEN);
         }
 
@@ -109,32 +106,23 @@ public class AuthServiceImpl implements AuthService {
                 null,
                 List.of()
         );
-        String newRefreshToken = jwtProvider.generateRefreshToken(authentication);
 
-        redisUtil.set(redisKey, newRefreshToken, 14, TimeUnit.DAYS);
+        final String newAccessToken = jwtProvider.generateAccessToken(authentication);
+        final String newRefreshToken = jwtProvider.generateRefreshToken(authentication);
 
-        jwtProvider.setRefreshTokenToCookie(httpServletResponse, newRefreshToken);
+        redisUtil.set(redisAccessTokenKey, newAccessToken, 30, TimeUnit.MINUTES);
+        redisUtil.set(redisRefreshTokenKey, newRefreshToken, 14, TimeUnit.DAYS);
 
-        return ResponseSignInDto.of(jwtProvider, authentication);
+        return ResponseSignInDto.of(newAccessToken, newRefreshToken);
    }
 
    @Transactional
    @Override
-    public void logout(
-              HttpServletRequest httpServletRequest,
-              HttpServletResponse httpServletResponse
-    ) {
-       Optional<String> optionalRefreshToken = jwtProvider.extractRefreshTokenFromCookie(httpServletRequest);
-
-       if (optionalRefreshToken.isPresent()) {
-           String refreshToken = optionalRefreshToken.get();
+    public void logout(String refreshToken) {
            try {
-               String userUuid = jwtProvider.validateAndGetUserUuid(refreshToken);
-               redisUtil.delete("Refresh:" + userUuid);
+               redisUtil.delete("Access:" + jwtProvider.validateAndGetUserUuid(refreshToken));
+               redisUtil.delete("Refresh:" + jwtProvider.validateAndGetUserUuid(refreshToken));
            } catch (Exception e) {}
-       }
-
-       jwtProvider.clearRefreshTokenCookie(httpServletResponse);
    }
 
     @Override

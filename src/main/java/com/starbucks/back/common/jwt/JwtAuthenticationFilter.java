@@ -1,5 +1,8 @@
 package com.starbucks.back.common.jwt;
 
+import com.starbucks.back.common.entity.BaseResponseStatus;
+import com.starbucks.back.common.exception.BaseException;
+import com.starbucks.back.common.util.RedisUtil;
 import com.starbucks.back.user.application.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -21,6 +24,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtProvider jwtProvider;
     private final UserService userService;
+    private final RedisUtil<String> redisUtil;
+
     @Override
     protected void doFilterInternal(
             HttpServletRequest request,
@@ -40,10 +45,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         try {
             jwt = authHeader.substring(7);
             uuid = jwtProvider.validateAndGetUserUuid(jwt);
-        } catch (Exception e) {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 401에러 보내주기
-            return;
-        }
+
+            if ("access".equals(jwtProvider.extractTokenType(jwt))) {
+                String redisAccessToken = redisUtil.get("Access:" + uuid);
+                if (redisAccessToken == null || !redisAccessToken.equals(jwt)) {
+                    throw new BaseException(BaseResponseStatus.INVALID_ACCESS_TOKEN);
+                }
+            }
+
 
         if(SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = this.userService.loadUserByUsername(uuid);
@@ -57,6 +66,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         filterChain.doFilter(request, response);
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 401
+            response.setContentType("application/json; charset=UTF-8");
+            response.getWriter().write("""
+                {
+                    "isSuccess": false,
+                    "code": 401,
+                    "message": "유효하지 않은 엑세스 토큰입니다."
+                }
+                """);
+        }
     }
 }
 

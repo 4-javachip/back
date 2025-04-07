@@ -8,9 +8,9 @@ import jakarta.servlet.http.HttpServletResponse;
 
 public interface AuthService {
     void signUp(RequestSignUpDto requestSignUpDto);
-    ResponseSignInDto signIn(RequestSignInDto requestSignInDto, HttpServletResponse httpServletResponse);
-    ResponseSignInDto reissueToken(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse);
-    void logout(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse);
+    ResponseSignInDto signIn(RequestSignInDto requestSignInDto);
+    ResponseSignInDto reissueAllToken(String refreshToken);
+    void logout(String refreshToken);
     boolean existsEmail(String email);
     boolean existsNickname(String nickname);
 }
