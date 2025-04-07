@@ -126,7 +126,7 @@ public class JwtProvider {
         ResponseCookie cookie = ResponseCookie.from("refresh-token", refreshToken)
                 .httpOnly(true)
                 .secure(false) // 개발 환경에서만 사용, 배포 시 true로 변경
-                .sameSite("None") // 크로스 오리진 허용
+                .sameSite("None")
                 .path("/")
                 .maxAge(Duration.ofDays(14))
                 .build();
