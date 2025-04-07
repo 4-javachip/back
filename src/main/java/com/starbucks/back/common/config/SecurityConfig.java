@@ -34,19 +34,19 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
             .authorizeHttpRequests(
                     authorizeRequests -> authorizeRequests
                             .requestMatchers(
-                                    "/api/v1/auth/**",
-                                    "/api/v1/email/**",
-                                    "/api/v1/agreement/**",
-                                    "/api/v1/option/**",
-                                    "/api/v1/product/**",
-                                    "/api/v1/category/**",
-                                    "/api/v1/season/**",
-                                    "/api/v1/best/**",
-                                    "/api/v1/event/**",
-                                    "/swagger-ui/**",
-                                    "/v3/api-docs/**",
-                                    "/error"
-//                                    "/**"
+//                                    "/api/v1/auth/**",
+//                                    "/api/v1/email/**",
+//                                    "/api/v1/agreement/**",
+//                                    "/api/v1/option/**",
+//                                    "/api/v1/product/**",
+//                                    "/api/v1/category/**",
+//                                    "/api/v1/season/**",
+//                                    "/api/v1/best/**",
+//                                    "/api/v1/event/**",
+//                                    "/swagger-ui/**",
+//                                    "/v3/api-docs/**",
+//                                    "/error"
+                                    "/**"
                             )
                             .permitAll()
 //                               .requestMatchers("/api/v1/review/**").permitAll()
