@@ -35,7 +35,7 @@ public class BestServiceImpl implements BestService {
      */
     @Override
     public List<ResponseBestDto> getAllBestProducts() {
-        return bestRepository.findTop30OrderByProductSalesCountDesc()
+        return bestRepository.findTop30ByOrderByProductSalesCountDesc()
                 .stream()
                 .map(ResponseBestDto::from)
                 .toList();
