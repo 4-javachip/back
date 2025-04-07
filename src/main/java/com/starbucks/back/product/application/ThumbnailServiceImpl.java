@@ -54,6 +54,19 @@ public class ThumbnailServiceImpl implements ThumbnailService {
     }
 
     /**
+     * 상품 UUID로 메인 썸네일 조회
+     * @param productUuid
+     */
+    @Override
+    public ResponseThumbnailDto getThumbnailByProductUuidAndDefaultedTrue(String productUuid) {
+        Thumbnail thumbnail = thumbnailRepository.findByProductUuidAndDefaultedTrueAndDeletedFalseOrderByIdAsc(productUuid)
+                .stream()
+                .findFirst()
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_PRODUCT_THUMBNAIL));
+        return ResponseThumbnailDto.from(thumbnail);
+    }
+
+    /**
      * 썸네일 전체 조회
      */
     @Override

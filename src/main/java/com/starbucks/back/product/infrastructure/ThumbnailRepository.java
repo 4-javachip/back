@@ -14,4 +14,9 @@ public interface ThumbnailRepository extends JpaRepository<Thumbnail, Long> {
      */
     List<Thumbnail> findAllByProductUuidAndDeletedFalseOrderByDefaultedDescIdAsc(String productUuid);
 
+    /**
+     * 상품 UUID로 메인 썸네일 조회
+     */
+    List<Thumbnail> findByProductUuidAndDefaultedTrueAndDeletedFalseOrderByIdAsc(String productUuid);
+
 }

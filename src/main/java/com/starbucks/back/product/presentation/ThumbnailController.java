@@ -61,6 +61,16 @@ public class ThumbnailController {
     }
 
     /**
+     * 메인 썸네일 전체 조회
+     */
+    @Operation(summary = "메인 썸네일 전체 조회 API", description = "메인 썸네일 전체 조회 API 입니다.", tags = {"Product-Thumbnail-Service"})
+    @GetMapping("/default/{productUuid}")
+    public BaseResponseEntity<ResponseThumbnailVo> getThumbnailByProductUuidAndDefaultedTrue(@PathVariable("productUuid") String productUuid) {
+        ResponseThumbnailDto responseThumbnailDto = thumbnailService.getThumbnailByProductUuidAndDefaultedTrue(productUuid);
+        return new BaseResponseEntity<>(responseThumbnailDto.toVo());
+    }
+
+    /**
      * 썸네일 전체 조회
      */
     @Operation(summary = "썸네일 전체 조회 API", description = "썸네일 전체 조회 API 입니다.", tags = {"Product-Thumbnail-Service"})
