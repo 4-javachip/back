@@ -15,7 +15,6 @@ public class RedisUtil<T> {
     public void set(String key, T value, long timeout, TimeUnit unit) {
         redisTemplate.opsForValue().set(key, value, timeout, unit);
     }
-
     public T get(String key) {
         return redisTemplate.opsForValue().get(key);
     }
@@ -23,4 +22,13 @@ public class RedisUtil<T> {
     public void delete(String key) {
         redisTemplate.delete(key);
     }
+
+    public Long increase(String key, long timeout, TimeUnit unit) {
+        Long value = redisTemplate.opsForValue().increment(key);
+        if (value != null && value == 1L) {
+            redisTemplate.expire(key, timeout, unit);
+        }
+        return value;
+    }
+
 }

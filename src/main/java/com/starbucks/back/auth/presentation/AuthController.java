@@ -41,36 +41,30 @@ public class AuthController {
     @Operation(summary = "SignIn API", description = "로그인", tags = {"Auth-service"})
     @PostMapping("/sign-in")
     public BaseResponseEntity<ResponseSignInVo> signIn(
-            @Valid @RequestBody RequestSignInVo requestSignInVo,
-            HttpServletResponse httpServletResponse
+            @Valid @RequestBody RequestSignInVo requestSignInVo
     ) {
         return new BaseResponseEntity<>(
                 BaseResponseStatus.SIGN_IN_SUCCESS,
-                authService.signIn(
-                        RequestSignInDto.from(requestSignInVo),
-                        httpServletResponse
-                ).toVo()
+                authService.signIn(RequestSignInDto.from(requestSignInVo)).toVo()
         );
     }
 
     @Operation(summary = "Reissue Token API", description = "토큰 재발급(access, refresh)", tags = {"Auth-service"})
     @PostMapping("/reissue")
     public BaseResponseEntity<ResponseSignInVo> reissueToken(
-            HttpServletRequest httpServletRequest,
-            HttpServletResponse httpServletResponse
+            @RequestHeader("Authorization") String authorization
     ) {
         return new BaseResponseEntity<>(
-                authService.reissueToken(httpServletRequest, httpServletResponse).toVo()
+                authService.reissueAllToken(authorization.substring(7)).toVo()
         );
     }
 
     @Operation(summary = "Logout API", description = "로그아웃", tags = {"Auth-service"})
     @PostMapping("/logout")
     public BaseResponseEntity<Void> logout(
-            HttpServletRequest httpServletRequest,
-            HttpServletResponse httpServletResponse
+            @RequestHeader("Authorization") String authorization
     ) {
-        authService.logout(httpServletRequest, httpServletResponse);
+        authService.logout(authorization.substring(7));
         return new BaseResponseEntity<>(BaseResponseStatus.LOGOUT_SUCCESS);
     }
 

@@ -22,20 +22,19 @@ public class EmailServiceImpl implements EmailService{
 
     @Override
     public void sendEmailCode(RequestSendEmailCodeDto requestSendEmailCodeDto) {
-        final String code = RandomStringUtils.random(6, true, true).toLowerCase();
+        final String code = RandomStringUtils.random(6, true, true);
         final String email = requestSendEmailCodeDto.getEmail();
 
-        redisUtil.set(
-                email,
-                code,
-                5L,
-                TimeUnit.MINUTES
-        );
+        final String limitKey = "Limit:EmailSend:" + email;
+        if (redisUtil.get(limitKey) != null) {
+            throw new BaseException(BaseResponseStatus.EMAIL_CODE_SEND_LIMITED);
+        }
 
-        emailSender.send(
-                email,
-                templateBuilder.buildVerificationEmail(code)
-        );
+        redisUtil.set(email, code, 5L, TimeUnit.MINUTES);
+        redisUtil.set(limitKey, "3", 3L, TimeUnit.MINUTES);
+
+        emailSender.send(email, templateBuilder.buildVerificationEmail(code));
+        redisUtil.set("Fail:EmailVerify:" + email, "0", 5L, TimeUnit.MINUTES);
     }
 
     @Override
@@ -48,9 +47,18 @@ public class EmailServiceImpl implements EmailService{
         }
 
         if (!redisCode.equals(requestVerificationEmailDto.getVerificationCode())) {
+            String failKey = "Fail:EmailVerify:" + email;
+
+            if (redisUtil.increase(failKey, 5L, TimeUnit.MINUTES) >= 5) {
+                redisUtil.delete(email);
+                redisUtil.delete(failKey);
+                throw new BaseException(BaseResponseStatus.EMAIL_CODE_VERIFICATION_LIMITED);
+            }
+
             throw new BaseException(BaseResponseStatus.INVALID_EMAIL_CODE);
         }
 
         redisUtil.delete(email);
+        redisUtil.delete("Fail:EmailVerify:" + email);
     }
 }
