@@ -15,26 +15,15 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     Optional<Product> findByName(String name);
 
     /**
-     * 상품 이름으로 삭제되지 않은 상품 찾기
-     * @param name
-     */
-    Optional<Product> findByNameAndDeletedFalse(String name);
-
-    /**
-     * 삭제되지 않은 상품 전체 조회
-     */
-    List<Product> findAllByDeletedFalse();
-
-    /**
-     * 상품 UUID로 삭제되지 않은 상품 찾기
+     * 상품 UUID로 상품 찾기
      * @param productUuid
      */
-    Optional<Product> findByProductUuidAndDeletedFalse(String productUuid);
+    Optional<Product> findByProductUuid(String productUuid);
 
     /**
      * 상품 이름으로 상품 존재 여부 확인
      * @param name
      */
-    boolean existsByNameAndDeletedFalse(String name);
+    boolean existsByName(String name);
 
 }

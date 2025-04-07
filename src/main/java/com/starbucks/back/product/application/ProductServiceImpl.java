@@ -27,7 +27,7 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     @Override
     public void addProduct(RequestAddProductDto requestAddProductDto) {
-        if (productRepository.existsByNameAndDeletedFalse(requestAddProductDto.getName())) {
+        if (productRepository.existsByName(requestAddProductDto.getName())) {
             throw new BaseException(BaseResponseStatus.DUPLICATED_PRODUCT);
         }
         productRepository.save(requestAddProductDto.toEntity());
@@ -39,7 +39,7 @@ public class ProductServiceImpl implements ProductService {
      */
     @Override
     public ResponseProductDto getProductByName(String name) {
-        Product product = productRepository.findByNameAndDeletedFalse(name)
+        Product product = productRepository.findByName(name)
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_PRODUCT));
         return ResponseProductDto.from(product);
     }
@@ -50,7 +50,7 @@ public class ProductServiceImpl implements ProductService {
      */
     @Override
     public ResponseProductDto getProductByUuid(String productUuid) {
-        Product product = productRepository.findByProductUuidAndDeletedFalse(productUuid)
+        Product product = productRepository.findByProductUuid(productUuid)
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_PRODUCT));
         return ResponseProductDto.from(product);
     }
@@ -60,7 +60,7 @@ public class ProductServiceImpl implements ProductService {
      */
     @Override
     public List<ResponseProductDto> getAllProducts() {
-        return productRepository.findAllByDeletedFalse()
+        return productRepository.findAll()
                 .stream()
                 .map(ResponseProductDto::from)
                 .toList();
@@ -73,7 +73,7 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     @Override
     public void updateProduct(RequestUpdateProductDto requestUpdateProductDto) {
-        Product product = productRepository.findByProductUuidAndDeletedFalse(requestUpdateProductDto.getProductUuid())
+        Product product = productRepository.findByProductUuid(requestUpdateProductDto.getProductUuid())
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_PRODUCT));
         productRepository.save(requestUpdateProductDto.updateEntity(product));
     }
@@ -85,8 +85,8 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     @Override
     public void deleteProduct(RequestDeleteProductDto requestDeleteProductDto) {
-        Product product = productRepository.findByProductUuidAndDeletedFalse(requestDeleteProductDto.getProductUuid())
+        Product product = productRepository.findByProductUuid(requestDeleteProductDto.getProductUuid())
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_PRODUCT));
-        product.softDelete();
+        productRepository.delete(product);
     }
 }
