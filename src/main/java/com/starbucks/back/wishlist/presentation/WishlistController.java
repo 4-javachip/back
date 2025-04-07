@@ -21,7 +21,7 @@ public class WishlistController {
     private final WishlistService wishlistService;
 
     /**
-     * 찜 List 조회 (userUuid)
+     * 찜 List 조회 by userUuid
      */
     @GetMapping("/{userUuid}")
     @Operation(summary = "GetWishlistListByUserUuid API", description = "GetWishlistListByUserUuid API 입니다.", tags = {"Wishlist-Service"})
@@ -33,16 +33,16 @@ public class WishlistController {
         return new BaseResponseEntity<>(result);
     }
 
-    /**
-     * 찜 update
-     */
-    @PostMapping
-    @Operation(summary = "UpdateWishlist API", description = "UpdateWishlist API 입니다.", tags = {"Wishlist-Service"})
-    public BaseResponseEntity<Void> updateWishlist(@RequestBody RequestUpdateWishlistVo requestUpdateWishlistVo) {
-        RequestUpdateWishlistDto requestUpdateWishlistDto = RequestUpdateWishlistDto.from(requestUpdateWishlistVo);
-        wishlistService.updateWishlist(requestUpdateWishlistDto);
-        return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS);
-    }
+//    /**
+//     * 찜 update
+//     */
+//    @PostMapping
+//    @Operation(summary = "UpdateWishlist API", description = "UpdateWishlist API 입니다.", tags = {"Wishlist-Service"})
+//    public BaseResponseEntity<Void> updateWishlist(@RequestBody RequestUpdateWishlistVo requestUpdateWishlistVo) {
+//        RequestUpdateWishlistDto requestUpdateWishlistDto = RequestUpdateWishlistDto.from(requestUpdateWishlistVo);
+//        wishlistService.toggleWishlist(requestUpdateWishlistDto);
+//        return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS);
+//    }
 
 }
 

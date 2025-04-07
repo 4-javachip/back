@@ -32,16 +32,16 @@ public class WishlistServiceImpl implements WishlistService{
      */
     @Transactional
     @Override
-    public void updateWishlist(RequestUpdateWishlistDto requestUpdateWishlistDto) {
-        wishlistRepository.findByUserUuidAndProductUuidAndProductOptionListUuidAndDeletedFalse(
+    public void toggleWishlist(RequestUpdateWishlistDto requestUpdateWishlistDto) {
+        wishlistRepository.findByUserUuidAndProductUuidAndProductOptionListUuid(
                         requestUpdateWishlistDto.getUserUuid(),
                         requestUpdateWishlistDto.getProductUuid(),
                         requestUpdateWishlistDto.getProductOptionListUuid()
                 )
                 .ifPresentOrElse(
-                        // 찜 목록이 존재하는 경우
-                        wishlist -> wishlist.softDelete(),
-                        // 찜 목록이 존재하지 않는 경우
+                        // 찜 목록이 존재하는 경우, 삭제
+                        wishlist -> wishlistRepository.delete(wishlist),
+                        // 찜 목록이 존재하지 않는 경우, 추가
                         () -> wishlistRepository.save(requestUpdateWishlistDto.toEntity())
                 );
     }

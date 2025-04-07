@@ -8,5 +8,5 @@ import java.util.List;
 public interface WishlistService {
 
     List<ResponseReadWishlistListDto> getWishlistListByUserUuid(String userUuid);
-    void updateWishlist(RequestUpdateWishlistDto requestUpdateWishlistDto);
+    void toggleWishlist(RequestUpdateWishlistDto requestUpdateWishlistDto);
 }
