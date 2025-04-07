@@ -53,12 +53,12 @@ public class CartServiceImpl implements CartService{
     @Transactional
     @Override
     public void updateCart(RequestUpdateCartCountDto requestUpdateCartCountDto) {
-        Cart cart = cartRepository.findByCartUuid(requestUpdateCartCountDto.getCartUuid())
-                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_OPTION));
         // 수량 검증
         if (requestUpdateCartCountDto.getProductQuantity() < 1) {
             throw new BaseException(BaseResponseStatus.INVALID_CART_QUANTITY);
         }
+        Cart cart = cartRepository.findByCartUuid(requestUpdateCartCountDto.getCartUuid())
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_OPTION));
         cartRepository.save(requestUpdateCartCountDto.updateCart(cart));
     }
 
