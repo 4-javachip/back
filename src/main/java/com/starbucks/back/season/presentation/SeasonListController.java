@@ -66,9 +66,12 @@ public class SeasonListController {
      */
     @Operation(summary = "상품 UUID로 시즌 리스트 조회 API", description = "상품 UUID로 시즌 리스트 조회 API 입니다.", tags = {"Season-List-Service"})
     @GetMapping("/search")
-    public BaseResponseEntity<ResponseSeasonListVo> getSeasonListByProductUuid(@RequestParam("productUuid") String productUuid) {
-        ResponseSeasonListDto responseSeasonListDto = seasonListService.getSeasonListByProductUuid(productUuid);
-        return new BaseResponseEntity<>(responseSeasonListDto.toVo());
+    public BaseResponseEntity<List<ResponseSeasonListVo>> getSeasonListByProductUuid(@RequestParam("productUuid") String productUuid) {
+        List<ResponseSeasonListVo> result = seasonListService.getSeasonListByProductUuid(productUuid)
+                .stream()
+                .map(ResponseSeasonListDto::toVo)
+                .toList();
+        return new BaseResponseEntity<>(result);
     }
 
     /**

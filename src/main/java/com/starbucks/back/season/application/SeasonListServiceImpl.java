@@ -58,10 +58,11 @@ public class SeasonListServiceImpl implements SeasonListService {
      * @param productUuid
      */
     @Override
-    public ResponseSeasonListDto getSeasonListByProductUuid(String productUuid) {
-        SeasonList seasonList = seasonListRepository.findByProductUuidAndDeletedFalse(productUuid)
-                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_PRODUCT));
-        return ResponseSeasonListDto.from(seasonList);
+    public List<ResponseSeasonListDto> getSeasonListByProductUuid(String productUuid) {
+        return seasonListRepository.findByProductUuidAndDeletedFalse(productUuid)
+                .stream()
+                .map(ResponseSeasonListDto::from)
+                .toList();
     }
 
     /**
