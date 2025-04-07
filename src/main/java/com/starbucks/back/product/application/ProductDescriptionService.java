@@ -23,6 +23,7 @@ public interface ProductDescriptionService {
 
     /**
      * 상품 설명 전체 조회
+     * TODO : 상품 설명 전체 조회시 페이징 처리 필요(관리자에서 보기 위해)
      */
     List<ResponseProductDescriptionDto> getAllProductDescription();
 
