@@ -40,6 +40,7 @@ public enum BaseResponseStatus {
     SSE_SEND_FAIL(HttpStatus.INTERNAL_SERVER_ERROR, false, 901, "알림 전송에 실패하였습니다."),
     LOGIN_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, false, 902, "로그인에 실패하였습니다."),
 
+
     /**
      * Request 유효성 에러
      */
@@ -77,6 +78,8 @@ public enum BaseResponseStatus {
     // mail
     INVALID_EMAIL_CODE(HttpStatus.BAD_REQUEST, false, 2117, "인증코드가 틀렸습니다."),
     EXPIRED_EMAIL_CODE(HttpStatus.BAD_REQUEST, false, 2118, "틀리거나 만료된 인증코드입니다."),
+    EMAIL_CODE_SEND_LIMITED(HttpStatus.TOO_MANY_REQUESTS, false, 2119,"이메일 발송은 3분에 1회 입니다. 잠시 후 다시 시도해주세요."),
+    EMAIL_CODE_VERIFICATION_LIMITED(HttpStatus.TOO_MANY_REQUESTS, false, 2120, "인증에 반복적으로 실패했습니다. 다시 코드 전송을 요청해주세요."),
 
 
     /**
