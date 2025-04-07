@@ -21,7 +21,8 @@ public class RequestUpdateUserShippingAddressDto {
 
     public static RequestUpdateUserShippingAddressDto of(
             String userUuid,
-            RequestUpdateUserShippingAddressVo requestUpdateUserShippingAddressVo) {
+            RequestUpdateUserShippingAddressVo requestUpdateUserShippingAddressVo
+    ) {
         return RequestUpdateUserShippingAddressDto.builder()
                 .shippingAddressUuid(requestUpdateUserShippingAddressVo.getShippingAddressUuid())
                 .defaulted(requestUpdateUserShippingAddressVo.getDefaulted())
@@ -30,7 +31,6 @@ public class RequestUpdateUserShippingAddressDto {
     }
 
     public UserShippingAddress updateUserShippingAddress(UserShippingAddress userShippingAddress) {
-        System.out.println("defaulted: " + defaulted);
         return UserShippingAddress.builder()
                 .id(userShippingAddress.getId())
                 .shippingAddressUuid(shippingAddressUuid)

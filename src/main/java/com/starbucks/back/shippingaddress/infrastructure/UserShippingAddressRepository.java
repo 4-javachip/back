@@ -1,6 +1,5 @@
 package com.starbucks.back.shippingaddress.infrastructure;
 
-import com.starbucks.back.shippingaddress.application.UserShippingAddressService;
 import com.starbucks.back.shippingaddress.domain.UserShippingAddress;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -13,21 +12,21 @@ import java.util.Optional;
 public interface UserShippingAddressRepository extends JpaRepository<UserShippingAddress, Long> {
 
     /**
-     * 유저 UUID로 기본외배송지List 조회
+     * 기본외배송지 리스트 조회 by userUuid
      * @param userUuid
      * @return
      */
     List<UserShippingAddress> findByUserUuidAndDefaultedFalseAndDeletedFalse(String userUuid);
 
     /**
-     * 유저 UUID로 기본배송지 UUID 조회
+     * 기본배송지 조회 by userUuid
      * @param userUuid
      * @return
      */
     Optional<UserShippingAddress> findByUserUuidAndDefaultedTrueAndDeletedFalse(String userUuid);
 
     /**
-     * 유저배송지 존재 여부 파악
+     * 유저배송지 존재 여부 파악 by userUuid, shippingAddressUuid
      * @param userUuid
      * @param shippingAddressUuid
      * @return
@@ -35,7 +34,7 @@ public interface UserShippingAddressRepository extends JpaRepository<UserShippin
     boolean existsByUserUuidAndShippingAddressUuidAndDeletedFalse(String userUuid, String shippingAddressUuid);
 
     /**
-     * 유저 UUID로 배송지리스트 조회
+     * 배송지리스트 조회 by userUuid
      * @param userUuid
      * @return
      */
@@ -53,8 +52,9 @@ public interface UserShippingAddressRepository extends JpaRepository<UserShippin
     void bulkSoftDeleteUserShippingAddressesByUserUuid(@Param("userUuid") String userUuid);
 
     /**
-     * 유저배송지 defaulted 변경
-     * @param
+     * 유저배송지 defaulted 변경 by userUuid, shippingAddressUuid
+     * @param userUuid
+     * @param shippingAddressUuid
      */
     Optional<UserShippingAddress> findByUserUuidAndShippingAddressUuidAndDeletedFalse(String userUuid, String shippingAddressUuid);
 }
