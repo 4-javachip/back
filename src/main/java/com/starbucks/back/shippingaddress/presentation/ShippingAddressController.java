@@ -8,6 +8,7 @@ import com.starbucks.back.shippingaddress.dto.out.ResponseReadShippingAddressDto
 import com.starbucks.back.shippingaddress.vo.in.RequestUpdateShippingAddressVo;
 import com.starbucks.back.shippingaddress.vo.out.ResponseShippingAddressVo;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,6 +38,8 @@ public class ShippingAddressController {
      * 배송지 수정 by shippingAddressUuid
      * @param requestUpdateShippingAddressVo
      */
+    @Operation(summary = "UpdateShippingAddressByUuid API", description = "UpdateShippingAddressByUuid API 입니다.", tags = {"ShippingAddress-Service"})
+    @Transactional
     @PutMapping
     public BaseResponseEntity<Void> updateShippingAddressByUuid(
             @RequestBody RequestUpdateShippingAddressVo requestUpdateShippingAddressVo
