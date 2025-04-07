@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "best")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Best extends SoftDeletableEntity {
+public class Best extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,7 +21,7 @@ public class Best extends SoftDeletableEntity {
     /**
      * 상품 uuid
      */
-    @Column(name = "product_uuid", length = 50, nullable = false)
+    @Column(name = "product_uuid", length = 50, nullable = false, unique = true)
     private String productUuid;
 
     /**

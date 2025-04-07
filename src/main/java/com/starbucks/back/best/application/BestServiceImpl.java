@@ -35,7 +35,7 @@ public class BestServiceImpl implements BestService {
      */
     @Override
     public List<ResponseBestDto> getAllBestProducts() {
-        return bestRepository.findTop30ByDeletedFalseOrderByProductSalesCountDesc()
+        return bestRepository.findTop30OrderByProductSalesCountDesc()
                 .stream()
                 .map(ResponseBestDto::from)
                 .toList();
@@ -48,7 +48,7 @@ public class BestServiceImpl implements BestService {
     @Transactional
     @Override
     public void updateBestProduct(RequestUpdateBestDto requestUpdateBestDto) {
-        Best best = bestRepository.findByProductUuidAndDeletedFalse(requestUpdateBestDto.getProductUuid())
+        Best best = bestRepository.findByProductUuid(requestUpdateBestDto.getProductUuid())
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_PRODUCT));
         bestRepository.save(requestUpdateBestDto.updateEntity(best));
     }
@@ -60,8 +60,8 @@ public class BestServiceImpl implements BestService {
     @Transactional
     @Override
     public void deleteBestProduct(RequestDeleteBestDto requestDeleteBestDto) {
-        Best best = bestRepository.findByProductUuidAndDeletedFalse(requestDeleteBestDto.getProductUuid())
+        Best best = bestRepository.findByProductUuid(requestDeleteBestDto.getProductUuid())
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_PRODUCT));
-        best.softDelete();
+        bestRepository.delete(best);
     }
 }
