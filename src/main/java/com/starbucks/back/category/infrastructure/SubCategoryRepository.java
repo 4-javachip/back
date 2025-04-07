@@ -15,20 +15,15 @@ public interface SubCategoryRepository extends JpaRepository<SubCategory, Long> 
     Optional<SubCategory> findByName(String name);
 
     /**
-     * 서브 카테고리 이름으로 삭제되지 않은 서브 카테고리 찾기
-     * @param name
+     * 카테고리 아이디로 서브 카테고리 리스트 찾기
+     * @param categoryId
      */
-    Optional<SubCategory> findByNameAndDeletedFalse(String name);
+    List<SubCategory> findByCategoryId(Long categoryId);
 
     /**
-     * 삭제되지 않은 서브 카테고리 전체 조회
-     */
-    List<SubCategory> findAllByDeletedFalse();
-
-    /**
-     * 서브 카테고리 이름으로 서브 카테고리 존재 여부 확인
+     * 같은 카테고리 내 서브 카테고리 이름 존재 여부 확인
      * @param name
      */
-    boolean existsByNameAndDeletedFalse(String name);
+    boolean existsByCategoryIdAndName(Long categoryId, String name);
 
 }
