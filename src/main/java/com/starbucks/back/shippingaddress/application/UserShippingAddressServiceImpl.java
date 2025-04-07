@@ -22,7 +22,7 @@ public class UserShippingAddressServiceImpl implements UserShippingAddressServic
     private final ShippingAddressService shippingAddressService;
 
     /**
-     * 유저 UUID로 기본 외 배송지List 조회
+     * 기본외배송지 조회 by userUuid
      * @param userUuid
      * @return
      */
@@ -35,7 +35,7 @@ public class UserShippingAddressServiceImpl implements UserShippingAddressServic
     }
 
     /**
-     * 유저 UUID로 기본배송지 UUID 조회
+     * 기본배송지 객체 조회 by userUuid
      * @param userUuid
      * @return
      */
@@ -64,11 +64,14 @@ public class UserShippingAddressServiceImpl implements UserShippingAddressServic
         // 유저배송지 추가
         userShippingAddressRepository.save(userShippingAddress);
         // 배송지 추가
-        shippingAddressService.addShippingAddress(userShippingAddress.getShippingAddressUuid(), requestShippingAddressAndUserDto);
+        shippingAddressService.addShippingAddress(
+                userShippingAddress.getShippingAddressUuid(),
+                requestShippingAddressAndUserDto
+        );
     }
 
     /**
-     * 배송지 삭제
+     * 배송지 삭제 by userUuid, shippingAddressUuid
      * @param
      */
     @Transactional
@@ -77,10 +80,11 @@ public class UserShippingAddressServiceImpl implements UserShippingAddressServic
         // 배송지 삭제
         shippingAddressService.deleteShippingAddress(requestDeleteShippingAddressDto);
         // 유저 배송지 삭제
-        UserShippingAddress userShippingAddress = userShippingAddressRepository.findByUserUuidAndShippingAddressUuidAndDeletedFalse(
-                requestDeleteShippingAddressDto.getUserUuid(),
-                requestDeleteShippingAddressDto.getShippingAddressUuid()
-        )
+        UserShippingAddress userShippingAddress = userShippingAddressRepository
+                .findByUserUuidAndShippingAddressUuidAndDeletedFalse(
+                        requestDeleteShippingAddressDto.getUserUuid(),
+                        requestDeleteShippingAddressDto.getShippingAddressUuid()
+                )
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_OPTION));
         userShippingAddress.softDelete();
     }
@@ -103,13 +107,18 @@ public class UserShippingAddressServiceImpl implements UserShippingAddressServic
      */
     @Transactional
     @Override
-    public void updateUserShippingAddressDefaulted(RequestUpdateUserShippingAddressDto requestUpdateUserShippingAddressDto) {
-        UserShippingAddress userShippingAddress = userShippingAddressRepository.findByUserUuidAndShippingAddressUuidAndDeletedFalse(
-                requestUpdateUserShippingAddressDto.getUserUuid(),
-                requestUpdateUserShippingAddressDto.getShippingAddressUuid()
-        )
+    public void updateUserShippingAddressDefaulted(
+            RequestUpdateUserShippingAddressDto requestUpdateUserShippingAddressDto
+    ) {
+        UserShippingAddress userShippingAddress = userShippingAddressRepository
+                .findByUserUuidAndShippingAddressUuidAndDeletedFalse(
+                        requestUpdateUserShippingAddressDto.getUserUuid(),
+                        requestUpdateUserShippingAddressDto.getShippingAddressUuid()
+                )
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_OPTION));
-        userShippingAddressRepository.save(requestUpdateUserShippingAddressDto
-                .updateUserShippingAddress(userShippingAddress));
+        userShippingAddressRepository.save(
+                requestUpdateUserShippingAddressDto
+                .updateUserShippingAddress(userShippingAddress)
+        );
     }
 }

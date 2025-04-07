@@ -7,6 +7,7 @@ import lombok.Getter;
 
 @Getter
 public class ResponseReadUserShippingAddressDto {
+
     private final String shippingAddressUuid;
     private final Boolean defaulted;
 
@@ -20,7 +21,6 @@ public class ResponseReadUserShippingAddressDto {
     public static ResponseReadUserShippingAddressDto from(UserShippingAddress userShippingAddress) {
         return ResponseReadUserShippingAddressDto.builder()
                 .shippingAddressUuid(userShippingAddress.getShippingAddressUuid())
-//                .defaulted(userShippingAddress.getDefaulted())
                 .build();
     }
 
@@ -28,7 +28,6 @@ public class ResponseReadUserShippingAddressDto {
     public ResponseReadShippingAddressListVo toVo() {
         return ResponseReadShippingAddressListVo.builder()
                 .shippingAddressUuid(shippingAddressUuid)
-//                .defaulted(defaulted)
                 .build();
     }
 }
