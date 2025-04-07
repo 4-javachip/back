@@ -22,7 +22,7 @@ public class UserShippingAddressServiceImpl implements UserShippingAddressServic
     private final ShippingAddressService shippingAddressService;
 
     /**
-     * 기본외배송지 조회 by userUuid
+     * 기본외배송지리스트 조회 by userUuid
      * @param userUuid
      * @return
      */

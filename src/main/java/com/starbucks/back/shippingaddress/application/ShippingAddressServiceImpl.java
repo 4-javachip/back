@@ -39,7 +39,7 @@ public class ShippingAddressServiceImpl implements ShippingAddressService {
     @Override
     public ResponseReadShippingAddressDto getShippingAddressByUuid(String shippingAddressUuid) {
         ShippingAddress shippingAddress = shippingAddressRepository
-                .findByShippingAddressUuidAndDeletedFalse(shippingAddressUuid)
+                .findByShippingAddressUuid(shippingAddressUuid)
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_OPTION));
         
         return ResponseReadShippingAddressDto.from(shippingAddress);
@@ -52,7 +52,7 @@ public class ShippingAddressServiceImpl implements ShippingAddressService {
     @Transactional
     @Override
     public void updateShippingAddress(RequestUpdateShippingAddressDto requestShippingAddressDto) {
-        ShippingAddress shippingAddress = shippingAddressRepository.findByShippingAddressUuidAndDeletedFalse(requestShippingAddressDto.getShippingAddressUuid())
+        ShippingAddress shippingAddress = shippingAddressRepository.findByShippingAddressUuid(requestShippingAddressDto.getShippingAddressUuid())
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_OPTION));
         shippingAddressRepository.save(requestShippingAddressDto.updateShippingAddress(shippingAddress));
     }
@@ -63,7 +63,7 @@ public class ShippingAddressServiceImpl implements ShippingAddressService {
     @Transactional
     @Override
     public void deleteShippingAddress(RequestDeleteShippingAddressDto requestDeleteShippingAddressDto) {
-        ShippingAddress shippingAddress = shippingAddressRepository.findByShippingAddressUuidAndDeletedFalse(
+        ShippingAddress shippingAddress = shippingAddressRepository.findByShippingAddressUuid(
                 requestDeleteShippingAddressDto.getShippingAddressUuid()
                 )
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_OPTION));

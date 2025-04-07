@@ -15,7 +15,7 @@ public interface ShippingAddressRepository extends JpaRepository<ShippingAddress
      * @param shippingAddressUuid
      * @return
      */
-    Optional<ShippingAddress> findByShippingAddressUuidAndDeletedFalse(String shippingAddressUuid);
+    Optional<ShippingAddress> findByShippingAddressUuid(String shippingAddressUuid);
 
     /**
      * 배송지테이블 전체 삭제 by userUuid
