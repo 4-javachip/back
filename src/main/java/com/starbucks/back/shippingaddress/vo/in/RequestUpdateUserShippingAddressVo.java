@@ -4,6 +4,7 @@ import lombok.Getter;
 
 @Getter
 public class RequestUpdateUserShippingAddressVo {
+
     private String shippingAddressUuid;
     private Boolean defaulted;
 }
