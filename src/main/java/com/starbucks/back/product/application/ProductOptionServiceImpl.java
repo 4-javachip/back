@@ -47,7 +47,7 @@ public class ProductOptionServiceImpl implements ProductOptionService {
      */
     @Override
     public List<ResponseProductOptionDto> getProductOptionsByProductUuid(String productUuid) {
-        return productOptionRepository.findByProductUuid(productUuid)
+        return productOptionRepository.findByProductUuidAndDeletedFalse(productUuid)
                 .stream()
                 .map(ResponseProductOptionDto::from)
                 .toList();
