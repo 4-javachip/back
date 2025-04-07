@@ -12,17 +12,12 @@ public interface ProductOptionRepository extends JpaRepository<ProductOption, Lo
      * 상품 UUID로 삭제되지 않은 상품 옵션 리스트 찾기
      * @param productUuid
      */
-    List<ProductOption> findByProductUuidAndDeletedFalse(String productUuid);
+    List<ProductOption> findByProductUuid(String productUuid);
 
     /**
      * 상품 옵션 UUID로 삭제되지 않은 상품 옵션 찾기
      * @param productOptionUuid
      */
-    Optional<ProductOption> findByProductOptionUuidAndDeletedFalse(String productOptionUuid);
-
-    /**
-     * 삭제되지 않은 상품 옵션 전체 조회
-     */
-    List<ProductOption> findAllByDeletedFalse();
+    Optional<ProductOption> findByProductOptionUuid(String productOptionUuid);
 
 }
