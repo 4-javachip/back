@@ -24,15 +24,10 @@ public class ShippingAddressServiceImpl implements ShippingAddressService {
      */
     @Transactional
     @Override
-    public void addShippingAddress(String shippingAddressUuid, RequestShippingAddressAndUserDto requestShippingAddressAndUserDto) {
-        if (shippingAddressRepository.existsByZipCodeAndBaseAddressAndDetailAddressAndDeletedFalse(
-                requestShippingAddressAndUserDto.getZipCode(),
-                requestShippingAddressAndUserDto.getBaseAddress(),
-                requestShippingAddressAndUserDto.getDetailAddress())
-        ) {
-            throw new BaseException(BaseResponseStatus.DUPLICATED_OPTION);
-        }
-        // ShippingAddress 생성
+    public void addShippingAddress(
+            String shippingAddressUuid,
+            RequestShippingAddressAndUserDto requestShippingAddressAndUserDto
+    ) {
         shippingAddressRepository.save(requestShippingAddressAndUserDto.toShippingAddressEntity(shippingAddressUuid));
     }
 

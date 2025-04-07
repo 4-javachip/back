@@ -18,19 +18,6 @@ public interface ShippingAddressRepository extends JpaRepository<ShippingAddress
     Optional<ShippingAddress> findByShippingAddressUuidAndDeletedFalse(String shippingAddressUuid);
 
     /**
-     * 배송지 겹치는지 확인 by zipCode, baseAddress, detailAddress
-     * @param zipCode
-     * @param baseAddress
-     * @param detailAddress
-     * @return
-     */
-    Boolean existsByZipCodeAndBaseAddressAndDetailAddressAndDeletedFalse(
-            String zipCode,
-            String baseAddress,
-            String detailAddress
-    );
-
-    /**
      * 배송지테이블 전체 삭제 by userUuid
      * @param userUuid
      * @return
