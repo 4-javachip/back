@@ -13,4 +13,5 @@ public interface UserService {
     void authenticateCurrentPassword(RequestMatchPasswordDto requestMatchPasswordDto);
     void updatePassword(RequestUpdatePasswordDto requestUpdatePasswordDto);
     void resetPassword(RequestResetPasswordDto requestResetPasswordDto);
+    void updateNickname(RequestUpdateNicknameDto requestUpdateNicknameDto);
 }

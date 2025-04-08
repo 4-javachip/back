@@ -6,6 +6,7 @@ import com.starbucks.back.common.util.SecurityUtil;
 import com.starbucks.back.user.application.UserService;
 import com.starbucks.back.user.dto.in.RequestMatchPasswordDto;
 import com.starbucks.back.user.dto.in.RequestResetPasswordDto;
+import com.starbucks.back.user.dto.in.RequestUpdateNicknameDto;
 import com.starbucks.back.user.dto.in.RequestUpdatePasswordDto;
 import com.starbucks.back.user.vo.in.RequestMatchPasswordVo;
 import com.starbucks.back.user.vo.in.RequestResetPasswordVo;
@@ -77,17 +78,16 @@ public class UserController {
         return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS_UPDATE_PASSWORD);
     }
 
+    @PostMapping("/nickname/update")
+    public BaseResponseEntity<Void> updateNickname(
+            @Valid @RequestBody RequestUpdateNicknameVo requestUpdateNicknameVo
+    ) {
+        userService.updateNickname(
+                RequestUpdateNicknameDto.of(securityUtil.getCurrentUserUuid(), requestUpdateNicknameVo)
+        );
 
-
-//    @Operation(summary = "Update Nickname API", description = "닉네임 변경", tags = {"User-service"})
-//    @PatchMapping("/nickname/update")
-//    public BaseResponseEntity<Void> updateNickname(
-//            @RequestHeader("Uuid") String userUuid,
-//            @Valid @RequestBody RequestUpdateNicknameVo requestUpdateNicknameVo
-//    ) {
-//        userService.updateNickname(userUuid, requestUpdateNicknameVo);
-//        return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS);
-//    }
+        return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS_UPDATE_NICKNAME);
+    }
 
 
 }

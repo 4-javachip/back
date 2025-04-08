@@ -20,6 +20,7 @@ public enum BaseResponseStatus {
     LOGOUT_SUCCESS(HttpStatus.OK, true, 205, "로그아웃 되었습니다."),
     SUCCESS_MATCH_PASSWORD(HttpStatus.OK, true, 206, "비밀번호가 확인되었습니다."),
     SUCCESS_UPDATE_PASSWORD(HttpStatus.OK, true, 207, "비밀번호가 변경되었습니다."),
+    SUCCESS_UPDATE_NICKNAME(HttpStatus.OK, true, 208, "닉네임이 변경되었습니다."),
 
     /**
      * 400 : security 에러

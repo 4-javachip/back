@@ -6,6 +6,7 @@ import com.starbucks.back.common.util.RedisUtil;
 import com.starbucks.back.user.domain.User;
 import com.starbucks.back.user.dto.in.RequestMatchPasswordDto;
 import com.starbucks.back.user.dto.in.RequestResetPasswordDto;
+import com.starbucks.back.user.dto.in.RequestUpdateNicknameDto;
 import com.starbucks.back.user.dto.in.RequestUpdatePasswordDto;
 import com.starbucks.back.user.dto.out.ResponseGetUserInfoDto;
 import com.starbucks.back.user.infrastructure.UserRepository;
@@ -40,11 +41,6 @@ public class UserServiceImpl implements UserService{
         );
     }
 
-//    @Override
-//    public void updateNickname(String userUuid, RequestUpdateNicknameDto requestUpdateNicknameDto) {
-//        userRepository.updateNickname(userUuid, requestUpdateNicknameDto.getNickname());
-//    }
-
     @Override
     public void authenticateCurrentPassword(RequestMatchPasswordDto requestMatchPasswordDto) {
         User user = userRepository.findByUserUuid(requestMatchPasswordDto.getUserUuid())
@@ -69,12 +65,12 @@ public class UserServiceImpl implements UserService{
             throw new BaseException(PASSWORD_CHANGE_NOT_VERIFIED);
         }
 
-        final User user = userRepository.findByUserUuid(requestUpdatePasswordDto.getUserUuid())
-                .orElseThrow(() -> new BaseException(USER_NOT_FOUND));
-
         userRepository.save(
                 requestUpdatePasswordDto.toEntity(
-                        user, requestUpdatePasswordDto.getNewPassword(), passwordEncoder
+                        userRepository.findByUserUuid(
+                                requestUpdatePasswordDto.getUserUuid())
+                                .orElseThrow(() -> new BaseException(USER_NOT_FOUND)),
+                        requestUpdatePasswordDto.getNewPassword(), passwordEncoder
                 )
         );
 
@@ -93,16 +89,27 @@ public class UserServiceImpl implements UserService{
             throw new BaseException(PASSWORD_CHANGE_NOT_VERIFIED);
         }
 
-        final User user = userRepository.findByEmail(requestResetPasswordDto.getEmail())
-                .orElseThrow(() -> new BaseException(USER_NOT_FOUND));
-
         userRepository.save(
                 requestResetPasswordDto.toEntity(
-                        user, requestResetPasswordDto.getNewPassword(), passwordEncoder
+                        userRepository.findByEmail(
+                                requestResetPasswordDto.getEmail())
+                                .orElseThrow(() -> new BaseException(USER_NOT_FOUND)),
+                        requestResetPasswordDto.getNewPassword(), passwordEncoder
                 )
         );
 
         redisUtil.delete("PwdChange:Verified:" + requestResetPasswordDto.getEmail());
+    }
+
+    @Override
+    public void updateNickname(RequestUpdateNicknameDto requestUpdateNicknameDto) {
+        userRepository.save(
+                requestUpdateNicknameDto.toEntity(
+                        userRepository.findByUserUuid(requestUpdateNicknameDto.getUserUuid())
+                        .orElseThrow(() -> new BaseException(USER_NOT_FOUND)),
+                        requestUpdateNicknameDto
+                )
+        );
     }
 
 }
