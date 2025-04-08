@@ -50,7 +50,7 @@ public class SeasonServiceImpl implements SeasonService {
      */
     @Override
     public ResponseSeasonDto getSeasonByName(String name) {
-        Season season = seasonRepository.findByNameAndDeletedFalse(name)
+        Season season = seasonRepository.findByName(name)
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_SEASON));
         return ResponseSeasonDto.from(season);
     }

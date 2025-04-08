@@ -27,7 +27,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Transactional
     @Override
     public void addCategory(RequestAddCategoryDto requestAddCategoryDto) {
-        if(categoryRepository.existsByNameAndDeletedFalse(requestAddCategoryDto.getName())) {
+        if(categoryRepository.existsByName(requestAddCategoryDto.getName())) {
             throw new BaseException(BaseResponseStatus.DUPLICATED_CATEGORY);
         }
         categoryRepository.save(requestAddCategoryDto.toEntity());
@@ -50,7 +50,7 @@ public class CategoryServiceImpl implements CategoryService {
      */
     @Override
     public ResponseCategoryDto getCategoryByName(String name) {
-        Category category = categoryRepository.findByNameAndDeletedFalse(name)
+        Category category = categoryRepository.findByName(name)
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_CATEGORY));
         return ResponseCategoryDto.from(category);
     }
@@ -60,7 +60,8 @@ public class CategoryServiceImpl implements CategoryService {
      */
     @Override
     public List<ResponseCategoryDto> getAllCategories() {
-        return categoryRepository.findAllByDeletedFalse().stream()
+        return categoryRepository.findAll()
+                .stream()
                 .map(ResponseCategoryDto::from)
                 .toList();
     }
@@ -84,6 +85,6 @@ public class CategoryServiceImpl implements CategoryService {
     public void deleteCategory(RequestDeleteCategoryDto requestDeleteCategoryDto) {
         Category category = categoryRepository.findById(requestDeleteCategoryDto.getId())
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_CATEGORY));
-        category.softDelete();
+        categoryRepository.delete(category);
     }
 }

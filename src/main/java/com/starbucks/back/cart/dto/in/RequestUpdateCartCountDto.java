@@ -8,14 +8,17 @@ import lombok.Getter;
 @Getter
 public class RequestUpdateCartCountDto {
 
+    private String userUuid;
     private String cartUuid;
     private Integer productQuantity;
 
     @Builder
     public RequestUpdateCartCountDto(
+            String userUuid,
             String cartUuid,
             Integer productQuantity
     ) {
+        this.userUuid = userUuid;
         this.cartUuid = cartUuid;
         this.productQuantity = productQuantity;
     }
@@ -33,8 +36,12 @@ public class RequestUpdateCartCountDto {
                 .build();
     }
 
-    public static RequestUpdateCartCountDto from(RequestUpdateCartCountVo requestUpdateCartCountVo) {
+    public static RequestUpdateCartCountDto from(
+            String userUuid,
+            RequestUpdateCartCountVo requestUpdateCartCountVo
+    ) {
         return RequestUpdateCartCountDto.builder()
+                .userUuid(userUuid)
                 .cartUuid(requestUpdateCartCountVo.getCartUuid())
                 .productQuantity(requestUpdateCartCountVo.getProductQuantity())
                 .build();

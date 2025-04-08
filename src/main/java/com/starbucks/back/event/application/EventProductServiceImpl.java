@@ -26,7 +26,7 @@ public class EventProductServiceImpl implements EventProductService{
     @Transactional
     @Override
     public void addEventProduct(RequestAddEventProductDto requestAddEventProductDto) {
-        if (eventProductRepository.existsByProductUuidAndDeletedFalse(requestAddEventProductDto.getProductUuid())) {
+        if (eventProductRepository.existsByEventUuidAndProductUuidAndDeletedFalse(requestAddEventProductDto.getEventUuid(), requestAddEventProductDto.getProductUuid())) {
             throw new BaseException(BaseResponseStatus.DUPLICATED_PRODUCT);
         }
         eventProductRepository.save(requestAddEventProductDto.toEntity());
@@ -47,10 +47,11 @@ public class EventProductServiceImpl implements EventProductService{
      * @param productUuid
      */
     @Override
-    public ResponseEventProductDto getEventProductByProductUuid(String productUuid) {
-        EventProduct eventProduct = eventProductRepository.findByProductUuidAndDeletedFalse(productUuid)
-                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_PRODUCT));
-        return ResponseEventProductDto.from(eventProduct);
+    public List<ResponseEventProductDto> getEventProductByProductUuid(String productUuid) {
+        return eventProductRepository.findByProductUuidAndDeletedFalse(productUuid)
+                .stream()
+                .map(ResponseEventProductDto::from)
+                .toList();
     }
 
     /**
@@ -84,7 +85,10 @@ public class EventProductServiceImpl implements EventProductService{
     @Override
     public void deleteEventProduct(RequestDeleteEventProductDto requestDeleteEventProductDto) {
         EventProduct eventProduct = eventProductRepository.findByProductUuidAndDeletedFalse(requestDeleteEventProductDto.getProductUuid())
+                .stream()
+                .findFirst()
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_PRODUCT));
         eventProduct.softDelete();
     }
+
 }

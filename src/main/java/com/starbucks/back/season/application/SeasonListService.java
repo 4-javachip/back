@@ -31,7 +31,7 @@ public interface SeasonListService {
      * 상품 UUID로 시즌 리스트 조회
      * @param productUuid
      */
-    ResponseSeasonListDto getSeasonListByProductUuid(String productUuid);
+    List<ResponseSeasonListDto> getSeasonListByProductUuid(String productUuid);
 
     /**
      * 시즌 리스트 전체 조회

@@ -113,6 +113,8 @@ public enum BaseResponseStatus {
 
     NO_EXIST_EVENT(HttpStatus.NOT_FOUND, false, 3016, "존재하지 않는 기획전입니다"),
 
+    NO_EXIST_MAIN_BANNER(HttpStatus.NOT_FOUND, false, 3017, "존재하지 않는 메인 배너입니다"),
+
     /**
      * 4000: comment service error
      */

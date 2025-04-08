@@ -21,7 +21,6 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/v1/category")
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*", maxAge = 3600)
 public class CategoryController {
 
     private final CategoryService categoryService;
@@ -67,7 +66,7 @@ public class CategoryController {
     public BaseResponseEntity<List<ResponseCategoryVo>> getAllCategories() {
         List<ResponseCategoryVo> result = categoryService.getAllCategories().stream()
                 .map(ResponseCategoryDto::toVo)
-                .collect(Collectors.toList());
+                .toList();
         return new BaseResponseEntity<>(result);
     }
 

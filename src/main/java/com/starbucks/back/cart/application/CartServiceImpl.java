@@ -21,24 +21,24 @@ public class CartServiceImpl implements CartService{
 
     private final CartRepository cartRepository;
     /**
-     * 장바구니 조회
+     * 장바구니 조회 by userUuid
      */
     @Transactional
     @Override
     public List<ResponseCartDto> getCartListByUserUuid(String userUuid) {
-        return cartRepository.findAllByUserUuid(userUuid)
+        return cartRepository.findAllByUserUuidAndDeletedFalse(userUuid)
                 .stream()
                 .map(ResponseCartDto::from)
                 .toList();
     }
 
     /**
-     * 장바구니 겹치는지 확인
+     * 장바구니 생성 by userUuid, productOptionListUuid
      */
     @Transactional
     @Override
     public void addCart(RequestAddCartDto requestAddCartDto) {
-        if (cartRepository.existsByUserUuidAndProductOptionListUuid(
+        if (cartRepository.existsByUserUuidAndProductOptionListUuidAndDeletedFalse(
                 requestAddCartDto.getUserUuid(),
                 requestAddCartDto.getProductOptionListUuid()
         )) {
@@ -48,27 +48,33 @@ public class CartServiceImpl implements CartService{
     }
 
     /**
-     * 장바구니 수량 수정
+     * 장바구니 수량 수정 by userUuid, cartUuid, productQuantity
      */
     @Transactional
     @Override
     public void updateCart(RequestUpdateCartCountDto requestUpdateCartCountDto) {
-        Cart cart = cartRepository.findByCartUuid(requestUpdateCartCountDto.getCartUuid())
-                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_OPTION));
         // 수량 검증
         if (requestUpdateCartCountDto.getProductQuantity() < 1) {
             throw new BaseException(BaseResponseStatus.INVALID_CART_QUANTITY);
         }
+        Cart cart = cartRepository.findByCartUuidAndUserUuid(
+                    requestUpdateCartCountDto.getUserUuid(),
+                    requestUpdateCartCountDto.getCartUuid()
+                )
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_OPTION));
         cartRepository.save(requestUpdateCartCountDto.updateCart(cart));
     }
 
     /**
-     * 장바구니 체크박스 수정
+     * 장바구니 체크박스 수정 by userUuid, cartUuid
      */
     @Transactional
     @Override
     public void updateCartChecked(RequestUpdateCartCheckedDto requestUpdateCartCheckedDto) {
-        Cart cart = cartRepository.findByCartUuid(requestUpdateCartCheckedDto.getCartUuid())
+        Cart cart = cartRepository.findByCartUuidAndUserUuid(
+                requestUpdateCartCheckedDto.getUserUuid(),
+                requestUpdateCartCheckedDto.getCartUuid()
+                )
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_OPTION));
         cartRepository.save(requestUpdateCartCheckedDto.updateCart(cart));
     }
@@ -79,7 +85,10 @@ public class CartServiceImpl implements CartService{
     @Transactional
     @Override
     public void deleteCart(RequestDeleteCartDto requestDeleteCartDto) {
-        Cart cart = cartRepository.findByCartUuid(requestDeleteCartDto.getCartUuid())
+        Cart cart = cartRepository.findByCartUuidAndUserUuid(
+                requestDeleteCartDto.getUserUuid(),
+                requestDeleteCartDto.getCartUuid()
+                )
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_OPTION));
         cart.softDelete();
     }

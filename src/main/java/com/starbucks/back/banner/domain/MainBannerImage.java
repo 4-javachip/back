@@ -20,13 +20,13 @@ public class MainBannerImage extends SoftDeletableEntity {
     /**
      * 메인 배너 이미지 Uuid
      */
-    @Column(name = "main_banner_image_uuid", length = 50, nullable = false)
+    @Column(name = "main_banner_image_uuid", length = 50, nullable = false, unique = true)
     private String mainBannerImageUuid;
 
     /**
      * 이벤트 uuid
      */
-    @Column(name = "event_uuid", nullable = false)
+    @Column(name = "event_uuid", nullable = false, unique = true)
     private String eventUuid;
 
     /**

@@ -15,20 +15,9 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
     Optional<Category> findByName(String name);
 
     /**
-     * 카테고리 이름으로 삭제되지 않은 카테고리 찾기
-     * @param name
-     */
-    Optional<Category> findByNameAndDeletedFalse(String name);
-
-    /**
-     * 삭제되지 않은 카테고리 전체 조회
-     */
-    List<Category> findAllByDeletedFalse();
-
-    /**
      * 카테고리 이름으로 카테고리 존재 여부 확인
      * @param name
      */
-    boolean existsByNameAndDeletedFalse(String name);
+    boolean existsByName(String name);
 
 }

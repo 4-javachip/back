@@ -58,6 +58,20 @@ public class SubCategoryController {
     }
 
     /**
+     * 카테고리 id로 서브 카테고리 리스트 조회
+     * @param categoryId
+     */
+    @Operation(summary = "카테고리 id로 서브 카테고리 리스트 조회 API", description = "카테고리 id로 서브 카테고리 리스트 조회 API 입니다.", tags = {"Sub-Category-Service"})
+    @GetMapping("/list/category/{categoryId}")
+    public BaseResponseEntity<List<ResponseSubCategoryVo>> getSubCategoryByCategoryId(@PathVariable("categoryId") Long categoryId) {
+        List<ResponseSubCategoryVo> result = subCategoryService.getSubCategoryByCategoryId(categoryId)
+                .stream()
+                .map(ResponseSubCategoryDto::toVo)
+                .toList();
+        return new BaseResponseEntity<>(result);
+    }
+
+    /**
      * 서브 카테고리 전체 조회
      */
     @Operation(summary = "서브 카테고리 전체 조회 API", description = "서브 카테고리 전체 조회 API 입니다.", tags = {"Sub-Category-Service"})

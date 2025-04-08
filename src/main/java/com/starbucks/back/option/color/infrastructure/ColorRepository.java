@@ -15,20 +15,9 @@ public interface ColorRepository extends JpaRepository<Color, Long> {
     Optional<Color> findByName(String name);
 
     /**
-     * 색상 이름으로 삭제되지 않은 색상 찾기
-     * @param name
-     */
-    Optional<Color> findByNameAndDeletedFalse(String name);
-
-    /**
-     * 삭제되지 않은 색상 전체 조회
-     */
-    List<Color> findAllByDeletedFalse();
-
-    /**
      * 색상 이름으로 색상 존재 여부 확인
      * @param name
      */
-    boolean existsByNameAndDeletedFalse(String name);
+    boolean existsByName(String name);
 
 }

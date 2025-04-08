@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class RequestUpdateShippingAddressDto {
+    private String userUuid;
     private String shippingAddressUuid;
     private String addressName;
     private String recipientName;
@@ -21,6 +22,7 @@ public class RequestUpdateShippingAddressDto {
 
     @Builder
     public RequestUpdateShippingAddressDto(
+            String userUuid,
             String shippingAddressUuid,
             String addressName,
             String recipientName,
@@ -31,6 +33,7 @@ public class RequestUpdateShippingAddressDto {
             String secondPhoneNumber,
             String shippingNote
     ) {
+        this.userUuid = userUuid;
         this.shippingAddressUuid = shippingAddressUuid;
         this.addressName = addressName;
         this.recipientName = recipientName;
@@ -57,8 +60,12 @@ public class RequestUpdateShippingAddressDto {
                 .build();
     }
 
-    public static RequestUpdateShippingAddressDto from(RequestUpdateShippingAddressVo requestUpdateShippingAddressVo) {
+    public static RequestUpdateShippingAddressDto from(
+            String userUuid,
+            RequestUpdateShippingAddressVo requestUpdateShippingAddressVo
+    ) {
         return RequestUpdateShippingAddressDto.builder()
+                .userUuid(userUuid)
                 .shippingAddressUuid(requestUpdateShippingAddressVo.getShippingAddressUuid())
                 .addressName(requestUpdateShippingAddressVo.getAddressName())
                 .recipientName(requestUpdateShippingAddressVo.getRecipientName())

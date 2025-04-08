@@ -28,9 +28,10 @@ public interface ThumbnailService {
     List<ResponseThumbnailDto> getThumbnailByProductUuid(String productUuid);
 
     /**
-     * 삭제되지 않은 메인 이미지 전체 조회
+     * 썸네일 상품 UUID로 메인 썸네일 조회
+     * @param productUuid
      */
-    List<ResponseThumbnailDto> getThumbnailByDefaultedTrue();
+    ResponseThumbnailDto getThumbnailByProductUuidAndDefaultedTrue(String productUuid);
 
     /**
      * 썸네일 전체 조회

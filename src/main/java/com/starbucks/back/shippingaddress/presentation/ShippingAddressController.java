@@ -8,6 +8,7 @@ import com.starbucks.back.shippingaddress.dto.out.ResponseReadShippingAddressDto
 import com.starbucks.back.shippingaddress.vo.in.RequestUpdateShippingAddressVo;
 import com.starbucks.back.shippingaddress.vo.out.ResponseShippingAddressVo;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +23,7 @@ public class ShippingAddressController {
      * 배송지 객체 조회 by shippingAddressUuid
      * @param shippingAddressUuid
      */
-    @Operation(summary = "GetShippingAddressByUuid API", description = "GetShippingAddressByUuid API 입니다.", tags = {"ShippingAddress-Service"})
+    @Operation(summary = "GetShippingAddressByUuid API", description = "배송지 객체 조회 API 입니다.", tags = {"ShippingAddress-Service"})
     @GetMapping("/{shippingAddressUuid}")
     public BaseResponseEntity<ResponseShippingAddressVo> getShippingAddress(
             @PathVariable("shippingAddressUuid") String shippingAddressUuid
@@ -31,19 +32,5 @@ public class ShippingAddressController {
                 .getShippingAddressByUuid(shippingAddressUuid);
 
         return new BaseResponseEntity<>(responseReadShippingAddressDto.toVo());
-    }
-
-    /**
-     * 배송지 수정 by shippingAddressUuid
-     * @param requestUpdateShippingAddressVo
-     */
-    @PutMapping
-    public BaseResponseEntity<Void> updateShippingAddressByUuid(
-            @RequestBody RequestUpdateShippingAddressVo requestUpdateShippingAddressVo
-    ) {
-        shippingAddressService.updateShippingAddress(
-                        RequestUpdateShippingAddressDto.from(requestUpdateShippingAddressVo));
-
-        return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS);
     }
 }

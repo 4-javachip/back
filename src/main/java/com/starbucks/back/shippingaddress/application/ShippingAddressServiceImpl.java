@@ -24,15 +24,10 @@ public class ShippingAddressServiceImpl implements ShippingAddressService {
      */
     @Transactional
     @Override
-    public void addShippingAddress(String shippingAddressUuid, RequestShippingAddressAndUserDto requestShippingAddressAndUserDto) {
-        if (shippingAddressRepository.existsByZipCodeAndBaseAddressAndDetailAddressAndDeletedFalse(
-                requestShippingAddressAndUserDto.getZipCode(),
-                requestShippingAddressAndUserDto.getBaseAddress(),
-                requestShippingAddressAndUserDto.getDetailAddress())
-        ) {
-            throw new BaseException(BaseResponseStatus.DUPLICATED_OPTION);
-        }
-        // ShippingAddress 생성
+    public void addShippingAddress(
+            String shippingAddressUuid,
+            RequestShippingAddressAndUserDto requestShippingAddressAndUserDto
+    ) {
         shippingAddressRepository.save(requestShippingAddressAndUserDto.toShippingAddressEntity(shippingAddressUuid));
     }
 
@@ -44,7 +39,7 @@ public class ShippingAddressServiceImpl implements ShippingAddressService {
     @Override
     public ResponseReadShippingAddressDto getShippingAddressByUuid(String shippingAddressUuid) {
         ShippingAddress shippingAddress = shippingAddressRepository
-                .findByShippingAddressUuidAndDeletedFalse(shippingAddressUuid)
+                .findByShippingAddressUuid(shippingAddressUuid)
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_OPTION));
         
         return ResponseReadShippingAddressDto.from(shippingAddress);
@@ -52,34 +47,36 @@ public class ShippingAddressServiceImpl implements ShippingAddressService {
 
     /**
      * 배송지 수정
-     * @param requestShippingAddressDto
+     * @param requestUpdateShippingAddressDto
      */
     @Transactional
     @Override
-    public void updateShippingAddress(RequestUpdateShippingAddressDto requestShippingAddressDto) {
-        ShippingAddress shippingAddress = shippingAddressRepository.findByShippingAddressUuidAndDeletedFalse(requestShippingAddressDto.getShippingAddressUuid())
+    public void updateShippingAddress(RequestUpdateShippingAddressDto requestUpdateShippingAddressDto) {
+        ShippingAddress shippingAddress = shippingAddressRepository.findByShippingAddressUuid(
+                        requestUpdateShippingAddressDto.getShippingAddressUuid())
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_OPTION));
-        shippingAddressRepository.save(requestShippingAddressDto.updateShippingAddress(shippingAddress));
-    }
-    /**
-     * 배송지 삭제
-     * @param 
-     */
-    @Transactional
-    @Override
-    public void deleteShippingAddress(RequestDeleteShippingAddressDto requestDeleteShippingAddressDto) {
-        ShippingAddress shippingAddress = shippingAddressRepository.findByShippingAddressUuidAndDeletedFalse(
-                requestDeleteShippingAddressDto.getShippingAddressUuid()
-                )
-                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_OPTION));
-        shippingAddress.softDelete();
+        shippingAddressRepository.save(requestUpdateShippingAddressDto.updateShippingAddress(shippingAddress));
     }
 
-    /**
-     * 배송지 전부 삭제 by userUuid
-     */
-    @Override
-    public void deleteAllShippingAddressByUserUuid(String userUuid) {
-        shippingAddressRepository.bulkSoftDeleteShippingAddressesByUserUuid(userUuid);
-    }
+//    /**
+//     * 배송지 삭제
+//     * @param
+//     */
+//    @Transactional
+//    @Override
+//    public void deleteShippingAddress(RequestDeleteShippingAddressDto requestDeleteShippingAddressDto) {
+//        ShippingAddress shippingAddress = shippingAddressRepository.findByShippingAddressUuid(
+//                requestDeleteShippingAddressDto.getShippingAddressUuid()
+//                )
+//                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_OPTION));
+//        shippingAddress.softDelete();
+//    }
+
+//    /**
+//     * 배송지 전부 삭제 by userUuid
+//     */
+//    @Override
+//    public void deleteAllShippingAddressByUserUuid(String userUuid) {
+//        shippingAddressRepository.bulkSoftDeleteShippingAddressesByUserUuid(userUuid);
+//    }
 }

@@ -29,6 +29,7 @@ public interface ProductOptionService {
 
     /**
      * 상품 옵션 리스트 전체 조회
+     * TODO: 페이징 처리 필요(관리자 입장에서 보기 위해)
      */
     List<ResponseProductOptionDto> getAllProductOptions();
 

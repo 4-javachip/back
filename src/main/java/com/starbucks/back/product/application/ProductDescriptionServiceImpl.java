@@ -23,6 +23,7 @@ public class ProductDescriptionServiceImpl implements ProductDescriptionService 
 
     /**
      * 상품 설명 추가
+     * TODO 상품 상세 설명 html 코드 파싱 필요
      * @param requestAddProductDescriptionDto
      */
     @Transactional
@@ -37,7 +38,7 @@ public class ProductDescriptionServiceImpl implements ProductDescriptionService 
      */
     @Override
     public ResponseProductDescriptionDto getProductDescriptionByProductUuid(String productUuid) {
-        ProductDescription productDescription = productDescriptionRepository.findByProductUuidAndDeletedFalse(productUuid)
+        ProductDescription productDescription = productDescriptionRepository.findByProductUuid(productUuid)
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_PRODUCT));
         return ResponseProductDescriptionDto.from(productDescription);
     }
@@ -47,7 +48,7 @@ public class ProductDescriptionServiceImpl implements ProductDescriptionService 
      */
     @Override
     public List<ResponseProductDescriptionDto> getAllProductDescription() {
-        return productDescriptionRepository.findAllByDeletedFalse()
+        return productDescriptionRepository.findAll()
                 .stream()
                 .map(ResponseProductDescriptionDto::from)
                 .toList();
@@ -60,7 +61,7 @@ public class ProductDescriptionServiceImpl implements ProductDescriptionService 
     @Transactional
     @Override
     public void updateProductDescription(RequestUpdateProductDescriptionDto requestUpdateProductDescriptionDto) {
-        ProductDescription productDescription = productDescriptionRepository.findByProductUuidAndDeletedFalse(requestUpdateProductDescriptionDto.getProductUuid())
+        ProductDescription productDescription = productDescriptionRepository.findByProductUuid(requestUpdateProductDescriptionDto.getProductUuid())
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_PRODUCT));
         productDescriptionRepository.save(requestUpdateProductDescriptionDto.updateEntity(productDescription));
     }
@@ -72,8 +73,8 @@ public class ProductDescriptionServiceImpl implements ProductDescriptionService 
     @Transactional
     @Override
     public void deleteProductDescription(RequestDeleteProductDescriptionDto requestDeleteProductDescriptionDto) {
-        ProductDescription productDescription = productDescriptionRepository.findByProductUuidAndDeletedFalse(requestDeleteProductDescriptionDto.getProductUuid())
+        ProductDescription productDescription = productDescriptionRepository.findByProductUuid(requestDeleteProductDescriptionDto.getProductUuid())
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_PRODUCT));
-        productDescription.softDelete();
+        productDescriptionRepository.delete(productDescription);
     }
 }

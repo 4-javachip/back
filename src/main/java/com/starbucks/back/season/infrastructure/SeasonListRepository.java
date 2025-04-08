@@ -18,7 +18,7 @@ public interface SeasonListRepository extends JpaRepository<SeasonList, Long> {
      * 상품 UUID로 삭제되지 않은 시즌 리스트 조회
      * @param productUuid
      */
-    Optional<SeasonList> findByProductUuidAndDeletedFalse(String productUuid);
+    List<SeasonList> findByProductUuidAndDeletedFalse(String productUuid);
 
     /**
      * 삭제되지 않은 시즌 리스트 전체 조회

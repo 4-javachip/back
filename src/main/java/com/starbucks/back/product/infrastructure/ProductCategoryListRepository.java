@@ -14,6 +14,12 @@ public interface ProductCategoryListRepository extends JpaRepository<ProductCate
     List<ProductCategoryList> findAllByDeletedFalse();
 
     /**
+     * 상품 UUID로 상품 카테고리 리스트 찾기
+     * @param productUuid
+     */
+    Optional<ProductCategoryList> findByProductUuid(String productUuid);
+
+    /**
      * 상품 UUID로 삭제되지 않은 상품 카테고리 리스트 찾기
      * @param productUuid
      */

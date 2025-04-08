@@ -15,4 +15,8 @@ public abstract class SoftDeletableEntity extends BaseEntity {
         this.deleted = true;
     }
 
+    public void restore() {
+        this.deleted = false;
+    }
+
 }
