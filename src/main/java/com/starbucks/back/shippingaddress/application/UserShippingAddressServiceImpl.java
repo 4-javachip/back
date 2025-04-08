@@ -75,7 +75,12 @@ public class UserShippingAddressServiceImpl implements UserShippingAddressServic
     @Transactional
     @Override
     public void addUserShippingAddress(RequestShippingAddressAndUserDto requestShippingAddressAndUserDto) {
-        UserShippingAddress userShippingAddress = requestShippingAddressAndUserDto.toUserShippingAddressEntity();
+        // 등록한 배송지 존재 여부 파악 후, defaulted 판단.
+        Boolean defaulted =  !userShippingAddressRepository.existsByUserUuidAndDeletedFalse(
+                    requestShippingAddressAndUserDto.getUserUuid()
+                );
+        UserShippingAddress userShippingAddress = requestShippingAddressAndUserDto
+                .toUserShippingAddressEntity(defaulted);
         // 유저배송지 추가
         userShippingAddressRepository.save(userShippingAddress);
         // 배송지 추가
