@@ -5,11 +5,13 @@ import com.starbucks.back.common.entity.BaseResponseStatus;
 import com.starbucks.back.shippingaddress.application.UserShippingAddressService;
 import com.starbucks.back.shippingaddress.dto.in.RequestDeleteShippingAddressDto;
 import com.starbucks.back.shippingaddress.dto.in.RequestShippingAddressAndUserDto;
+import com.starbucks.back.shippingaddress.dto.in.RequestUpdateShippingAddressDto;
 import com.starbucks.back.shippingaddress.dto.in.RequestUpdateUserShippingAddressDto;
 import com.starbucks.back.shippingaddress.dto.out.ResponseReadShippingAddressDto;
 import com.starbucks.back.shippingaddress.dto.out.ResponseReadUserShippingAddressDto;
 import com.starbucks.back.shippingaddress.vo.in.RequestDeleteShippingAddressVo;
 import com.starbucks.back.shippingaddress.vo.in.RequestShippingAddressAndUserVo;
+import com.starbucks.back.shippingaddress.vo.in.RequestUpdateShippingAddressVo;
 import com.starbucks.back.shippingaddress.vo.in.RequestUpdateUserShippingAddressVo;
 import com.starbucks.back.shippingaddress.vo.out.ResponseReadShippingAddressListVo;
 import com.starbucks.back.shippingaddress.vo.out.ResponseShippingAddressVo;
@@ -105,6 +107,23 @@ public class UserShippingAddressController {
         userShippingAddressService.updateUserShippingAddressDefaulted(
                 RequestUpdateUserShippingAddressDto.of(userUuid, requestUpdateUserShippingAddressVo)
         );
+
+        return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS);
+    }
+
+    /**
+     * 배송지 수정 by shippingAddressUuid
+     * @param requestUpdateShippingAddressVo
+     */
+    @Operation(summary = "UpdateShippingAddressByUuid API", description = "UpdateShippingAddressByUuid API 입니다.", tags = {"ShippingAddress-Service"})
+    @Transactional
+    @PutMapping
+    public BaseResponseEntity<Void> updateShippingAddressByUuid(
+            @RequestHeader("userUuid") String userUuid,
+            @RequestBody RequestUpdateShippingAddressVo requestUpdateShippingAddressVo
+    ) {
+        userShippingAddressService.updateShippingAddress(
+                RequestUpdateShippingAddressDto.from(userUuid, requestUpdateShippingAddressVo));
 
         return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS);
     }

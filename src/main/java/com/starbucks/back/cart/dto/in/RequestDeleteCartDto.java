@@ -8,15 +8,21 @@ import lombok.Getter;
 @Getter
 public class RequestDeleteCartDto {
 
+    private String userUuid;
     private String cartUuid;
 
     @Builder
-    public RequestDeleteCartDto(String cartUuid) {
+    public RequestDeleteCartDto(String userUuid, String cartUuid) {
+        this.userUuid = userUuid;
         this.cartUuid = cartUuid;
     }
 
-    public static RequestDeleteCartDto of(RequestDeleteCartVo requestDeleteCartVo) {
+    public static RequestDeleteCartDto from(
+            String userUuid,
+            RequestDeleteCartVo requestDeleteCartVo
+    ) {
         return RequestDeleteCartDto.builder()
+                .userUuid(userUuid)
                 .cartUuid(requestDeleteCartVo.getCartUuid())
                 .build();
     }

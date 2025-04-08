@@ -27,19 +27,22 @@ public interface UserShippingAddressRepository extends JpaRepository<UserShippin
     Optional<UserShippingAddress> findByUserUuidAndDefaultedTrueAndDeletedFalse(String userUuid);
 
     /**
-     * 유저배송지 존재 여부 파악 by userUuid, shippingAddressUuid
-     * @param userUuid
-     * @param shippingAddressUuid
-     * @return
-     */
-    boolean existsByUserUuidAndShippingAddressUuidAndDeletedFalse(String userUuid, String shippingAddressUuid);
-
-    /**
      * 배송지리스트 조회 by userUuid
      * @param userUuid
      * @return
      */
     List<UserShippingAddress> findAllByUserUuidAndDeletedFalse(String userUuid);
+
+    /**
+     * 배송지 존재 조회 by userUuid, shippingAddressUuid
+     * @param userUuid
+     * @param shippingAddressUuid
+     * @return
+     */
+    Boolean existsByUserUuidAndShippingAddressUuidAndDeletedFalse(
+            String userUuid,
+            String shippingAddressUuid
+    );
 
     /**
      * 유저배송지 전부 삭제 by userUuid
@@ -57,5 +60,8 @@ public interface UserShippingAddressRepository extends JpaRepository<UserShippin
      * @param userUuid
      * @param shippingAddressUuid
      */
-    Optional<UserShippingAddress> findByUserUuidAndShippingAddressUuidAndDeletedFalse(String userUuid, String shippingAddressUuid);
+    Optional<UserShippingAddress> findByUserUuidAndShippingAddressUuidAndDeletedFalse(
+            String userUuid,
+            String shippingAddressUuid
+    );
 }

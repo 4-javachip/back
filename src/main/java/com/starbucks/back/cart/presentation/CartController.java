@@ -49,8 +49,12 @@ public class CartController {
      */
     @PutMapping("/quantity")
     @Operation(summary = "UpdateCart API", description = "UpdateCart API 입니다.", tags = {"Cart-Service"})
-    public BaseResponseEntity<Void> updateCart(@RequestBody RequestUpdateCartCountVo requestUpdateCartCountVo) {
-        RequestUpdateCartCountDto requestUpdateCartCountDto = RequestUpdateCartCountDto.from(requestUpdateCartCountVo);
+    public BaseResponseEntity<Void> updateCart(
+            @RequestHeader("userUuid") String userUuid,
+            @RequestBody RequestUpdateCartCountVo requestUpdateCartCountVo
+    ) {
+        RequestUpdateCartCountDto requestUpdateCartCountDto = RequestUpdateCartCountDto.
+                from(userUuid, requestUpdateCartCountVo);
         cartService.updateCart(requestUpdateCartCountDto);
         return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS);
     }
@@ -60,8 +64,14 @@ public class CartController {
      */
     @PutMapping("/checked")
     @Operation(summary = "UpdateCartChecked API", description = "UpdateCartChecked API 입니다.", tags = {"Cart-Service"})
-    public BaseResponseEntity<Void> updateCartChecked(@RequestBody RequestUpdateCartCheckedVo requestUpdateCartCheckedVo) {
-        RequestUpdateCartCheckedDto requestUpdateCartCheckedDto = RequestUpdateCartCheckedDto.from(requestUpdateCartCheckedVo);
+    public BaseResponseEntity<Void> updateCartChecked(
+            @RequestHeader("userUuid") String userUuid,
+            @RequestBody RequestUpdateCartCheckedVo requestUpdateCartCheckedVo
+    ) {
+        RequestUpdateCartCheckedDto requestUpdateCartCheckedDto = RequestUpdateCartCheckedDto.from(
+                userUuid,
+                requestUpdateCartCheckedVo
+        );
         cartService.updateCartChecked(requestUpdateCartCheckedDto);
         return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS);
     }
@@ -71,8 +81,11 @@ public class CartController {
      */
     @DeleteMapping
     @Operation(summary = "DeleteCart API", description = "DeleteCart API 입니다.", tags = {"Cart-Service"})
-    public BaseResponseEntity<Void> deleteCart(@RequestBody RequestDeleteCartVo requestCartVo) {
-        RequestDeleteCartDto requestDeleteCartDto = RequestDeleteCartDto.of(requestCartVo);
+    public BaseResponseEntity<Void> deleteCart(
+            @RequestHeader("userUuid") String userUuid,
+            @RequestBody RequestDeleteCartVo requestCartVo
+    ) {
+        RequestDeleteCartDto requestDeleteCartDto = RequestDeleteCartDto.from(userUuid, requestCartVo);
         cartService.deleteCart(requestDeleteCartDto);
         return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS);
     }
