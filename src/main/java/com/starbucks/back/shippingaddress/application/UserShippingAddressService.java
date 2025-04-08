@@ -17,5 +17,7 @@ public interface UserShippingAddressService {
     void updateShippingAddress(RequestUpdateShippingAddressDto requestUpdateShippingAddressDto);
     void deleteShippingAddress(RequestDeleteShippingAddressDto requestDeleteShippingAddressDto);
     void deleteAllShippingAddressByUserUuid(String userUuid);
-    void updateUserShippingAddressDefaulted(RequestUpdateUserShippingAddressDto requestUpdateUserShippingAddressDto);
+    void updateUserShippingAddressDefaulted(
+            List<RequestUpdateUserShippingAddressDto> requestUpdateUserShippingAddressDtoList
+    );
 }

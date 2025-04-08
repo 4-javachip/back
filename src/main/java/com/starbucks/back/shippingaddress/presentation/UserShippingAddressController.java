@@ -114,18 +114,22 @@ public class UserShippingAddressController {
     }
 
     /**
-     * 배송지 default 변경 by userUuid, shippingAddressUuid, defaulted
+     * 배송지 default 변경 by [{userUuid, shippingAddressUuid, defaulted}, ..]
      */
     @Operation(summary = "updateUserShippingAddressDefaulted API", description = "배송지 defaulted 수정 API 입니다.", tags = {"ShippingAddress-Service"})
     @Transactional
     @PutMapping("/user/default")
     public BaseResponseEntity<Void> updateUserShippingAddressDefaulted(
             @RequestHeader("userUuid") String userUuid,
-            @RequestBody RequestUpdateUserShippingAddressVo requestUpdateUserShippingAddressVo
+            @RequestBody List<RequestUpdateUserShippingAddressVo> requestUpdateUserShippingAddressVoList
     ) {
-        userShippingAddressService.updateUserShippingAddressDefaulted(
-                RequestUpdateUserShippingAddressDto.of(userUuid, requestUpdateUserShippingAddressVo)
-        );
+
+        List<RequestUpdateUserShippingAddressDto> dtoList = requestUpdateUserShippingAddressVoList
+                .stream()
+                .map(vo -> RequestUpdateUserShippingAddressDto.of(userUuid, vo))
+                .toList();
+
+        userShippingAddressService.updateUserShippingAddressDefaulted(dtoList);
 
         return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS);
     }

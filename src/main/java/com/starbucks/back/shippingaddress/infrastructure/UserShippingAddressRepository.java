@@ -1,6 +1,5 @@
 package com.starbucks.back.shippingaddress.infrastructure;
 
-import com.starbucks.back.shippingaddress.application.UserShippingAddressService;
 import com.starbucks.back.shippingaddress.domain.UserShippingAddress;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -13,11 +12,11 @@ import java.util.Optional;
 public interface UserShippingAddressRepository extends JpaRepository<UserShippingAddress, Long> {
 
     /**
-     * 배송지리스트 조회 by userUuid
+     * 배송지 존재 여부 조회 by userUuid
      * @param userUuid
      * @return
      */
-    List<UserShippingAddress> findByUserUuidAndDeletedFalse(String userUuid);
+    Boolean existsByUserUuidAndDeletedFalse(String userUuid);
 
     /**
      * 기본외배송지 리스트 조회 by userUuid
