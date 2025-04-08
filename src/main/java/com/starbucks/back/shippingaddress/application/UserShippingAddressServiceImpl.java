@@ -95,7 +95,7 @@ public class UserShippingAddressServiceImpl implements UserShippingAddressServic
     @Transactional
     @Override
     public void updateShippingAddress(RequestUpdateShippingAddressDto requestUpdateShippingAddressDto) {
-        if (userShippingAddressRepository.existsByUserUuidAndShippingAddressUuidAndDeletedFalse(
+        if (!userShippingAddressRepository.existsByUserUuidAndShippingAddressUuidAndDeletedFalse(
                     requestUpdateShippingAddressDto.getUserUuid(),
                     requestUpdateShippingAddressDto.getShippingAddressUuid()
                 )) {
