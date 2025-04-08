@@ -11,12 +11,12 @@ public interface BestRepository extends JpaRepository<Best, Long> {
     /**
      * 베스트 상품 전체 조회(상위 30개)
      */
-    List<Best> findTop30ByDeletedFalseOrderByProductSalesCountDesc();
+    List<Best> findTop30ByOrderByProductSalesCountDesc();
 
     /**
      * 상품 UUID로 베스트 상품 찾기
      * @param productUuid
      */
-    Optional<Best> findByProductUuidAndDeletedFalse(String productUuid);
+    Optional<Best> findByProductUuid(String productUuid);
 
 }

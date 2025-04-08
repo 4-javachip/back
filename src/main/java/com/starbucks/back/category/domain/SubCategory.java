@@ -1,5 +1,6 @@
 package com.starbucks.back.category.domain;
 
+import com.starbucks.back.common.entity.BaseEntity;
 import com.starbucks.back.common.entity.SoftDeletableEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -11,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "sub_category")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class SubCategory extends SoftDeletableEntity {
+public class SubCategory extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -27,7 +27,7 @@ public class SizeServiceImpl implements SizeService {
     @Transactional
     @Override
     public void addSize(RequestAddSizeDto requestAddSizeDto) {
-        if(sizeRepository.existsByNameAndDeletedFalse(requestAddSizeDto.getName())) {
+        if(sizeRepository.existsByName(requestAddSizeDto.getName())) {
             throw new BaseException(BaseResponseStatus.DUPLICATED_OPTION);
         }
         sizeRepository.save(requestAddSizeDto.toEntity());
@@ -50,7 +50,7 @@ public class SizeServiceImpl implements SizeService {
      */
     @Override
     public ResponseSizeDto getSizeByName(String name) {
-        Size size = sizeRepository.findByNameAndDeletedFalse(name)
+        Size size = sizeRepository.findByName(name)
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_OPTION));
         return ResponseSizeDto.from(size);
     }
@@ -60,7 +60,7 @@ public class SizeServiceImpl implements SizeService {
      */
     @Override
     public List<ResponseSizeDto> getAllSizes() {
-        return sizeRepository.findAllByDeletedFalse().stream()
+        return sizeRepository.findAll().stream()
                 .map(ResponseSizeDto::from)
                 .toList();
     }
@@ -84,6 +84,6 @@ public class SizeServiceImpl implements SizeService {
     public void deleteSize(RequestDeleteSizeDto requestDeleteSizeDto) {
         Size size = sizeRepository.findById(requestDeleteSizeDto.getId())
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_OPTION));
-        size.softDelete();
+        sizeRepository.delete(size);
     }
 }

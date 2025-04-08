@@ -26,6 +26,12 @@ public interface SubCategoryService {
     ResponseSubCategoryDto getSubCategoryByName(String name);
 
     /**
+     * 카테고리 id로 서브 카테고리 리스트 조회
+     * @param categoryId
+     */
+    List<ResponseSubCategoryDto> getSubCategoryByCategoryId(Long categoryId);
+
+    /**
      * 서브 카테고리 전체 조회
      */
     List<ResponseSubCategoryDto> getAllSubCategories();

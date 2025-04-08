@@ -18,7 +18,7 @@ public interface EventProductRepository extends JpaRepository<EventProduct, Long
      * 상품 uuid로 삭제되지 않은 기획전 상품 조회
      * @param productUuid
      */
-    Optional<EventProduct> findByProductUuidAndDeletedFalse(String productUuid);
+    List<EventProduct> findByProductUuidAndDeletedFalse(String productUuid);
 
     /**
      * 삭제되지 않은 기획전 상품 리스트 조회
@@ -26,9 +26,10 @@ public interface EventProductRepository extends JpaRepository<EventProduct, Long
     List<EventProduct> findAllByDeletedFalse();
 
     /**
-     * 기획전 상품 uuid로 삭제되지 않은 기획전 상품 존재 여부 조회
+     * 기획전 uuid, 상품 uuid로 삭제되지 않은 기획전 상품 존재 여부 조회
+     * @param eventUuid
      * @param productUuid
      */
-    boolean existsByProductUuidAndDeletedFalse(String productUuid);
+    boolean existsByEventUuidAndProductUuidAndDeletedFalse(String eventUuid, String productUuid);
 
 }
