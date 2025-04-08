@@ -42,6 +42,17 @@ public class ProductOptionServiceImpl implements ProductOptionService {
     }
 
     /**
+     * 상품 UUID로 최저가인 상품 옵션 조회
+     * @param productUuid
+     */
+    @Override
+    public ResponseProductOptionDto getProductOptionByProductUuidOrderByTotalPriceAsc(String productUuid) {
+        ProductOption productOption = productOptionRepository.findTop1ByProductUuidOrderByTotalPriceAsc(productUuid)
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_PRODUCT_OPTION));
+        return ResponseProductOptionDto.from(productOption);
+    }
+
+    /**
      * 상품 UUID로 상품 옵션 리스트 조회
      * @param productUuid
      */

@@ -20,4 +20,10 @@ public interface ProductOptionRepository extends JpaRepository<ProductOption, Lo
      */
     Optional<ProductOption> findByProductOptionUuid(String productOptionUuid);
 
+    /**
+     * 상품 uuid로 최저가인 상품 옵션 찾기
+     * @param productUuid
+     */
+    Optional<ProductOption> findTop1ByProductUuidOrderByTotalPriceAsc(String productUuid);
+
 }

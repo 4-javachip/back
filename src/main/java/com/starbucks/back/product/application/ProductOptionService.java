@@ -22,6 +22,12 @@ public interface ProductOptionService {
     ResponseProductOptionDto getProductOptionByProductOptionUuid(String productOptionUuid);
 
     /**
+     * 상품 uuid로 최저가인 상품 옵션 조회
+     * @param productUuid
+     */
+    ResponseProductOptionDto getProductOptionByProductUuidOrderByTotalPriceAsc(String productUuid);
+
+    /**
      * 상품 uuid로 상품 옵션 리스트 조회
      * @param productUuid
      */
