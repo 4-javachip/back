@@ -32,7 +32,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             HttpServletResponse response,
             FilterChain filterChain
     ) throws ServletException, IOException {
-
         final String authHeader = request.getHeader("Authorization");
         final String jwt;
         final String uuid;
@@ -73,7 +72,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 {
                     "isSuccess": false,
                     "code": 401,
-                    "message": "유효하지 않은 엑세스 토큰입니다."
+                    "message": "유효하지 않은 토큰입니다."
                 }
                 """);
         }
