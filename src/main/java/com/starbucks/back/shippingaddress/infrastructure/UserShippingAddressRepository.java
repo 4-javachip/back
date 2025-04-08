@@ -13,6 +13,13 @@ import java.util.Optional;
 public interface UserShippingAddressRepository extends JpaRepository<UserShippingAddress, Long> {
 
     /**
+     * 배송지리스트 조회 by userUuid
+     * @param userUuid
+     * @return
+     */
+    List<UserShippingAddress> findByUserUuidAndDeletedFalse(String userUuid);
+
+    /**
      * 기본외배송지 리스트 조회 by userUuid
      * @param userUuid
      * @return

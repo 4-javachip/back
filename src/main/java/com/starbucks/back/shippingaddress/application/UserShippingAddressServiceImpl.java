@@ -24,6 +24,19 @@ public class UserShippingAddressServiceImpl implements UserShippingAddressServic
     private final ShippingAddressService shippingAddressService;
 
     /**
+     * 배송지 List 조회 by userUuid
+     * @param userUuid
+     * @return
+     */
+    @Override
+    public List<ResponseReadUserShippingAddressDto> getUserShippingAddressAllListByUserUuid(String userUuid) {
+        return userShippingAddressRepository.findByUserUuidAndDeletedFalse(userUuid)
+                .stream()
+                .map(ResponseReadUserShippingAddressDto::from)
+                .toList();
+    }
+
+    /**
      * 기본외배송지리스트 조회 by userUuid
      * @param userUuid
      * @return

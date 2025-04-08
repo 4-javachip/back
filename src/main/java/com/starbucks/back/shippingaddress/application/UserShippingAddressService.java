@@ -10,6 +10,7 @@ import com.starbucks.back.shippingaddress.dto.out.ResponseReadUserShippingAddres
 import java.util.List;
 
 public interface UserShippingAddressService {
+    List<ResponseReadUserShippingAddressDto> getUserShippingAddressAllListByUserUuid(String userUuid);
     List<ResponseReadUserShippingAddressDto> getUserShippingAddressListByUserUuid(String userUuid);
     ResponseReadShippingAddressDto getDefaultShippingAddressByUserUuid(String userUuid);
     void addUserShippingAddress(RequestShippingAddressAndUserDto requestShippingAddressAndUserDto);
