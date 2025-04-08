@@ -22,7 +22,7 @@ public class EmailController {
 
     private final EmailService emailService;
 
-    @Operation(summary = "Send Email Code API", description = "이메일 인증 코드 발송", tags = {"User-service"})
+    @Operation(summary = "Send Email Code API", description = "이메일 인증 코드 발송", tags = {"Email-service"})
     @PostMapping("/send-code")
     public BaseResponseEntity<Void> sendEmailCode(
             @Valid @RequestBody RequestSendEmailCodeVo requestSendEmailCodeVo
@@ -31,7 +31,7 @@ public class EmailController {
         return new BaseResponseEntity<>(BaseResponseStatus.EMAIL_CODE_SUCCESS);
     }
 
-    @Operation(summary = "Verify Email Code API", description = "이메일 인증 코드 검증", tags = {"User-service"})
+    @Operation(summary = "Verify Email Code API", description = "이메일 인증 코드 검증", tags = {"Email-service"})
     @PostMapping("/verify")
     public BaseResponseEntity<Void> verifyEmailCode(
             @Valid @RequestBody RequestVerificationEmailVo requestVerificationEmailVo

@@ -3,6 +3,7 @@ package com.starbucks.back.user.application;
 import com.starbucks.back.common.entity.BaseResponseStatus;
 import com.starbucks.back.common.exception.BaseException;
 import com.starbucks.back.common.util.RedisUtil;
+import com.starbucks.back.user.dto.enums.EmailVerificationPurpose;
 import com.starbucks.back.user.dto.in.RequestSendEmailCodeDto;
 import com.starbucks.back.user.dto.in.RequestVerificationEmailDto;
 import com.starbucks.back.user.infrastructure.EmailSender;
@@ -56,6 +57,12 @@ public class EmailServiceImpl implements EmailService{
             }
 
             throw new BaseException(BaseResponseStatus.INVALID_EMAIL_CODE);
+        }
+
+        if (requestVerificationEmailDto.getPurpose() == EmailVerificationPurpose.PASSWORD_RESET) {
+            redisUtil.set("PwdReset:Verified:" + email, "true", 10, TimeUnit.MINUTES);
+        } else if (requestVerificationEmailDto.getPurpose() == EmailVerificationPurpose.SIGN_UP) {
+            redisUtil.set("SignUp:Verified:" + email, "true", 20, TimeUnit.MINUTES);
         }
 
         redisUtil.delete(email);
