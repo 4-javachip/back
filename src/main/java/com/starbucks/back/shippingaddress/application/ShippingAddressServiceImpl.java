@@ -3,7 +3,6 @@ package com.starbucks.back.shippingaddress.application;
 import com.starbucks.back.common.entity.BaseResponseStatus;
 import com.starbucks.back.common.exception.BaseException;
 import com.starbucks.back.shippingaddress.domain.ShippingAddress;
-import com.starbucks.back.shippingaddress.dto.in.RequestDeleteShippingAddressDto;
 import com.starbucks.back.shippingaddress.dto.in.RequestShippingAddressAndUserDto;
 import com.starbucks.back.shippingaddress.dto.in.RequestUpdateShippingAddressDto;
 import com.starbucks.back.shippingaddress.dto.out.ResponseReadShippingAddressDto;

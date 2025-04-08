@@ -1,6 +1,5 @@
 package com.starbucks.back.shippingaddress.application;
 
-import com.starbucks.back.shippingaddress.dto.in.RequestDeleteShippingAddressDto;
 import com.starbucks.back.shippingaddress.dto.in.RequestShippingAddressAndUserDto;
 import com.starbucks.back.shippingaddress.dto.in.RequestUpdateShippingAddressDto;
 import com.starbucks.back.shippingaddress.dto.out.ResponseReadShippingAddressDto;

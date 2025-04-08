@@ -12,13 +12,6 @@ import java.util.Optional;
 public interface UserShippingAddressRepository extends JpaRepository<UserShippingAddress, Long> {
 
     /**
-     * 배송지리스트 조회 by userUuid
-     * @param userUuid
-     * @return
-     */
-    List<UserShippingAddress> findByUserUuidAndDeletedFalse(String userUuid);
-
-    /**
      * 배송지 존재 여부 조회 by userUuid
      * @param userUuid
      * @return

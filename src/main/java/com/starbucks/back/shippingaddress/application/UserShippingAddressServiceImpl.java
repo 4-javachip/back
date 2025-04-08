@@ -2,7 +2,6 @@ package com.starbucks.back.shippingaddress.application;
 
 import com.starbucks.back.common.entity.BaseResponseStatus;
 import com.starbucks.back.common.exception.BaseException;
-import com.starbucks.back.shippingaddress.domain.ShippingAddress;
 import com.starbucks.back.shippingaddress.domain.UserShippingAddress;
 import com.starbucks.back.shippingaddress.dto.in.RequestDeleteShippingAddressDto;
 import com.starbucks.back.shippingaddress.dto.in.RequestShippingAddressAndUserDto;
@@ -30,7 +29,7 @@ public class UserShippingAddressServiceImpl implements UserShippingAddressServic
      */
     @Override
     public List<ResponseReadUserShippingAddressDto> getUserShippingAddressAllListByUserUuid(String userUuid) {
-        return userShippingAddressRepository.findByUserUuidAndDeletedFalse(userUuid)
+        return userShippingAddressRepository.findAllByUserUuidAndDeletedFalse(userUuid)
                 .stream()
                 .map(ResponseReadUserShippingAddressDto::from)
                 .toList();
@@ -61,11 +60,10 @@ public class UserShippingAddressServiceImpl implements UserShippingAddressServic
                 .findByUserUuidAndDefaultedTrueAndDeletedFalse(userUuid)
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_OPTION));
 
-        // 배송지 UUID로 배송지 조회 (배송지 service의 getShippingAddressByUuid 메서드 사용)
-        ResponseReadShippingAddressDto result = shippingAddressService.
-                getShippingAddressByUuid(userShippingAddress.getShippingAddressUuid());
+        // 배송지 uuid 로 배송지 조회 (배송지 service 의 getShippingAddressByUuid 메서드 사용)
 
-        return result;
+        return shippingAddressService.
+                getShippingAddressByUuid(userShippingAddress.getShippingAddressUuid());
     }
 
     /**
@@ -109,7 +107,7 @@ public class UserShippingAddressServiceImpl implements UserShippingAddressServic
 
     /**
      * 배송지 삭제 by userUuid, shippingAddressUuid
-     * @param
+     * @param requestDeleteShippingAddressDto
      */
     @Transactional
     @Override
@@ -136,7 +134,7 @@ public class UserShippingAddressServiceImpl implements UserShippingAddressServic
 
     /**
      * 배송지 기본 배송지로 변경 by [{userUuid, shippingAddressUuid, defaulted}, ..]
-     * @param
+     * @param dtoList
      */
     @Transactional
     @Override

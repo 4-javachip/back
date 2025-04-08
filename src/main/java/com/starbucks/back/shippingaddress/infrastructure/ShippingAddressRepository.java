@@ -2,9 +2,6 @@ package com.starbucks.back.shippingaddress.infrastructure;
 
 import com.starbucks.back.shippingaddress.domain.ShippingAddress;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;
 
@@ -17,11 +14,11 @@ public interface ShippingAddressRepository extends JpaRepository<ShippingAddress
      */
     Optional<ShippingAddress> findByShippingAddressUuid(String shippingAddressUuid);
 
-    /**
-     * 배송지테이블 전체 삭제 by userUuid
-     * @param userUuid
-     * @return
-     */
+//    /**
+//     * 배송지테이블 전체 삭제 by userUuid
+//     * @param userUuid
+//     * @return
+//     */
 //    @Modifying
 //    @Query("""
 //        UPDATE ShippingAddress sa SET sa.deleted = true
