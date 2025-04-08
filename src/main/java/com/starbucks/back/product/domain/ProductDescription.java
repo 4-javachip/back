@@ -1,6 +1,6 @@
 package com.starbucks.back.product.domain;
 
-import com.starbucks.back.common.entity.SoftDeletableEntity;
+import com.starbucks.back.common.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "product_description")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ProductDescription extends SoftDeletableEntity {
+public class ProductDescription extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,7 +20,7 @@ public class ProductDescription extends SoftDeletableEntity {
     /**
      * 상품 uuid
      */
-    @Column(name = "product_uuid", length = 50, nullable = false)
+    @Column(name = "product_uuid", length = 50, nullable = false, unique = true)
     private String productUuid;
 
     /**
@@ -32,6 +32,7 @@ public class ProductDescription extends SoftDeletableEntity {
     /**
      * 상품 상세 설명
      */
+    @Lob
     @Column(name = "detail_description", nullable = false)
     private String detailDescription;
 

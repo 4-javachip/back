@@ -9,10 +9,10 @@ import java.util.Optional;
 public interface SeasonRepository extends JpaRepository<Season, Long> {
 
     /**
-     * 시즌 이름으로 삭제되지 않은 시즌 찾기
+     * 시즌 이름으로 시즌 찾기
      * @param name
      */
-    Optional<Season> findByNameAndDeletedFalse(String name);
+    Optional<Season> findByName(String name);
 
     /**
      * 삭제되지 않은 시즌 전체 조회

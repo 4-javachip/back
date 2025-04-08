@@ -31,7 +31,9 @@ public class SubCategoryServiceImpl implements SubCategoryService {
     public void addSubCategory(RequestAddSubCategoryDto requestAddSubCategoryDto) {
         Category category = categoryRepository.findById(requestAddSubCategoryDto.getCategoryId())
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_CATEGORY));
-
+        if (subCategoryRepository.existsByCategoryIdAndName(requestAddSubCategoryDto.getCategoryId(), requestAddSubCategoryDto.getName())) {
+            throw new BaseException(BaseResponseStatus.DUPLICATED_CATEGORY);
+        }
         SubCategory subCategory = requestAddSubCategoryDto.toEntity(category);
         subCategoryRepository.save(subCategory);
     }
@@ -55,9 +57,21 @@ public class SubCategoryServiceImpl implements SubCategoryService {
      */
     @Override
     public ResponseSubCategoryDto getSubCategoryByName(String name) {
-        SubCategory subCategory = subCategoryRepository.findByNameAndDeletedFalse(name)
+        SubCategory subCategory = subCategoryRepository.findByName(name)
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_SUB_CATEGORY));
         return ResponseSubCategoryDto.from(subCategory);
+    }
+
+    /**
+     * 카테고리 id로 서브 카테고리 리스트 조회
+     *
+     * @param categoryId
+     */
+    @Override
+    public List<ResponseSubCategoryDto> getSubCategoryByCategoryId(Long categoryId) {
+        return subCategoryRepository.findByCategoryId(categoryId).stream()
+                .map(ResponseSubCategoryDto::from)
+                .toList();
     }
 
     /**
@@ -65,7 +79,7 @@ public class SubCategoryServiceImpl implements SubCategoryService {
      */
     @Override
     public List<ResponseSubCategoryDto> getAllSubCategories() {
-        return subCategoryRepository.findAllByDeletedFalse().stream()
+        return subCategoryRepository.findAll().stream()
                 .map(ResponseSubCategoryDto::from)
                 .toList();
     }
@@ -95,6 +109,6 @@ public class SubCategoryServiceImpl implements SubCategoryService {
     public void deleteSubCategory(RequestDeleteSubCategoryDto requestDeleteSubCategoryDto) {
         SubCategory subCategory = subCategoryRepository.findById(requestDeleteSubCategoryDto.getId())
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_SUB_CATEGORY));
-        subCategory.softDelete();
+        subCategoryRepository.delete(subCategory);
     }
 }

@@ -20,7 +20,7 @@ public class ProductCategoryList extends SoftDeletableEntity {
     /**
      * 상품 uuid
      */
-    @Column(name = "product_uuid", length = 50, nullable = false)
+    @Column(name = "product_uuid", length = 50, nullable = false, unique = true)
     private String productUuid;
 
     /**
@@ -36,7 +36,8 @@ public class ProductCategoryList extends SoftDeletableEntity {
     private Long subCategoryId;
 
     @Builder
-    public ProductCategoryList(String productUuid, Long categoryId, Long subCategoryId) {
+    public ProductCategoryList(Long id, String productUuid, Long categoryId, Long subCategoryId) {
+        this.id = id;
         this.productUuid = productUuid;
         this.categoryId = categoryId;
         this.subCategoryId = subCategoryId;

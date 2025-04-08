@@ -19,7 +19,7 @@ public class Season extends SoftDeletableEntity {
     /**
      * 시즌 이름
      */
-    @Column(name = "name", nullable = false)
+    @Column(name = "name", nullable = false, unique = true)
     private String name;
 
     @Builder

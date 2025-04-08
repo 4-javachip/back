@@ -1,6 +1,6 @@
 package com.starbucks.back.option.size.domain;
 
-import com.starbucks.back.common.entity.SoftDeletableEntity;
+import com.starbucks.back.common.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "size_option")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Size extends SoftDeletableEntity {
+public class Size extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

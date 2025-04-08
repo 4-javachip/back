@@ -36,7 +36,18 @@ public class ProductOptionServiceImpl implements ProductOptionService {
      */
     @Override
     public ResponseProductOptionDto getProductOptionByProductOptionUuid(String productOptionUuid) {
-        ProductOption productOption = productOptionRepository.findByProductOptionUuidAndDeletedFalse(productOptionUuid)
+        ProductOption productOption = productOptionRepository.findByProductOptionUuid(productOptionUuid)
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_PRODUCT_OPTION));
+        return ResponseProductOptionDto.from(productOption);
+    }
+
+    /**
+     * 상품 UUID로 최저가인 상품 옵션 조회
+     * @param productUuid
+     */
+    @Override
+    public ResponseProductOptionDto getProductOptionByProductUuidOrderByTotalPriceAsc(String productUuid) {
+        ProductOption productOption = productOptionRepository.findTop1ByProductUuidOrderByTotalPriceAsc(productUuid)
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_PRODUCT_OPTION));
         return ResponseProductOptionDto.from(productOption);
     }
@@ -58,7 +69,7 @@ public class ProductOptionServiceImpl implements ProductOptionService {
      */
     @Override
     public List<ResponseProductOptionDto> getAllProductOptions() {
-        return productOptionRepository.findAllByDeletedFalse()
+        return productOptionRepository.findAll()
                 .stream()
                 .map(ResponseProductOptionDto::from)
                 .toList();
@@ -71,7 +82,7 @@ public class ProductOptionServiceImpl implements ProductOptionService {
     @Transactional
     @Override
     public void updateProductOption(RequestUpdateProductOptionDto requestUpdateProductOptionDto) {
-        ProductOption productOption = productOptionRepository.findByProductOptionUuidAndDeletedFalse(requestUpdateProductOptionDto.getProductOptionUuid())
+        ProductOption productOption = productOptionRepository.findByProductOptionUuid(requestUpdateProductOptionDto.getProductOptionUuid())
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_PRODUCT_OPTION));
         productOptionRepository.save(requestUpdateProductOptionDto.updateEntity(productOption));
     }
@@ -83,7 +94,7 @@ public class ProductOptionServiceImpl implements ProductOptionService {
     @Transactional
     @Override
     public void deleteProductOption(RequestDeleteProductOptionDto requestDeleteProductOptionDto) {
-        ProductOption productOption = productOptionRepository.findByProductOptionUuidAndDeletedFalse(requestDeleteProductOptionDto.getProductOptionUuid())
+        ProductOption productOption = productOptionRepository.findByProductOptionUuid(requestDeleteProductOptionDto.getProductOptionUuid())
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_PRODUCT_OPTION));
         productOption.softDelete();
     }

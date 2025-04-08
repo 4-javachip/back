@@ -41,8 +41,19 @@ public class ProductOptionController {
      */
     @Operation(summary = "상품 옵션 uuid로 상품 옵션 조회 API", description = "상품 옵션 uuid로 상품 옵션 조회 API 입니다.", tags = {"Product-Option-Service"})
     @GetMapping("/{productOptionUuid}")
-    public BaseResponseEntity<ResponseProductOptionVo> getProductOptionByProductOptionUuid(@PathVariable String productOptionUuid) {
+    public BaseResponseEntity<ResponseProductOptionVo> getProductOptionByProductOptionUuid(@PathVariable("productOptionUuid") String productOptionUuid) {
         ResponseProductOptionDto responseProductOptionDto = productOptionService.getProductOptionByProductOptionUuid(productOptionUuid);
+        return new BaseResponseEntity<>(responseProductOptionDto.toVo());
+    }
+
+    /**
+     * 상품 UUID로 최저가인 상품 옵션 조회
+     * @param productUuid
+     */
+    @Operation(summary = "상품 uuid로 최저가인 상품 옵션 조회 API", description = "상품 uuid로 최저가인 상품 옵션 조회 API 입니다.", tags = {"Product-Option-Service"})
+    @GetMapping("/search")
+    public BaseResponseEntity<ResponseProductOptionVo> getProductOptionByProductUuidOrderByTotalPriceAsc(@RequestParam("productUuid") String productUuid) {
+        ResponseProductOptionDto responseProductOptionDto = productOptionService.getProductOptionByProductUuidOrderByTotalPriceAsc(productUuid);
         return new BaseResponseEntity<>(responseProductOptionDto.toVo());
     }
 

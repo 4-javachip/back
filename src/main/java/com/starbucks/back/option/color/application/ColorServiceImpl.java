@@ -27,7 +27,7 @@ public class ColorServiceImpl implements ColorService {
     @Transactional
     @Override
     public void addColor(RequestAddColorDto requestAddColorDto) {
-        if (colorRepository.existsByNameAndDeletedFalse(requestAddColorDto.getName())) {
+        if (colorRepository.existsByName(requestAddColorDto.getName())) {
             throw new BaseException(BaseResponseStatus.DUPLICATED_OPTION);
         }
         colorRepository.save(requestAddColorDto.toEntity());
@@ -50,7 +50,7 @@ public class ColorServiceImpl implements ColorService {
      */
     @Override
     public ResponseColorDto getColorByName(String name) {
-        Color color = colorRepository.findByNameAndDeletedFalse(name)
+        Color color = colorRepository.findByName(name)
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_OPTION));
         return ResponseColorDto.from(color);
     }
@@ -60,7 +60,7 @@ public class ColorServiceImpl implements ColorService {
      */
     @Override
     public List<ResponseColorDto> getAllColors() {
-        return colorRepository.findAllByDeletedFalse().stream()
+        return colorRepository.findAll().stream()
                 .map(ResponseColorDto::from)
                 .toList();
     }
@@ -84,6 +84,6 @@ public class ColorServiceImpl implements ColorService {
     public void deleteColor(RequestDeleteColorDto requestDeleteColorDto) {
         Color color = colorRepository.findById(requestDeleteColorDto.getId())
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_OPTION));
-        color.softDelete();
+        colorRepository.delete(color);
     }
 }

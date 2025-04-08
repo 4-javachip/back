@@ -15,14 +15,15 @@ public interface ProductOptionRepository extends JpaRepository<ProductOption, Lo
     List<ProductOption> findByProductUuidAndDeletedFalse(String productUuid);
 
     /**
-     * 상품 옵션 UUID로 삭제되지 않은 상품 옵션 찾기
+     * 상품 옵션 UUID로 상품 옵션 찾기
      * @param productOptionUuid
      */
-    Optional<ProductOption> findByProductOptionUuidAndDeletedFalse(String productOptionUuid);
+    Optional<ProductOption> findByProductOptionUuid(String productOptionUuid);
 
     /**
-     * 삭제되지 않은 상품 옵션 전체 조회
+     * 상품 uuid로 최저가인 상품 옵션 찾기
+     * @param productUuid
      */
-    List<ProductOption> findAllByDeletedFalse();
+    Optional<ProductOption> findTop1ByProductUuidOrderByTotalPriceAsc(String productUuid);
 
 }

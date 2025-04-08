@@ -22,6 +22,12 @@ public interface ProductOptionService {
     ResponseProductOptionDto getProductOptionByProductOptionUuid(String productOptionUuid);
 
     /**
+     * 상품 uuid로 최저가인 상품 옵션 조회
+     * @param productUuid
+     */
+    ResponseProductOptionDto getProductOptionByProductUuidOrderByTotalPriceAsc(String productUuid);
+
+    /**
      * 상품 uuid로 상품 옵션 리스트 조회
      * @param productUuid
      */
@@ -29,6 +35,7 @@ public interface ProductOptionService {
 
     /**
      * 상품 옵션 리스트 전체 조회
+     * TODO: 페이징 처리 필요(관리자 입장에서 보기 위해)
      */
     List<ResponseProductOptionDto> getAllProductOptions();
 

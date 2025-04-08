@@ -3,9 +3,9 @@ package com.starbucks.back.wishlist.presentation;
 import com.starbucks.back.common.entity.BaseResponseEntity;
 import com.starbucks.back.common.entity.BaseResponseStatus;
 import com.starbucks.back.wishlist.application.WishlistService;
-import com.starbucks.back.wishlist.dto.in.RequestUpdateWishlistDto;
+import com.starbucks.back.wishlist.dto.in.RequestToggleWishlistDto;
 import com.starbucks.back.wishlist.dto.out.ResponseReadWishlistListDto;
-import com.starbucks.back.wishlist.vo.in.RequestUpdateWishlistVo;
+import com.starbucks.back.wishlist.vo.in.RequestToggleWishlistVo;
 import com.starbucks.back.wishlist.vo.out.ResponseReadWishlistListVo;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -21,11 +21,13 @@ public class WishlistController {
     private final WishlistService wishlistService;
 
     /**
-     * 찜 List 조회 (userUuid)
+     * 찜 List 조회 by userUuid
      */
-    @GetMapping("/{userUuid}")
+    @GetMapping
     @Operation(summary = "GetWishlistListByUserUuid API", description = "GetWishlistListByUserUuid API 입니다.", tags = {"Wishlist-Service"})
-    public BaseResponseEntity<List<ResponseReadWishlistListVo>> getWishlistListByUserUuid(@PathVariable("userUuid") String userUuid) {
+    public BaseResponseEntity<List<ResponseReadWishlistListVo>> getWishlistListByUserUuid(
+            @RequestHeader("userUuid") String userUuid
+    ) {
         List<ResponseReadWishlistListVo> result = wishlistService.getWishlistListByUserUuid(userUuid)
                         .stream()
                         .map(ResponseReadWishlistListDto::toVo)
@@ -34,15 +36,18 @@ public class WishlistController {
     }
 
     /**
-     * 찜 update
+     * 찜 toggle by userUuid, productUuid, productOptionListUuid
      */
     @PostMapping
-    @Operation(summary = "UpdateWishlist API", description = "UpdateWishlist API 입니다.", tags = {"Wishlist-Service"})
-    public BaseResponseEntity<Void> updateWishlist(@RequestBody RequestUpdateWishlistVo requestUpdateWishlistVo) {
-        RequestUpdateWishlistDto requestUpdateWishlistDto = RequestUpdateWishlistDto.from(requestUpdateWishlistVo);
-        wishlistService.updateWishlist(requestUpdateWishlistDto);
+    @Operation(summary = "ToggleWishlist API", description = "ToggleWishlist API 입니다.", tags = {"Wishlist-Service"})
+    public BaseResponseEntity<Void> updateWishlist(
+            @RequestHeader("userUuid") String userUuid,
+            @RequestBody RequestToggleWishlistVo requestUpdateWishlistVo
+    ) {
+        RequestToggleWishlistDto requestUpdateWishlistDto = RequestToggleWishlistDto.
+                from(userUuid, requestUpdateWishlistVo);
+        wishlistService.toggleWishlist(requestUpdateWishlistDto);
         return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS);
     }
-
 }
 

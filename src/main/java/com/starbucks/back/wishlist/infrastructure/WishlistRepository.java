@@ -13,13 +13,13 @@ public interface WishlistRepository extends JpaRepository<Wishlist, Long> {
      * @param userUuid
      * @return
      */
-    List<Wishlist> findAllByUserUuidAndDeletedFalse(String userUuid);
+    List<Wishlist> findAllByUserUuid(String userUuid);
 
     /**
      * wishlist uuid로 위시리스트 수정
      * @return
      */
-    Optional<Wishlist> findByUserUuidAndProductUuidAndProductOptionListUuidAndDeletedFalse(
+    Optional<Wishlist> findByUserUuidAndProductUuidAndProductOptionListUuid(
             String userUuid,
             String productUuid,
             String productOptionListUuid

@@ -21,18 +21,20 @@ public interface EventProductService {
     ResponseEventProductDto getEventProductById(Long id);
 
     /**
-     * 상품 UUID로 삭제되지 않은 기획전 상품 조회
+     * 상품 UUID로 기획전 상품 조회
      * @param productUuid
      */
-    ResponseEventProductDto getEventProductByProductUuid(String productUuid);
+    List<ResponseEventProductDto> getEventProductByProductUuid(String productUuid);
 
     /**
      * 기획전 uuid로 삭제되지 않은 기획전 상품 리스트 조회
+     * TODO : 페이징 처리 필요
      */
     List<ResponseEventProductDto> getEventProductByEventUuid(String eventUuid);
 
     /**
      * 삭제되지 않은 기획전 상품 리스트 전체 조회
+     * TODO : 페이징 처리 필요(관리자 입장에서 보기 위해)
      */
     List<ResponseEventProductDto> getAllEventProducts();
 

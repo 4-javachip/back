@@ -36,7 +36,7 @@ public class ThumbnailServiceImpl implements ThumbnailService {
      */
     @Override
     public ResponseThumbnailDto getThumbnailById(Long id) {
-        Thumbnail thumbnail = thumbnailRepository.findByIdAndDeletedFalse(id)
+        Thumbnail thumbnail = thumbnailRepository.findById(id)
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_PRODUCT_THUMBNAIL));
         return ResponseThumbnailDto.from(thumbnail);
     }
@@ -54,14 +54,16 @@ public class ThumbnailServiceImpl implements ThumbnailService {
     }
 
     /**
-     * 삭제되지 않은 메인 이미지 전체 조회
+     * 상품 UUID로 메인 썸네일 조회
+     * @param productUuid
      */
     @Override
-    public List<ResponseThumbnailDto> getThumbnailByDefaultedTrue() {
-        return thumbnailRepository.findAllByDeletedFalseAndDefaultedTrue()
+    public ResponseThumbnailDto getThumbnailByProductUuidAndDefaultedTrue(String productUuid) {
+        Thumbnail thumbnail = thumbnailRepository.findByProductUuidAndDefaultedTrueAndDeletedFalseOrderByIdAsc(productUuid)
                 .stream()
-                .map(ResponseThumbnailDto::from)
-                .toList();
+                .findFirst()
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_PRODUCT_THUMBNAIL));
+        return ResponseThumbnailDto.from(thumbnail);
     }
 
     /**
@@ -69,7 +71,7 @@ public class ThumbnailServiceImpl implements ThumbnailService {
      */
     @Override
     public List<ResponseThumbnailDto> getAllThumbnails() {
-        return thumbnailRepository.findAllByDeletedFalse()
+        return thumbnailRepository.findAll()
                 .stream()
                 .map(ResponseThumbnailDto::from)
                 .toList();
@@ -82,7 +84,7 @@ public class ThumbnailServiceImpl implements ThumbnailService {
     @Transactional
     @Override
     public void updateThumbnail(RequestUpdateThumbnailDto requestUpdateThumbnailDto) {
-        Thumbnail thumbnail = thumbnailRepository.findByIdAndDeletedFalse(requestUpdateThumbnailDto.getId())
+        Thumbnail thumbnail = thumbnailRepository.findById(requestUpdateThumbnailDto.getId())
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_PRODUCT_THUMBNAIL));
         thumbnailRepository.save(requestUpdateThumbnailDto.updateEntity(thumbnail));
     }
@@ -94,7 +96,7 @@ public class ThumbnailServiceImpl implements ThumbnailService {
     @Transactional
     @Override
     public void deleteThumbnail(RequestDeleteThumbnailDto requestDeleteThumbnailDto) {
-        Thumbnail thumbnail = thumbnailRepository.findByIdAndDeletedFalse(requestDeleteThumbnailDto.getId())
+        Thumbnail thumbnail = thumbnailRepository.findById(requestDeleteThumbnailDto.getId())
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_PRODUCT_THUMBNAIL));
         thumbnail.softDelete();
     }
