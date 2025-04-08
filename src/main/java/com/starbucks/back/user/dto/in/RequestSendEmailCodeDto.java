@@ -1,5 +1,6 @@
 package com.starbucks.back.user.dto.in;
 
+import com.starbucks.back.user.dto.enums.EmailVerificationPurpose;
 import com.starbucks.back.user.vo.in.RequestSendEmailCodeVo;
 import lombok.Builder;
 import lombok.Getter;

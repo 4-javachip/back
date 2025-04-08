@@ -18,6 +18,8 @@ public enum BaseResponseStatus {
     SIGN_UP_SUCCESS(HttpStatus.OK, true, 203, "회원가입에 성공하였습니다."),
     SIGN_IN_SUCCESS(HttpStatus.OK, true, 204, "로그인에 성공하였습니다."),
     LOGOUT_SUCCESS(HttpStatus.OK, true, 205, "로그아웃 되었습니다."),
+    SUCCESS_MATCH_PASSWORD(HttpStatus.OK, true, 206, "비밀번호가 확인되었습니다."),
+    SUCCESS_UPDATE_PASSWORD(HttpStatus.OK, true, 207, "비밀번호가 변경되었습니다."),
 
     /**
      * 400 : security 에러
@@ -68,6 +70,10 @@ public enum BaseResponseStatus {
     DUPLICATED_EMAIL(HttpStatus.CONFLICT, false, 2012, "이미 사용 중인 이메일입니다."),
     DUPLICATED_NICKNAME(HttpStatus.CONFLICT, false, 2013, "이미 사용중인 닉네임입니다."),
     DUPLICATED_PHONE_NUMBER(HttpStatus.CONFLICT, false, 2014, "이미 사용 중인 전화번호입니다."),
+    PASSWORD_CONFIRM_MISMATCH(HttpStatus.BAD_REQUEST, false, 2015, "비밀번호 재입력이 일치하지 않습니다."),
+    PASSWORD_CHANGE_NOT_VERIFIED(HttpStatus.BAD_REQUEST, false, 2016, "비밀번호 변경 인증이 만료되었습니다. 비밀번호를 다시 입력해주세요."),
+    USER_NOT_FOUND(HttpStatus.NOT_FOUND, false, 2017, "존재하지 않는 유저입니다."),
+    SIGN_UP_NOT_VERIFIED(HttpStatus.BAD_REQUEST, false, 2018, "회원가입 인증이 만료되었습니다. 이메일을 인증을 다시 요청해주세요."),
 
     // Agreement
     INVALID_AGREEMENT_ID(HttpStatus.BAD_REQUEST, false, 2113, "존재하지 않는 약관 ID 입니다."),

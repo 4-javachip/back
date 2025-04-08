@@ -27,46 +27,46 @@ public class SecurityConfig {
     private final AuthenticationProvider daoAuthenticationProvider;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
-@Bean
-public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-    http
-            .csrf(AbstractHttpConfigurer::disable)
-            .authorizeHttpRequests(
-                    authorizeRequests -> authorizeRequests
-                            .requestMatchers(
-//                                    "/api/v1/auth/**",
-//                                    "/api/v1/email/**",
-//                                    "/api/v1/agreement/**",
-//                                    "/api/v1/option/**",
-//                                    "/api/v1/product/**",
-//                                    "/api/v1/category/**",
-//                                    "/api/v1/season/**",
-//                                    "/api/v1/best/**",
-//                                    "/api/v1/event/**",
-//                                    "/swagger-ui/**",
-//                                    "/v3/api-docs/**",
-//                                    "/error"
-                                    "/**"
-                            )
-                            .permitAll()
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(
+                        authorizeRequests -> authorizeRequests
+                                .requestMatchers(
+                                    "/api/v1/auth/**",
+                                    "/api/v1/email/**",
+                                    "/api/v1/agreement/**",
+                                    "/api/v1/option/**",
+                                    "/api/v1/product/**",
+                                    "/api/v1/category/**",
+                                    "/api/v1/season/**",
+                                    "/api/v1/best/**",
+                                    "/api/v1/event/**",
+                                    "/swagger-ui/**",
+                                    "/v3/api-docs/**",
+                                    "/error"
+//                                        "/**"
+                                )
+                                .permitAll()
 //                               .requestMatchers("/api/v1/review/**").permitAll()
-                            .requestMatchers(HttpMethod.GET, "/api/v1/review/**").permitAll()  // GET 요청 허용
+                                .requestMatchers(HttpMethod.GET, "/api/v1/review/**").permitAll()  // GET 요청 허용
 //                               .requestMatchers(HttpMethod.POST, "/api/v1/review/**").denyAll()   // POST 요청 차단
 //                               .requestMatchers(HttpMethod.PUT, "/api/v1/review/**").denyAll()    // PUT 요청 차단
 //                               .requestMatchers(HttpMethod.DELETE, "/api/v1/review/**").denyAll() // DELETE 요청 차단
-                            .anyRequest()
-                            .authenticated()
-            )
-            .sessionManagement(
-                    sessionManagement -> sessionManagement
-                            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            )
-            .authenticationProvider(daoAuthenticationProvider)
-            .authenticationProvider(oAuthAuthenticationProvider)
-            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-            .addFilter(corsFilter());
-    return http.build();
-}
+                                .anyRequest()
+                                .authenticated()
+                )
+                .sessionManagement(
+                        sessionManagement -> sessionManagement
+                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
+                .authenticationProvider(daoAuthenticationProvider)
+                .authenticationProvider(oAuthAuthenticationProvider)
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilter(corsFilter());
+        return http.build();
+    }
 
     @Bean
     public CorsFilter corsFilter() {

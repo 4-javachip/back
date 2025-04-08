@@ -3,22 +3,13 @@ package com.starbucks.back.common.jwt;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.env.Environment;
-import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
-
 import javax.crypto.SecretKey;
 import java.security.Key;
-import java.time.Duration;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.Optional;
-import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
 @Service

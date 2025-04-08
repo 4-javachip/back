@@ -39,6 +39,9 @@ public class AuthServiceImpl implements AuthService {
             throw new BaseException(BaseResponseStatus.DUPLICATED_PHONE_NUMBER);
         }
 
+        if (!"true".equals(redisUtil.get("SignUp:Verified:" + requestSignUpDto.getEmail()))) {
+            throw new BaseException(BaseResponseStatus.SIGN_UP_NOT_VERIFIED);
+        }
         userRepository.save(requestSignUpDto.toEntity(passwordEncoder));
     }
 

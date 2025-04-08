@@ -12,4 +12,7 @@ public class RequestVerificationEmailVo {
     @NotBlank
     @Size(min=6, max=6, message = "인증번호는 6글자 입니다.")
     private String verificationCode;
+
+    @NotBlank
+    private String purpose;
 }
