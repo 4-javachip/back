@@ -6,7 +6,6 @@ import com.starbucks.back.shippingaddress.vo.in.RequestShippingAddressAndUserVo;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 import java.util.UUID;
 
@@ -22,7 +21,6 @@ public class RequestShippingAddressAndUserDto {
     private String phoneNumber;
     private String secondPhoneNumber;
     private String shippingNote;
-    private Boolean defaulted;          // userShippingAddress 테이블에서만 사용
     private String userUuid;            // userShippingAddress 테이블에서만 사용
 
     @Builder
@@ -46,7 +44,6 @@ public class RequestShippingAddressAndUserDto {
         this.phoneNumber = phoneNumber;
         this.secondPhoneNumber = secondPhoneNumber;
         this.shippingNote = shippingNote;
-        this.defaulted = defaulted;
         this.userUuid = userUuid;
     }
 
@@ -66,7 +63,7 @@ public class RequestShippingAddressAndUserDto {
     }
 
     // dto => entity. 유저배송지 엔티티 생성
-    public UserShippingAddress toUserShippingAddressEntity() {
+    public UserShippingAddress toUserShippingAddressEntity(Boolean defaulted) {
         return UserShippingAddress.builder()
                 .shippingAddressUuid(UUID.randomUUID().toString())
                 .defaulted(defaulted)
@@ -88,7 +85,6 @@ public class RequestShippingAddressAndUserDto {
                 .phoneNumber(requestShippingAddressAndUserVo.getPhoneNumber())
                 .secondPhoneNumber(requestShippingAddressAndUserVo.getSecondPhoneNumber())
                 .shippingNote(requestShippingAddressAndUserVo.getShippingNote())
-                .defaulted(requestShippingAddressAndUserVo.getDefaulted())
                 .userUuid(userUuid)
                 .build();
     }

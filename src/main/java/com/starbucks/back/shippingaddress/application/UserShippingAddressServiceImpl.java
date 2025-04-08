@@ -2,7 +2,6 @@ package com.starbucks.back.shippingaddress.application;
 
 import com.starbucks.back.common.entity.BaseResponseStatus;
 import com.starbucks.back.common.exception.BaseException;
-import com.starbucks.back.shippingaddress.domain.ShippingAddress;
 import com.starbucks.back.shippingaddress.domain.UserShippingAddress;
 import com.starbucks.back.shippingaddress.dto.in.RequestDeleteShippingAddressDto;
 import com.starbucks.back.shippingaddress.dto.in.RequestShippingAddressAndUserDto;
@@ -30,7 +29,7 @@ public class UserShippingAddressServiceImpl implements UserShippingAddressServic
      */
     @Override
     public List<ResponseReadUserShippingAddressDto> getUserShippingAddressAllListByUserUuid(String userUuid) {
-        return userShippingAddressRepository.findByUserUuidAndDeletedFalse(userUuid)
+        return userShippingAddressRepository.findAllByUserUuidAndDeletedFalse(userUuid)
                 .stream()
                 .map(ResponseReadUserShippingAddressDto::from)
                 .toList();
@@ -61,11 +60,10 @@ public class UserShippingAddressServiceImpl implements UserShippingAddressServic
                 .findByUserUuidAndDefaultedTrueAndDeletedFalse(userUuid)
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_OPTION));
 
-        // 배송지 UUID로 배송지 조회 (배송지 service의 getShippingAddressByUuid 메서드 사용)
-        ResponseReadShippingAddressDto result = shippingAddressService.
-                getShippingAddressByUuid(userShippingAddress.getShippingAddressUuid());
+        // 배송지 uuid 로 배송지 조회 (배송지 service 의 getShippingAddressByUuid 메서드 사용)
 
-        return result;
+        return shippingAddressService.
+                getShippingAddressByUuid(userShippingAddress.getShippingAddressUuid());
     }
 
     /**
@@ -75,7 +73,12 @@ public class UserShippingAddressServiceImpl implements UserShippingAddressServic
     @Transactional
     @Override
     public void addUserShippingAddress(RequestShippingAddressAndUserDto requestShippingAddressAndUserDto) {
-        UserShippingAddress userShippingAddress = requestShippingAddressAndUserDto.toUserShippingAddressEntity();
+        // 등록한 배송지 존재 여부 파악 후, defaulted 판단.
+        Boolean defaulted =  !userShippingAddressRepository.existsByUserUuidAndDeletedFalse(
+                    requestShippingAddressAndUserDto.getUserUuid()
+                );
+        UserShippingAddress userShippingAddress = requestShippingAddressAndUserDto
+                .toUserShippingAddressEntity(defaulted);
         // 유저배송지 추가
         userShippingAddressRepository.save(userShippingAddress);
         // 배송지 추가
@@ -104,7 +107,7 @@ public class UserShippingAddressServiceImpl implements UserShippingAddressServic
 
     /**
      * 배송지 삭제 by userUuid, shippingAddressUuid
-     * @param
+     * @param requestDeleteShippingAddressDto
      */
     @Transactional
     @Override
@@ -130,23 +133,26 @@ public class UserShippingAddressServiceImpl implements UserShippingAddressServic
     }
 
     /**
-     * 배송지 기본 배송지로 변경
-     * @param requestUpdateUserShippingAddressDto
+     * 배송지 기본 배송지로 변경 by [{userUuid, shippingAddressUuid, defaulted}, ..]
+     * @param dtoList
      */
     @Transactional
     @Override
     public void updateUserShippingAddressDefaulted(
-            RequestUpdateUserShippingAddressDto requestUpdateUserShippingAddressDto
+            List<RequestUpdateUserShippingAddressDto> dtoList
     ) {
-        UserShippingAddress userShippingAddress = userShippingAddressRepository
+        for (RequestUpdateUserShippingAddressDto requestUpdateUserShippingAddressDto : dtoList) {
+
+            UserShippingAddress userShippingAddress = userShippingAddressRepository
                 .findByUserUuidAndShippingAddressUuidAndDeletedFalse(
                         requestUpdateUserShippingAddressDto.getUserUuid(),
                         requestUpdateUserShippingAddressDto.getShippingAddressUuid()
                 )
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_OPTION));
-        userShippingAddressRepository.save(
-                requestUpdateUserShippingAddressDto
-                .updateUserShippingAddress(userShippingAddress)
-        );
+            userShippingAddressRepository.save(requestUpdateUserShippingAddressDto
+                    .updateUserShippingAddress(userShippingAddress
+                    )
+            );
+        }
     }
 }
