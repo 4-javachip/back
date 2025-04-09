@@ -59,7 +59,7 @@ public class UserShippingAddressServiceImpl implements UserShippingAddressServic
         // 기본 배송지 UUID 조회
         UserShippingAddress userShippingAddress = userShippingAddressRepository
                 .findByUserUuidAndDefaultedTrueAndDeletedFalse(userUuid)
-                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_OPTION));
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_USER_SHIPPING_ADDRESS));
         log.info("userShippingAddress : {}", userShippingAddress);
         // 배송지 uuid 로 배송지 조회 (배송지 service 의 getShippingAddressByShippingAddressUuid 메서드 사용)
         return shippingAddressService.
@@ -146,7 +146,7 @@ public class UserShippingAddressServiceImpl implements UserShippingAddressServic
                         requestDeleteShippingAddressDto.getUserUuid(),
                         requestDeleteShippingAddressDto.getShippingAddressUuid()
                 )
-                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_OPTION));
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_USER_SHIPPING_ADDRESS));
         userShippingAddress.softDelete();
     }
 
@@ -176,7 +176,7 @@ public class UserShippingAddressServiceImpl implements UserShippingAddressServic
                         requestUpdateUserShippingAddressDto.getUserUuid(),
                         requestUpdateUserShippingAddressDto.getShippingAddressUuid()
                 )
-                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_OPTION));
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_USER_SHIPPING_ADDRESS));
             userShippingAddressRepository.save(requestUpdateUserShippingAddressDto
                     .updateUserShippingAddress(userShippingAddress
                     )
