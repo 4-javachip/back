@@ -62,7 +62,7 @@ public class EventProductCustomRepositoryImpl implements EventProductCustomRepos
         }
 
         Long nextCursor = result.isEmpty() ? null : result.get(result.size() - 1).getId();
-        
+
         List<ResponseEventProductDto> dtoList = result.stream()
                 .map(ResponseEventProductDto::from)
                 .toList();
