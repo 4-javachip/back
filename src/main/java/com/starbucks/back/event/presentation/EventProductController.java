@@ -80,7 +80,6 @@ public class EventProductController {
                         .content(dtoPage.getContent().stream().map(ResponseEventProductDto::toVo).toList())
                         .nextCursor(dtoPage.getNextCursor())
                         .hasNext(dtoPage.getHasNext())
-                        .page(dtoPage.getPage())
                         .pageSize(dtoPage.getPageSize())
                         .build();
         return new BaseResponseEntity<>(voPage);
@@ -100,7 +99,6 @@ public class EventProductController {
                         .content(dtoPage.getContent().stream().map(ResponseEventProductDto::toVo).toList())
                         .nextCursor(dtoPage.getNextCursor())
                         .hasNext(dtoPage.getHasNext())
-                        .page(dtoPage.getPage())
                         .pageSize(dtoPage.getPageSize())
                         .build();
 
