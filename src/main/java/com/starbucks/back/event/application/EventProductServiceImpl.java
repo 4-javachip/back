@@ -68,7 +68,7 @@ public class EventProductServiceImpl implements EventProductService{
             String eventUuid,
             Long lastId
     ) {
-        return eventProductRepository.findByEventUuidWithPagination(eventUuid, lastId, DEFAULT_PAGE_SIZE, DEFAULT_PAGE_NUMBER);
+        return eventProductRepository.findByEventUuidWithPagination(eventUuid, lastId, DEFAULT_PAGE_SIZE);
     }
 
     /**
@@ -76,7 +76,7 @@ public class EventProductServiceImpl implements EventProductService{
      */
     @Override
     public CursorPageUtil<ResponseEventProductDto, Long> getAllEventProducts(Long lastId) {
-        return eventProductRepository.findAllWithPagination(lastId, DEFAULT_PAGE_SIZE, DEFAULT_PAGE_NUMBER);
+        return eventProductRepository.findAllWithPagination(lastId, DEFAULT_PAGE_SIZE);
     }
 
     /**

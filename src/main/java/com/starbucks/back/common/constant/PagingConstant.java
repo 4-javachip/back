@@ -2,7 +2,7 @@ package com.starbucks.back.common.constant;
 
 public class PagingConstant {
 
-    public static final int DEFAULT_PAGE_SIZE = 3;
+    public static final int DEFAULT_PAGE_SIZE = 4;
     public static final int DEFAULT_PAGE_NUMBER = 0;
 
     private PagingConstant() {

@@ -8,15 +8,14 @@ import java.util.Set;
 public interface ProductCustomRepository {
 
     /**
-     * 상품 전체 조회 페이징 처리
+     * 상품 전체 조회
      * @param lastId
      * @param pageSize
-     * @param page
+     * @param bestUuids
      */
     CursorPageUtil<ResponseProductDto, Long> findAllWithPagination(
         Long lastId,
         Integer pageSize,
-        Integer page,
         Set<String> bestUuids
     );
 
