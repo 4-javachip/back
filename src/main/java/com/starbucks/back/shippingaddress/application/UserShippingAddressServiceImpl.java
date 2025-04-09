@@ -73,17 +73,35 @@ public class UserShippingAddressServiceImpl implements UserShippingAddressServic
     @Transactional
     @Override
     public void addUserShippingAddress(RequestShippingAddressAndUserDto requestShippingAddressAndUserDto) {
-        // 등록한 배송지 존재 여부 파악 후, defaulted 판단.
-        Boolean defaulted =  !userShippingAddressRepository.existsByUserUuidAndDeletedFalse(
+        // userShippingAddress 선언
+        UserShippingAddress userShippingAddress = null;
+        // 이미 등록한 defaulted = true 배송지의 존재 여부 파악.
+        Boolean exists =  userShippingAddressRepository.existsByUserUuidAndDeletedFalse(
                     requestShippingAddressAndUserDto.getUserUuid()
                 );
-        UserShippingAddress userShippingAddress = requestShippingAddressAndUserDto
-                .toUserShippingAddressEntity(defaulted);
+
+        // defaulted=true면, 나머지 전부 defaulted=false로 수정
+        if (requestShippingAddressAndUserDto.getDefaulted()) {
+            userShippingAddress = requestShippingAddressAndUserDto
+                    .toUserShippingAddressEntity(true);
+            userShippingAddressRepository.resetDefaultedByUserUuid(requestShippingAddressAndUserDto.getUserUuid());
+        }
+        // defaulted=false면, exists에 따라 defaulted 다르게 저장
+        else {
+            if (exists) {
+                userShippingAddress = requestShippingAddressAndUserDto
+                        .toUserShippingAddressEntity(false);
+            } else {
+                userShippingAddress = requestShippingAddressAndUserDto
+                        .toUserShippingAddressEntity(true);
+            }
+        }
+
         // 유저배송지 추가
         userShippingAddressRepository.save(userShippingAddress);
         // 배송지 추가
         shippingAddressService.addShippingAddress(
-                userShippingAddress.getShippingAddressUuid(),
+                userShippingAddress.getShippingAddressUuid(),       // 유저배송지 테이블에서 생성한 uuid 가져와서 저장
                 requestShippingAddressAndUserDto
         );
     }
