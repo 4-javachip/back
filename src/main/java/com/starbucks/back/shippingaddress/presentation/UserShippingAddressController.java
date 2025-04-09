@@ -7,7 +7,7 @@ import com.starbucks.back.shippingaddress.dto.in.RequestDeleteShippingAddressDto
 import com.starbucks.back.shippingaddress.dto.in.RequestShippingAddressAndUserDto;
 import com.starbucks.back.shippingaddress.dto.in.RequestUpdateShippingAddressDto;
 import com.starbucks.back.shippingaddress.dto.in.RequestUpdateUserShippingAddressDto;
-import com.starbucks.back.shippingaddress.dto.out.ResponseReadShippingAddressDto;
+import com.starbucks.back.shippingaddress.dto.out.ResponseReadShippingAddressWithDefaultedDto;
 import com.starbucks.back.shippingaddress.dto.out.ResponseReadUserShippingAddressDto;
 import com.starbucks.back.shippingaddress.vo.in.RequestDeleteShippingAddressVo;
 import com.starbucks.back.shippingaddress.vo.in.RequestShippingAddressAndUserVo;
@@ -77,10 +77,10 @@ public class UserShippingAddressController {
     public BaseResponseEntity<ResponseShippingAddressVo> getUserDefaultShippingAddress(
             @RequestHeader("userUuid") String userUuid
     ) {
-        ResponseReadShippingAddressDto responseReadShippingAddressDto = userShippingAddressService
+        ResponseReadShippingAddressWithDefaultedDto responseReadShippingAddressWithDefaultedDto = userShippingAddressService
                 .getDefaultShippingAddressByUserUuid(userUuid);
 
-        return new BaseResponseEntity<>(responseReadShippingAddressDto.toVo());
+        return new BaseResponseEntity<>(responseReadShippingAddressWithDefaultedDto.toVo());
     }
 
     /**

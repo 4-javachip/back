@@ -2,11 +2,9 @@ package com.starbucks.back.shippingaddress.domain;
 
 import com.starbucks.back.common.entity.SoftDeletableEntity;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+@ToString
 @Entity
 @Table(name = "user_shipping_address")
 @Getter

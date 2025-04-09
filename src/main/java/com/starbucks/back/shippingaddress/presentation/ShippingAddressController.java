@@ -2,7 +2,7 @@ package com.starbucks.back.shippingaddress.presentation;
 
 import com.starbucks.back.common.entity.BaseResponseEntity;
 import com.starbucks.back.shippingaddress.application.ShippingAddressService;
-import com.starbucks.back.shippingaddress.dto.out.ResponseReadShippingAddressDto;
+import com.starbucks.back.shippingaddress.dto.out.ResponseReadShippingAddressWithDefaultedDto;
 import com.starbucks.back.shippingaddress.vo.out.ResponseShippingAddressVo;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -24,9 +24,9 @@ public class ShippingAddressController {
     public BaseResponseEntity<ResponseShippingAddressVo> getShippingAddress(
             @PathVariable("shippingAddressUuid") String shippingAddressUuid
     ) {
-        ResponseReadShippingAddressDto responseReadShippingAddressDto = shippingAddressService
-                .getShippingAddressByUuid(shippingAddressUuid);
+        ResponseReadShippingAddressWithDefaultedDto responseReadShippingAddressWithDefaultedDto =
+                shippingAddressService.getShippingAddressByShippingAddressUuid(shippingAddressUuid);
 
-        return new BaseResponseEntity<>(responseReadShippingAddressDto.toVo());
+        return new BaseResponseEntity<>(responseReadShippingAddressWithDefaultedDto.toVo());
     }
 }

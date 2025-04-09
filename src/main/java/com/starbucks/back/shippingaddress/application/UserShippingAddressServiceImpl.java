@@ -7,15 +7,16 @@ import com.starbucks.back.shippingaddress.dto.in.RequestDeleteShippingAddressDto
 import com.starbucks.back.shippingaddress.dto.in.RequestShippingAddressAndUserDto;
 import com.starbucks.back.shippingaddress.dto.in.RequestUpdateShippingAddressDto;
 import com.starbucks.back.shippingaddress.dto.in.RequestUpdateUserShippingAddressDto;
-import com.starbucks.back.shippingaddress.dto.out.ResponseReadShippingAddressDto;
+import com.starbucks.back.shippingaddress.dto.out.ResponseReadShippingAddressWithDefaultedDto;
 import com.starbucks.back.shippingaddress.dto.out.ResponseReadUserShippingAddressDto;
 import com.starbucks.back.shippingaddress.infrastructure.UserShippingAddressRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserShippingAddressServiceImpl implements UserShippingAddressService{
@@ -54,16 +55,15 @@ public class UserShippingAddressServiceImpl implements UserShippingAddressServic
      * @return
      */
     @Override
-    public ResponseReadShippingAddressDto getDefaultShippingAddressByUserUuid(String userUuid) {
+    public ResponseReadShippingAddressWithDefaultedDto getDefaultShippingAddressByUserUuid(String userUuid) {
         // 기본 배송지 UUID 조회
         UserShippingAddress userShippingAddress = userShippingAddressRepository
                 .findByUserUuidAndDefaultedTrueAndDeletedFalse(userUuid)
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_OPTION));
-
-        // 배송지 uuid 로 배송지 조회 (배송지 service 의 getShippingAddressByUuid 메서드 사용)
-
+        log.info("userShippingAddress : {}", userShippingAddress);
+        // 배송지 uuid 로 배송지 조회 (배송지 service 의 getShippingAddressByShippingAddressUuid 메서드 사용)
         return shippingAddressService.
-                getShippingAddressByUuid(userShippingAddress.getShippingAddressUuid());
+                getShippingAddressByShippingAddressUuid(userShippingAddress.getShippingAddressUuid());
     }
 
     /**

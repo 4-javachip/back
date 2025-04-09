@@ -7,7 +7,7 @@ import lombok.Getter;
 
 // id가 주어졌을 때 배송지 조회 dto
 @Getter
-public class ResponseReadShippingAddressDto {
+public class ResponseReadShippingAddressWithDefaultedDto {
     private final Long id;
     private final String shippingAddressUuid;
     private final String addressName;
@@ -18,9 +18,11 @@ public class ResponseReadShippingAddressDto {
     private final String phoneNumber;
     private final String secondPhoneNumber;
     private final String shippingNote;
+    private final Boolean defaulted;
+
 
     @Builder
-    public ResponseReadShippingAddressDto(
+    public ResponseReadShippingAddressWithDefaultedDto(
             Long id,
             String shippingAddressUuid,
             String addressName,
@@ -30,7 +32,8 @@ public class ResponseReadShippingAddressDto {
             String detailAddress,
             String phoneNumber,
             String secondPhoneNumber,
-            String shippingNote
+            String shippingNote,
+            Boolean defaulted
     ) {
         this.id = id;
         this.shippingAddressUuid = shippingAddressUuid;
@@ -42,23 +45,28 @@ public class ResponseReadShippingAddressDto {
         this.phoneNumber = phoneNumber;
         this.secondPhoneNumber = secondPhoneNumber;
         this.shippingNote = shippingNote;
+        this.defaulted = defaulted;
     }
 
-    // entity => dto
-    public static ResponseReadShippingAddressDto from(ShippingAddress shippingAddress) {
-        return ResponseReadShippingAddressDto.builder()
-                .id(shippingAddress.getId())
-                .shippingAddressUuid(shippingAddress.getShippingAddressUuid())
-                .addressName(shippingAddress.getAddressName())
-                .recipientName(shippingAddress.getRecipientName())
-                .zipCode(shippingAddress.getZipCode())
-                .baseAddress(shippingAddress.getBaseAddress())
-                .detailAddress(shippingAddress.getDetailAddress())
-                .phoneNumber(shippingAddress.getPhoneNumber())
-                .secondPhoneNumber(shippingAddress.getSecondPhoneNumber())
-                .shippingNote(shippingAddress.getShippingNote())
-                .build();
-    }
+//    // entity => dto
+//    public static ResponseReadShippingAddressWithDefaultedDto from(
+//            Boolean defaulted,
+//            ShippingAddress shippingAddress
+//    ) {
+//        return ResponseReadShippingAddressWithDefaultedDto.builder()
+//                .id(shippingAddress.getId())
+//                .shippingAddressUuid(shippingAddress.getShippingAddressUuid())
+//                .addressName(shippingAddress.getAddressName())
+//                .recipientName(shippingAddress.getRecipientName())
+//                .zipCode(shippingAddress.getZipCode())
+//                .baseAddress(shippingAddress.getBaseAddress())
+//                .detailAddress(shippingAddress.getDetailAddress())
+//                .phoneNumber(shippingAddress.getPhoneNumber())
+//                .secondPhoneNumber(shippingAddress.getSecondPhoneNumber())
+//                .shippingNote(shippingAddress.getShippingNote())
+//                .defaulted(defaulted)
+//                .build();
+//    }
 
     // dto => vo
     public ResponseShippingAddressVo toVo() {
@@ -72,6 +80,7 @@ public class ResponseReadShippingAddressDto {
                 .phoneNumber(phoneNumber)
                 .secondPhoneNumber(secondPhoneNumber)
                 .shippingNote(shippingNote)
+                .defaulted(defaulted)
                 .build();
 
     }
