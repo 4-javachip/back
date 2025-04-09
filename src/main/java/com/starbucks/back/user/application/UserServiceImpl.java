@@ -70,7 +70,8 @@ public class UserServiceImpl implements UserService{
                         userRepository.findByUserUuid(
                                 requestUpdatePasswordDto.getUserUuid())
                                 .orElseThrow(() -> new BaseException(USER_NOT_FOUND)),
-                        requestUpdatePasswordDto.getNewPassword(), passwordEncoder
+                        requestUpdatePasswordDto.getNewPassword(),
+                        passwordEncoder
                 )
         );
 
@@ -94,7 +95,8 @@ public class UserServiceImpl implements UserService{
                         userRepository.findByEmail(
                                 requestResetPasswordDto.getEmail())
                                 .orElseThrow(() -> new BaseException(USER_NOT_FOUND)),
-                        requestResetPasswordDto.getNewPassword(), passwordEncoder
+                        requestResetPasswordDto.getNewPassword(),
+                        passwordEncoder
                 )
         );
 
