@@ -13,12 +13,14 @@ public class ResponseProductDto {
     private String productUuid;
     private String name;
     private boolean isNew;
+    private boolean isBest;
 
     @Builder
-    public ResponseProductDto(String productUuid, String name, boolean isNew) {
+    public ResponseProductDto(String productUuid, String name, boolean isNew, boolean isBest) {
         this.productUuid = productUuid;
         this.name = name;
         this.isNew = isNew;
+        this.isBest = isBest;
     }
 
     public static ResponseProductDto from(Product product) {
@@ -29,11 +31,21 @@ public class ResponseProductDto {
                 .build();
     }
 
+    public static ResponseProductDto of(Product product, boolean isBest) {
+        return ResponseProductDto.builder()
+                .productUuid(product.getProductUuid())
+                .name(product.getName())
+                .isNew(product.isNew())
+                .isBest(isBest)
+                .build();
+    }
+
     public ResponseProductVo toVo() {
         return ResponseProductVo.builder()
                 .productUuid(productUuid)
                 .name(name)
                 .isNew(isNew)
+                .isBest(isBest)
                 .build();
     }
 
