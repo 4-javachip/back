@@ -8,11 +8,13 @@ public class ResponseProductVo {
 
     private String productUuid;
     private String name;
+    private boolean isNew;
 
     @Builder
-    public ResponseProductVo(String productUuid, String name) {
+    public ResponseProductVo(String productUuid, String name, boolean isNew) {
         this.productUuid = productUuid;
         this.name = name;
+        this.isNew = isNew;
     }
 
 }
