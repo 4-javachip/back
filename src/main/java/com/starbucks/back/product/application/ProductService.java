@@ -1,5 +1,6 @@
 package com.starbucks.back.product.application;
 
+import com.starbucks.back.common.util.CursorPageUtil;
 import com.starbucks.back.product.dto.in.RequestAddProductDto;
 import com.starbucks.back.product.dto.in.RequestDeleteProductDto;
 import com.starbucks.back.product.dto.in.RequestUpdateProductDto;
@@ -29,9 +30,8 @@ public interface ProductService {
 
     /**
      * 상품 전체 조회
-     * TODO : 상품 전체 조회시 페이징 처리 필요(관리자에서 보기 위해)
      */
-    List<ResponseProductDto> getAllProducts();
+    CursorPageUtil<ResponseProductDto, Long> getAllProducts(Long lastId);
 
     /**
      * 상품 수정

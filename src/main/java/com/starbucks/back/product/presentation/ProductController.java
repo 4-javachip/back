@@ -2,6 +2,7 @@ package com.starbucks.back.product.presentation;
 
 import com.starbucks.back.common.entity.BaseResponseEntity;
 import com.starbucks.back.common.entity.BaseResponseStatus;
+import com.starbucks.back.common.util.CursorPageUtil;
 import com.starbucks.back.product.application.ProductService;
 import com.starbucks.back.product.dto.in.RequestAddProductDto;
 import com.starbucks.back.product.dto.in.RequestDeleteProductDto;
@@ -51,12 +52,18 @@ public class ProductController {
      */
     @Operation(summary = "상품 이름 전체 조회 API", description = "상품 이름 전체 조회 API 입니다.", tags = {"Product-Service"})
     @GetMapping("/list")
-    public BaseResponseEntity<List<ResponseProductVo>> getAllProducts() {
-        List<ResponseProductVo> result = productService.getAllProducts()
-                .stream()
-                .map(ResponseProductDto::toVo)
-                .toList();
-        return new BaseResponseEntity<>(result);
+    public BaseResponseEntity<CursorPageUtil<ResponseProductVo, Long>> getAllProducts(@RequestParam (required = false) Long cursor) {
+        CursorPageUtil<ResponseProductDto, Long> dtoPage = productService.getAllProducts(cursor);
+
+        CursorPageUtil<ResponseProductVo, Long> voPage = CursorPageUtil.<ResponseProductVo, Long>builder()
+                .content(dtoPage.getContent().stream().map(ResponseProductDto::toVo).toList())
+                .nextCursor(dtoPage.getNextCursor())
+                .hasNext(dtoPage.getHasNext())
+                .page(dtoPage.getPage())
+                .pageSize(dtoPage.getPageSize())
+                .build();
+
+        return new BaseResponseEntity<>(voPage);
     }
 
     /**

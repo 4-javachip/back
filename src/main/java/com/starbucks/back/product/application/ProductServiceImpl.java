@@ -3,6 +3,7 @@ package com.starbucks.back.product.application;
 import com.starbucks.back.best.application.BestService;
 import com.starbucks.back.common.entity.BaseResponseStatus;
 import com.starbucks.back.common.exception.BaseException;
+import com.starbucks.back.common.util.CursorPageUtil;
 import com.starbucks.back.product.domain.Product;
 import com.starbucks.back.product.dto.in.RequestAddProductDto;
 import com.starbucks.back.product.dto.in.RequestDeleteProductDto;
@@ -15,6 +16,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Set;
+
+import static com.starbucks.back.common.constant.PagingConstant.DEFAULT_PAGE_NUMBER;
+import static com.starbucks.back.common.constant.PagingConstant.DEFAULT_PAGE_SIZE;
 
 @Service
 @RequiredArgsConstructor
@@ -66,16 +70,9 @@ public class ProductServiceImpl implements ProductService {
      * 상품 전체 조회
      */
     @Override
-    public List<ResponseProductDto> getAllProducts() {
-        List<Product> products = productRepository.findAll();
-
-        Set<String> top30Uuids = bestService.getTop30BestProductUuids();
-
-        return products.stream()
-                .map(product -> ResponseProductDto.of(
-                        product, top30Uuids.contains(product.getProductUuid())
-                ))
-                .toList();
+    public CursorPageUtil<ResponseProductDto, Long> getAllProducts(Long lastId) {
+        Set<String> bestUuids = bestService.getTop30BestProductUuids();
+        return productRepository.findAllWithPagination(lastId, DEFAULT_PAGE_SIZE, DEFAULT_PAGE_NUMBER, bestUuids);
     }
 
     /**
