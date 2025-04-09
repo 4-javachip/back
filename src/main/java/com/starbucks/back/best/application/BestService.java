@@ -27,6 +27,12 @@ public interface BestService {
     Set<String> getTop30BestProductUuids();
 
     /**
+     * 카테고리별 베스트 상품 리스트 조회
+     * @param categoryId
+     */
+    List<ResponseBestDto> getTop30BestProductsByCategoryId(Long categoryId);
+
+    /**
      * 베스트 상품 수정
      * @param requestUpdateBestDto
      */
