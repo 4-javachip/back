@@ -48,24 +48,24 @@ public class UserShippingAddressController {
         return new BaseResponseEntity<>(result);
     }
 
-    /**
-     * 기본외배송지 List 조회 by userUuid
-     * @param userUuid
-     * @return
-     */
-    @Operation(summary = "getUserShippingAddressListByUserUuid API", description = "기본외배송지 List 조회 API 입니다.", tags = {"ShippingAddress-Service"})
-    @GetMapping("/user/not-default")
-    public BaseResponseEntity<List<ResponseReadShippingAddressListVo>> getUserShippingAddressListByUserUuid(
-            @RequestHeader("userUuid") String userUuid
-    ) {
-        List<ResponseReadShippingAddressListVo> result = userShippingAddressService
-                .getUserShippingAddressListByUserUuid(userUuid)
-                .stream()
-                .map(ResponseReadUserShippingAddressDto::toVo)
-                .toList();
-
-        return new BaseResponseEntity<>(result);
-    }
+//    /**
+//     * 기본외배송지 List 조회 by userUuid
+//     * @param userUuid
+//     * @return
+//     */
+//    @Operation(summary = "getUserShippingAddressListByUserUuid API", description = "기본외배송지 List 조회 API 입니다.", tags = {"ShippingAddress-Service"})
+//    @GetMapping("/user/not-default")
+//    public BaseResponseEntity<List<ResponseReadShippingAddressListVo>> getUserShippingAddressListByUserUuid(
+//            @RequestHeader("userUuid") String userUuid
+//    ) {
+//        List<ResponseReadShippingAddressListVo> result = userShippingAddressService
+//                .getUserShippingAddressListByUserUuid(userUuid)
+//                .stream()
+//                .map(ResponseReadUserShippingAddressDto::toVo)
+//                .toList();
+//
+//        return new BaseResponseEntity<>(result);
+//    }
 
     /**
      * 기본배송지 객체 조회 by userUuid
@@ -113,26 +113,26 @@ public class UserShippingAddressController {
         return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS);
     }
 
-    /**
-     * 배송지 default 변경 by [{userUuid, shippingAddressUuid, defaulted}, ..]
-     */
-    @Operation(summary = "updateUserShippingAddressDefaulted API", description = "배송지 defaulted 수정 API 입니다.", tags = {"ShippingAddress-Service"})
-    @Transactional
-    @PutMapping("/user/default")
-    public BaseResponseEntity<Void> updateUserShippingAddressDefaulted(
-            @RequestHeader("userUuid") String userUuid,
-            @RequestBody List<RequestUpdateUserShippingAddressVo> requestUpdateUserShippingAddressVoList
-    ) {
-
-        List<RequestUpdateUserShippingAddressDto> dtoList = requestUpdateUserShippingAddressVoList
-                .stream()
-                .map(vo -> RequestUpdateUserShippingAddressDto.of(userUuid, vo))
-                .toList();
-
-        userShippingAddressService.updateUserShippingAddressDefaulted(dtoList);
-
-        return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS);
-    }
+//    /**
+//     * 배송지 default 변경 by [{userUuid, shippingAddressUuid, defaulted}, ..]
+//     */
+//    @Operation(summary = "updateUserShippingAddressDefaulted API", description = "배송지 defaulted 수정 API 입니다.", tags = {"ShippingAddress-Service"})
+//    @Transactional
+//    @PutMapping("/user/default")
+//    public BaseResponseEntity<Void> updateUserShippingAddressDefaulted(
+//            @RequestHeader("userUuid") String userUuid,
+//            @RequestBody List<RequestUpdateUserShippingAddressVo> requestUpdateUserShippingAddressVoList
+//    ) {
+//
+//        List<RequestUpdateUserShippingAddressDto> dtoList = requestUpdateUserShippingAddressVoList
+//                .stream()
+//                .map(vo -> RequestUpdateUserShippingAddressDto.of(userUuid, vo))
+//                .toList();
+//
+//        userShippingAddressService.updateUserShippingAddressDefaulted(dtoList);
+//
+//        return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS);
+//    }
 
     /**
      * 배송지 수정 by shippingAddressUuid
