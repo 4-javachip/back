@@ -11,6 +11,7 @@ public class RequestEventVo {
 
     private String eventUuid;
     private String name;
+    private String imageUrl;
     private String description;
     private String precaution;
     private LocalDate startAt;

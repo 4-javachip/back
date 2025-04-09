@@ -29,7 +29,13 @@ public class Event extends SoftDeletableEntity {
     private String name;
 
     /**
-     * 기획전 설명(이미지)
+     * 기획전 이미지 URL
+     */
+    @Column(name = "image_url", nullable = false)
+    private String imageUrl;
+
+    /**
+     * 기획전 설명
      */
     @Column(name = "description", nullable = false)
     private String description;
@@ -63,11 +69,12 @@ public class Event extends SoftDeletableEntity {
     }
 
     @Builder
-    public Event(Long id, String eventUuid, String name, String description,
+    public Event(Long id, String eventUuid, String name, String imageUrl, String description,
                  String precaution, LocalDate startAt, LocalDate endAt, Boolean state) {
         this.id = id;
         this.eventUuid = eventUuid;
         this.name = name;
+        this.imageUrl = imageUrl;
         this.description = description;
         this.precaution = precaution;
         this.startAt = startAt;
