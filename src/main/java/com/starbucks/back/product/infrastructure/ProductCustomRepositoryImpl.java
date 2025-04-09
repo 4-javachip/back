@@ -46,9 +46,8 @@ public class ProductCustomRepositoryImpl implements ProductCustomRepository{
         if(hasNext) {
             result = result.subList(0, currentPageSize);
         }
-        
-        Long nextCursor = result.isEmpty() ? null : result.get(result.size() - 1).getId();
 
+        Long nextCursor = result.isEmpty() ? null : result.get(result.size() - 1).getId();
 
         List<ResponseProductDto> dtoList = result.stream()
                 .map(p -> ResponseProductDto.of(p, bestUuids.contains(p.getProductUuid())))
