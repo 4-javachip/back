@@ -12,7 +12,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
-import static com.starbucks.back.common.constant.PagingConstant.DEFAULT_PAGE_NUMBER;
 import static com.starbucks.back.common.constant.PagingConstant.DEFAULT_PAGE_SIZE;
 
 @Repository

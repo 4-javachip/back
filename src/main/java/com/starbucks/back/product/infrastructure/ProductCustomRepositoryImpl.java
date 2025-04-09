@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import static com.starbucks.back.common.constant.PagingConstant.DEFAULT_PAGE_NUMBER;
 import static com.starbucks.back.common.constant.PagingConstant.DEFAULT_PAGE_SIZE;
 
 @Repository

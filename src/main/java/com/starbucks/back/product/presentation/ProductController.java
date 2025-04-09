@@ -52,15 +52,10 @@ public class ProductController {
      */
     @Operation(summary = "상품 이름 전체 조회 API", description = "상품 이름 전체 조회 API 입니다.", tags = {"Product-Service"})
     @GetMapping("/list")
-    public BaseResponseEntity<CursorPageUtil<ResponseProductVo, Long>> getAllProducts(@RequestParam (required = false) Long cursor) {
+    public BaseResponseEntity<CursorPageUtil<ResponseProductVo, Long>> getAllProducts(@RequestParam (name = "cursor", required = false) Long cursor) {
         CursorPageUtil<ResponseProductDto, Long> dtoPage = productService.getAllProducts(cursor);
 
-        CursorPageUtil<ResponseProductVo, Long> voPage = CursorPageUtil.<ResponseProductVo, Long>builder()
-                .content(dtoPage.getContent().stream().map(ResponseProductDto::toVo).toList())
-                .nextCursor(dtoPage.getNextCursor())
-                .hasNext(dtoPage.getHasNext())
-                .pageSize(dtoPage.getPageSize())
-                .build();
+        CursorPageUtil<ResponseProductVo, Long> voPage = dtoPage.map(ResponseProductDto::toVo);
 
         return new BaseResponseEntity<>(voPage);
     }

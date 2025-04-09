@@ -75,13 +75,7 @@ public class EventProductController {
         CursorPageUtil<ResponseEventProductDto, Long> dtoPage =
                 eventProductService.getEventProductByEventUuid(eventUuid, cursor);
 
-        CursorPageUtil<ResponseEventProductVo, Long> voPage =
-                CursorPageUtil.<ResponseEventProductVo, Long>builder()
-                        .content(dtoPage.getContent().stream().map(ResponseEventProductDto::toVo).toList())
-                        .nextCursor(dtoPage.getNextCursor())
-                        .hasNext(dtoPage.getHasNext())
-                        .pageSize(dtoPage.getPageSize())
-                        .build();
+        CursorPageUtil<ResponseEventProductVo, Long> voPage = dtoPage.map(ResponseEventProductDto::toVo);
         return new BaseResponseEntity<>(voPage);
     }
 
@@ -90,17 +84,11 @@ public class EventProductController {
      */
     @Operation(summary = "삭제되지 않은 기획전 상품 리스트 전체 조회 API", description = "삭제되지 않은 기획전 상품 리스트 전체 조회 API 입니다.", tags = {"Event-Product-Service"})
     @GetMapping("/list")
-    public BaseResponseEntity<CursorPageUtil<ResponseEventProductVo, Long>> getAllEventProducts(@RequestParam(required = false) Long cursor) {
+    public BaseResponseEntity<CursorPageUtil<ResponseEventProductVo, Long>> getAllEventProducts(@RequestParam(name = "cursor", required = false) Long cursor) {
         CursorPageUtil<ResponseEventProductDto, Long> dtoPage =
                 eventProductService.getAllEventProducts(cursor);
 
-        CursorPageUtil<ResponseEventProductVo, Long> voPage =
-                CursorPageUtil.<ResponseEventProductVo, Long>builder()
-                        .content(dtoPage.getContent().stream().map(ResponseEventProductDto::toVo).toList())
-                        .nextCursor(dtoPage.getNextCursor())
-                        .hasNext(dtoPage.getHasNext())
-                        .pageSize(dtoPage.getPageSize())
-                        .build();
+        CursorPageUtil<ResponseEventProductVo, Long> voPage = dtoPage.map(ResponseEventProductDto::toVo);
 
         return new BaseResponseEntity<>(voPage);
     }
