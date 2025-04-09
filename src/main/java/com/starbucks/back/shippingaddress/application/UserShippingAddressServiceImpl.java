@@ -113,13 +113,23 @@ public class UserShippingAddressServiceImpl implements UserShippingAddressServic
     @Transactional
     @Override
     public void updateShippingAddress(RequestUpdateShippingAddressDto requestUpdateShippingAddressDto) {
-        if (!userShippingAddressRepository.existsByUserUuidAndShippingAddressUuidAndDeletedFalse(
-                    requestUpdateShippingAddressDto.getUserUuid(),
-                    requestUpdateShippingAddressDto.getShippingAddressUuid()
-                )) {
-            throw new BaseException(BaseResponseStatus.NO_EXIST_OPTION);
-        }
 
+        // defaulted = true 면 나머지 전부 false 로 수정 + 해당 데이터는 true 로 변경
+        Boolean defaulted = requestUpdateShippingAddressDto.getDefaulted();
+        if (defaulted) {
+            // 나머지 전부 false 로 수정
+            userShippingAddressRepository.resetDefaultedByUserUuid(requestUpdateShippingAddressDto.getUserUuid());
+            // 해당 데이터는 true 로 수정
+            UserShippingAddress userShippingAddress = requestUpdateShippingAddressDto.updateUserShippingAddress(
+                    userShippingAddressRepository
+                    .findByUserUuidAndShippingAddressUuidAndDeletedFalse(
+                            requestUpdateShippingAddressDto.getUserUuid(),
+                            requestUpdateShippingAddressDto.getShippingAddressUuid()
+                    ).orElseThrow( () -> new BaseException(BaseResponseStatus.NO_EXIST_USER_SHIPPING_ADDRESS)));
+
+            userShippingAddressRepository.save(userShippingAddress);
+        }
+        // 저장
         shippingAddressService.updateShippingAddress(requestUpdateShippingAddressDto);
     }
 

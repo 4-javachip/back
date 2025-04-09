@@ -53,7 +53,7 @@ public class ShippingAddressServiceImpl implements ShippingAddressService {
     public void updateShippingAddress(RequestUpdateShippingAddressDto requestUpdateShippingAddressDto) {
         ShippingAddress shippingAddress = shippingAddressRepository.findByShippingAddressUuid(
                         requestUpdateShippingAddressDto.getShippingAddressUuid())
-                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_OPTION));
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_SHIPPING_ADDRESS));
         shippingAddressRepository.save(requestUpdateShippingAddressDto.updateShippingAddress(shippingAddress));
     }
 
