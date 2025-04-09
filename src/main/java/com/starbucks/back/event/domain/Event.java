@@ -29,9 +29,9 @@ public class Event extends SoftDeletableEntity {
     private String name;
 
     /**
-     * 기획전 설명
+     * 기획전 설명(이미지)
      */
-    @Column(name = "description", columnDefinition = "TEXT", nullable = false)
+    @Column(name = "description", nullable = false)
     private String description;
 
     /**

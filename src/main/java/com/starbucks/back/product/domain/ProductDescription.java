@@ -33,7 +33,7 @@ public class ProductDescription extends BaseEntity {
      * 상품 상세 설명
      */
     @Lob
-    @Column(name = "detail_description", nullable = false)
+    @Column(name = "detail_description", columnDefinition = "TEXT", nullable = false)
     private String detailDescription;
 
     @Builder

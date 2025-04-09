@@ -13,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -39,6 +41,17 @@ public class BestServiceImpl implements BestService {
                 .stream()
                 .map(ResponseBestDto::from)
                 .toList();
+    }
+
+    /**
+     * 베스트 태그
+     */
+    @Override
+    public Set<String> getTop30BestProductUuids() {
+        return bestRepository.findTop30ByOrderByProductSalesCountDesc()
+                .stream()
+                .map(Best::getProductUuid)
+                .collect(Collectors.toSet());
     }
 
     /**

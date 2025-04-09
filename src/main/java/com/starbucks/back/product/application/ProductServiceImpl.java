@@ -1,5 +1,6 @@
 package com.starbucks.back.product.application;
 
+import com.starbucks.back.best.application.BestService;
 import com.starbucks.back.common.entity.BaseResponseStatus;
 import com.starbucks.back.common.exception.BaseException;
 import com.starbucks.back.product.domain.Product;
@@ -13,12 +14,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
+    private final BestService bestService;
 
     /**
      * 상품 추가
@@ -52,7 +55,11 @@ public class ProductServiceImpl implements ProductService {
     public ResponseProductDto getProductByUuid(String productUuid) {
         Product product = productRepository.findByProductUuid(productUuid)
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_PRODUCT));
-        return ResponseProductDto.from(product);
+
+        Set<String> top30 = bestService.getTop30BestProductUuids();
+        boolean isBest = top30.contains(productUuid);
+
+        return ResponseProductDto.of(product, isBest);
     }
 
     /**
@@ -60,9 +67,14 @@ public class ProductServiceImpl implements ProductService {
      */
     @Override
     public List<ResponseProductDto> getAllProducts() {
-        return productRepository.findAll()
-                .stream()
-                .map(ResponseProductDto::from)
+        List<Product> products = productRepository.findAll();
+
+        Set<String> top30Uuids = bestService.getTop30BestProductUuids();
+
+        return products.stream()
+                .map(product -> ResponseProductDto.of(
+                        product, top30Uuids.contains(product.getProductUuid())
+                ))
                 .toList();
     }
 
