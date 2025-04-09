@@ -57,12 +57,12 @@ public class EventProductCustomRepositoryImpl implements EventProductCustomRepos
 
         boolean hasNext = result.size() > currentPageSize;
 
-        Long nextCursor = result.isEmpty() ? null : result.get(result.size() - 1).getId();
-
         if (hasNext) {
             result = result.subList(0, currentPageSize);
         }
 
+        Long nextCursor = result.isEmpty() ? null : result.get(result.size() - 1).getId();
+        
         List<ResponseEventProductDto> dtoList = result.stream()
                 .map(ResponseEventProductDto::from)
                 .toList();
