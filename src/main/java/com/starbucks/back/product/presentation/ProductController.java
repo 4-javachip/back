@@ -60,19 +60,20 @@ public class ProductController {
      * @param pageSize
      * @param page
      */
-    @Operation(summary = "상품 전체 필터링 조회 API", description = "상품 전체 필터링 조회 API 입니다.", tags = {"Product-Service"})
+    @Operation(summary = "상품 전체 필터링 조회 API", description = "상품 전체 필터링 조회(검색, 페이징) API 입니다.", tags = {"Product-Service"})
     @GetMapping("/list")
     public BaseResponseEntity<CursorPageUtil<ResponseProductVo, Long>> getProductsByFilter(
             @RequestParam (name = "categoryId", required = false) Long categoryId,
             @RequestParam (name = "subCategoryId", required = false) Long subCategoryId,
             @RequestParam (name = "seasonId", required = false) Long seasonId,
             @RequestParam (name = "sortType", required = false, defaultValue = "NEW") ProductSortType sortType,
+            @RequestParam (name = "keyword", required = false) String keyword,
             @RequestParam (name = "cursor", required = false) Long cursor,
             @RequestParam (name = "pageSize", required = false) Integer pageSize,
             @RequestParam (name = "page", required = false) Integer page
     ) {
         CursorPageUtil<ResponseProductDto, Long> dtoPage =
-                productService.getAllProductsByFilter(categoryId, subCategoryId, seasonId, sortType, cursor, pageSize, page);
+                productService.getAllProductsByFilter(categoryId, subCategoryId, seasonId, sortType, keyword, cursor, pageSize, page);
 
         return new BaseResponseEntity<>(dtoPage.map(ResponseProductDto::toVo));
     }

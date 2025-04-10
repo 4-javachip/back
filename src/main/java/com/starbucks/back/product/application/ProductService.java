@@ -33,6 +33,7 @@ public interface ProductService {
      * @param subCategoryId
      * @param seasonId
      * @param sortType
+     * @param keyword
      * @param cursor
      * @param pageSize
      * @param page
@@ -42,6 +43,7 @@ public interface ProductService {
             Long subCategoryId,
             Long seasonId,
             ProductSortType sortType,
+            String keyword,
             Long cursor,
             Integer pageSize,
             Integer page

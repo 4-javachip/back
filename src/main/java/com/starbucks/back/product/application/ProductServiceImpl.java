@@ -79,6 +79,7 @@ public class ProductServiceImpl implements ProductService {
             Long subCategoryId,
             Long seasonId,
             ProductSortType sortType,
+            String keyword,
             Long cursor,
             Integer pageSize,
             Integer page) {
@@ -88,6 +89,7 @@ public class ProductServiceImpl implements ProductService {
                 subCategoryId,
                 seasonId,
                 sortType,
+                keyword,
                 cursor,
                 pageSize,
                 page,

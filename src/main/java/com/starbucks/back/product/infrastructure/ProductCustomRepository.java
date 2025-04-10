@@ -14,6 +14,7 @@ public interface ProductCustomRepository {
      * @param subCategoryId
      * @param seasonId
      * @param sortType
+     * @param keyword
      * @param lastId
      * @param pageSize
      * @param page
@@ -23,6 +24,7 @@ public interface ProductCustomRepository {
             Long subCategoryId,
             Long seasonId,
             ProductSortType sortType,
+            String keyword,
             Long lastId,
             Integer pageSize,
             Integer page,

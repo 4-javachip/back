@@ -46,6 +46,7 @@ public class ProductCustomRepositoryImpl implements ProductCustomRepository {
             Long subCategoryId,
             Long seasonId,
             ProductSortType sortType,
+            String keyword,
             Long lastId,
             Integer pageSize,
             Integer page,
@@ -72,6 +73,10 @@ public class ProductCustomRepositoryImpl implements ProductCustomRepository {
 
         if (seasonId != null) {
             builder.and(seasonList.id.eq(seasonId));
+        }
+
+        if (keyword != null && !keyword.isBlank()) {
+            builder.and(product.name.containsIgnoreCase(keyword));
         }
 
         ProductSortType safeSortType = (sortType != null) ? sortType : ProductSortType.NEW;
