@@ -45,9 +45,9 @@ public class RequestAddCartDto {
                 .build();
     }
     // vo => dto
-    public static RequestAddCartDto from(RequestAddCartVo requestAddCartVo) {
+    public static RequestAddCartDto from(String userUuid, RequestAddCartVo requestAddCartVo) {
         return RequestAddCartDto.builder()
-                .userUuid(requestAddCartVo.getUserUuid())
+                .userUuid(userUuid)
                 .productQuantity(requestAddCartVo.getProductQuantity())
                 .checked(requestAddCartVo.getChecked())
                 .productUuid(requestAddCartVo.getProductUuid())
