@@ -51,6 +51,14 @@ public interface UserShippingAddressRepository extends JpaRepository<UserShippin
     );
 
     /**
+     * 유저배송지 전부 defaulted = false 변경 by userUuid, shippingAddressUuid
+     * @param userUuid
+     */
+    @Modifying
+    @Query("UPDATE UserShippingAddress u SET u.defaulted = false WHERE u.userUuid = :userUuid AND u.deleted = false")
+    void resetDefaultedByUserUuid(@Param("userUuid") String userUuid);
+
+    /**
      * 유저배송지 전부 삭제 by userUuid
      */
     @Modifying

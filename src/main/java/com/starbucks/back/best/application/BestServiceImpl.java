@@ -55,6 +55,18 @@ public class BestServiceImpl implements BestService {
     }
 
     /**
+     * 카테고리별 베스트 상품 리스트 조회
+     * @param categoryId
+     */
+    @Override
+    public List<ResponseBestDto> getTop30BestProductsByCategoryId(Long categoryId) {
+        return bestRepository.findTop30ByCategoryId(categoryId)
+                .stream()
+                .map(ResponseBestDto::from)
+                .toList();
+    }
+
+    /**
      * 베스트 상품 수정
      * @param requestUpdateBestDto
      */

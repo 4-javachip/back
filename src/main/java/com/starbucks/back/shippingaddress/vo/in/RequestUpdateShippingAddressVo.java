@@ -14,4 +14,5 @@ public class RequestUpdateShippingAddressVo {
     private String phoneNumber;
     private String secondPhoneNumber;
     private String shippingNote;
+    private Boolean defaulted;
 }

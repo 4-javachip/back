@@ -26,18 +26,14 @@ public class EventProductCustomRepositoryImpl implements EventProductCustomRepos
      * @param eventUuid
      * @param lastId
      * @param pageSize
-     * @param page
      */
     @Override
     public CursorPageUtil<ResponseEventProductDto, Long> findByEventUuidWithPagination(
             String eventUuid,
             Long lastId,
-            Integer pageSize,
-            Integer page) {
+            Integer pageSize) {
 
         int currentPageSize = Optional.ofNullable(pageSize).filter(size -> size > 0).orElse(DEFAULT_PAGE_SIZE);
-
-        int currentPage = Optional.ofNullable(page).orElse(DEFAULT_PAGE_NUMBER);
 
         QEventProduct eventProduct = QEventProduct.eventProduct;
 
@@ -71,7 +67,6 @@ public class EventProductCustomRepositoryImpl implements EventProductCustomRepos
                 .content(dtoList)
                 .nextCursor(nextCursor)
                 .hasNext(hasNext)
-                .page(currentPage)
                 .pageSize(currentPageSize)
                 .build();
     }
@@ -83,11 +78,9 @@ public class EventProductCustomRepositoryImpl implements EventProductCustomRepos
     @Override
     public CursorPageUtil<ResponseEventProductDto, Long> findAllWithPagination(
             Long lastId,
-            Integer pageSize,
-            Integer page) {
+            Integer pageSize) {
 
         int currentPageSize = Optional.ofNullable(pageSize).filter(size -> size > 0).orElse(DEFAULT_PAGE_SIZE);
-        int currentPage = Optional.ofNullable(page).orElse(DEFAULT_PAGE_NUMBER);
 
         QEventProduct qEventProduct = QEventProduct.eventProduct;
 
@@ -121,7 +114,6 @@ public class EventProductCustomRepositoryImpl implements EventProductCustomRepos
                 .nextCursor(nextCursor)
                 .hasNext(hasNext)
                 .pageSize(currentPageSize)
-                .page(currentPage)
                 .build();
     }
 

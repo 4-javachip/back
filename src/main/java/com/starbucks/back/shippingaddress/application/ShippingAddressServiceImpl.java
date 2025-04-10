@@ -5,7 +5,7 @@ import com.starbucks.back.common.exception.BaseException;
 import com.starbucks.back.shippingaddress.domain.ShippingAddress;
 import com.starbucks.back.shippingaddress.dto.in.RequestShippingAddressAndUserDto;
 import com.starbucks.back.shippingaddress.dto.in.RequestUpdateShippingAddressDto;
-import com.starbucks.back.shippingaddress.dto.out.ResponseReadShippingAddressDto;
+import com.starbucks.back.shippingaddress.dto.out.ResponseReadShippingAddressWithDefaultedDto;
 import com.starbucks.back.shippingaddress.infrastructure.ShippingAddressRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -36,12 +36,12 @@ public class ShippingAddressServiceImpl implements ShippingAddressService {
      * @return
      */
     @Override
-    public ResponseReadShippingAddressDto getShippingAddressByUuid(String shippingAddressUuid) {
-        ShippingAddress shippingAddress = shippingAddressRepository
-                .findByShippingAddressUuid(shippingAddressUuid)
-                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_OPTION));
-        
-        return ResponseReadShippingAddressDto.from(shippingAddress);
+    public ResponseReadShippingAddressWithDefaultedDto getShippingAddressByShippingAddressUuid(
+            String shippingAddressUuid
+    ) {
+        return shippingAddressRepository
+                .findShippingAddressWithDefaultedByShippingAddressUuid(shippingAddressUuid)
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_SHIPPING_ADDRESS));
     }
 
     /**
@@ -53,7 +53,7 @@ public class ShippingAddressServiceImpl implements ShippingAddressService {
     public void updateShippingAddress(RequestUpdateShippingAddressDto requestUpdateShippingAddressDto) {
         ShippingAddress shippingAddress = shippingAddressRepository.findByShippingAddressUuid(
                         requestUpdateShippingAddressDto.getShippingAddressUuid())
-                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_OPTION));
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_SHIPPING_ADDRESS));
         shippingAddressRepository.save(requestUpdateShippingAddressDto.updateShippingAddress(shippingAddress));
     }
 

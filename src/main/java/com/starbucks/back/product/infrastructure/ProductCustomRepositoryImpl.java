@@ -25,9 +25,8 @@ public class ProductCustomRepositoryImpl implements ProductCustomRepository{
 
     @Override
     public CursorPageUtil<ResponseProductDto, Long> findAllWithPagination(
-            Long lastId, Integer pageSize, Integer page, Set<String> bestUuids) {
+            Long lastId, Integer pageSize, Set<String> bestUuids) {
         int currentPageSize = Optional.ofNullable(pageSize).orElse(DEFAULT_PAGE_SIZE);
-        int currentPage = Optional.ofNullable(page).orElse(DEFAULT_PAGE_NUMBER);
 
         BooleanBuilder builder = new BooleanBuilder();
         if (lastId != null) {
@@ -57,7 +56,6 @@ public class ProductCustomRepositoryImpl implements ProductCustomRepository{
                 .content(dtoList)
                 .nextCursor(nextCursor)
                 .hasNext(hasNext)
-                .page(currentPage)
                 .pageSize(currentPageSize)
                 .build();
     }

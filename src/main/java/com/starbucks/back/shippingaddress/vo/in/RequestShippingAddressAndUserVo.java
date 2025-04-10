@@ -13,4 +13,5 @@ public class RequestShippingAddressAndUserVo {
     private String phoneNumber;
     private String secondPhoneNumber;
     private String shippingNote;
+    private Boolean defaulted;
 }

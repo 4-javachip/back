@@ -1,6 +1,7 @@
 package com.starbucks.back.shippingaddress.dto.in;
 
 import com.starbucks.back.shippingaddress.domain.ShippingAddress;
+import com.starbucks.back.shippingaddress.domain.UserShippingAddress;
 import com.starbucks.back.shippingaddress.vo.in.RequestUpdateShippingAddressVo;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,6 +20,7 @@ public class RequestUpdateShippingAddressDto {
     private String phoneNumber;
     private String secondPhoneNumber;
     private String shippingNote;
+    private Boolean defaulted;
 
     @Builder
     public RequestUpdateShippingAddressDto(
@@ -31,7 +33,8 @@ public class RequestUpdateShippingAddressDto {
             String detailAddress,
             String phoneNumber,
             String secondPhoneNumber,
-            String shippingNote
+            String shippingNote,
+            Boolean defaulted
     ) {
         this.userUuid = userUuid;
         this.shippingAddressUuid = shippingAddressUuid;
@@ -43,6 +46,7 @@ public class RequestUpdateShippingAddressDto {
         this.phoneNumber = phoneNumber;
         this.secondPhoneNumber = secondPhoneNumber;
         this.shippingNote = shippingNote;
+        this.defaulted = defaulted;
     }
 
     public ShippingAddress updateShippingAddress(ShippingAddress shippingAddress) {
@@ -60,6 +64,17 @@ public class RequestUpdateShippingAddressDto {
                 .build();
     }
 
+    public UserShippingAddress updateUserShippingAddress(UserShippingAddress userShippingAddress) {
+        return UserShippingAddress.builder()
+                .id(userShippingAddress.getId())
+                .userUuid(userUuid)
+                .shippingAddressUuid(shippingAddressUuid)
+                .defaulted(defaulted)
+                .build();
+    }
+
+
+
     public static RequestUpdateShippingAddressDto from(
             String userUuid,
             RequestUpdateShippingAddressVo requestUpdateShippingAddressVo
@@ -75,6 +90,7 @@ public class RequestUpdateShippingAddressDto {
                 .phoneNumber(requestUpdateShippingAddressVo.getPhoneNumber())
                 .secondPhoneNumber(requestUpdateShippingAddressVo.getSecondPhoneNumber())
                 .shippingNote(requestUpdateShippingAddressVo.getShippingNote())
+                .defaulted(requestUpdateShippingAddressVo.getDefaulted())
                 .build();
     }
 }

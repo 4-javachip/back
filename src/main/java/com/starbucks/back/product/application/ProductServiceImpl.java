@@ -72,7 +72,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public CursorPageUtil<ResponseProductDto, Long> getAllProducts(Long lastId) {
         Set<String> bestUuids = bestService.getTop30BestProductUuids();
-        return productRepository.findAllWithPagination(lastId, DEFAULT_PAGE_SIZE, DEFAULT_PAGE_NUMBER, bestUuids);
+        return productRepository.findAllWithPagination(lastId, DEFAULT_PAGE_SIZE, bestUuids);
     }
 
     /**

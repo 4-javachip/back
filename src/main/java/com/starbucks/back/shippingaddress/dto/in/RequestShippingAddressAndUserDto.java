@@ -21,7 +21,8 @@ public class RequestShippingAddressAndUserDto {
     private String phoneNumber;
     private String secondPhoneNumber;
     private String shippingNote;
-    private String userUuid;            // userShippingAddress 테이블에서만 사용
+    private Boolean defaulted;
+    private String userUuid;
 
     @Builder
     public RequestShippingAddressAndUserDto(
@@ -44,6 +45,7 @@ public class RequestShippingAddressAndUserDto {
         this.phoneNumber = phoneNumber;
         this.secondPhoneNumber = secondPhoneNumber;
         this.shippingNote = shippingNote;
+        this.defaulted = defaulted;
         this.userUuid = userUuid;
     }
 
@@ -85,6 +87,7 @@ public class RequestShippingAddressAndUserDto {
                 .phoneNumber(requestShippingAddressAndUserVo.getPhoneNumber())
                 .secondPhoneNumber(requestShippingAddressAndUserVo.getSecondPhoneNumber())
                 .shippingNote(requestShippingAddressAndUserVo.getShippingNote())
+                .defaulted(requestShippingAddressAndUserVo.getDefaulted())
                 .userUuid(userUuid)
                 .build();
     }

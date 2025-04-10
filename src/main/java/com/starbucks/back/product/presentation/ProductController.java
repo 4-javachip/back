@@ -59,7 +59,6 @@ public class ProductController {
                 .content(dtoPage.getContent().stream().map(ResponseProductDto::toVo).toList())
                 .nextCursor(dtoPage.getNextCursor())
                 .hasNext(dtoPage.getHasNext())
-                .page(dtoPage.getPage())
                 .pageSize(dtoPage.getPageSize())
                 .build();
 
