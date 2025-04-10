@@ -22,7 +22,6 @@ public interface ProductCategoryListService {
 
     /**
      * 상품 카테고리 리스트 전체 조회
-     * TODO : 페이징 처리 필요
      */
     List<ResponseProductCategoryListDto> getAllProductCategoryList();
 

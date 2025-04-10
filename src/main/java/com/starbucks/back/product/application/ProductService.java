@@ -1,12 +1,11 @@
 package com.starbucks.back.product.application;
 
 import com.starbucks.back.common.util.CursorPageUtil;
+import com.starbucks.back.product.domain.ProductSortType;
 import com.starbucks.back.product.dto.in.RequestAddProductDto;
 import com.starbucks.back.product.dto.in.RequestDeleteProductDto;
 import com.starbucks.back.product.dto.in.RequestUpdateProductDto;
 import com.starbucks.back.product.dto.out.ResponseProductDto;
-
-import java.util.List;
 
 public interface ProductService {
 
@@ -29,9 +28,24 @@ public interface ProductService {
     ResponseProductDto getProductByUuid(String productUuid);
 
     /**
-     * 상품 전체 조회
+     * 상품 전체 조회(페이징, 필터링)
+     * @param categoryId
+     * @param subCategoryId
+     * @param seasonId
+     * @param sortType
+     * @param cursor
+     * @param pageSize
+     * @param page
      */
-    CursorPageUtil<ResponseProductDto, Long> getAllProducts(Long lastId, Integer pageSize, Integer page);
+    CursorPageUtil<ResponseProductDto, Long> getAllProductsByFilter(
+            Long categoryId,
+            Long subCategoryId,
+            Long seasonId,
+            ProductSortType sortType,
+            Long cursor,
+            Integer pageSize,
+            Integer page
+    );
 
     /**
      * 상품 수정

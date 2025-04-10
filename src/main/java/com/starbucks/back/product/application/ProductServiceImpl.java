@@ -5,6 +5,7 @@ import com.starbucks.back.common.entity.BaseResponseStatus;
 import com.starbucks.back.common.exception.BaseException;
 import com.starbucks.back.common.util.CursorPageUtil;
 import com.starbucks.back.product.domain.Product;
+import com.starbucks.back.product.domain.ProductSortType;
 import com.starbucks.back.product.dto.in.RequestAddProductDto;
 import com.starbucks.back.product.dto.in.RequestDeleteProductDto;
 import com.starbucks.back.product.dto.in.RequestUpdateProductDto;
@@ -14,11 +15,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Set;
-
-import static com.starbucks.back.common.constant.PagingConstant.DEFAULT_PAGE_NUMBER;
-import static com.starbucks.back.common.constant.PagingConstant.DEFAULT_PAGE_SIZE;
 
 @Service
 @RequiredArgsConstructor
@@ -67,12 +64,35 @@ public class ProductServiceImpl implements ProductService {
     }
 
     /**
-     * 상품 전체 조회
+     * 상품 필터링 조회
+     * @param categoryId
+     * @param subCategoryId
+     * @param seasonId
+     * @param sortType
+     * @param cursor
+     * @param pageSize
+     * @param page
      */
     @Override
-    public CursorPageUtil<ResponseProductDto, Long> getAllProducts(Long lastId, Integer pageSize, Integer page) {
+    public CursorPageUtil<ResponseProductDto, Long> getAllProductsByFilter(
+            Long categoryId,
+            Long subCategoryId,
+            Long seasonId,
+            ProductSortType sortType,
+            Long cursor,
+            Integer pageSize,
+            Integer page) {
         Set<String> bestUuids = bestService.getTop30BestProductUuids();
-        return productRepository.findAllWithPagination(lastId, pageSize, page, bestUuids);
+        return productRepository.findByFilterWithPagination(
+                categoryId,
+                subCategoryId,
+                seasonId,
+                sortType,
+                cursor,
+                pageSize,
+                page,
+                bestUuids
+        );
     }
 
     /**
