@@ -31,7 +31,7 @@ public interface ProductService {
     /**
      * 상품 전체 조회
      */
-    CursorPageUtil<ResponseProductDto, Long> getAllProducts(Long lastId);
+    CursorPageUtil<ResponseProductDto, Long> getAllProducts(Long lastId, Integer pageSize, Integer page);
 
     /**
      * 상품 수정

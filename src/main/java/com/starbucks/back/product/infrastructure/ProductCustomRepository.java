@@ -16,6 +16,7 @@ public interface ProductCustomRepository {
     CursorPageUtil<ResponseProductDto, Long> findAllWithPagination(
         Long lastId,
         Integer pageSize,
+        Integer page,
         Set<String> bestUuids
     );
 
