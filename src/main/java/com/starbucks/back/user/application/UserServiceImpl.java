@@ -4,6 +4,7 @@ import com.starbucks.back.common.entity.BaseResponseStatus;
 import com.starbucks.back.common.exception.BaseException;
 import com.starbucks.back.common.util.RedisUtil;
 import com.starbucks.back.user.domain.User;
+import com.starbucks.back.user.domain.enums.SignUpType;
 import com.starbucks.back.user.dto.in.RequestMatchPasswordDto;
 import com.starbucks.back.user.dto.in.RequestResetPasswordDto;
 import com.starbucks.back.user.dto.in.RequestUpdateNicknameDto;
@@ -15,6 +16,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 import static com.starbucks.back.common.entity.BaseResponseStatus.*;
@@ -33,6 +35,11 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public User loadUserByEmail(String email) {
+        return userRepository.findByEmail(email).orElse(null);
+    }
+
+    @Override
     public ResponseGetUserInfoDto getUserInfo(String userUuid) {
         return ResponseGetUserInfoDto.from(
                 userRepository.findByUserUuid(userUuid).orElseThrow(
@@ -46,6 +53,9 @@ public class UserServiceImpl implements UserService{
         User user = userRepository.findByUserUuid(requestMatchPasswordDto.getUserUuid())
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_USER));
 
+        if(user.getType() == SignUpType.SOCIAL) {
+            throw new BaseException(BaseResponseStatus.SOCIAL_USER_PASSWORD_CHANGE);
+        }
         if (!passwordEncoder.matches(requestMatchPasswordDto.getCurrentPassword(), user.getPassword())) {
             throw new BaseException(BaseResponseStatus.PASSWORD_MATCH_FAILED);
         }

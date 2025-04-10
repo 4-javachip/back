@@ -13,4 +13,7 @@ public class RequestSendEmailCodeVo {
     @Size(min=10, max=30, message = "이메일은 10자 이상 30자 이하로 입력해주세요.")
     @Email(message = "올바른 이메일 형식을 입력해주세요.")
     private String email;
+
+    @NotBlank
+    private String purpose;
 }

@@ -20,9 +20,16 @@ public class EmailServiceImpl implements EmailService{
     private final RedisUtil<String> redisUtil;
     private final EmailSender emailSender;
     private final EmailTemplateBuilder templateBuilder;
+    private final UserService userService;
 
     @Override
     public void sendEmailCode(RequestSendEmailCodeDto requestSendEmailCodeDto) {
+        if (requestSendEmailCodeDto.getPurpose() == EmailVerificationPurpose.PASSWORD_RESET &&
+                userService.loadUserByEmail(requestSendEmailCodeDto.getEmail()) == null
+        ) {
+            throw new BaseException(BaseResponseStatus.NOT_FOUND_EMAIL);
+        }
+
         final String code = RandomStringUtils.random(6, true, true);
         final String email = requestSendEmailCodeDto.getEmail();
 
@@ -55,7 +62,6 @@ public class EmailServiceImpl implements EmailService{
                 redisUtil.delete(failKey);
                 throw new BaseException(BaseResponseStatus.EMAIL_CODE_VERIFICATION_LIMITED);
             }
-
             throw new BaseException(BaseResponseStatus.INVALID_EMAIL_CODE);
         }
 

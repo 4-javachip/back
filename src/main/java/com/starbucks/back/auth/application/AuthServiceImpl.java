@@ -7,7 +7,9 @@ import com.starbucks.back.auth.dto.out.ResponseSignInDto;
 import com.starbucks.back.common.entity.BaseResponseStatus;
 import com.starbucks.back.common.exception.BaseException;
 import com.starbucks.back.common.jwt.JwtProvider;
+import com.starbucks.back.common.util.JwtUtil;
 import com.starbucks.back.common.util.RedisUtil;
+import com.starbucks.back.user.domain.User;
 import com.starbucks.back.user.infrastructure.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +29,7 @@ public class AuthServiceImpl implements AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
     private final RedisUtil<String> redisUtil;
+    private final JwtUtil jwtUtil;
 
     @Transactional
     @Override
@@ -60,35 +63,7 @@ public class AuthServiceImpl implements AuthService {
             throw new BaseException(BaseResponseStatus.INVALID_LOGIN);
         }
 
-        try {
-            // 인증 객체 생성
-            final Authentication authentication = new UsernamePasswordAuthenticationToken(
-                    userAuthDto.getUserUuid(), // username = 유저uuid
-                    null, // 이미 인증 완료 객체를 수동 생성하는 것이기에 null
-                    List.of() // 권한 필요 시 추가하도록 빈 리스트 넣음
-            );
-
-            final String accessToken = jwtProvider.generateAccessToken(authentication);
-            final String refreshToken = jwtProvider.generateRefreshToken(authentication);
-
-            redisUtil.set(
-                    "Access:" + authentication.getName(),
-                    accessToken,
-                    30,
-                    TimeUnit.MINUTES
-            );
-
-            redisUtil.set(
-                    "Refresh:" + authentication.getName(),
-                    refreshToken,
-                    14,
-                    TimeUnit.DAYS
-            );
-
-            return ResponseSignInDto.of(accessToken, refreshToken);
-        } catch (Exception e) {
-            throw new BaseException(BaseResponseStatus.LOGIN_FAILED);
-        }
+        return jwtUtil.createLoginToken(userAuthDto.getUserUuid());
     }
 
     @Transactional
@@ -104,19 +79,7 @@ public class AuthServiceImpl implements AuthService {
             throw new BaseException(BaseResponseStatus.INVALID_REFRESH_TOKEN);
         }
 
-        Authentication authentication = new UsernamePasswordAuthenticationToken(
-                userUuid,
-                null,
-                List.of()
-        );
-
-        final String newAccessToken = jwtProvider.generateAccessToken(authentication);
-        final String newRefreshToken = jwtProvider.generateRefreshToken(authentication);
-
-        redisUtil.set(redisAccessTokenKey, newAccessToken, 30, TimeUnit.MINUTES);
-        redisUtil.set(redisRefreshTokenKey, newRefreshToken, 14, TimeUnit.DAYS);
-
-        return ResponseSignInDto.of(newAccessToken, newRefreshToken);
+        return jwtUtil.createLoginToken(userUuid);
    }
 
    @Transactional
@@ -128,6 +91,8 @@ public class AuthServiceImpl implements AuthService {
            } catch (Exception e) {}
    }
 
+
+
     @Override
     public boolean existsEmail(String email) {
         return userRepository.existsByEmail(email);
@@ -137,5 +102,11 @@ public class AuthServiceImpl implements AuthService {
     public boolean existsNickname(String nickname) {
         return userRepository.existsByNickname(nickname);
     }
+
+    @Override
+    public boolean existsPhoneNumber(String phoneNumber) { return userRepository.existsByPhoneNumber(phoneNumber); }
+
+    @Override
+    public void addUser(User user) {userRepository.save(user);}
 
 }

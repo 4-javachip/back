@@ -31,6 +31,7 @@ public class RequestUpdatePasswordDto {
                 .birthdate(user.getBirthdate())
                 .gender(user.getGender())
                 .state(user.getState())
+                .type(user.getType())
                 .build();
     }
 
