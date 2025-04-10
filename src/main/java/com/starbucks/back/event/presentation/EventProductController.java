@@ -2,6 +2,7 @@ package com.starbucks.back.event.presentation;
 
 import com.starbucks.back.common.entity.BaseResponseEntity;
 import com.starbucks.back.common.entity.BaseResponseStatus;
+import com.starbucks.back.common.util.CursorPageUtil;
 import com.starbucks.back.event.application.EventProductService;
 import com.starbucks.back.event.dto.in.RequestAddEventProductDto;
 import com.starbucks.back.event.dto.in.RequestDeleteEventProductDto;
@@ -11,8 +12,10 @@ import com.starbucks.back.event.vo.in.RequestDeleteEventProductVo;
 import com.starbucks.back.event.vo.out.ResponseEventProductVo;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RequestMapping("/api/v1/event-product")
@@ -64,12 +67,18 @@ public class EventProductController {
      */
     @Operation(summary = "기획전 uuid로 기획전 상품 리스트 조회 API", description = "기획전 uuid로 기획전 상품 리스트 조회 API 입니다.", tags = {"Event-Product-Service"})
     @GetMapping("/list/{eventUuid}")
-    public BaseResponseEntity<List<ResponseEventProductVo>> getEventProductByEventUuid(@PathVariable("eventUuid") String eventUuid) {
-        List<ResponseEventProductVo> result = eventProductService.getEventProductByEventUuid(eventUuid)
-                .stream()
-                .map(ResponseEventProductDto::toVo)
-                .toList();
-        return new BaseResponseEntity<>(result);
+    public BaseResponseEntity<CursorPageUtil<ResponseEventProductVo, Long>> getEventProductByEventUuid(
+            @PathVariable("eventUuid") String eventUuid,
+            @RequestParam(required = false) Long cursor,
+            @RequestParam(name = "pageSize") Integer pageSize,
+            @RequestParam(name = "page", required = false) Integer page
+            ) {
+
+        CursorPageUtil<ResponseEventProductDto, Long> dtoPage =
+                eventProductService.getEventProductByEventUuid(eventUuid, cursor, pageSize, page);
+
+        CursorPageUtil<ResponseEventProductVo, Long> voPage = dtoPage.map(ResponseEventProductDto::toVo);
+        return new BaseResponseEntity<>(voPage);
     }
 
     /**
@@ -77,12 +86,17 @@ public class EventProductController {
      */
     @Operation(summary = "삭제되지 않은 기획전 상품 리스트 전체 조회 API", description = "삭제되지 않은 기획전 상품 리스트 전체 조회 API 입니다.", tags = {"Event-Product-Service"})
     @GetMapping("/list")
-    public BaseResponseEntity<List<ResponseEventProductVo>> getAllEventProducts() {
-        List<ResponseEventProductVo> result = eventProductService.getAllEventProducts()
-                .stream()
-                .map(ResponseEventProductDto::toVo)
-                .toList();
-        return new BaseResponseEntity<>(result);
+    public BaseResponseEntity<CursorPageUtil<ResponseEventProductVo, Long>> getAllEventProducts(
+            @RequestParam(name = "cursor", required = false) Long cursor,
+            @RequestParam(name = "pageSize") Integer pageSize,
+            @RequestParam(name = "page", required = false) Integer page
+    ) {
+        CursorPageUtil<ResponseEventProductDto, Long> dtoPage =
+                eventProductService.getAllEventProducts(cursor, pageSize, page);
+
+        CursorPageUtil<ResponseEventProductVo, Long> voPage = dtoPage.map(ResponseEventProductDto::toVo);
+
+        return new BaseResponseEntity<>(voPage);
     }
 
     /**

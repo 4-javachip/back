@@ -27,7 +27,7 @@ public class RequestUpdateCartCheckedDto {
                 .productQuantity(cart.getProductQuantity())
                 .checked(checked)
                 .productUuid(cart.getProductUuid())
-                .productOptionListUuid(cart.getProductOptionListUuid())
+                .productOptionUuid(cart.getProductOptionUuid())
                 .build();
     }
 

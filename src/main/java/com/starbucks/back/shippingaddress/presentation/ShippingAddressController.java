@@ -1,14 +1,11 @@
 package com.starbucks.back.shippingaddress.presentation;
 
 import com.starbucks.back.common.entity.BaseResponseEntity;
-import com.starbucks.back.common.entity.BaseResponseStatus;
+import com.starbucks.back.common.util.SecurityUtil;
 import com.starbucks.back.shippingaddress.application.ShippingAddressService;
-import com.starbucks.back.shippingaddress.dto.in.RequestUpdateShippingAddressDto;
-import com.starbucks.back.shippingaddress.dto.out.ResponseReadShippingAddressDto;
-import com.starbucks.back.shippingaddress.vo.in.RequestUpdateShippingAddressVo;
+import com.starbucks.back.shippingaddress.dto.out.ResponseReadShippingAddressWithDefaultedDto;
 import com.starbucks.back.shippingaddress.vo.out.ResponseShippingAddressVo;
 import io.swagger.v3.oas.annotations.Operation;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 public class ShippingAddressController {
 
     private final ShippingAddressService shippingAddressService;
-
     /**
      * 배송지 객체 조회 by shippingAddressUuid
      * @param shippingAddressUuid
@@ -28,9 +24,9 @@ public class ShippingAddressController {
     public BaseResponseEntity<ResponseShippingAddressVo> getShippingAddress(
             @PathVariable("shippingAddressUuid") String shippingAddressUuid
     ) {
-        ResponseReadShippingAddressDto responseReadShippingAddressDto = shippingAddressService
-                .getShippingAddressByUuid(shippingAddressUuid);
+        ResponseReadShippingAddressWithDefaultedDto responseReadShippingAddressWithDefaultedDto =
+                shippingAddressService.getShippingAddressByShippingAddressUuid(shippingAddressUuid);
 
-        return new BaseResponseEntity<>(responseReadShippingAddressDto.toVo());
+        return new BaseResponseEntity<>(responseReadShippingAddressWithDefaultedDto.toVo());
     }
 }

@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "product")
 @Getter
@@ -28,6 +30,11 @@ public class Product extends BaseEntity {
      */
     @Column(name = "product_uuid", length = 50, nullable = false, unique = true)
     private String productUuid;
+
+    public boolean isNew() {
+        return this.getCreatedAt() != null
+                && this.getCreatedAt().isAfter(LocalDateTime.now().minusMonths(1));
+    }
 
     @Builder
     public Product(Long id, String name, String productUuid) {

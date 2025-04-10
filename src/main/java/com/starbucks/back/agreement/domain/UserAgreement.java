@@ -1,5 +1,6 @@
 package com.starbucks.back.agreement.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.starbucks.back.common.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -15,6 +16,7 @@ public class UserAgreement extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)

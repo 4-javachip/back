@@ -14,6 +14,7 @@ public class ResponseEventDto {
 
     private String eventUuid;
     private String name;
+    private String imageUrl;
     private String description;
     private String precaution;
     private LocalDate startAt;
@@ -21,9 +22,10 @@ public class ResponseEventDto {
     private Boolean state;
 
     @Builder
-    public ResponseEventDto(String eventUuid, String name, String description, String precaution, LocalDate startAt, LocalDate endAt, Boolean state) {
+    public ResponseEventDto(String eventUuid, String name, String imageUrl, String description, String precaution, LocalDate startAt, LocalDate endAt, Boolean state) {
         this.eventUuid = eventUuid;
         this.name = name;
+        this.imageUrl = imageUrl;
         this.description = description;
         this.precaution = precaution;
         this.startAt = startAt;
@@ -35,6 +37,7 @@ public class ResponseEventDto {
         return ResponseEventDto.builder()
                 .eventUuid(event.getEventUuid())
                 .name(event.getName())
+                .imageUrl(event.getImageUrl())
                 .description(event.getDescription())
                 .precaution(event.getPrecaution())
                 .startAt(event.getStartAt())
@@ -47,6 +50,7 @@ public class ResponseEventDto {
         return ResponseEventVo.builder()
                 .eventUuid(eventUuid)
                 .name(name)
+                .imageUrl(imageUrl)
                 .description(description)
                 .precaution(precaution)
                 .startAt(startAt)

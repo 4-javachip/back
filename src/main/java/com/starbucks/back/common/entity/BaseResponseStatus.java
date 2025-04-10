@@ -87,7 +87,14 @@ public enum BaseResponseStatus {
     EXPIRED_EMAIL_CODE(HttpStatus.BAD_REQUEST, false, 2118, "틀리거나 만료된 인증코드입니다."),
     EMAIL_CODE_SEND_LIMITED(HttpStatus.TOO_MANY_REQUESTS, false, 2119,"이메일 발송은 3분에 1회 입니다. 잠시 후 다시 시도해주세요."),
     EMAIL_CODE_VERIFICATION_LIMITED(HttpStatus.TOO_MANY_REQUESTS, false, 2120, "인증에 반복적으로 실패했습니다. 다시 코드 전송을 요청해주세요."),
+    NOT_FOUND_EMAIL(HttpStatus.NOT_FOUND, false, 2121, "가입되지 않은 이메일입니다."),
 
+    // oauth
+    NO_OAUTH_USER(HttpStatus.NOT_FOUND, false, 2200, "소셜 계정이 존재하지 않습니다. 추가 정보를 입력해 회원가입 해주세요."),
+    SOCIAL_USER_PASSWORD_CHANGE(HttpStatus.BAD_REQUEST, false, 2201, "소셜로 가입한 유저는 비밀번호가 존재하지 않습니다."),
+    INVALID_GOOGLE_TOKEN(HttpStatus.UNAUTHORIZED, false, 2202, "google access token이 유효하지 않습니다."),
+    INVALID_NAVER_TOKEN(HttpStatus.UNAUTHORIZED, false, 2203, "naver access token이 유효하지 않습니다."),
+    INVALID_KAKAO_TOKEN(HttpStatus.UNAUTHORIZED, false, 2204, "kakao access token이 유효하지 않습니다."),
 
     /**
      * 3000: product service error
@@ -153,7 +160,12 @@ public enum BaseResponseStatus {
      * 7000: cart service error
      */
     // Cart
-    INVALID_CART_QUANTITY(HttpStatus.BAD_REQUEST, false, 7001, "장바구니 수량이 유효하지 않습니다");
+    INVALID_CART_QUANTITY(HttpStatus.BAD_REQUEST, false, 7001, "장바구니 수량이 유효하지 않습니다"),
+    DUPLICATED_CART_PRODUCT(HttpStatus.BAD_REQUEST, false, 7002, "이미 장바구니에 담긴 상품입니다"),
+    NO_EXIST_CART_PRODUCT(HttpStatus.NOT_FOUND, false, 7003, "존재하지 않는 장바구니 상품입니다"),
+    // shipping adress
+    NO_EXIST_USER_SHIPPING_ADDRESS(HttpStatus.NOT_FOUND, false, 7002, "해당하는 유저-배송지가 존재하지 않습니다."),
+    NO_EXIST_SHIPPING_ADDRESS(HttpStatus.NOT_FOUND, false, 7210, "존재하지 않는 배송지입니다");
 
     private final HttpStatusCode httpStatusCode;
     private final boolean isSuccess;

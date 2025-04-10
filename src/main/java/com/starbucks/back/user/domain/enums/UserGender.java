@@ -16,6 +16,6 @@ public enum UserGender {
     FEMALE("여성");
 
     @JsonValue
-    private final String code;
+    private final String label;
 
 }

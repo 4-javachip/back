@@ -15,6 +15,7 @@ import static java.util.UUID.randomUUID;
 public class RequestAddEventDto {
 
     private String name;
+    private String imageUrl;
     private String description;
     private String precaution;
     private LocalDate startAt;
@@ -22,8 +23,9 @@ public class RequestAddEventDto {
     private Boolean state;
 
     @Builder
-    public RequestAddEventDto(String name, String description, String precaution, LocalDate startAt, LocalDate endAt, Boolean state) {
+    public RequestAddEventDto(String name, String imageUrl, String description, String precaution, LocalDate startAt, LocalDate endAt, Boolean state) {
         this.name = name;
+        this.imageUrl = imageUrl;
         this.description = description;
         this.precaution = precaution;
         this.startAt = startAt;
@@ -35,6 +37,7 @@ public class RequestAddEventDto {
         return Event.builder()
                 .eventUuid(randomUUID().toString())
                 .name(name)
+                .imageUrl(imageUrl)
                 .description(description)
                 .precaution(precaution)
                 .startAt(startAt)
@@ -46,6 +49,7 @@ public class RequestAddEventDto {
     public static RequestAddEventDto from(RequestAddEventVo requestAddEventVo) {
         return RequestAddEventDto.builder()
                 .name(requestAddEventVo.getName())
+                .imageUrl(requestAddEventVo.getImageUrl())
                 .description(requestAddEventVo.getDescription())
                 .precaution(requestAddEventVo.getPrecaution())
                 .startAt(requestAddEventVo.getStartAt())

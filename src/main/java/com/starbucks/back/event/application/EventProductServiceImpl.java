@@ -2,6 +2,7 @@ package com.starbucks.back.event.application;
 
 import com.starbucks.back.common.entity.BaseResponseStatus;
 import com.starbucks.back.common.exception.BaseException;
+import com.starbucks.back.common.util.CursorPageUtil;
 import com.starbucks.back.event.domain.EventProduct;
 import com.starbucks.back.event.dto.in.RequestAddEventProductDto;
 import com.starbucks.back.event.dto.in.RequestDeleteEventProductDto;
@@ -11,7 +12,11 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
+
+import static com.starbucks.back.common.constant.PagingConstant.DEFAULT_PAGE_NUMBER;
+import static com.starbucks.back.common.constant.PagingConstant.DEFAULT_PAGE_SIZE;
 
 @Service
 @RequiredArgsConstructor
@@ -59,22 +64,21 @@ public class EventProductServiceImpl implements EventProductService{
      * @param eventUuid
      */
     @Override
-    public List<ResponseEventProductDto> getEventProductByEventUuid(String eventUuid) {
-        return eventProductRepository.findByEventUuidAndDeletedFalse(eventUuid)
-                .stream()
-                .map(ResponseEventProductDto::from)
-                .toList();
+    public CursorPageUtil<ResponseEventProductDto, Long> getEventProductByEventUuid(
+            String eventUuid,
+            Long lastId,
+            Integer pageSize,
+            Integer page
+    ) {
+        return eventProductRepository.findByEventUuidWithPagination(eventUuid, lastId, pageSize, page);
     }
 
     /**
      * 삭제되지 않은 기획전 상품 리스트 조회
      */
     @Override
-    public List<ResponseEventProductDto> getAllEventProducts() {
-        return eventProductRepository.findAllByDeletedFalse()
-                .stream()
-                .map(ResponseEventProductDto::from)
-                .toList();
+    public CursorPageUtil<ResponseEventProductDto, Long> getAllEventProducts(Long lastId, Integer pageSize, Integer page) {
+        return eventProductRepository.findAllWithPagination(lastId, pageSize, page);
     }
 
     /**

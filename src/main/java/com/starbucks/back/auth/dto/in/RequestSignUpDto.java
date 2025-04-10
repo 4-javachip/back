@@ -1,6 +1,7 @@
 package com.starbucks.back.auth.dto.in;
 
 import com.starbucks.back.user.domain.User;
+import com.starbucks.back.user.domain.enums.SignUpType;
 import com.starbucks.back.user.domain.enums.UserGender;
 import com.starbucks.back.user.domain.enums.UserState;
 import com.starbucks.back.auth.vo.in.RequestSignUpVo;
@@ -47,6 +48,7 @@ public class RequestSignUpDto {
                 .birthdate(birthdate)
                 .gender(gender)
                 .state(UserState.ACTIVE)
+                .type(SignUpType.GENERAL)
                 .build();
     }
 

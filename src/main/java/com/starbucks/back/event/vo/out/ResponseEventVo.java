@@ -10,6 +10,7 @@ public class ResponseEventVo {
 
     private String eventUuid;
     private String name;
+    private String imageUrl;
     private String description;
     private String precaution;
     private LocalDate startAt;
@@ -17,9 +18,10 @@ public class ResponseEventVo {
     private Boolean state;
 
     @Builder
-    public ResponseEventVo(String eventUuid, String name, String description, String precaution, LocalDate startAt, LocalDate endAt, Boolean state) {
+    public ResponseEventVo(String eventUuid, String name, String imageUrl, String description, String precaution, LocalDate startAt, LocalDate endAt, Boolean state) {
         this.eventUuid = eventUuid;
         this.name = name;
+        this.imageUrl = imageUrl;
         this.description = description;
         this.precaution = precaution;
         this.startAt = startAt;

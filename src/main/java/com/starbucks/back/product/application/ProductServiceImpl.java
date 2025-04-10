@@ -1,8 +1,11 @@
 package com.starbucks.back.product.application;
 
+import com.starbucks.back.best.application.BestService;
 import com.starbucks.back.common.entity.BaseResponseStatus;
 import com.starbucks.back.common.exception.BaseException;
+import com.starbucks.back.common.util.CursorPageUtil;
 import com.starbucks.back.product.domain.Product;
+import com.starbucks.back.product.domain.ProductSortType;
 import com.starbucks.back.product.dto.in.RequestAddProductDto;
 import com.starbucks.back.product.dto.in.RequestDeleteProductDto;
 import com.starbucks.back.product.dto.in.RequestUpdateProductDto;
@@ -12,13 +15,14 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
+    private final BestService bestService;
 
     /**
      * 상품 추가
@@ -52,18 +56,45 @@ public class ProductServiceImpl implements ProductService {
     public ResponseProductDto getProductByUuid(String productUuid) {
         Product product = productRepository.findByProductUuid(productUuid)
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_PRODUCT));
-        return ResponseProductDto.from(product);
+
+        Set<String> top30 = bestService.getTop30BestProductUuids();
+        boolean isBest = top30.contains(productUuid);
+
+        return ResponseProductDto.of(product, isBest);
     }
 
     /**
-     * 상품 전체 조회
+     * 상품 필터링 조회
+     * @param categoryId
+     * @param subCategoryId
+     * @param seasonId
+     * @param sortType
+     * @param cursor
+     * @param pageSize
+     * @param page
      */
     @Override
-    public List<ResponseProductDto> getAllProducts() {
-        return productRepository.findAll()
-                .stream()
-                .map(ResponseProductDto::from)
-                .toList();
+    public CursorPageUtil<ResponseProductDto, Long> getAllProductsByFilter(
+            Long categoryId,
+            Long subCategoryId,
+            Long seasonId,
+            ProductSortType sortType,
+            String keyword,
+            Long cursor,
+            Integer pageSize,
+            Integer page) {
+        Set<String> bestUuids = bestService.getTop30BestProductUuids();
+        return productRepository.findByFilterWithPagination(
+                categoryId,
+                subCategoryId,
+                seasonId,
+                sortType,
+                keyword,
+                cursor,
+                pageSize,
+                page,
+                bestUuids
+        );
     }
 
     /**
