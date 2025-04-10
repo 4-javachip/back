@@ -2,6 +2,7 @@ package com.starbucks.back.shippingaddress.presentation;
 
 import com.starbucks.back.common.entity.BaseResponseEntity;
 import com.starbucks.back.common.entity.BaseResponseStatus;
+import com.starbucks.back.common.util.SecurityUtil;
 import com.starbucks.back.shippingaddress.application.UserShippingAddressService;
 import com.starbucks.back.shippingaddress.dto.in.RequestDeleteShippingAddressDto;
 import com.starbucks.back.shippingaddress.dto.in.RequestShippingAddressAndUserDto;
@@ -28,17 +29,17 @@ import java.util.List;
 public class UserShippingAddressController {
 
     private final UserShippingAddressService userShippingAddressService;
+    private final SecurityUtil securityUtil;
 
     /**
      * 배송지 List 조회 by userUuid
-     * @param userUuid
      * @return
      */
     @Operation(summary = "getUserShippingAddressAllListByUserUuid API", description = "배송지 List 조회 API 입니다.", tags = {"ShippingAddress-Service"})
     @GetMapping("/list")
-    public BaseResponseEntity<List<ResponseReadShippingAddressListVo>> getUserShippingAddressAllListByUserUuid(
-            @RequestHeader("userUuid") String userUuid
-    ) {
+    public BaseResponseEntity<List<ResponseReadShippingAddressListVo>> getUserShippingAddressAllListByUserUuid() {
+        String userUuid = securityUtil.getCurrentUserUuid();
+
         List<ResponseReadShippingAddressListVo> result = userShippingAddressService
                 .getUserShippingAddressAllListByUserUuid(userUuid)
                 .stream()
@@ -69,14 +70,12 @@ public class UserShippingAddressController {
 
     /**
      * 기본배송지 객체 조회 by userUuid
-     * @param userUuid
      * @return
      */
     @Operation(summary = "getUserDefaultShippingAddressUuid API", description = "기본배송지 객체 조회 API 입니다.", tags = {"ShippingAddress-Service"})
     @GetMapping("/user/default")
-    public BaseResponseEntity<ResponseShippingAddressVo> getUserDefaultShippingAddress(
-            @RequestHeader("userUuid") String userUuid
-    ) {
+    public BaseResponseEntity<ResponseShippingAddressVo> getUserDefaultShippingAddress() {
+        String userUuid = securityUtil.getCurrentUserUuid();
         ResponseReadShippingAddressWithDefaultedDto responseReadShippingAddressWithDefaultedDto = userShippingAddressService
                 .getDefaultShippingAddressByUserUuid(userUuid);
 
@@ -91,9 +90,10 @@ public class UserShippingAddressController {
     @Transactional
     @DeleteMapping
     public BaseResponseEntity<Void> deleteShippingAddress(
-            @RequestHeader("userUuid") String userUuid,
             @RequestBody RequestDeleteShippingAddressVo requestDeleteShippingAddressVo
     ) {
+        String userUuid = securityUtil.getCurrentUserUuid();
+
         userShippingAddressService.deleteShippingAddress(
                 RequestDeleteShippingAddressDto.from(userUuid, requestDeleteShippingAddressVo)
         );
@@ -107,7 +107,9 @@ public class UserShippingAddressController {
     @Operation(summary = "deleteAllShippingAddressByUserUuid API", description = "배송지 전체 삭제 API 입니다.", tags = {"ShippingAddress-Service"})
     @Transactional
     @DeleteMapping("/user")
-    public BaseResponseEntity<Void> deleteAllShippingAddressByUserUuid(@RequestHeader("userUuid") String userUuid) {
+    public BaseResponseEntity<Void> deleteAllShippingAddressByUserUuid() {
+        String userUuid = securityUtil.getCurrentUserUuid();
+
         userShippingAddressService.deleteAllShippingAddressByUserUuid(userUuid);
 
         return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS);
@@ -142,9 +144,10 @@ public class UserShippingAddressController {
     @Transactional
     @PutMapping
     public BaseResponseEntity<Void> updateShippingAddressByUuid(
-            @RequestHeader("userUuid") String userUuid,
             @RequestBody RequestUpdateShippingAddressVo requestUpdateShippingAddressVo
     ) {
+        String userUuid = securityUtil.getCurrentUserUuid();
+
         userShippingAddressService.updateShippingAddress(
                 RequestUpdateShippingAddressDto.from(userUuid, requestUpdateShippingAddressVo));
 
@@ -159,9 +162,10 @@ public class UserShippingAddressController {
     @Transactional
     @PostMapping
     public BaseResponseEntity<Void> addShippingAddress(
-            @RequestHeader("userUuid") String userUuid,
             @RequestBody RequestShippingAddressAndUserVo requestShippingAddressAndUserVo
     ) {
+        String userUuid = securityUtil.getCurrentUserUuid();
+
         RequestShippingAddressAndUserDto requestShippingAddressAndUserDto= RequestShippingAddressAndUserDto.from(
                 userUuid,
                 requestShippingAddressAndUserVo
