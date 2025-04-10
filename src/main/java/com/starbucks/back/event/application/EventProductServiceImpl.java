@@ -66,17 +66,19 @@ public class EventProductServiceImpl implements EventProductService{
     @Override
     public CursorPageUtil<ResponseEventProductDto, Long> getEventProductByEventUuid(
             String eventUuid,
-            Long lastId
+            Long lastId,
+            Integer pageSize,
+            Integer page
     ) {
-        return eventProductRepository.findByEventUuidWithPagination(eventUuid, lastId, DEFAULT_PAGE_SIZE);
+        return eventProductRepository.findByEventUuidWithPagination(eventUuid, lastId, pageSize, page);
     }
 
     /**
      * 삭제되지 않은 기획전 상품 리스트 조회
      */
     @Override
-    public CursorPageUtil<ResponseEventProductDto, Long> getAllEventProducts(Long lastId) {
-        return eventProductRepository.findAllWithPagination(lastId, DEFAULT_PAGE_SIZE);
+    public CursorPageUtil<ResponseEventProductDto, Long> getAllEventProducts(Long lastId, Integer pageSize, Integer page) {
+        return eventProductRepository.findAllWithPagination(lastId, pageSize, page);
     }
 
     /**
