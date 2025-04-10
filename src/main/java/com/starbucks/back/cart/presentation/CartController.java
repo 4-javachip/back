@@ -7,6 +7,7 @@ import com.starbucks.back.cart.vo.in.*;
 import com.starbucks.back.cart.vo.out.ResponseCartVo;
 import com.starbucks.back.common.entity.BaseResponseEntity;
 import com.starbucks.back.common.entity.BaseResponseStatus;
+import com.starbucks.back.common.util.SecurityUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -19,13 +20,16 @@ import java.util.List;
 public class CartController {
 
     private final CartService cartService;
+    private final SecurityUtil securityUtil;
 
     /**
      * 장바구니 조회(userUuid)
      */
-    @GetMapping("/user/{userUuid}")
+    @GetMapping("/user")
     @Operation(summary = "GetCartByUserUuid API", description = "GetCartByUserUuid API 입니다.", tags = {"Cart-Service"})
-    public BaseResponseEntity<List<ResponseCartVo>> getCart(@PathVariable("userUuid") String userUuid) {
+    public BaseResponseEntity<List<ResponseCartVo>> getCart() {
+        String userUuid = securityUtil.getCurrentUserUuid();
+
         List<ResponseCartVo> result = cartService.getCartListByUserUuid(userUuid)
                 .stream()
                 .map(ResponseCartDto::toVo)
@@ -39,7 +43,9 @@ public class CartController {
     @PostMapping
     @Operation(summary = "CreateCart API", description = "CreateCart API 입니다.", tags = {"Cart-Service"})
     public BaseResponseEntity<Void> addCart(@RequestBody RequestAddCartVo requestAddCartVo) {
-        RequestAddCartDto requestAddCartDto = RequestAddCartDto.from(requestAddCartVo);
+        String userUuid = securityUtil.getCurrentUserUuid();
+
+        RequestAddCartDto requestAddCartDto = RequestAddCartDto.from(userUuid, requestAddCartVo);
         cartService.addCart(requestAddCartDto);
         return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS);
     }
@@ -50,9 +56,10 @@ public class CartController {
     @PutMapping("/quantity")
     @Operation(summary = "UpdateCart API", description = "UpdateCart API 입니다.", tags = {"Cart-Service"})
     public BaseResponseEntity<Void> updateCart(
-            @RequestHeader("userUuid") String userUuid,
             @RequestBody RequestUpdateCartCountVo requestUpdateCartCountVo
     ) {
+        String userUuid = securityUtil.getCurrentUserUuid();
+
         RequestUpdateCartCountDto requestUpdateCartCountDto = RequestUpdateCartCountDto.
                 from(userUuid, requestUpdateCartCountVo);
         cartService.updateCart(requestUpdateCartCountDto);
@@ -65,9 +72,10 @@ public class CartController {
     @PutMapping("/checked")
     @Operation(summary = "UpdateCartChecked API", description = "UpdateCartChecked API 입니다.", tags = {"Cart-Service"})
     public BaseResponseEntity<Void> updateCartChecked(
-            @RequestHeader("userUuid") String userUuid,
             @RequestBody RequestUpdateCartCheckedVo requestUpdateCartCheckedVo
     ) {
+        String userUuid = securityUtil.getCurrentUserUuid();
+
         RequestUpdateCartCheckedDto requestUpdateCartCheckedDto = RequestUpdateCartCheckedDto.from(
                 userUuid,
                 requestUpdateCartCheckedVo
@@ -82,9 +90,10 @@ public class CartController {
     @DeleteMapping
     @Operation(summary = "DeleteCart API", description = "DeleteCart API 입니다.", tags = {"Cart-Service"})
     public BaseResponseEntity<Void> deleteCart(
-            @RequestHeader("userUuid") String userUuid,
             @RequestBody RequestDeleteCartVo requestCartVo
     ) {
+        String userUuid = securityUtil.getCurrentUserUuid();
+
         RequestDeleteCartDto requestDeleteCartDto = RequestDeleteCartDto.from(userUuid, requestCartVo);
         cartService.deleteCart(requestDeleteCartDto);
         return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS);

@@ -27,15 +27,15 @@ public class WishlistServiceImpl implements WishlistService{
     }
 
     /**
-     * 찜 수정 (userUuid, productUuid, productOptionListUuid)
+     * 찜 수정 (userUuid, productUuid, productOptionUuid)
      */
     @Transactional
     @Override
     public void toggleWishlist(RequestToggleWishlistDto requestToggleWishlistDto) {
-        wishlistRepository.findByUserUuidAndProductUuidAndProductOptionListUuid(
+        wishlistRepository.findByUserUuidAndProductUuidAndProductOptionUuid(
                         requestToggleWishlistDto.getUserUuid(),
                         requestToggleWishlistDto.getProductUuid(),
-                        requestToggleWishlistDto.getProductOptionListUuid()
+                        requestToggleWishlistDto.getProductOptionUuid()
                 )
                 .ifPresentOrElse(
                         // 찜 목록이 존재하는 경우, 삭제
