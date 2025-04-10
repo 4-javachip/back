@@ -47,15 +47,4 @@ public class CursorPageUtil<T, C> {
         return new CursorPageUtil<>(mappedContent, nextCursor, hasNext, pageSize, page);
     }
 
-    /**
-     * DTO → VO 등 변환용 헬퍼 메서드
-     * @param mapper 변환 함수
-     * @return 변환된 커서 페이지 객체
-     * @param <R> 변환 대상 타입
-     */
-    public <R> CursorPageUtil<R, C> map(Function<T, R> mapper) {
-        List<R> mappedContent = this.content.stream().map(mapper).toList();
-        return new CursorPageUtil<>(mappedContent, nextCursor, hasNext, pageSize, page);
-    }
-
 }
