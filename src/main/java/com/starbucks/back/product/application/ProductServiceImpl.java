@@ -70,9 +70,9 @@ public class ProductServiceImpl implements ProductService {
      * 상품 전체 조회
      */
     @Override
-    public CursorPageUtil<ResponseProductDto, Long> getAllProducts(Long lastId) {
+    public CursorPageUtil<ResponseProductDto, Long> getAllProducts(Long lastId, Integer pageSize, Integer page) {
         Set<String> bestUuids = bestService.getTop30BestProductUuids();
-        return productRepository.findAllWithPagination(lastId, DEFAULT_PAGE_SIZE, bestUuids);
+        return productRepository.findAllWithPagination(lastId, pageSize, page, bestUuids);
     }
 
     /**

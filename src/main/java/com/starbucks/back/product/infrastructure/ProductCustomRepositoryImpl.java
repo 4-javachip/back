@@ -18,45 +18,51 @@ import static com.starbucks.back.common.constant.PagingConstant.DEFAULT_PAGE_SIZ
 
 @Repository
 @RequiredArgsConstructor
-public class ProductCustomRepositoryImpl implements ProductCustomRepository{
+public class ProductCustomRepositoryImpl implements ProductCustomRepository {
 
     private final JPAQueryFactory jpaQueryFactory;
     private final QProduct product = QProduct.product;
 
     @Override
     public CursorPageUtil<ResponseProductDto, Long> findAllWithPagination(
-            Long lastId, Integer pageSize, Set<String> bestUuids) {
+            Long lastId, Integer pageSize, Integer page, Set<String> bestUuids) {
+
         int currentPageSize = Optional.ofNullable(pageSize).orElse(DEFAULT_PAGE_SIZE);
+        int currentPage = Optional.ofNullable(page).orElse(DEFAULT_PAGE_NUMBER);
+        int offset = currentPage == 0 ? 0 : (currentPage - 1) * currentPageSize;
 
         BooleanBuilder builder = new BooleanBuilder();
+
         if (lastId != null) {
             builder.and(product.id.lt(lastId));
         }
 
-        List<Product> result = jpaQueryFactory
+        List<Product> getContent = jpaQueryFactory
                 .selectFrom(product)
                 .where(builder)
                 .orderBy(product.id.desc())
                 .limit(currentPageSize + 1)
+                .offset(lastId == null ? offset : 0) // cursor 방식이면 offset 생략
                 .fetch();
 
-        boolean hasNext = result.size() > currentPageSize;
+        boolean hasNext = getContent.size() > currentPageSize;
+        Long nextCursor = null;
 
-        if(hasNext) {
-            result = result.subList(0, currentPageSize);
+        if (hasNext) {
+            getContent = getContent.subList(0, currentPageSize);
+            nextCursor = getContent.get(getContent.size() - 1).getId();
         }
 
-        Long nextCursor = result.isEmpty() ? null : result.get(result.size() - 1).getId();
-
-        List<ResponseProductDto> dtoList = result.stream()
+        List<ResponseProductDto> dtoList = getContent.stream()
                 .map(p -> ResponseProductDto.of(p, bestUuids.contains(p.getProductUuid())))
                 .toList();
 
-        return CursorPageUtil.<ResponseProductDto, Long>builder()
-                .content(dtoList)
-                .nextCursor(nextCursor)
-                .hasNext(hasNext)
-                .pageSize(currentPageSize)
-                .build();
+        return new CursorPageUtil<>(
+                dtoList,
+                nextCursor,
+                hasNext,
+                currentPageSize,
+                currentPage
+        );
     }
 }

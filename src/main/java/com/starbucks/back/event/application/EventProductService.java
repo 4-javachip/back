@@ -31,12 +31,12 @@ public interface EventProductService {
     /**
      * 기획전 uuid로 삭제되지 않은 기획전 상품 리스트 조회
      */
-    CursorPageUtil<ResponseEventProductDto, Long> getEventProductByEventUuid(String eventUuid, Long lastId);
+    CursorPageUtil<ResponseEventProductDto, Long> getEventProductByEventUuid(String eventUuid, Long lastId, Integer pageSize, Integer page);
 
     /**
      * 삭제되지 않은 기획전 상품 리스트 전체 조회
      */
-    CursorPageUtil<ResponseEventProductDto, Long> getAllEventProducts(Long lastId);
+    CursorPageUtil<ResponseEventProductDto, Long> getAllEventProducts(Long lastId, Integer pageSize, Integer page);
 
     /**
      * 기획전 상품 삭제
