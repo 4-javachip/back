@@ -32,8 +32,7 @@ public class EventProductCustomRepositoryImpl implements EventProductCustomRepos
     public CursorPageUtil<ResponseEventProductDto, Long> findByEventUuidWithPagination(
             String eventUuid,
             Long lastId,
-            Integer pageSize,
-            Integer page) {
+            Integer pageSize) {
 
         int currentPageSize = Optional.ofNullable(pageSize).filter(size -> size > 0).orElse(DEFAULT_PAGE_SIZE);
         int currentPage = Optional.ofNullable(page).orElse(DEFAULT_PAGE_NUMBER);
@@ -85,8 +84,7 @@ public class EventProductCustomRepositoryImpl implements EventProductCustomRepos
     @Override
     public CursorPageUtil<ResponseEventProductDto, Long> findAllWithPagination(
             Long lastId,
-            Integer pageSize,
-            Integer page) {
+            Integer pageSize) {
 
         int currentPageSize = Optional.ofNullable(pageSize).filter(size -> size > 0).orElse(DEFAULT_PAGE_SIZE);
         int currentPage = Optional.ofNullable(page).orElse(DEFAULT_PAGE_NUMBER);
