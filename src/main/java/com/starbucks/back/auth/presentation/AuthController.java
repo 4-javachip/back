@@ -1,15 +1,9 @@
 package com.starbucks.back.auth.presentation;
 
 import com.starbucks.back.auth.application.AuthService;
-import com.starbucks.back.auth.dto.in.RequestExistsEmailDto;
-import com.starbucks.back.auth.dto.in.RequestExistsNicknameDto;
-import com.starbucks.back.auth.dto.in.RequestSignInDto;
-import com.starbucks.back.auth.dto.in.RequestSignUpDto;
+import com.starbucks.back.auth.dto.in.*;
 import com.starbucks.back.auth.dto.out.ResponseSignInDto;
-import com.starbucks.back.auth.vo.in.RequestExistsEmailVo;
-import com.starbucks.back.auth.vo.in.RequestExistsNicknameVo;
-import com.starbucks.back.auth.vo.in.RequestSignInVo;
-import com.starbucks.back.auth.vo.in.RequestSignUpVo;
+import com.starbucks.back.auth.vo.in.*;
 import com.starbucks.back.auth.vo.out.ResponseSignInVo;
 import com.starbucks.back.common.entity.BaseResponseEntity;
 import com.starbucks.back.common.entity.BaseResponseStatus;
@@ -86,6 +80,16 @@ public class AuthController {
     ) {
         return new BaseResponseEntity<>(
                 authService.existsNickname(RequestExistsNicknameDto.from(requestExistsNicknameVo).getNickname())
+        );
+    }
+
+    @Operation(summary = "Check Phone Number API", description = "전화번호 중복 확인", tags = {"Auth-service"})
+    @PostMapping("/exists/phone-number")
+    public BaseResponseEntity<Boolean> phoneNumberExists(
+            @Valid @RequestBody RequestExistsPhoneNumberVo requestExistsPhoneNumberVo
+    ) {
+        return new BaseResponseEntity<>(
+                authService.existsPhoneNumber(RequestExistsPhoneNumberDto.from(requestExistsPhoneNumberVo).getPhoneNumber())
         );
     }
 }
