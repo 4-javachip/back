@@ -155,7 +155,7 @@ public enum BaseResponseStatus {
     // Cart
     INVALID_CART_QUANTITY(HttpStatus.BAD_REQUEST, false, 7001, "장바구니 수량이 유효하지 않습니다"),
     // shipping adress
-    NO_EXIST_USER_SHIPPING_ADDRESS(HttpStatus.NOT_FOUND, false, 7002, "존재하지 않는 유저배송지입니다"),
+    NO_EXIST_USER_SHIPPING_ADDRESS(HttpStatus.NOT_FOUND, false, 7002, "해당하는 유저-배송지가 존재하지 않습니다."),
     NO_EXIST_SHIPPING_ADDRESS(HttpStatus.NOT_FOUND, false, 7210, "존재하지 않는 배송지입니다");
 
     private final HttpStatusCode httpStatusCode;

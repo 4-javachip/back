@@ -1,6 +1,7 @@
 package com.starbucks.back.shippingaddress.presentation;
 
 import com.starbucks.back.common.entity.BaseResponseEntity;
+import com.starbucks.back.common.util.SecurityUtil;
 import com.starbucks.back.shippingaddress.application.ShippingAddressService;
 import com.starbucks.back.shippingaddress.dto.out.ResponseReadShippingAddressWithDefaultedDto;
 import com.starbucks.back.shippingaddress.vo.out.ResponseShippingAddressVo;
@@ -14,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 public class ShippingAddressController {
 
     private final ShippingAddressService shippingAddressService;
-
     /**
      * 배송지 객체 조회 by shippingAddressUuid
      * @param shippingAddressUuid
