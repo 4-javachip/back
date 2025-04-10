@@ -18,12 +18,12 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
     /**
      * 장바구니 겹치는지 확인
      * @param userUuid
-     * @param productOptionListUuid
+     * @param productOptionUuid
      * @return
      */
-    Boolean existsByUserUuidAndProductOptionListUuidAndDeletedFalse(
+    Boolean existsByUserUuidAndProductOptionUuidAndDeletedFalse(
             String userUuid,
-            String productOptionListUuid
+            String productOptionUuid
     );
 
     /**

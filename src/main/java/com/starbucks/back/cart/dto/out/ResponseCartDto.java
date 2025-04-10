@@ -13,7 +13,7 @@ public class ResponseCartDto {
     private final Integer productQuantity;
     private final Boolean checked;
     private final String productUuid;
-    private final String productOptionListUuid;
+    private final String productOptionUuid;
 
     @Builder
     public ResponseCartDto(
@@ -22,14 +22,14 @@ public class ResponseCartDto {
             Integer productQuantity,
             Boolean checked,
             String productUuid,
-            String productOptionListUuid
+            String productOptionUuid
     ) {
         this.userUuid = userUuid;
         this.cartUuid = cartUuid;
         this.productQuantity = productQuantity;
         this.checked = checked;
         this.productUuid = productUuid;
-        this.productOptionListUuid = productOptionListUuid;
+        this.productOptionUuid = productOptionUuid;
     }
 
     // entity => dto
@@ -40,7 +40,7 @@ public class ResponseCartDto {
                 .productQuantity(cart.getProductQuantity())
                 .checked(cart.getChecked())
                 .productUuid(cart.getProductUuid())
-                .productOptionListUuid(cart.getProductOptionListUuid())
+                .productOptionUuid(cart.getProductOptionUuid())
                 .build();
     }
 
@@ -52,7 +52,7 @@ public class ResponseCartDto {
                 .productQuantity(productQuantity)
                 .checked(checked)
                 .productUuid(productUuid)
-                .productOptionListUuid(productOptionListUuid)
+                .productOptionUuid(productOptionUuid)
                 .build();
     }
 }

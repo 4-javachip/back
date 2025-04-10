@@ -19,9 +19,9 @@ public interface WishlistRepository extends JpaRepository<Wishlist, Long> {
      * wishlist uuid로 위시리스트 수정
      * @return
      */
-    Optional<Wishlist> findByUserUuidAndProductUuidAndProductOptionListUuid(
+    Optional<Wishlist> findByUserUuidAndProductUuidAndProductOptionUuid(
             String userUuid,
             String productUuid,
-            String productOptionListUuid
+            String productOptionUuid
     );
 }
