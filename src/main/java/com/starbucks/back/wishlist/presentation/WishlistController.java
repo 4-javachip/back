@@ -2,6 +2,7 @@ package com.starbucks.back.wishlist.presentation;
 
 import com.starbucks.back.common.entity.BaseResponseEntity;
 import com.starbucks.back.common.entity.BaseResponseStatus;
+import com.starbucks.back.common.util.SecurityUtil;
 import com.starbucks.back.wishlist.application.WishlistService;
 import com.starbucks.back.wishlist.dto.in.RequestToggleWishlistDto;
 import com.starbucks.back.wishlist.dto.out.ResponseReadWishlistListDto;
@@ -19,15 +20,15 @@ import java.util.List;
 public class WishlistController {
 
     private final WishlistService wishlistService;
-
+    private final SecurityUtil securityUtil;
     /**
      * 찜 List 조회 by userUuid
      */
     @GetMapping
     @Operation(summary = "GetWishlistListByUserUuid API", description = "GetWishlistListByUserUuid API 입니다.", tags = {"Wishlist-Service"})
-    public BaseResponseEntity<List<ResponseReadWishlistListVo>> getWishlistListByUserUuid(
-            @RequestHeader("userUuid") String userUuid
-    ) {
+    public BaseResponseEntity<List<ResponseReadWishlistListVo>> getWishlistListByUserUuid() {
+        String userUuid = securityUtil.getCurrentUserUuid();
+
         List<ResponseReadWishlistListVo> result = wishlistService.getWishlistListByUserUuid(userUuid)
                         .stream()
                         .map(ResponseReadWishlistListDto::toVo)
@@ -41,9 +42,10 @@ public class WishlistController {
     @PostMapping
     @Operation(summary = "ToggleWishlist API", description = "ToggleWishlist API 입니다.", tags = {"Wishlist-Service"})
     public BaseResponseEntity<Void> updateWishlist(
-            @RequestHeader("userUuid") String userUuid,
             @RequestBody RequestToggleWishlistVo requestUpdateWishlistVo
     ) {
+        String userUuid = securityUtil.getCurrentUserUuid();
+
         RequestToggleWishlistDto requestUpdateWishlistDto = RequestToggleWishlistDto.
                 from(userUuid, requestUpdateWishlistVo);
         wishlistService.toggleWishlist(requestUpdateWishlistDto);
