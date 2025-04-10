@@ -33,7 +33,7 @@ public class BestCustomRepositoryImpl implements BestCustomRepository {
                 .on(best.productUuid.eq(productCategoryList.productUuid))
                 .where(productCategoryList.categoryId.eq(categoryId))
                 .orderBy(best.productSalesCount.desc())
-                .limit(DEFAULT_PAGE_SIZE)
+                .limit(30)
                 .fetch();
 
     }
