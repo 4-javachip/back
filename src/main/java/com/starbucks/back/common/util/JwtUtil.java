@@ -32,8 +32,8 @@ public class JwtUtil {
             redisUtil.set(
                     "Access:" + authentication.getName(),
                     accessToken,
-                    30,
-                    TimeUnit.MINUTES
+                    1,
+                    TimeUnit.DAYS
             );
 
             redisUtil.set(
