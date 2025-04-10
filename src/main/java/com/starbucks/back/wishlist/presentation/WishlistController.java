@@ -37,7 +37,7 @@ public class WishlistController {
     }
 
     /**
-     * 찜 toggle by userUuid, productUuid, productOptionListUuid
+     * 찜 toggle by userUuid, productUuid, productOptionUuid
      */
     @PostMapping
     @Operation(summary = "ToggleWishlist API", description = "ToggleWishlist API 입니다.", tags = {"Wishlist-Service"})

@@ -33,16 +33,16 @@ public class CartServiceImpl implements CartService{
     }
 
     /**
-     * 장바구니 생성 by userUuid, productOptionListUuid
+     * 장바구니 생성 by userUuid, productOptionUuid
      */
     @Transactional
     @Override
     public void addCart(RequestAddCartDto requestAddCartDto) {
-        if (cartRepository.existsByUserUuidAndProductOptionListUuidAndDeletedFalse(
+        if (cartRepository.existsByUserUuidAndProductOptionUuidAndDeletedFalse(
                 requestAddCartDto.getUserUuid(),
-                requestAddCartDto.getProductOptionListUuid()
+                requestAddCartDto.getProductOptionUuid()
         )) {
-            throw new BaseException(BaseResponseStatus.DUPLICATED_OPTION);
+            throw new BaseException(BaseResponseStatus.DUPLICATED_CART_PRODUCT);
         }
         cartRepository.save(requestAddCartDto.toEntity());
     }
@@ -61,7 +61,7 @@ public class CartServiceImpl implements CartService{
                     requestUpdateCartCountDto.getUserUuid(),
                     requestUpdateCartCountDto.getCartUuid()
                 )
-                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_OPTION));
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_CART_PRODUCT));
         cartRepository.save(requestUpdateCartCountDto.updateCart(cart));
     }
 
@@ -75,7 +75,7 @@ public class CartServiceImpl implements CartService{
                 requestUpdateCartCheckedDto.getUserUuid(),
                 requestUpdateCartCheckedDto.getCartUuid()
                 )
-                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_OPTION));
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_CART_PRODUCT));
         cartRepository.save(requestUpdateCartCheckedDto.updateCart(cart));
     }
 
@@ -89,7 +89,7 @@ public class CartServiceImpl implements CartService{
                 requestDeleteCartDto.getUserUuid(),
                 requestDeleteCartDto.getCartUuid()
                 )
-                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_OPTION));
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_CART_PRODUCT));
         cart.softDelete();
     }
 }
