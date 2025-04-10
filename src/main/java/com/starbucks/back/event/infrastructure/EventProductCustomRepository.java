@@ -14,7 +14,8 @@ public interface EventProductCustomRepository {
     CursorPageUtil<ResponseEventProductDto, Long> findByEventUuidWithPagination(
             String eventUuid,
             Long lastId,
-            Integer pageSize
+            Integer pageSize,
+            Integer page
     );
 
     /**
@@ -23,7 +24,8 @@ public interface EventProductCustomRepository {
      */
     CursorPageUtil<ResponseEventProductDto, Long> findAllWithPagination(
             Long lastId,
-            Integer pageSize
+            Integer pageSize,
+            Integer page
     );
 
 }
