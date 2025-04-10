@@ -27,6 +27,7 @@ public class AgreementServiceImpl implements AgreementService {
         );
     }
 
+    @Override
     public Agreement getAgreement(Long id) {
         return agreementRepository.findById(id)
                 .orElseThrow(
