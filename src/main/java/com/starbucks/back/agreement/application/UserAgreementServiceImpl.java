@@ -8,6 +8,7 @@ import com.starbucks.back.agreement.dto.out.ResponseGetUserAgreementDto;
 import com.starbucks.back.agreement.infrastructure.UserAgreementRepository;
 import com.starbucks.back.common.entity.BaseResponseStatus;
 import com.starbucks.back.common.exception.BaseException;
+import com.starbucks.back.shippingaddress.application.UserShippingAddressService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,7 @@ public class UserAgreementServiceImpl implements UserAgreementService {
 
     private final AgreementService agreementService;
     private final UserAgreementRepository userAgreementRepository;
+    private final UserShippingAddressService userShippingAddressService;
 
 
     @Override
@@ -32,7 +34,17 @@ public class UserAgreementServiceImpl implements UserAgreementService {
                     requestAddUserAgreementDto.getUserUuid(), requestAddUserAgreementDto.getAgreementId()
                 )
                 .ifPresentOrElse(
-                        e -> e.updateAgreed(requestAddUserAgreementDto.getAgreed()),
+                        userAgreement -> {
+                            final Boolean beforeAgreed = userAgreement.getAgreed();
+                            final Boolean afterAgreed = requestAddUserAgreementDto.getAgreed();
+
+                            userAgreement.updateAgreed(afterAgreed);
+
+                            // 동의 → 비동의 전환 시 배송지 전체 삭제
+                            if (beforeAgreed && !afterAgreed) {
+                                userShippingAddressService.deleteAllShippingAddressByUserUuid(requestAddUserAgreementDto.getUserUuid());
+                            }
+                        },
                         () -> userAgreementRepository.save(requestAddUserAgreementDto.toEntity(agreement))
                 );
     }

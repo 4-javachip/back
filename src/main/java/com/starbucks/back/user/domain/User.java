@@ -1,8 +1,8 @@
 package com.starbucks.back.user.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.starbucks.back.common.entity.BaseEntity;
 import com.starbucks.back.common.entity.SoftDeletableEntity;
+import com.starbucks.back.user.domain.enums.SignUpType;
 import com.starbucks.back.user.domain.enums.UserGender;
 import com.starbucks.back.user.domain.enums.UserState;
 import jakarta.persistence.*;
@@ -56,10 +56,14 @@ public class User extends SoftDeletableEntity implements UserDetails {
     @Column(name = "state", nullable = false, length = 20)
     private UserState state;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type", nullable = false, length = 20)
+    private SignUpType type;
+
 
     @Builder
     public User(Long id, String userUuid, String email, String password, String nickname, String name,
-                String phoneNumber, LocalDate birthdate, UserGender gender, UserState state)
+                String phoneNumber, LocalDate birthdate, UserGender gender, UserState state, SignUpType type)
     {
         this.id = id;
         this.userUuid = userUuid;
@@ -71,6 +75,7 @@ public class User extends SoftDeletableEntity implements UserDetails {
         this.birthdate = birthdate;
         this.gender = gender;
         this.state = state;
+        this.type = type;
     }
 
     @Override

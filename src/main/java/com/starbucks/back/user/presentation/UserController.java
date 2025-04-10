@@ -78,6 +78,7 @@ public class UserController {
         return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS_UPDATE_PASSWORD);
     }
 
+    @Operation(summary = "Update Nickname API", description = "닉네임 변경", tags = {"User-service"})
     @PostMapping("/nickname/update")
     public BaseResponseEntity<Void> updateNickname(
             @Valid @RequestBody RequestUpdateNicknameVo requestUpdateNicknameVo
