@@ -90,7 +90,6 @@ public class ProductCustomRepositoryImpl implements ProductCustomRepository {
                 .selectFrom(product)
                 .leftJoin(productCategoryList).on(product.productUuid.eq(productCategoryList.productUuid))
                 .leftJoin(seasonList).on(product.productUuid.eq(seasonList.productUuid))
-                .leftJoin(productOption).on(product.productUuid.eq(productOption.productUuid))
                 .leftJoin(best).on(product.productUuid.eq(best.productUuid))
                 .where(builder)
                 .orderBy(orderSpecifier)
