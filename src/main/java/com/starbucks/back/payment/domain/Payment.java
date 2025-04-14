@@ -1,5 +1,6 @@
 package com.starbucks.back.payment.domain;
 
+import com.starbucks.back.payment.domain.PaymentStatus;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
