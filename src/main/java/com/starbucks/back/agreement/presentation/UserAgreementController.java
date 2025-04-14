@@ -18,8 +18,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/user-agreement")
 @RequiredArgsConstructor
-public class    UserAgreementController {
-
+public class UserAgreementController {
     private final UserAgreementService userAgreementService;
     private final SecurityUtil securityUtil;
 
@@ -30,8 +29,7 @@ public class    UserAgreementController {
     ) {
         userAgreementService.addUserAgreement(RequestAddUserAgreementDto.of(
                 securityUtil.getCurrentUserUuid(), requestAddUserAgreementVo
-                )
-        );
+        ));
         return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS);
     }
 
