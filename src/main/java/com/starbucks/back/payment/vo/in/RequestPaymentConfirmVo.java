@@ -6,4 +6,5 @@ import lombok.Getter;
 public class RequestPaymentConfirmVo {
     private String paymentKey;
     private String orderId;
+    private Integer amount;
 }

@@ -2,7 +2,11 @@ package com.starbucks.back.payment.application;
 
 import com.starbucks.back.common.entity.BaseResponseStatus;
 import com.starbucks.back.common.exception.BaseException;
+import com.starbucks.back.payment.domain.Payment;
+import com.starbucks.back.payment.domain.PaymentStatus;
+import com.starbucks.back.payment.dto.in.RequestPaymentConfirmDto;
 import com.starbucks.back.payment.dto.in.RequestPaymentCreateDto;
+import com.starbucks.back.payment.dto.out.ResponsePaymentConfirmDto;
 import com.starbucks.back.payment.dto.out.ResponsePaymentCreateDto;
 import com.starbucks.back.payment.infrastructure.PaymentRepository;
 import jakarta.transaction.Transactional;
@@ -13,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
@@ -44,7 +49,7 @@ public class PaymentServiceImpl implements PaymentService{
     ) {
         // paymentUuid 중복여부 검사
         if (paymentRepository.existsByPaymentUuid(requestPaymentCreateDto.getPaymentUuid())) {
-            throw new BaseException(BaseResponseStatus.PAYMENT_DUPLICATE_ORDER_ID);
+            throw new BaseException(BaseResponseStatus.PAYMENT_DUPLICATE_PRODUCT_UUID);
         }
 
         // 결제 내역 db 저장
@@ -82,6 +87,74 @@ public class PaymentServiceImpl implements PaymentService{
                         .checkoutUrl(((Map<String, String>) responseBody.get("checkout")).get("url"))
                         .paymentUuid(requestPaymentCreateDto.getPaymentUuid())
                         .build();
+
+    }
+
+    /**
+     * 결제 승인
+     * @param
+     */
+    @Transactional
+    @Override
+    public ResponsePaymentConfirmDto confirmPayment(RequestPaymentConfirmDto requestPaymentConfirmDto) {
+        RestTemplate restTemplate = new RestTemplate();
+
+        // Toss 승인 요청 바디 구성
+        Map<String, Object> body = new HashMap<>();
+        body.put("paymentKey", requestPaymentConfirmDto.getPaymentCode());
+        body.put("orderId", requestPaymentConfirmDto.getPaymentUuid());
+        body.put("amount", requestPaymentConfirmDto.getTotalAmount());
+
+        // Basic 인증 헤더
+        String auth = secretKey + ":";
+        String encodedAuth = Base64.getEncoder().encodeToString(auth.getBytes(StandardCharsets.UTF_8));
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("Authorization", "Basic " + encodedAuth);
+
+        // 요청 바디와 헤더를 HttpEntity로 감싸기
+        HttpEntity<Map<String, Object>> httpRequest = new HttpEntity<>(body, headers);
+
+        try {
+            // Toss 결제 승인 api 요청 (postForEntity)
+            ResponseEntity<Map> response = restTemplate.postForEntity(
+                    baseUrl + "/payments/confirm", httpRequest, Map.class
+            );
+
+            Map responseBody = response.getBody();
+            System.out.println("✅ 결제 승인 응답: " + responseBody);
+
+            String paymentCode = (String) responseBody.get("paymentKey");
+            String productUuid = (String) responseBody.get("orderId");
+            String method = (String) responseBody.get("method");
+            Integer amount = (Integer) responseBody.get("totalAmount");
+            PaymentStatus paymentStatus = PaymentStatus.valueOf((String) responseBody.get("status"));
+            LocalDateTime approvedAt = LocalDateTime.parse((String) responseBody.get("approvedAt"));
+
+            // ✅ 결제 정보 갱신 (paymentCode, status)
+            Payment payment = paymentRepository
+                    .findByPaymentUuid(requestPaymentConfirmDto.getPaymentUuid())
+                    .orElseThrow(() -> new BaseException(BaseResponseStatus.PAYMENT_NO_EXIST));
+
+            paymentRepository.save(requestPaymentConfirmDto.updatePayment(
+                    payment, paymentCode, method, amount, paymentStatus, approvedAt));
+
+            return ResponsePaymentConfirmDto.from(
+                    "결제 승인 성공", productUuid, paymentStatus, approvedAt.toString()
+            );
+        } catch (Exception e) {
+            // 결제 승인 실패 시 처리
+            System.out.println("❌ 결제 승인 실패: " + e.getMessage());
+//            throw new BaseException(BaseResponseStatus.PAYMENT_CONFIRM_FAIL);   // 에러 줄 거면 이렇게
+            return ResponsePaymentConfirmDto.from(
+                    "결제 승인 실패",
+                    requestPaymentConfirmDto.getPaymentUuid(),
+                    PaymentStatus.ABORTED,
+                    null  // approvedAt 없음
+            );
+
+        }
+
 
     }
 }

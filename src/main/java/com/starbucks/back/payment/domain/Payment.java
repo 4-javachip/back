@@ -47,7 +47,7 @@ public class Payment {
     @Column(name = "pg_tid", nullable = false, length = 100)
     private String pgTid;
 
-    @Column(name = "payment_token", nullable = false, length = 100)
+    @Column(name = "payment_token", length = 100)
     private String paymentToken;
 
     @Column(name = "fail_reason", length = 255)
