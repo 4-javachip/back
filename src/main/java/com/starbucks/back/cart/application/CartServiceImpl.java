@@ -57,7 +57,7 @@ public class CartServiceImpl implements CartService{
         if (requestUpdateCartCountDto.getProductQuantity() < 1) {
             throw new BaseException(BaseResponseStatus.INVALID_CART_QUANTITY);
         }
-        Cart cart = cartRepository.findByCartUuidAndUserUuid(
+        Cart cart = cartRepository.findByUserUuidAndCartUuid(
                     requestUpdateCartCountDto.getUserUuid(),
                     requestUpdateCartCountDto.getCartUuid()
                 )
@@ -71,7 +71,7 @@ public class CartServiceImpl implements CartService{
     @Transactional
     @Override
     public void updateCartChecked(RequestUpdateCartCheckedDto requestUpdateCartCheckedDto) {
-        Cart cart = cartRepository.findByCartUuidAndUserUuid(
+        Cart cart = cartRepository.findByUserUuidAndCartUuid(
                 requestUpdateCartCheckedDto.getUserUuid(),
                 requestUpdateCartCheckedDto.getCartUuid()
                 )
@@ -85,7 +85,7 @@ public class CartServiceImpl implements CartService{
     @Transactional
     @Override
     public void deleteCart(RequestDeleteCartDto requestDeleteCartDto) {
-        Cart cart = cartRepository.findByCartUuidAndUserUuid(
+        Cart cart = cartRepository.findByUserUuidAndCartUuid(
                 requestDeleteCartDto.getUserUuid(),
                 requestDeleteCartDto.getCartUuid()
                 )
