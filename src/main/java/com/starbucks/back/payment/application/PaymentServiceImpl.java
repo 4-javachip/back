@@ -43,7 +43,7 @@ public class PaymentServiceImpl implements PaymentService{
     public ResponsePaymentCreateDto addPayment(RequestPaymentCreateDto requestPaymentCreateDto
     ) {
         // paymentUuid 중복여부 검사
-        if (paymentRepository.existsByPaymentUuid(requestPaymentCreateDto.getPaymentUuid()) != null) {
+        if (paymentRepository.existsByPaymentUuid(requestPaymentCreateDto.getPaymentUuid())) {
             throw new BaseException(BaseResponseStatus.PAYMENT_DUPLICATE_ORDER_ID);
         }
 
@@ -79,7 +79,7 @@ public class PaymentServiceImpl implements PaymentService{
 
         // 결제 생성 결과 반환
         return ResponsePaymentCreateDto.builder()
-                        .checkoutUrl((String) responseBody.get("url"))
+                        .checkoutUrl(((Map<String, String>) responseBody.get("checkout")).get("url"))
                         .paymentUuid(requestPaymentCreateDto.getPaymentUuid())
                         .build();
 

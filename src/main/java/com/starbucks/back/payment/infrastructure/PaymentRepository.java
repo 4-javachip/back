@@ -10,5 +10,5 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
      * @param paymentUuid
      * @return
      */
-    Payment existsByPaymentUuid(String paymentUuid);
+    Boolean existsByPaymentUuid(String paymentUuid);
 }

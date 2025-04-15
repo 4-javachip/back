@@ -1,5 +1,6 @@
 package com.starbucks.back.payment.dto.out;
 
+import com.starbucks.back.payment.vo.out.ResponsePaymentCreateVo;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -22,6 +23,13 @@ public class ResponsePaymentCreateDto {
             String paymentUuid
     ) {
         return ResponsePaymentCreateDto.builder()
+                .checkoutUrl(checkoutUrl)
+                .paymentUuid(paymentUuid)
+                .build();
+    }
+
+    public ResponsePaymentCreateVo toVo() {
+        return ResponsePaymentCreateVo.builder()
                 .checkoutUrl(checkoutUrl)
                 .paymentUuid(paymentUuid)
                 .build();
