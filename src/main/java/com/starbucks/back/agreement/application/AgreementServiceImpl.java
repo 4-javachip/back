@@ -7,6 +7,7 @@ import com.starbucks.back.agreement.infrastructure.AgreementRepository;
 import com.starbucks.back.common.entity.BaseResponseStatus;
 import com.starbucks.back.common.exception.BaseException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

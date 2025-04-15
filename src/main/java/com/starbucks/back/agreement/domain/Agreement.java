@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Table(name = "agreement")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Agreement extends SoftDeletableEntity {

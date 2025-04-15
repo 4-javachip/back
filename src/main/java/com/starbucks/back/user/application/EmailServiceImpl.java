@@ -38,6 +38,7 @@ public class EmailServiceImpl implements EmailService{
             throw new BaseException(BaseResponseStatus.EMAIL_CODE_SEND_LIMITED);
         }
 
+
         redisUtil.set(email, code, 5L, TimeUnit.MINUTES);
         redisUtil.set(limitKey, "3", 3L, TimeUnit.MINUTES);
 
