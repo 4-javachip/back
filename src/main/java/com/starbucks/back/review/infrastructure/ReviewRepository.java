@@ -1,6 +1,8 @@
 package com.starbucks.back.review.infrastructure;
 
 import com.starbucks.back.review.domain.Review;
+import com.starbucks.back.review.dto.out.ResponseReviewDto;
+import com.starbucks.back.review.dto.out.ResponseReviewSummaryDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -28,10 +30,22 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     List<Review> findByProductUuidAndDeletedFalse(String productUuid);
 
     /**
-     * 상품 평점 조회
+     * 상품 리뷰 평균 평점, 개수 조회
      * @param productUuid
      */
-    @Query("SELECT AVG(r.rating) FROM Review r WHERE r.productUuid = :productUuid AND r.deleted = false")
-    Double findAvgRatingByProductUuidAndDeletedFalse(String productUuid);
+    @Query("""
+        SELECT new com.starbucks.back.review.dto.out.ResponseReviewSummaryDto(
+            COALESCE(AVG(r.rating), 0),
+            COUNT(r)
+        )
+        FROM Review r
+        WHERE r.productUuid = :productUuid AND r.deleted = false
+    """)
+    ResponseReviewSummaryDto findReviewSummaryByProductUuidAndDeletedFalse(String productUuid);
+
+    /**
+     * 리뷰 전체 조회
+     */
+    List<Review> findAllByDeletedFalse();
 
 }

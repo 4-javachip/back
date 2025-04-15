@@ -1,6 +1,7 @@
 package com.starbucks.back.review.dto.out;
 
 import com.starbucks.back.review.domain.Review;
+import com.starbucks.back.review.vo.out.ResponseReviewVo;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -37,8 +38,8 @@ public class ResponseReviewDto {
                 .build();
     }
 
-    public ResponseReviewDto toVo() {
-        return ResponseReviewDto.builder()
+    public ResponseReviewVo toVo() {
+        return ResponseReviewVo.builder()
                 .reviewUuid(reviewUuid)
                 .userUuid(userUuid)
                 .productUuid(productUuid)

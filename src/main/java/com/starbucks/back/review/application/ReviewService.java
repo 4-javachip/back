@@ -4,6 +4,7 @@ import com.starbucks.back.review.dto.in.RequestAddReviewDto;
 import com.starbucks.back.review.dto.in.RequestDeleteReviewDto;
 import com.starbucks.back.review.dto.in.RequestUpdateReviewDto;
 import com.starbucks.back.review.dto.out.ResponseReviewDto;
+import com.starbucks.back.review.dto.out.ResponseReviewSummaryDto;
 
 import java.util.List;
 
@@ -34,22 +35,26 @@ public interface ReviewService {
     List<ResponseReviewDto> getReviewByProductUuid(String productUuid);
 
     /**
+     * 상품 리뷰 평균 평점, 개수 조회
+     * @param productUuid
+     */
+    ResponseReviewSummaryDto getReviewSummaryByProductUuid(String productUuid);
+
+    /**
      * 리뷰 전체 조회
      */
     List<ResponseReviewDto> getAllReviews();
 
     /**
      * 리뷰 수정
-     * @param userUuid
      * @param requestUpdateReviewDto
      */
-    void updateReview(String userUuid, RequestUpdateReviewDto requestUpdateReviewDto);
+    void updateReview(RequestUpdateReviewDto requestUpdateReviewDto);
 
     /**
      * 리뷰 삭제
-     * @param userUuid
      * @param requestDeleteReviewDto
      */
-    void deleteReview(String userUuid, RequestDeleteReviewDto requestDeleteReviewDto);
+    void deleteReview(RequestDeleteReviewDto requestDeleteReviewDto);
 
 }

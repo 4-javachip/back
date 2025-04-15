@@ -28,7 +28,7 @@ public class RequestUpdateReviewDto {
     public Review updateEntity(Review review) {
         return Review.builder()
                 .id(review.getId())
-                .reviewUuid(reviewUuid)
+                .reviewUuid(review.getReviewUuid())
                 .userUuid(userUuid)
                 .productUuid(review.getProductUuid())
                 .title(title)
@@ -39,7 +39,8 @@ public class RequestUpdateReviewDto {
 
     public static RequestUpdateReviewDto of(String userUuid, RequestReviewVo requestReviewVo) {
         return RequestUpdateReviewDto.builder()
-                .reviewUuid(userUuid)
+                .userUuid(userUuid)
+                .reviewUuid(requestReviewVo.getReviewUuid())
                 .title(requestReviewVo.getTitle())
                 .content(requestReviewVo.getContent())
                 .rating(requestReviewVo.getRating())
