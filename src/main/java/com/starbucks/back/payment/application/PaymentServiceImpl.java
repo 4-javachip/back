@@ -18,9 +18,11 @@ import org.springframework.web.client.RestTemplate;
 
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -115,6 +117,17 @@ public class PaymentServiceImpl implements PaymentService{
         // 요청 바디와 헤더를 HttpEntity로 감싸기
         HttpEntity<Map<String, Object>> httpRequest = new HttpEntity<>(body, headers);
 
+        // ✅ 결제 정보 갱신 (paymentCode, status)
+        Payment payment = paymentRepository
+                .findByPaymentUuid(requestPaymentConfirmDto.getPaymentUuid())
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.PAYMENT_NO_EXIST));
+
+        // 결제 상태가 이미 승인된 경우
+        if (payment.getStatus() == PaymentStatus.ABORTED) {
+            // 이미 성공된 결제는 무시
+            throw new BaseException(BaseResponseStatus.PAYMENT_ALREADY_DONE);
+        }
+
         try {
             // Toss 결제 승인 api 요청 (postForEntity)
             ResponseEntity<Map> response = restTemplate.postForEntity(
@@ -124,33 +137,40 @@ public class PaymentServiceImpl implements PaymentService{
             Map responseBody = response.getBody();
             System.out.println("✅ 결제 승인 응답: " + responseBody);
 
+            if (responseBody == null) {
+                throw new BaseException(BaseResponseStatus.TOSS_EMPTY_RESPONSE);
+            }
+
             String paymentCode = (String) responseBody.get("paymentKey");
             String productUuid = (String) responseBody.get("orderId");
             String method = (String) responseBody.get("method");
             Integer amount = (Integer) responseBody.get("totalAmount");
             PaymentStatus paymentStatus = PaymentStatus.valueOf((String) responseBody.get("status"));
-            LocalDateTime approvedAt = LocalDateTime.parse((String) responseBody.get("approvedAt"));
+            OffsetDateTime offsetDateTime = OffsetDateTime.parse((String) responseBody.get("approvedAt"));
+            LocalDateTime approvedAt = offsetDateTime.toLocalDateTime();
 
-            // ✅ 결제 정보 갱신 (paymentCode, status)
-            Payment payment = paymentRepository
-                    .findByPaymentUuid(requestPaymentConfirmDto.getPaymentUuid())
-                    .orElseThrow(() -> new BaseException(BaseResponseStatus.PAYMENT_NO_EXIST));
+            if (!Objects.equals(amount, payment.getTotalAmount())) {
+                throw new BaseException(BaseResponseStatus.PAYMENT_AMOUNT_MISMATCH);
+            }
 
-            paymentRepository.save(requestPaymentConfirmDto.updatePayment(
+            paymentRepository.save(requestPaymentConfirmDto.updateSuccessPayment(
                     payment, paymentCode, method, amount, paymentStatus, approvedAt));
 
             return ResponsePaymentConfirmDto.from(
                     "결제 승인 성공", productUuid, paymentStatus, approvedAt.toString()
             );
+        } catch (BaseException e) {
+            throw e; // 직접 분리해서 더 명확
         } catch (Exception e) {
             // 결제 승인 실패 시 처리
             System.out.println("❌ 결제 승인 실패: " + e.getMessage());
 //            throw new BaseException(BaseResponseStatus.PAYMENT_CONFIRM_FAIL);   // 에러 줄 거면 이렇게
+            paymentRepository.save(requestPaymentConfirmDto.updateFailPayment(payment));
             return ResponsePaymentConfirmDto.from(
                     "결제 승인 실패",
                     requestPaymentConfirmDto.getPaymentUuid(),
                     PaymentStatus.ABORTED,
-                    null  // approvedAt 없음
+                    null
             );
 
         }

@@ -41,7 +41,7 @@ public class RequestPaymentConfirmDto {
                 .build();
     }
 
-    public Payment updatePayment(
+    public Payment updateSuccessPayment(
             Payment payment,
             String paymentCode,
             String method,
@@ -65,4 +65,24 @@ public class RequestPaymentConfirmDto {
                 .approvedAt(approvedAt)
                 .build();
     }
+
+    public Payment updateFailPayment(Payment payment)
+    {
+        return Payment.builder()
+                .id(payment.getId())
+                .userUuid(userUuid)
+                .paymentUuid(paymentUuid)
+                .paymentCode(paymentCode)
+                // amount, method, orderName은 Payment 테이블에 저장하지 않음. 차후 추가될 수도 있음
+                .saleAmount(payment.getSaleAmount())
+                .totalAmount(totalAmount)
+                .status(PaymentStatus.ABORTED)
+                .pgProvider("TOSS")
+                .pgTid(payment.getPgTid())
+                .paymentToken(payment.getPaymentToken())
+                .failReason(payment.getFailReason())
+                .approvedAt(payment.getApprovedAt())
+                .build();
+    }
+
 }
