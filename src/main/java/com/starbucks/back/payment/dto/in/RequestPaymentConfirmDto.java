@@ -66,7 +66,10 @@ public class RequestPaymentConfirmDto {
                 .build();
     }
 
-    public Payment updateFailPayment(Payment payment)
+    public Payment updateFailPayment(
+            Payment payment,
+            String failReason
+    )
     {
         return Payment.builder()
                 .id(payment.getId())
@@ -80,7 +83,7 @@ public class RequestPaymentConfirmDto {
                 .pgProvider("TOSS")
                 .pgTid(payment.getPgTid())
                 .paymentToken(payment.getPaymentToken())
-                .failReason(payment.getFailReason())
+                .failReason(failReason)
                 .approvedAt(payment.getApprovedAt())
                 .build();
     }

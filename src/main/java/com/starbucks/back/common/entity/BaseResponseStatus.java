@@ -164,9 +164,9 @@ public enum BaseResponseStatus {
     DUPLICATED_CART_PRODUCT(HttpStatus.BAD_REQUEST, false, 7002, "이미 장바구니에 담긴 상품입니다"),
     NO_EXIST_CART_PRODUCT(HttpStatus.NOT_FOUND, false, 7003, "존재하지 않는 장바구니 상품입니다"),
     // payment
-    PAYMENT_DUPLICATE_PRODUCT_UUID(HttpStatus.BAD_REQUEST, false, 7101, "이미 존재하는 주문번호입니다"),
+    PAYMENT_DUPLICATE_PAYMENT_UUID(HttpStatus.BAD_REQUEST, false, 7101, "이미 존재하는 주문번호입니다"),
     PAYMENT_NO_EXIST(HttpStatus.NOT_FOUND, false, 7102, "존재하지 않는 결제입니다"),
-    PAYMENT_CONFIRM_FAIL(HttpStatus.INTERNAL_SERVER_ERROR, false, 7103, "결제 승인에 실패했습니다"),
+    PAYMENT_CONFIRM_FAIL(HttpStatus.BAD_REQUEST, false, 7103, "결제 승인에 실패했습니다"),
     PAYMENT_AMOUNT_MISMATCH(HttpStatus.BAD_REQUEST, false, 7104, "결제 금액이 일치하지 않습니다"),
     PAYMENT_ALREADY_DONE(HttpStatus.BAD_REQUEST, false, 7105, "이미 처리가 완료된 주문입니다"),
     TOSS_EMPTY_RESPONSE(HttpStatus.INTERNAL_SERVER_ERROR, false, 7106, "TOSS 결제 승인 응답이 비어있습니다"),

@@ -49,20 +49,17 @@ public class PaymentServiceImpl implements PaymentService{
     @Override
     public ResponsePaymentCreateDto addPayment(RequestPaymentCreateDto requestPaymentCreateDto
     ) {
-        // paymentUuid 중복여부 검사
-        if (paymentRepository.existsByPaymentUuid(requestPaymentCreateDto.getPaymentUuid())) {
-            throw new BaseException(BaseResponseStatus.PAYMENT_DUPLICATE_PRODUCT_UUID);
-        }
+        Payment payment = requestPaymentCreateDto.toEntity();
 
         // 결제 내역 db 저장
-        paymentRepository.save(requestPaymentCreateDto.toEntity());
+        paymentRepository.save(payment);
 
         // 결제 생성 api 정보
         RestTemplate restTemplate = new RestTemplate();
 
         Map<String, Object> body = new HashMap<>();
 
-        body.put("orderId", requestPaymentCreateDto.getPaymentUuid());  // 결제 고유 ID
+        body.put("orderId", payment.getPaymentUuid());  // 결제 고유 ID
         body.put("amount", requestPaymentCreateDto.getTotalAmount());    // 실제 결제 금액
         body.put("orderName", requestPaymentCreateDto.getOrderName());
         body.put("method", requestPaymentCreateDto.getMethod());
@@ -87,7 +84,7 @@ public class PaymentServiceImpl implements PaymentService{
         // 결제 생성 결과 반환
         return ResponsePaymentCreateDto.builder()
                         .checkoutUrl(((Map<String, String>) responseBody.get("checkout")).get("url"))
-                        .paymentUuid(requestPaymentCreateDto.getPaymentUuid())
+                        .paymentUuid(payment.getPaymentUuid())
                         .build();
 
     }
@@ -122,9 +119,9 @@ public class PaymentServiceImpl implements PaymentService{
                 .findByPaymentUuid(requestPaymentConfirmDto.getPaymentUuid())
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.PAYMENT_NO_EXIST));
 
-        // 결제 상태가 이미 승인된 경우
-        if (payment.getStatus() == PaymentStatus.ABORTED) {
-            // 이미 성공된 결제는 무시
+        // 결제 승인 처리가 이미 완료된 경우
+        if (payment.getStatus() != PaymentStatus.READY) {
+            // 이미 완료된 결제는 무시
             throw new BaseException(BaseResponseStatus.PAYMENT_ALREADY_DONE);
         }
 
@@ -142,13 +139,25 @@ public class PaymentServiceImpl implements PaymentService{
             }
 
             String paymentCode = (String) responseBody.get("paymentKey");
-            String productUuid = (String) responseBody.get("orderId");
+            String paymentUuid = (String) responseBody.get("orderId");
             String method = (String) responseBody.get("method");
             Integer amount = (Integer) responseBody.get("totalAmount");
             PaymentStatus paymentStatus = PaymentStatus.valueOf((String) responseBody.get("status"));
             OffsetDateTime offsetDateTime = OffsetDateTime.parse((String) responseBody.get("approvedAt"));
             LocalDateTime approvedAt = offsetDateTime.toLocalDateTime();
+            Map<String, String> failure = (Map<String, String>) responseBody.get("failure");
 
+            // 결제 실패 시 관련 정보 파싱 + 저장, 이후 에러 처리
+            if (failure != null) {
+//                String failureCode = failure.get("code");
+                String failReason = failure.get("message");
+
+                paymentRepository.save(requestPaymentConfirmDto.updateFailPayment(
+                        payment, failReason
+                ));
+                throw new BaseException(BaseResponseStatus.PAYMENT_CONFIRM_FAIL);
+            }
+            // 금액 불일치 시
             if (!Objects.equals(amount, payment.getTotalAmount())) {
                 throw new BaseException(BaseResponseStatus.PAYMENT_AMOUNT_MISMATCH);
             }
@@ -157,22 +166,12 @@ public class PaymentServiceImpl implements PaymentService{
                     payment, paymentCode, method, amount, paymentStatus, approvedAt));
 
             return ResponsePaymentConfirmDto.from(
-                    "결제 승인 성공", productUuid, paymentStatus, approvedAt.toString()
+                    "결제 완료", paymentUuid, paymentStatus, approvedAt.toString()
             );
-        } catch (BaseException e) {
-            throw e; // 직접 분리해서 더 명확
         } catch (Exception e) {
             // 결제 승인 실패 시 처리
             System.out.println("❌ 결제 승인 실패: " + e.getMessage());
-//            throw new BaseException(BaseResponseStatus.PAYMENT_CONFIRM_FAIL);   // 에러 줄 거면 이렇게
-            paymentRepository.save(requestPaymentConfirmDto.updateFailPayment(payment));
-            return ResponsePaymentConfirmDto.from(
-                    "결제 승인 실패",
-                    requestPaymentConfirmDto.getPaymentUuid(),
-                    PaymentStatus.ABORTED,
-                    null
-            );
-
+            throw new BaseException(BaseResponseStatus.PAYMENT_CONFIRM_FAIL);
         }
 
 
