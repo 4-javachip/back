@@ -43,9 +43,6 @@ public class OauthServiceImpl implements OauthService{
                 case KAKAO -> {
                     return oauthUserInfoProvider.getKakaoUser(requestOauthUserInfoDto.getAccessToken());
                 }
-//                case APPLE -> {
-//                    return oauthUserInfoProvider.parseAppleIdToken(requestOauthUserInfoDto.getIdToken());
-//                }
                 default -> throw new IllegalArgumentException("지원하지 않는 소셜 로그인입니다.");
             }
     }
