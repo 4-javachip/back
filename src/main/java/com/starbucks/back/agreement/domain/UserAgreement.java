@@ -11,7 +11,8 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"user_uuid", "agreement_id"}))
+@Table(name = "user_agreement",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"user_uuid", "agreement_id"}))
 public class UserAgreement extends BaseEntity {
 
     @Id

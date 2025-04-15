@@ -69,26 +69,16 @@ public class UserAgreementServiceImpl implements UserAgreementService {
 
     @Override
     public List<ResponseGetUserAgreementDto> getUserShippingAddressAgreementByUserUuid(String userUuid) {
-        final List<UserAgreement> agreements = userAgreementRepository.findByUserUuidAndAgreement_Type(userUuid, AgreementType.SHIPPING_ADDRESS);
-
-        if (agreements.isEmpty()) {
-            throw new BaseException(BaseResponseStatus.NO_USER_SHIPPING_ADDRESS_AGREEMENT);
-        }
-
-        return agreements.stream()
+        return userAgreementRepository.findByUserUuidAndAgreement_Type(userUuid, AgreementType.SHIPPING_ADDRESS)
+                .stream()
                 .map(ResponseGetUserAgreementDto::from)
                 .toList();
     }
 
     @Override
     public List<ResponseGetUserAgreementDto> getUserSignUpAgreementByUserUuid(String userUuid) {
-        final List<UserAgreement> agreements = userAgreementRepository.findByUserUuidAndAgreement_Type(userUuid, AgreementType.SIGN_UP);
-
-        if (agreements.isEmpty()) {
-            throw new BaseException(BaseResponseStatus.NO_USER_SIGN_UP_AGREEMENT);
-        }
-
-        return agreements.stream()
+        return userAgreementRepository.findByUserUuidAndAgreement_Type(userUuid, AgreementType.SIGN_UP)
+                .stream()
                 .map(ResponseGetUserAgreementDto::from)
                 .toList();
     }

@@ -90,21 +90,4 @@ public class OauthUserInfoProvider {
                 .providerUserId(body.get("id").asText())
                 .build();
     }
-
-//    public ResponseOauthUserInfoDto parseAppleIdToken(String idToken) {
-//        String payload = idToken.split("\\.")[1];
-//        String decoded = new String(Base64.getUrlDecoder().decode(payload));
-//
-//        try {
-//            JsonNode jsonNode = objectMapper.readTree(decoded);
-//            return ResponseOauthUserInfoDto.builder()
-//                    .email(jsonNode.get("email").asText())
-//                    .name("AppleUser")
-//                    .provider(SocialProvider.APPLE)
-//                    .providerUserId(jsonNode.get("sub").asText())
-//                    .build();
-//        } catch (Exception e) {
-//            throw new RuntimeException("Apple ID Token 파싱 실패", e);
-//        }
-//    }
 }
