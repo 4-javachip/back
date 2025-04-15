@@ -8,7 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "review_photo")
+@Table(name = "review_image")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ReviewPhoto extends SoftDeletableEntity {
@@ -26,8 +26,8 @@ public class ReviewPhoto extends SoftDeletableEntity {
     /**
      * 리뷰 사진
      */
-    @Column(name = "photo")
-    private String photo;
+    @Column(name = "image_url")
+    private String imageUrl;
 
     /**
      * 리뷰 id
@@ -37,10 +37,10 @@ public class ReviewPhoto extends SoftDeletableEntity {
     private Review review;
 
     @Builder
-    public ReviewPhoto(Long id, String reviewUuid, String photo, Review review) {
+    public ReviewPhoto(Long id, String reviewUuid, String imageUrl, Review review) {
         this.id = id;
         this.reviewUuid = reviewUuid;
-        this.photo = photo;
+        this.imageUrl = imageUrl;
         this.review = review;
     }
 
