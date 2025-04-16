@@ -16,7 +16,7 @@ jobs:
       run: rm -rf src/main/generated
 
     - name: Build with Gradle (skip tests)
-      run: ./gradlew build -x test --stacktrace
+      run: ./gradlew clean build -x test --stacktrace
 
     - name: Setup SSH
       run: |
