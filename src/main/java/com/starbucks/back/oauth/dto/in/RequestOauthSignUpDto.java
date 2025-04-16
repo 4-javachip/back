@@ -24,7 +24,7 @@ public class RequestOauthSignUpDto {
     private UserGender gender;
 
     @Builder
-    public RequestOauthSignUpDto (String email, String password, String name, String nickname,
+    public RequestOauthSignUpDto (String email , String password, String name, String nickname,
                                   String phoneNumber, LocalDate birthdate, UserGender gender)
     {
         this.email = email;
@@ -53,7 +53,6 @@ public class RequestOauthSignUpDto {
 
     public static RequestOauthSignUpDto from(RequestOauthSignUpVo requestOauthSignUpVo) {
         return RequestOauthSignUpDto.builder()
-                .email(requestOauthSignUpVo.getEmail())
                 .password(requestOauthSignUpVo.getPassword())
                 .nickname(requestOauthSignUpVo.getNickname())
                 .name(requestOauthSignUpVo.getName())
@@ -61,6 +60,10 @@ public class RequestOauthSignUpDto {
                 .birthdate(requestOauthSignUpVo.getBirthdate())
                 .gender(requestOauthSignUpVo.getGender())
                 .build();
+    }
+
+    public void updateEmail(String email) {
+        this.email = email;
     }
 
 }
