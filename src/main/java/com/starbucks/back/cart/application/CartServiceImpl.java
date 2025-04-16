@@ -103,4 +103,16 @@ public class CartServiceImpl implements CartService{
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_CART_PRODUCT));
         cart.softDelete();
     }
+
+    /**
+     * 장바구니 전체 삭제 by userUuid
+     */
+    @Transactional
+    @Override
+    public void deleteAllCart(String userUuid) {
+        List<Cart> cartList = cartRepository.findAllByUserUuidAndDeletedFalse(userUuid);
+        for (Cart cart : cartList) {
+            cart.softDelete();
+        }
+    }
 }

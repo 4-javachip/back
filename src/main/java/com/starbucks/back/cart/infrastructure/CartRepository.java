@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface CartRepository extends JpaRepository<Cart, Long> {
 
     /**
-     * 장바구니 조회 by userUuid
+     * 장바구니 리스트 조회 by userUuid
      * @param userUuid 사용자 UUID
      * @return
      */
