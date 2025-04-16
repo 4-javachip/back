@@ -9,6 +9,8 @@ import com.starbucks.back.cart.dto.out.ResponseCartDto;
 import com.starbucks.back.cart.infrastructure.CartRepository;
 import com.starbucks.back.common.entity.BaseResponseStatus;
 import com.starbucks.back.common.exception.BaseException;
+import com.starbucks.back.product.application.ProductOptionService;
+import com.starbucks.back.product.application.ProductService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,8 @@ import java.util.List;
 public class CartServiceImpl implements CartService{
 
     private final CartRepository cartRepository;
+    private final ProductService productService;
+    private final ProductOptionService productOptionService;
     /**
      * 장바구니 조회 by userUuid
      */
@@ -33,11 +37,18 @@ public class CartServiceImpl implements CartService{
     }
 
     /**
-     * 장바구니 생성 by userUuid, productOptionUuid
+     * 장바구니 생성 by userUuid, productUuid, productOptionUuid
      */
     @Transactional
     @Override
     public void addCart(RequestAddCartDto requestAddCartDto) {
+        // productUuid 존재하지 않으면, getProductByProductUuid에서 예외 발생
+        productService.getProductByUuid(requestAddCartDto.getProductUuid());
+
+        // productOptionUuid 존재하지 않으면, getProductOptionByProductOptionUuid에서 예외 발생
+        productOptionService.getProductOptionByProductOptionUuid(requestAddCartDto.getProductOptionUuid());
+
+        // 장바구니 중복 검사
         if (cartRepository.existsByUserUuidAndProductOptionUuidAndDeletedFalse(
                 requestAddCartDto.getUserUuid(),
                 requestAddCartDto.getProductOptionUuid()
