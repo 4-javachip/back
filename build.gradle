@@ -13,7 +13,8 @@ java {
     }
 }
 
-def generated = "$buildDir/generated/querydsl"
+// Querydsl 빌드 옵션 (옵셔널)
+def generated = 'src/main/generated'
 
 configurations {
     compileOnly {
@@ -26,78 +27,60 @@ repositories {
 }
 
 dependencies {
-    // Spring Boot
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.boot:spring-boot-starter-validation'
-    implementation 'org.springframework.boot:spring-boot-starter-mail'
-    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
-
-    // DB
-    runtimeOnly 'com.mysql:mysql-connector-j'
-
-    // Lombok
     compileOnly 'org.projectlombok:lombok'
-    annotationProcessor 'org.projectlombok:lombok'
-
-    // Common utils
     implementation 'org.apache.commons:commons-lang3'
-
-    // Swagger
-    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.7.0'
-
-    // JWT
-    implementation 'io.jsonwebtoken:jjwt-api:0.12.5'
-    implementation 'io.jsonwebtoken:jjwt-impl:0.12.5'
-    implementation 'io.jsonwebtoken:jjwt-jackson:0.12.5'
-
-    // S3
-    implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
-
-    // Querydsl
-    implementation 'com.querydsl:querydsl-jpa:5.1.0:jakarta'
-    annotationProcessor 'com.querydsl:querydsl-apt:5.1.0:jakarta'
-    annotationProcessor 'jakarta.annotation:jakarta.annotation-api'
-    annotationProcessor 'jakarta.persistence:jakarta.persistence-api'
-
-    // Test
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    runtimeOnly 'com.mysql:mysql-connector-j'
+    annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    // security
     testImplementation 'org.springframework.security:spring-security-test'
-}
+    //	jwt
+    implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.12.5'
+    implementation group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.12.5'
+    implementation group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.12.5'
+    // Swagger
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.7.0'
+    // validation
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    // mail
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+    // redis
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
-// Querydsl Q 클래스 위치 추가
-sourceSets {
-    main {
-        java {
-            srcDirs += [generated]
+    // querydsl
+    implementation 'com.querydsl:querydsl-jpa:5.1.0:jakarta'
+    annotationProcessor "com.querydsl:querydsl-apt:5.1.0:jakarta"
+    annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+    annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+    // s3
+    implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+
+    // java source set 에 querydsl QClass 위치 추가
+    sourceSets {
+        main {
+            java {
+                srcDirs += [ generated ]
+            }
         }
     }
-}
 
-// Q 클래스 생성 Task
-tasks.register("compileQuerydsl", JavaCompile) {
-    group = "build"
-    description = "Compile Querydsl Q-type classes"
-    source = sourceSets.main.java
-    classpath = configurations.annotationProcessor
-    destinationDirectory = file(generated)
-    options.annotationProcessorPath = configurations.annotationProcessor
-}
-
-// compileJava 전에 Q 클래스 생성되도록 의존성 추가
-tasks.named("compileJava") {
-    dependsOn(tasks.named("compileQuerydsl"))
-    options.getGeneratedSourceOutputDirectory().set(file(generated))
-}
-
-// gradle clean 시 Q 클래스 디렉토리 삭제
-tasks.named("clean") {
-    doFirst {
-        delete file(generated)
+    // querydsl QClass 파일 생성 위치를 지정
+    tasks.withType(JavaCompile) {
+        options.getGeneratedSourceOutputDirectory().set(file(generated))
     }
+
+    // gradle clean 시에 QClass 디렉토리 삭제
+    tasks.named('clean') {
+        doFirst {
+            delete file(generated)
+        }
+    }
+
 }
 
 tasks.named('test') {
