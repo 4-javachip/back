@@ -101,6 +101,8 @@ public enum BaseResponseStatus {
     INVALID_NAVER_TOKEN(HttpStatus.UNAUTHORIZED, false, 2203, "naver access token이 유효하지 않습니다."),
     INVALID_KAKAO_TOKEN(HttpStatus.UNAUTHORIZED, false, 2204, "kakao access token이 유효하지 않습니다."),
     NOT_SUPPORTED_OAUTH(HttpStatus.BAD_REQUEST, false, 2205, "지원하지 않는 소셜 로그인입니다."),
+    NOT_FOUND_COOKIE(HttpStatus.BAD_REQUEST, false, 2206, "쿠키가 존재하지 않습니다."),
+    INVALID_OAUTH_TOKEN(HttpStatus.BAD_REQUEST, false, 2207, "유효하지 않은 소셜 회원가입 토큰입니다."),
 
     /**
      * 3000: product service error

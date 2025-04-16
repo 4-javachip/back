@@ -10,12 +10,11 @@ import com.starbucks.back.oauth.dto.out.ResponseOauthUserInfoDto;
 import com.starbucks.back.oauth.vo.in.RequestOauthSignUpVo;
 import com.starbucks.back.oauth.vo.in.RequestOauthUserInfoVo;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/oauth")
@@ -38,21 +37,28 @@ public class OauthController {
     @Operation(summary = "Oauth SignIn API", description = "Oauth 로그인", tags = {"Oauth-service"})
     @PostMapping("/sign-in")
     public BaseResponseEntity<ResponseSignInVo> oauthLogin (
-            @RequestBody RequestOauthUserInfoVo requestOauthUserInfoVo
-            ) throws Exception {
+            @RequestBody RequestOauthUserInfoVo requestOauthUserInfoVo,
+            HttpServletResponse httpServletResponse
+        ) throws Exception {
         return new BaseResponseEntity<>(
                 BaseResponseStatus.SIGN_IN_SUCCESS,
                 oauthService.oauthSignIn(
-                        RequestOauthUserInfoDto.from(requestOauthUserInfoVo)).toVo()
+                        RequestOauthUserInfoDto.from(requestOauthUserInfoVo),
+                        httpServletResponse
+                ).toVo()
         );
     }
 
     @Operation(summary = "Oauth SignUp API", description = "Oauth 회원가입", tags = {"Oauth-service"})
     @PostMapping("/sign-up")
     public BaseResponseEntity<Void> oauthSignUp(
-            @RequestBody RequestOauthSignUpVo requestOauthSignUpVo
-            ) {
-        oauthService.oauthSignUp(RequestOauthSignUpDto.from(requestOauthSignUpVo));
+            @RequestBody RequestOauthSignUpVo requestOauthSignUpVo,
+            @CookieValue(value = "oauth_cookie") String oauthCookieValue
+        ) throws Exception {
+        oauthService.oauthSignUp(
+                RequestOauthSignUpDto.from(requestOauthSignUpVo),
+                oauthCookieValue
+        );
         return new BaseResponseEntity<>(BaseResponseStatus.SIGN_UP_SUCCESS);
     }
 }
