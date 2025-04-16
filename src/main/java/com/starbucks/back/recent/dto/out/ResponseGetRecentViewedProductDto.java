@@ -15,7 +15,7 @@ public class ResponseGetRecentViewedProductDto {
         this.productUuid = productUuid;
     }
 
-    public static ResponseGetRecentViewedProductDto from(int index, String productUuid) {
+    public static ResponseGetRecentViewedProductDto of(int index, String productUuid) {
         return ResponseGetRecentViewedProductDto.builder()
                 .index(index)
                 .productUuid(productUuid)

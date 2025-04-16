@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class EmailTemplateBuilder {
-    public String buildVerificationEmail(String code) {
+    public String buildVerificationEmail(String purpose, String code) {
         return """
                 <html>
                     <body style="font-family: 'Helvetica Neue', Arial, sans-serif; background-color: #f4f4f4; padding: 40px;">
@@ -14,7 +14,7 @@ public class EmailTemplateBuilder {
                             </div>
                             <div style="padding: 32px 16px;">
                                 <h2 style="color: #00704A; margin-bottom: 16px;">Starbucks 이메일 인증</h2>
-                                <p style="font-size: 16px; color: #333;">아래 인증번호를 입력하여 이메일 인증을 완료해주세요.</p>
+                                <p style="font-size: 16px; color: #333;">아래 인증번호를 입력하여 %s 완료해주세요.</p>
                                 <div style="margin: 24px 0; text-align: center;">
                                     <span style="font-size: 28px; color: #00704A; font-weight: bold;">%s</span>
                                 </div>
@@ -26,6 +26,6 @@ public class EmailTemplateBuilder {
                         </div>
                     </body>
                 </html>
-            """.formatted(code);
+            """.formatted(purpose ,code);
     }
 }

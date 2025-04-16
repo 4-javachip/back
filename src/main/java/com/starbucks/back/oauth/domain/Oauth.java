@@ -2,6 +2,7 @@ package com.starbucks.back.oauth.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.starbucks.back.common.entity.BaseEntity;
+import com.starbucks.back.oauth.domain.enums.OauthState;
 import com.starbucks.back.oauth.domain.enums.SocialProvider;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -34,12 +35,17 @@ public class Oauth extends BaseEntity {
     @Column(name = "provider_user_id", nullable = false, length = 100)
     private String providerUserId;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "state", nullable = false, length = 20)
+    private OauthState state;
+
     @Builder
-    public Oauth(Long id, String userUuid, SocialProvider provider, String providerUserId) {
+    public Oauth(Long id, String userUuid, SocialProvider provider, String providerUserId, OauthState state) {
         this.id = id;
         this.userUuid = userUuid;
         this.provider = provider;
         this.providerUserId = providerUserId;
+        this.state = state;
     }
 }
 
