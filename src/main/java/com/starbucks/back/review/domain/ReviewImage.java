@@ -8,10 +8,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "review_photo")
+@Table(name = "review_image")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ReviewPhoto extends SoftDeletableEntity {
+public class ReviewImage extends SoftDeletableEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,22 +26,14 @@ public class ReviewPhoto extends SoftDeletableEntity {
     /**
      * 리뷰 사진
      */
-    @Column(name = "photo")
-    private String photo;
-
-    /**
-     * 리뷰 id
-     */
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "review_id", nullable = false)
-    private Review review;
+    @Column(name = "image_url")
+    private String imageUrl;
 
     @Builder
-    public ReviewPhoto(Long id, String reviewUuid, String photo, Review review) {
+    public ReviewImage(Long id, String reviewUuid, String imageUrl) {
         this.id = id;
         this.reviewUuid = reviewUuid;
-        this.photo = photo;
-        this.review = review;
+        this.imageUrl = imageUrl;
     }
 
 }

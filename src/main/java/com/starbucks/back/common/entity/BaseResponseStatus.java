@@ -131,6 +131,13 @@ public enum BaseResponseStatus {
     NO_EXIST_MAIN_BANNER(HttpStatus.NOT_FOUND, false, 3017, "존재하지 않는 메인 배너입니다"),
 
     /**
+     * 3100: review service error
+     */
+    NO_EXIST_REVIEW(HttpStatus.NOT_FOUND, false, 3101, "존재하지 않는 리뷰입니다"),
+    NO_EXIST_REVIEW_PHOTO(HttpStatus.NOT_FOUND, false, 3102, "존재하지 않는 리뷰 사진입니다"),
+    TOO_MANY_REVIEW_IMAGES(HttpStatus.BAD_REQUEST, false, 3103, "리뷰 이미지는 최대 5장까지 등록 가능합니다"),
+
+    /**
      * 4000: comment service error
      */
 
