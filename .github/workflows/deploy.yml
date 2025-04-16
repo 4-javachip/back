@@ -11,6 +11,9 @@ jobs:
     steps:
     - name: Checkout source
       uses: actions/checkout@v3
+
+    - name: Clean and build with Querydsl
+      run: ./gradlew clean compileQuerydsl build --no-daemon
       
     - name: Build with Gradle (skip tests)
       run: ./gradlew clean build -x test --stacktrace
