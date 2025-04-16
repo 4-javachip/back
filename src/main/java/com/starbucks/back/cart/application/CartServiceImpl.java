@@ -1,10 +1,7 @@
 package com.starbucks.back.cart.application;
 
 import com.starbucks.back.cart.domain.Cart;
-import com.starbucks.back.cart.dto.in.RequestAddCartDto;
-import com.starbucks.back.cart.dto.in.RequestDeleteCartDto;
-import com.starbucks.back.cart.dto.in.RequestUpdateCartCheckedDto;
-import com.starbucks.back.cart.dto.in.RequestUpdateCartCountDto;
+import com.starbucks.back.cart.dto.in.*;
 import com.starbucks.back.cart.dto.out.ResponseCartDto;
 import com.starbucks.back.cart.infrastructure.CartRepository;
 import com.starbucks.back.common.entity.BaseResponseStatus;
@@ -91,6 +88,19 @@ public class CartServiceImpl implements CartService{
     }
 
     /**
+     * 장바구니 체크박스 전체 수정 by userUuid
+     */
+    @Transactional
+    @Override
+    public void updateAllCartChecked(RequestUpdateAllCartCheckedDto requestUpdateAllCartCheckedDto) {
+
+        cartRepository.updateAllCheckedByUserUuid(
+                requestUpdateAllCartCheckedDto.getUserUuid(),
+                requestUpdateAllCartCheckedDto.getChecked()
+        );
+    }
+
+    /**
      * 장바구니 삭제
      */
     @Transactional
@@ -102,5 +112,17 @@ public class CartServiceImpl implements CartService{
                 )
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_CART_PRODUCT));
         cart.softDelete();
+    }
+
+    /**
+     * 장바구니 전체 삭제 by userUuid
+     */
+    @Transactional
+    @Override
+    public void deleteAllCart(String userUuid) {
+        List<Cart> cartList = cartRepository.findAllByUserUuidAndDeletedFalse(userUuid);
+        for (Cart cart : cartList) {
+            cart.softDelete();
+        }
     }
 }
