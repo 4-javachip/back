@@ -4,14 +4,8 @@ import com.starbucks.back.common.entity.BaseResponseEntity;
 import com.starbucks.back.common.entity.BaseResponseStatus;
 import com.starbucks.back.common.util.SecurityUtil;
 import com.starbucks.back.user.application.UserService;
-import com.starbucks.back.user.dto.in.RequestMatchPasswordDto;
-import com.starbucks.back.user.dto.in.RequestResetPasswordDto;
-import com.starbucks.back.user.dto.in.RequestUpdateNicknameDto;
-import com.starbucks.back.user.dto.in.RequestUpdatePasswordDto;
-import com.starbucks.back.user.vo.in.RequestMatchPasswordVo;
-import com.starbucks.back.user.vo.in.RequestResetPasswordVo;
-import com.starbucks.back.user.vo.in.RequestUpdateNicknameVo;
-import com.starbucks.back.user.vo.in.RequestUpdatePasswordVo;
+import com.starbucks.back.user.dto.in.*;
+import com.starbucks.back.user.vo.in.*;
 import com.starbucks.back.user.vo.out.ResponseGetUserInfoVo;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
@@ -90,5 +84,15 @@ public class UserController {
         return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS_UPDATE_NICKNAME);
     }
 
+    @PostMapping("/withdrawal")
+    public BaseResponseEntity<Void> withdrawalUser(
+            @Valid @RequestBody RequestWithdrawalUserVo requestWithdrawalUserVo
+        ) {
+        userService.withdrawalUser(
+                RequestWithdrawalUserDto.of(securityUtil.getCurrentUserUuid(), requestWithdrawalUserVo)
+        );
+        return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS_WITHDRAWAL_USER);
+
+    }
 
 }

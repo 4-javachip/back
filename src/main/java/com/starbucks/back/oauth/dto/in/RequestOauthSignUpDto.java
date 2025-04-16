@@ -16,6 +16,7 @@ import static java.util.UUID.randomUUID;
 @Getter
 public class RequestOauthSignUpDto {
     private String email;
+    private String password;
     private String nickname;
     private String name;
     private String phoneNumber;
@@ -23,10 +24,11 @@ public class RequestOauthSignUpDto {
     private UserGender gender;
 
     @Builder
-    public RequestOauthSignUpDto (String email, String name, String nickname,
+    public RequestOauthSignUpDto (String email, String password, String name, String nickname,
                                   String phoneNumber, LocalDate birthdate, UserGender gender)
     {
         this.email = email;
+        this.password = password;
         this.name = name;
         this.nickname = nickname;
         this.phoneNumber = phoneNumber;
@@ -38,7 +40,7 @@ public class RequestOauthSignUpDto {
         return User.builder()
                 .userUuid(randomUUID().toString())
                 .email(email)
-                .password(passwordEncoder.encode(randomUUID().toString()))
+                .password(passwordEncoder.encode(password))
                 .nickname(nickname)
                 .name(name)
                 .phoneNumber(phoneNumber)
@@ -52,6 +54,7 @@ public class RequestOauthSignUpDto {
     public static RequestOauthSignUpDto from(RequestOauthSignUpVo requestOauthSignUpVo) {
         return RequestOauthSignUpDto.builder()
                 .email(requestOauthSignUpVo.getEmail())
+                .password(requestOauthSignUpVo.getPassword())
                 .nickname(requestOauthSignUpVo.getNickname())
                 .name(requestOauthSignUpVo.getName())
                 .phoneNumber(requestOauthSignUpVo.getPhoneNumber())

@@ -2,7 +2,6 @@ package com.starbucks.back.recent.application;
 
 import com.starbucks.back.common.util.DateTimeUtil;
 import com.starbucks.back.common.util.RedisUtil;
-import com.starbucks.back.recent.domain.RecentViewedProduct;
 import com.starbucks.back.recent.dto.in.RequestAddRecentViewedProductDto;
 import com.starbucks.back.recent.dto.out.ResponseGetRecentViewedProductDto;
 import com.starbucks.back.recent.infrastructure.RecentViewedProductRepository;
@@ -11,15 +10,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-
-import static java.util.UUID.randomUUID;
 
 @Slf4j
 @Service
@@ -62,7 +55,7 @@ public class RecentViewedProductServiceImpl implements RecentViewedProductServic
         return IntStream.range(0, finalItems.size())
                 .mapToObj(i -> {
                     // 값인 "productUuid:epoch"에서 productUuid만 추출
-                    return ResponseGetRecentViewedProductDto.from(i, finalItems.get(i).split(":")[0]);
+                    return ResponseGetRecentViewedProductDto.of(i, finalItems.get(i).split(":")[0]);
                 })
                 .toList();
     }

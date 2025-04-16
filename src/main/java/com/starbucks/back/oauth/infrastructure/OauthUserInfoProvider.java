@@ -43,28 +43,6 @@ public class OauthUserInfoProvider {
                 .build();
     }
 
-    public ResponseOauthUserInfoDto getNaverUser(String token) throws Exception {
-        final HttpRequest request = HttpRequest.newBuilder()
-                .uri(new URI("https://openapi.naver.com/v1/nid/me"))
-                .header("Authorization", "Bearer " + token)
-                .GET()
-                .build();
-
-        final HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-        if (response.statusCode() == 401) {
-            throw new BaseException(BaseResponseStatus.INVALID_NAVER_TOKEN);
-        }
-
-        final JsonNode body = objectMapper.readTree(response.body()).get("response");
-
-        return ResponseOauthUserInfoDto.builder()
-                .email(body.get("email").asText())
-                .name(body.has("name") ? body.get("name").asText() : "NaverUser")
-                .provider(SocialProvider.NAVER)
-                .providerUserId(body.get("id").asText())
-                .build();
-    }
-
     public ResponseOauthUserInfoDto getKakaoUser(String token) throws Exception {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(new URI("https://kapi.kakao.com/v2/user/me"))

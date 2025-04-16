@@ -10,4 +10,7 @@ public interface OauthService {
     ResponseOauthUserInfoDto getOauthUserInfo(RequestOauthUserInfoDto requestOauthUserInfoDto) throws Exception;
     ResponseSignInDto oauthSignIn(RequestOauthUserInfoDto requestOauthUserInfoDto) throws Exception;
     void oauthSignUp(RequestOauthSignUpDto requestOauthSignUpDto);
+    Boolean existsOauth(String userUuid);
+    void withdrawalPendingOauth(String userUuid);
+    void deleteOauth(String userUuid);
 }

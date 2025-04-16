@@ -10,16 +10,12 @@ import com.starbucks.back.common.jwt.JwtProvider;
 import com.starbucks.back.common.util.JwtUtil;
 import com.starbucks.back.common.util.RedisUtil;
 import com.starbucks.back.user.domain.User;
+import com.starbucks.back.user.domain.enums.UserState;
 import com.starbucks.back.user.infrastructure.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
@@ -53,17 +49,18 @@ public class AuthServiceImpl implements AuthService {
     public ResponseSignInDto signIn(
             RequestSignInDto requestSignInDto
     ) {
-        final UserAuthDto userAuthDto = UserAuthDto.from(
-                userRepository.findByEmail(requestSignInDto.getEmail())
-                .orElseThrow(() -> new BaseException(BaseResponseStatus.INVALID_LOGIN))
-        );
+        final User user = userRepository.findByEmail(requestSignInDto.getEmail())
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.INVALID_LOGIN));
 
         // 비밀번호 검증
-        if (!passwordEncoder.matches(requestSignInDto.getPassword(), userAuthDto.getPassword())) {
+        if (!passwordEncoder.matches(requestSignInDto.getPassword(), user.getPassword())) {
             throw new BaseException(BaseResponseStatus.INVALID_LOGIN);
+        } else if (user.getState() == UserState.WITHDRAWAL_PENDING) {
+            throw new BaseException(BaseResponseStatus.WITHDRAWAL_PENDING);
         }
 
-        return jwtUtil.createLoginToken(userAuthDto.getUserUuid());
+
+        return jwtUtil.createLoginToken(user.getUserUuid());
     }
 
     @Transactional
@@ -91,8 +88,6 @@ public class AuthServiceImpl implements AuthService {
            } catch (Exception e) {}
    }
 
-
-
     @Override
     public boolean existsEmail(String email) {
         return userRepository.existsByEmail(email);
@@ -107,6 +102,6 @@ public class AuthServiceImpl implements AuthService {
     public boolean existsPhoneNumber(String phoneNumber) { return userRepository.existsByPhoneNumber(phoneNumber); }
 
     @Override
-    public void addUser(User user) {userRepository.save(user);}
+    public void oauthSignUp(User user) {userRepository.save(user);}
 
 }

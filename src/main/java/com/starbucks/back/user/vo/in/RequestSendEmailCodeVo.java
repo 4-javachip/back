@@ -1,9 +1,7 @@
 package com.starbucks.back.user.vo.in;
 
-import com.starbucks.back.user.dto.enums.EmailVerificationPurpose;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 

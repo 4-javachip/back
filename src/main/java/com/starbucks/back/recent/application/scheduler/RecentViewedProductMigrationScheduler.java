@@ -1,9 +1,10 @@
-package com.starbucks.back.recent.infrastructure;
+package com.starbucks.back.recent.application.scheduler;
 
 import com.starbucks.back.common.util.DateTimeUtil;
 import com.starbucks.back.common.util.RedisUtil;
 import com.starbucks.back.recent.domain.RecentViewedProduct;
 import com.starbucks.back.recent.dto.in.RequestAddRecentViewedProductDto;
+import com.starbucks.back.recent.infrastructure.RecentViewedProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
