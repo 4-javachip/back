@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.4.3'
     id 'io.spring.dependency-management' version '1.1.7'
+    id 'com.ewerk.gradle.plugins.querydsl' version '1.0.10'
 }
 
 group = 'com.starbucks_rebuilding'
@@ -59,28 +60,27 @@ dependencies {
     annotationProcessor "jakarta.persistence:jakarta.persistence-api"
     // s3
     implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+}
 
-    // java source set 에 querydsl QClass 위치 추가
-    sourceSets {
-        main {
-            java {
-                srcDirs += [ generated ]
-            }
+// java source set 에 querydsl QClass 위치 추가
+sourceSets {
+    main {
+        java {
+            srcDirs += [ generated ]
         }
     }
+}
 
-    // querydsl QClass 파일 생성 위치를 지정
-    tasks.withType(JavaCompile) {
-        options.getGeneratedSourceOutputDirectory().set(file(generated))
+// querydsl QClass 파일 생성 위치를 지정
+tasks.withType(JavaCompile) {
+    options.annotationProcessorGeneratedSourcesDirectory = file(generated)
+}
+
+// gradle clean 시에 QClass 디렉토리 삭제
+tasks.named('clean') {
+    doFirst {
+        delete file(generated)
     }
-
-    // gradle clean 시에 QClass 디렉토리 삭제
-    tasks.named('clean') {
-        doFirst {
-            delete file(generated)
-        }
-    }
-
 }
 
 tasks.named('test') {
