@@ -162,4 +162,9 @@ public class UserServiceImpl implements UserService{
         redisUtil.delete("Withdrawal:Verified:" + requestWithdrawalUserDto.getUserUuid());
     }
 
+    @Override
+    public void accountRecovery(RequestAccountRecoveryDto requestAccountRecoveryDto) {
+        userWithdrawalPendingService.recoveryAccount(requestAccountRecoveryDto.getEmail());
+    }
+
 }

@@ -9,5 +9,5 @@ public interface UserWithdrawalPendingService {
     void addWithdrawalPendingUser(RequestWithdrawalUserDto requestWithdrawalUserDto);
     void deleteWithdrawalPendingUser(String userUuid);
     List<UserWithdrawalPending> getWithdrawalPendingUsers();
-    void recoveryAccount(String userUuid);
+    void recoveryAccount(String email);
 }

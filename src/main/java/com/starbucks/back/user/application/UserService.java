@@ -16,4 +16,5 @@ public interface UserService {
     void resetPassword(RequestResetPasswordDto requestResetPasswordDto);
     void updateNickname(RequestUpdateNicknameDto requestUpdateNicknameDto);
     void withdrawalUser(RequestWithdrawalUserDto requestWithdrawalUserDto);
+    void accountRecovery(RequestAccountRecoveryDto requestAccountRecoveryDto);
 }

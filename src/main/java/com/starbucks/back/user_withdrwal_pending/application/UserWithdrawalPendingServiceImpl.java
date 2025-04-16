@@ -1,5 +1,8 @@
 package com.starbucks.back.user_withdrwal_pending.application;
 
+import com.starbucks.back.common.entity.BaseResponseStatus;
+import com.starbucks.back.common.exception.BaseException;
+import com.starbucks.back.common.util.RedisUtil;
 import com.starbucks.back.oauth.infrastructure.OauthRepository;
 import com.starbucks.back.user.dto.in.RequestWithdrawalUserDto;
 import com.starbucks.back.user.infrastructure.UserRepository;
@@ -19,6 +22,7 @@ public class UserWithdrawalPendingServiceImpl implements UserWithdrawalPendingSe
     private final UserWithdrawalPendingRepository userWithdrawalPendingRepository;
     private final UserRepository userRepository;
     private final OauthRepository oauthRepository;
+    private final RedisUtil<String> redisUtil;
 
     @Transactional
     @Override
@@ -49,8 +53,24 @@ public class UserWithdrawalPendingServiceImpl implements UserWithdrawalPendingSe
         return userWithdrawalPendingRepository.findByScheduledAt(LocalDate.now());
     }
 
-    public void recoveryAccount(String userUuid) {
+    @Transactional
+    @Override
+    public void recoveryAccount(String email) {
+        if (!"true".equals(redisUtil.get("AccountRecovery:Verified:" + email))) {
+            throw new BaseException(BaseResponseStatus.ACCOUNT_RECOVERY_NOT_VERIFIED);
+        }
 
+        final String userUuid = userRepository.findByEmail(email)
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_EMAIL))
+                .getUserUuid();
+
+        userWithdrawalPendingRepository.deleteByUserUuid(userUuid);
+        userRepository.updateStateToActiveByUserUuid(userUuid); // JPQL
+        if (oauthRepository.existsByUserUuid(userUuid)) {
+            oauthRepository.updateStateToActiveByUserUuid(userUuid); // JPQL
+        }
+
+        redisUtil.delete("AccountRecovery:Verified:" + email);
     }
 
 }
