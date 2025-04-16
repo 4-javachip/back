@@ -12,11 +12,8 @@ jobs:
     - name: Checkout source
       uses: actions/checkout@v3
 
-    - name: Clean and Generate Q-Classes
-      run: ./gradlew clean compileQuerydsl
-
     - name: Build with Gradle (skip tests)
-      run: ./gradlew build -x test --stacktrace
+      run: ./gradlew clean build -x test --stacktrace
 
     - name: Setup SSH
       run: |
