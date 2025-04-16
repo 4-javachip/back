@@ -7,13 +7,13 @@ plugins {
 group = 'com.starbucks_rebuilding'
 version = '0.0.1-SNAPSHOT'
 
+def generated = 'src/main/generated'
+
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(17)
     }
 }
-
-def generated = "$buildDir/generated/querydsl"
 
 configurations {
     compileOnly {
@@ -26,35 +26,33 @@ repositories {
 }
 
 dependencies {
-    // Spring Boot
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.boot:spring-boot-starter-validation'
-    implementation 'org.springframework.boot:spring-boot-starter-mail'
-    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
-
-    // DB
-    runtimeOnly 'com.mysql:mysql-connector-j'
-
-    // Lombok
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    runtimeOnly 'com.mysql:mysql-connector-j'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    testImplementation 'org.springframework.security:spring-security-test'
 
-    // Common utils
-    implementation 'org.apache.commons:commons-lang3'
-
-    // Swagger
-    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.7.0'
-
-    // JWT
+    // jwt
     implementation 'io.jsonwebtoken:jjwt-api:0.12.5'
     implementation 'io.jsonwebtoken:jjwt-impl:0.12.5'
     implementation 'io.jsonwebtoken:jjwt-jackson:0.12.5'
 
-    // S3
-    implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+    // Swagger
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.7.0'
+
+    // validation
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    // mail
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+
+    // redis
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
     // Querydsl
     implementation 'com.querydsl:querydsl-jpa:5.1.0:jakarta'
@@ -62,13 +60,11 @@ dependencies {
     annotationProcessor 'jakarta.annotation:jakarta.annotation-api'
     annotationProcessor 'jakarta.persistence:jakarta.persistence-api'
 
-    // Test
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-    testImplementation 'org.springframework.security:spring-security-test'
+    // AWS S3
+    implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 }
 
-// Querydsl Q 클래스 위치 추가
+// Q 클래스 생성 및 clean 시 삭제
 sourceSets {
     main {
         java {
@@ -77,24 +73,11 @@ sourceSets {
     }
 }
 
-// Q 클래스 생성 Task
-tasks.register("compileQuerydsl", JavaCompile) {
-    group = "build"
-    description = "Compile Querydsl Q-type classes"
-    source = sourceSets.main.java
-    classpath = configurations.annotationProcessor
-    destinationDirectory = file(generated)
-    options.annotationProcessorPath = configurations.annotationProcessor
+tasks.withType(JavaCompile) {
+    options.generatedSourceOutputDirectory = file(generated)
 }
 
-// compileJava 전에 Q 클래스 생성되도록 의존성 추가
-tasks.named("compileJava") {
-    dependsOn(tasks.named("compileQuerydsl"))
-    options.getGeneratedSourceOutputDirectory().set(file(generated))
-}
-
-// gradle clean 시 Q 클래스 디렉토리 삭제
-tasks.named("clean") {
+tasks.named('clean') {
     doFirst {
         delete file(generated)
     }
