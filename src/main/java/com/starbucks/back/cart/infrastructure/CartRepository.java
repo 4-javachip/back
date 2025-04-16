@@ -44,4 +44,5 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
     @Modifying
     @Query("UPDATE Cart c SET c.checked = :checked WHERE c.userUuid = :userUuid AND c.deleted = false")
     void updateAllCheckedByUserUuid(@Param("userUuid") String userUuid, @Param("checked") Boolean checked);
+
 }
