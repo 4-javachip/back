@@ -15,11 +15,8 @@ jobs:
     - name: Remove existing QClass directory
       run: rm -rf src/main/generated
 
-    - name: Generate Querydsl QClasses
-      run: ./gradlew compileQuerydsl -x test
-
     - name: Build with Gradle (skip tests)
-      run: ./gradlew build -x test --stacktrace
+      run: ./gradlew clean build -x test --stacktrace
 
     - name: Setup SSH
       run: |
