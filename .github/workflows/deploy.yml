@@ -36,11 +36,11 @@ jobs:
       run: |
         STATUS="${{ job.status }}"
         if [ "$STATUS" = "success" ]; then
-          COLOR=3066993   # green
+          COLOR=3066993
           ICON="✅"
           TITLE="Backend Deploy 성공"
         else
-          COLOR=15158332  # red
+          COLOR=15158332
           ICON="❌"
           TITLE="Backend Deploy 실패"
         fi
@@ -56,7 +56,7 @@ jobs:
           "fields": [
             {
               "name": "🔨 Commit",
-              "value": "${SHORT_MSG}}"
+              "value": "${SHORT_MSG}"
             },
             {
               "name": "👤 By",
