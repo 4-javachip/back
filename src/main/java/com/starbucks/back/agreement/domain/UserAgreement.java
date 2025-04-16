@@ -24,7 +24,7 @@ public class UserAgreement extends BaseEntity {
     @JoinColumn(name = "agreement_id", nullable = false)
     private Agreement agreement;
 
-    @Column(name = "agreed", nullable = false)
+    @Column(name = "agreed")
     private Boolean agreed;
 
     @Column(name = "user_uuid", nullable = false, length = 40)

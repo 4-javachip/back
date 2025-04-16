@@ -28,25 +28,27 @@ public class UserAgreementServiceImpl implements UserAgreementService {
     @Override
     @Transactional
     public void addUserAgreement(RequestAddUserAgreementDto requestAddUserAgreementDto) {
-        final Agreement agreement = agreementService.getAgreement(requestAddUserAgreementDto.getAgreementId());
+        if(requestAddUserAgreementDto.getAgreed() != null) {
+            final Agreement agreement = agreementService.getAgreement(requestAddUserAgreementDto.getAgreementId());
 
-        userAgreementRepository.findByUserUuidAndAgreementId(
-                    requestAddUserAgreementDto.getUserUuid(), requestAddUserAgreementDto.getAgreementId()
-                )
-                .ifPresentOrElse(
-                        userAgreement -> {
-                            final Boolean beforeAgreed = userAgreement.getAgreed();
-                            final Boolean afterAgreed = requestAddUserAgreementDto.getAgreed();
+            userAgreementRepository.findByUserUuidAndAgreementId(
+                        requestAddUserAgreementDto.getUserUuid(), requestAddUserAgreementDto.getAgreementId()
+                    )
+                    .ifPresentOrElse(
+                            userAgreement -> {
+                                final Boolean beforeAgreed = userAgreement.getAgreed();
+                                final Boolean afterAgreed = requestAddUserAgreementDto.getAgreed();
 
-                            userAgreement.updateAgreed(afterAgreed);
+                                userAgreement.updateAgreed(afterAgreed);
 
-                            // 동의 → 비동의 전환 시 배송지 전체 삭제
-                            if (beforeAgreed && !afterAgreed) {
-                                userShippingAddressService.deleteAllShippingAddressByUserUuid(requestAddUserAgreementDto.getUserUuid());
-                            }
-                        },
-                        () -> userAgreementRepository.save(requestAddUserAgreementDto.toEntity(agreement))
-                );
+                                // 동의 → 비동의 전환 시 배송지 전체 삭제
+                                if (beforeAgreed && !afterAgreed) {
+                                    userShippingAddressService.deleteAllShippingAddressByUserUuid(requestAddUserAgreementDto.getUserUuid());
+                                }
+                            },
+                            () -> userAgreementRepository.save(requestAddUserAgreementDto.toEntity(agreement))
+                    );
+            }
     }
 
     @Override

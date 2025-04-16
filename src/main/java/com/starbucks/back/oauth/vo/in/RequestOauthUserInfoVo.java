@@ -1,6 +1,5 @@
 package com.starbucks.back.oauth.vo.in;
 
-import com.starbucks.back.oauth.domain.enums.SocialProvider;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;

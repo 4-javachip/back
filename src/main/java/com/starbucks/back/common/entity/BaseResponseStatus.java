@@ -22,6 +22,7 @@ public enum BaseResponseStatus {
     SUCCESS_UPDATE_PASSWORD(HttpStatus.OK, true, 207, "비밀번호가 변경되었습니다."),
     SUCCESS_UPDATE_NICKNAME(HttpStatus.OK, true, 208, "닉네임이 변경되었습니다."),
     SUCCESS_RECENT_VIEW(HttpStatus.OK, true, 209, "최근 본 상품이 등록되었습니다."),
+    SUCCESS_WITHDRAWAL_USER(HttpStatus.OK, true, 210, "회원 탈퇴가 완료되었습니다. 2주안에 재 로그인 시 계정 복구가 가능합니다"),
 
     /**
      * 400 : security 에러
@@ -76,6 +77,9 @@ public enum BaseResponseStatus {
     PASSWORD_CHANGE_NOT_VERIFIED(HttpStatus.BAD_REQUEST, false, 2016, "비밀번호 변경 인증이 만료되었습니다. 비밀번호를 다시 입력해주세요."),
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, false, 2017, "존재하지 않는 유저입니다."),
     SIGN_UP_NOT_VERIFIED(HttpStatus.BAD_REQUEST, false, 2018, "회원가입 인증이 만료되었습니다. 이메일을 인증을 다시 요청해주세요."),
+    INVALID_PURPOSE(HttpStatus.BAD_REQUEST, false, 2019, "정의되지 않은 목적입니다."),
+    WITHDRAWAL_PENDING(HttpStatus.BAD_REQUEST, false, 2020, "탈퇴 예정 계정입니다. 로그인을 원하시면 계정 복구를 진행해주세요."),
+    WITHDRAWAL_NOT_VERIFIED(HttpStatus.BAD_REQUEST, false, 2021, "탈퇴를 위한 인증이 만료되었습니다. 비밀번호를 다시 입력해주세요."),
 
     // Agreement
     INVALID_AGREEMENT_ID(HttpStatus.BAD_REQUEST, false, 2113, "존재하지 않는 약관 ID 입니다."),
@@ -96,6 +100,7 @@ public enum BaseResponseStatus {
     INVALID_GOOGLE_TOKEN(HttpStatus.UNAUTHORIZED, false, 2202, "google access token이 유효하지 않습니다."),
     INVALID_NAVER_TOKEN(HttpStatus.UNAUTHORIZED, false, 2203, "naver access token이 유효하지 않습니다."),
     INVALID_KAKAO_TOKEN(HttpStatus.UNAUTHORIZED, false, 2204, "kakao access token이 유효하지 않습니다."),
+    NOT_SUPPORTED_OAUTH(HttpStatus.BAD_REQUEST, false, 2205, "지원하지 않는 소셜 로그인입니다."),
 
     /**
      * 3000: product service error
@@ -131,6 +136,13 @@ public enum BaseResponseStatus {
     NO_EXIST_MAIN_BANNER(HttpStatus.NOT_FOUND, false, 3017, "존재하지 않는 메인 배너입니다"),
 
     /**
+     * 3100: review service error
+     */
+    NO_EXIST_REVIEW(HttpStatus.NOT_FOUND, false, 3101, "존재하지 않는 리뷰입니다"),
+    NO_EXIST_REVIEW_PHOTO(HttpStatus.NOT_FOUND, false, 3102, "존재하지 않는 리뷰 사진입니다"),
+    TOO_MANY_REVIEW_IMAGES(HttpStatus.BAD_REQUEST, false, 3103, "리뷰 이미지는 최대 5장까지 등록 가능합니다"),
+
+    /**
      * 4000: comment service error
      */
 
@@ -164,10 +176,16 @@ public enum BaseResponseStatus {
     INVALID_CART_QUANTITY(HttpStatus.BAD_REQUEST, false, 7001, "장바구니 수량이 유효하지 않습니다"),
     DUPLICATED_CART_PRODUCT(HttpStatus.BAD_REQUEST, false, 7002, "이미 장바구니에 담긴 상품입니다"),
     NO_EXIST_CART_PRODUCT(HttpStatus.NOT_FOUND, false, 7003, "존재하지 않는 장바구니 상품입니다"),
+    // payment
+    PAYMENT_DUPLICATE_PAYMENT_UUID(HttpStatus.BAD_REQUEST, false, 7101, "이미 존재하는 주문번호입니다"),
+    PAYMENT_NO_EXIST(HttpStatus.NOT_FOUND, false, 7102, "존재하지 않는 결제입니다"),
+    PAYMENT_CONFIRM_FAIL(HttpStatus.BAD_REQUEST, false, 7103, "결제 승인에 실패했습니다"),
+    PAYMENT_AMOUNT_MISMATCH(HttpStatus.BAD_REQUEST, false, 7104, "결제 금액이 일치하지 않습니다"),
+    PAYMENT_ALREADY_DONE(HttpStatus.BAD_REQUEST, false, 7105, "이미 처리가 완료된 주문입니다"),
+    TOSS_EMPTY_RESPONSE(HttpStatus.INTERNAL_SERVER_ERROR, false, 7106, "TOSS 결제 승인 응답이 비어있습니다"),
     // shipping adress
-    NO_EXIST_USER_SHIPPING_ADDRESS(HttpStatus.NOT_FOUND, false, 7002, "해당하는 유저-배송지가 존재하지 않습니다."),
+    NO_EXIST_USER_SHIPPING_ADDRESS(HttpStatus.NOT_FOUND, false, 7202, "해당하는 유저-배송지가 존재하지 않습니다."),
     NO_EXIST_SHIPPING_ADDRESS(HttpStatus.NOT_FOUND, false, 7210, "존재하지 않는 배송지입니다");
-
     private final HttpStatusCode httpStatusCode;
     private final boolean isSuccess;
     private final int code;

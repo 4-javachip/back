@@ -1,7 +1,9 @@
 package com.starbucks.back.oauth.dto.in;
 
+import com.starbucks.back.oauth.domain.Oauth;
 import com.starbucks.back.oauth.domain.enums.SocialProvider;
 import com.starbucks.back.oauth.vo.in.RequestOauthUserInfoVo;
+import com.starbucks.back.user.domain.User;
 import lombok.Builder;
 import lombok.Getter;
 
