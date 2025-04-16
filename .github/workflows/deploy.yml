@@ -12,8 +12,14 @@ jobs:
     - name: Checkout source
       uses: actions/checkout@v3
       
+    - name: Remove existing QClass directory
+      run: rm -rf src/main/generated
+
+    - name: Generate Querydsl QClasses
+      run: ./gradlew compileQuerydsl -x test
+
     - name: Build with Gradle (skip tests)
-      run: ./gradlew clean build -x test --stacktrace
+      run: ./gradlew build -x test --stacktrace
 
     - name: Setup SSH
       run: |
