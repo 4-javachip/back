@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "review_image")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ReviewPhoto extends SoftDeletableEntity {
+public class ReviewImage extends SoftDeletableEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,19 +29,11 @@ public class ReviewPhoto extends SoftDeletableEntity {
     @Column(name = "image_url")
     private String imageUrl;
 
-    /**
-     * 리뷰 id
-     */
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "review_id", nullable = false)
-    private Review review;
-
     @Builder
-    public ReviewPhoto(Long id, String reviewUuid, String imageUrl, Review review) {
+    public ReviewImage(Long id, String reviewUuid, String imageUrl) {
         this.id = id;
         this.reviewUuid = reviewUuid;
         this.imageUrl = imageUrl;
-        this.review = review;
     }
 
 }

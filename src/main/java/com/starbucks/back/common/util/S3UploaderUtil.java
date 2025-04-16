@@ -11,6 +11,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
 @Component
@@ -20,7 +24,7 @@ public class S3UploaderUtil {
 
     private final AmazonS3 amazonS3;
 
-    @Value("{cloud.aws.s3.bucket}")
+    @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
     public String upload(MultipartFile file, String dirName) {
@@ -31,8 +35,7 @@ public class S3UploaderUtil {
             metadata.setContentLength(file.getSize());
             metadata.setContentType(file.getContentType());
 
-            PutObjectRequest request = new PutObjectRequest(bucket, fileName, file.getInputStream(), metadata)
-                    .withCannedAcl(CannedAccessControlList.PublicRead);
+            PutObjectRequest request = new PutObjectRequest(bucket, fileName, file.getInputStream(), metadata);
 
             amazonS3.putObject(request);
 
@@ -42,8 +45,9 @@ public class S3UploaderUtil {
         }
     }
 
-    public void delete(String fileUrl) {
-        String key = fileUrl.substring(fileUrl.indexOf(".com/") + 5);
+    public void delete(String fileUrl) throws URISyntaxException {
+        URI uri = new URI(fileUrl);
+        String key = URLDecoder.decode(uri.getPath().substring(1), StandardCharsets.UTF_8);
         amazonS3.deleteObject(bucket, key);
     }
 
