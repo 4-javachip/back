@@ -7,13 +7,13 @@ plugins {
 group = 'com.starbucks_rebuilding'
 version = '0.0.1-SNAPSHOT'
 
-def generated = 'src/main/generated'
-
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(17)
     }
 }
+
+def querydslDir = layout.buildDirectory.dir("generated/querydsl").get().asFile
 
 configurations {
     compileOnly {
@@ -30,29 +30,21 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     compileOnly 'org.projectlombok:lombok'
-    annotationProcessor 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'com.mysql:mysql-connector-j'
+    annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-    testImplementation 'org.springframework.security:spring-security-test'
+    implementation 'org.springframework.security:spring-security-test'
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.7.0'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
-    // jwt
+    // JWT
     implementation 'io.jsonwebtoken:jjwt-api:0.12.5'
     implementation 'io.jsonwebtoken:jjwt-impl:0.12.5'
     implementation 'io.jsonwebtoken:jjwt-jackson:0.12.5'
-
-    // Swagger
-    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.7.0'
-
-    // validation
-    implementation 'org.springframework.boot:spring-boot-starter-validation'
-
-    // mail
-    implementation 'org.springframework.boot:spring-boot-starter-mail'
-
-    // redis
-    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
     // Querydsl
     implementation 'com.querydsl:querydsl-jpa:5.1.0:jakarta'
@@ -64,25 +56,22 @@ dependencies {
     implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 }
 
-// Q 클래스 생성 및 clean 시 삭제
 sourceSets {
     main {
         java {
-            srcDirs += [generated]
+            srcDirs += "$buildDir/generated/querydsl"
         }
     }
 }
 
+tasks.register("cleanQuerydsl", Delete) {
+    delete "$buildDir/generated/querydsl"
+}
+
 tasks.withType(JavaCompile) {
-    options.generatedSourceOutputDirectory = file(generated)
+    options.annotationProcessorGeneratedSourcesDirectory = file("$buildDir/generated/querydsl")
 }
 
-tasks.named('clean') {
-    doFirst {
-        delete file(generated)
-    }
-}
-
-tasks.named('test') {
-    useJUnitPlatform()
+tasks.named("clean") {
+    dependsOn "cleanQuerydsl"
 }
