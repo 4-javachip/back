@@ -84,6 +84,7 @@ public class UserController {
         return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS_UPDATE_NICKNAME);
     }
 
+    @Operation(summary = "Withdrawal User API", description = "회원 탈퇴", tags = {"User-service"})
     @PostMapping("/withdrawal")
     public BaseResponseEntity<Void> withdrawalUser(
             @Valid @RequestBody RequestWithdrawalUserVo requestWithdrawalUserVo
@@ -93,6 +94,18 @@ public class UserController {
         );
         return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS_WITHDRAWAL_USER);
 
+    }
+
+    @Operation(summary = "Account Recovery API", description = "계정 복구", tags = {"User-service"})
+    @PostMapping("/recovery")
+    public BaseResponseEntity<Void> accountRecovery(
+            @Valid @RequestBody RequestAccountRecoveryVo requestAccountRecoveryVo
+    ) {
+        userService.accountRecovery(
+                RequestAccountRecoveryDto.from(requestAccountRecoveryVo)
+        );
+
+        return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS_ACCOUNT_RECOVERY);
     }
 
 }

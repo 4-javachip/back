@@ -81,7 +81,7 @@ public class EmailServiceImpl implements EmailService{
         } else if (requestVerificationEmailDto.getPurpose() == SendEmailPurpose.SIGN_UP) {
             redisUtil.set("SignUp:Verified:" + email, "true", 20, TimeUnit.MINUTES);
         } else {
-            userWithdrawalPendingService.recoveryAccount(userService.loadUserByEmail(email).getUserUuid());
+            redisUtil.set("AccountRecovery:Verified:" + email, "true", 10, TimeUnit.MINUTES);
         }
 
         redisUtil.delete(email);
