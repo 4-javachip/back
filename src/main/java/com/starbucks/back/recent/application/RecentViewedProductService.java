@@ -10,6 +10,7 @@ public interface RecentViewedProductService {
     /**
      * 사용자가 최근 본 상품을 등록한다.
      * Redis에 저장하며, 동일 상품이 존재할 경우 기존 상품은 삭제 후 새로 등록한다.
+     * 리스트 길이가 MAX_COUNT를 초과할 경우, 초과된 데이터는 MySQL로 이동 후 Redis에서 삭제한다.
      */
     void addRecentViewedProduct(RequestAddRecentViewedProductDto requestAddRecentViewedProductDto) throws Exception;
 

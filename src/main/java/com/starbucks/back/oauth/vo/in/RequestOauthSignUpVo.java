@@ -14,6 +14,13 @@ public class RequestOauthSignUpVo {
     private String email;
 
     @NotBlank
+    @Pattern(
+            regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/?]).{10,20}$",
+            message = "비밀번호는 영문자, 숫자, 특수문자를 포함하여 10~20자여야 합니다."
+    )
+    private String password;
+
+    @NotBlank
     private String name;
 
     @NotBlank
