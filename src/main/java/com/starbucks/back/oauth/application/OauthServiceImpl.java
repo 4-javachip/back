@@ -5,6 +5,7 @@ import com.starbucks.back.auth.dto.out.ResponseSignInDto;
 import com.starbucks.back.common.entity.BaseResponseStatus;
 import com.starbucks.back.common.exception.BaseException;
 import com.starbucks.back.common.util.JwtUtil;
+import com.starbucks.back.common.util.RedisUtil;
 import com.starbucks.back.oauth.domain.Oauth;
 import com.starbucks.back.oauth.domain.enums.OauthState;
 import com.starbucks.back.oauth.dto.in.RequestOauthSignUpDto;
@@ -14,6 +15,8 @@ import com.starbucks.back.oauth.infrastructure.OauthRepository;
 import com.starbucks.back.oauth.infrastructure.OauthUserInfoProvider;
 import com.starbucks.back.user.domain.User;
 import com.starbucks.back.user.infrastructure.UserRepository;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +24,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @Slf4j
@@ -31,6 +36,7 @@ public class OauthServiceImpl implements OauthService{
     private final UserRepository userRepository;
     private final AuthService authService;
     private final JwtUtil jwtUtil;
+    private final RedisUtil<String> redisUtil;
     private final OauthUserInfoProvider oauthUserInfoProvider;
     private final PasswordEncoder passwordEncoder;
 
@@ -49,7 +55,10 @@ public class OauthServiceImpl implements OauthService{
 
     @Transactional
     @Override
-    public ResponseSignInDto oauthSignIn (RequestOauthUserInfoDto requestOauthUserInfoDto) throws Exception {
+    public ResponseSignInDto oauthSignIn (
+            RequestOauthUserInfoDto requestOauthUserInfoDto,
+            HttpServletResponse httpServletResponse
+    ) throws Exception {
         ResponseOauthUserInfoDto dto = getOauthUserInfo(requestOauthUserInfoDto);
 
         final Oauth oauth = oauthRepository.findByProviderAndProviderUserId(
@@ -61,6 +70,17 @@ public class OauthServiceImpl implements OauthService{
         if (oauth == null) {
             final User user = userRepository.findByEmail(dto.getEmail()).orElse(null);
             if (user == null) {
+                // 가입된 유저가 없으면 회원가입 진행을 위한 랜덤 토큰 생성
+                final String token = UUID.randomUUID().toString();
+                final String redisKey = "oauth_email:" + token;
+                // Redis에 이메일 저장 (만료시간 20분)
+                redisUtil.set(redisKey, dto.getEmail(), 20, TimeUnit.MINUTES);
+                // 응답 쿠키에 토큰 담아서 클라이언트로 전송
+                Cookie cookie = new Cookie("oauth_cookie", token);
+                cookie.setMaxAge(20 * 60);  // 20분
+                cookie.setPath("/"); // 필요한 경우 경로 변경
+                httpServletResponse.addCookie(cookie);
+
                 throw new BaseException(BaseResponseStatus.NO_OAUTH_USER);
             }else {
                 oauthRepository.save(
@@ -84,16 +104,41 @@ public class OauthServiceImpl implements OauthService{
 
     @Transactional
     @Override
-    public void oauthSignUp(RequestOauthSignUpDto requestOauthSignUpDto) {
-        if(authService.existsEmail(requestOauthSignUpDto.getEmail())){
-            throw new BaseException(BaseResponseStatus.DUPLICATED_EMAIL);
-        } else if (authService.existsNickname(requestOauthSignUpDto.getNickname())){
+    public void oauthSignUp(
+            RequestOauthSignUpDto requestOauthSignUpDto,
+            String oauthCookieValue
+    ) {
+        verifyOauthToken(requestOauthSignUpDto, oauthCookieValue);
+
+        if (authService.existsNickname(requestOauthSignUpDto.getNickname())){
             throw new BaseException(BaseResponseStatus.DUPLICATED_NICKNAME);
         } else if (authService.existsPhoneNumber(requestOauthSignUpDto.getPhoneNumber())){
             throw new BaseException(BaseResponseStatus.DUPLICATED_PHONE_NUMBER);
         }
 
         authService.oauthSignUp(requestOauthSignUpDto.toEntity(passwordEncoder));
+    }
+
+    public void verifyOauthToken(
+            RequestOauthSignUpDto requestOauthSignUpDto
+            , String oauthCookieValue
+    ){
+        // oauthCookieValue 값 검증
+        if (oauthCookieValue == null || oauthCookieValue.trim().isEmpty()) {
+            throw new BaseException(BaseResponseStatus.NOT_FOUND_COOKIE);
+        }
+
+        final String redisKey = "oauth_email:" + oauthCookieValue;
+        final String storedEmail = redisUtil.get(redisKey);
+        if (storedEmail == null) {
+            throw new BaseException(BaseResponseStatus.INVALID_OAUTH_TOKEN);
+        }
+
+        // Redis에 저장된 이메일로 회원가입 DTO 업데이트
+        requestOauthSignUpDto.updateEmail(storedEmail);
+
+        // 재사용 방지를 위해 Redis에 해당 키 삭제
+        redisUtil.delete(redisKey);
     }
 
     @Override
