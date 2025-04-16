@@ -12,9 +12,6 @@ jobs:
     - name: Checkout source
       uses: actions/checkout@v3
 
-    - name: Remove existing QClass directory
-      run: rm -rf src/main/generated
-
     - name: Build with Gradle (skip tests)
       run: ./gradlew clean build -x test --stacktrace
 
