@@ -86,3 +86,14 @@ dependencies {
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+// 선택적으로 compileQuerydsl 태스크 정의 (관리용)
+tasks.register("compileQuerydsl", JavaCompile) {
+    group = "build"
+    description = "Compile the Querydsl Q-type sources"
+
+    source = sourceSets.main.java
+    classpath = sourceSets.main.compileClasspath
+    destinationDirectory.set(file(querydslDir))
+    options.annotationProcessorGeneratedSourcesDirectory = file(querydslDir)
+}
