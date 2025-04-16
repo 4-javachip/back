@@ -1,10 +1,7 @@
 package com.starbucks.back.cart.application;
 
 import com.starbucks.back.cart.domain.Cart;
-import com.starbucks.back.cart.dto.in.RequestAddCartDto;
-import com.starbucks.back.cart.dto.in.RequestDeleteCartDto;
-import com.starbucks.back.cart.dto.in.RequestUpdateCartCheckedDto;
-import com.starbucks.back.cart.dto.in.RequestUpdateCartCountDto;
+import com.starbucks.back.cart.dto.in.*;
 import com.starbucks.back.cart.dto.out.ResponseCartDto;
 import com.starbucks.back.cart.infrastructure.CartRepository;
 import com.starbucks.back.common.entity.BaseResponseStatus;
@@ -88,6 +85,19 @@ public class CartServiceImpl implements CartService{
                 )
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_CART_PRODUCT));
         cartRepository.save(requestUpdateCartCheckedDto.updateCart(cart));
+    }
+
+    /**
+     * 장바구니 체크박스 전체 수정 by userUuid
+     */
+    @Transactional
+    @Override
+    public void updateAllCartChecked(RequestUpdateAllCartCheckedDto requestUpdateAllCartCheckedDto) {
+
+        cartRepository.updateAllCheckedByUserUuid(
+                requestUpdateAllCartCheckedDto.getUserUuid(),
+                requestUpdateAllCartCheckedDto.getChecked()
+        );
     }
 
     /**

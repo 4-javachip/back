@@ -23,10 +23,10 @@ public class CartController {
     private final SecurityUtil securityUtil;
 
     /**
-     * 장바구니 조회(userUuid)
+     * 장바구니 조회 by userUuid
      */
     @GetMapping("/user")
-    @Operation(summary = "GetCartByUserUuid API", description = "GetCartByUserUuid API 입니다.", tags = {"Cart-Service"})
+    @Operation(summary = "GetCartByUserUuid API", description = "장바구니 전체 조회 by userUuid", tags = {"Cart-Service"})
     public BaseResponseEntity<List<ResponseCartVo>> getCart() {
         String userUuid = securityUtil.getCurrentUserUuid();
 
@@ -41,7 +41,7 @@ public class CartController {
      * 장바구니 생성
      */
     @PostMapping
-    @Operation(summary = "CreateCart API", description = "CreateCart API 입니다.", tags = {"Cart-Service"})
+    @Operation(summary = "CreateCart API", description = "장바구니 생성", tags = {"Cart-Service"})
     public BaseResponseEntity<Void> addCart(@RequestBody RequestAddCartVo requestAddCartVo) {
         String userUuid = securityUtil.getCurrentUserUuid();
 
@@ -51,10 +51,10 @@ public class CartController {
     }
 
     /**
-     * 장바구니 수량 수정
+     * 장바구니 수량 수정 by UserUuid, cartUuid
      */
     @PutMapping("/quantity")
-    @Operation(summary = "UpdateCart API", description = "UpdateCart API 입니다.", tags = {"Cart-Service"})
+    @Operation(summary = "UpdateCart API", description = "장바구니 수량 수정 by cartUuid", tags = {"Cart-Service"})
     public BaseResponseEntity<Void> updateCart(
             @RequestBody RequestUpdateCartCountVo requestUpdateCartCountVo
     ) {
@@ -70,7 +70,7 @@ public class CartController {
      * 장바구니 체크박스 수정 by UserUuid, cartUuid
      */
     @PutMapping("/checked")
-    @Operation(summary = "UpdateCartChecked API", description = "UpdateCartChecked API 입니다.", tags = {"Cart-Service"})
+    @Operation(summary = "UpdateCartChecked API", description = "장바구니 체크박스 수정 by cartUuid", tags = {"Cart-Service"})
     public BaseResponseEntity<Void> updateCartChecked(
             @RequestBody RequestUpdateCartCheckedVo requestUpdateCartCheckedVo
     ) {
@@ -85,10 +85,25 @@ public class CartController {
     }
 
     /**
+     * 장바구니 체크박스 전체 수정 by UserUuid
+     */
+    @PutMapping("/checked/all")
+    @Operation(summary = "UpdateAllCartChecked API", description = "장바구니 체크박스 전체 수정 by userUuid", tags = {"Cart-Service"})
+    public BaseResponseEntity<Void> updateAllCartChecked(
+            @RequestBody RequestUpdateAllCartCheckedVo requestUpdateAllCartCheckedVo
+    ) {
+        String userUuid = securityUtil.getCurrentUserUuid();
+
+        cartService.updateAllCartChecked(RequestUpdateAllCartCheckedDto
+                .from(userUuid, requestUpdateAllCartCheckedVo.getChecked()));
+        return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS);
+    }
+
+    /**
      * 장바구니 삭제 by UserUuid, cartUuid
      */
     @DeleteMapping
-    @Operation(summary = "DeleteCart API", description = "DeleteCart API 입니다.", tags = {"Cart-Service"})
+    @Operation(summary = "DeleteCart API", description = "장바구니 삭제 by userUuid, cartUuid", tags = {"Cart-Service"})
     public BaseResponseEntity<Void> deleteCart(
             @RequestBody RequestDeleteCartVo requestCartVo
     ) {
