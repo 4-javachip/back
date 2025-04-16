@@ -22,7 +22,8 @@ public enum BaseResponseStatus {
     SUCCESS_UPDATE_PASSWORD(HttpStatus.OK, true, 207, "비밀번호가 변경되었습니다."),
     SUCCESS_UPDATE_NICKNAME(HttpStatus.OK, true, 208, "닉네임이 변경되었습니다."),
     SUCCESS_RECENT_VIEW(HttpStatus.OK, true, 209, "최근 본 상품이 등록되었습니다."),
-    SUCCESS_WITHDRAWAL_USER(HttpStatus.OK, true, 210, "회원 탈퇴가 완료되었습니다. 2주안에 재 로그인 시 계정 복구가 가능합니다"),
+    SUCCESS_WITHDRAWAL_USER(HttpStatus.OK, true, 210, "회원 탈퇴가 완료되었습니다. 2주안에 재 로그인 시 계정 복구가 가능합니다."),
+    SUCCESS_ACCOUNT_RECOVERY(HttpStatus.OK, true, 211, "계정 복구가 완료되었습니다. 로그인 해주세요."),
 
     /**
      * 400 : security 에러
@@ -80,6 +81,7 @@ public enum BaseResponseStatus {
     INVALID_PURPOSE(HttpStatus.BAD_REQUEST, false, 2019, "정의되지 않은 목적입니다."),
     WITHDRAWAL_PENDING(HttpStatus.BAD_REQUEST, false, 2020, "탈퇴 예정 계정입니다. 로그인을 원하시면 계정 복구를 진행해주세요."),
     WITHDRAWAL_NOT_VERIFIED(HttpStatus.BAD_REQUEST, false, 2021, "탈퇴를 위한 인증이 만료되었습니다. 비밀번호를 다시 입력해주세요."),
+    ACCOUNT_RECOVERY_NOT_VERIFIED(HttpStatus.BAD_REQUEST, false, 2022, "계정 복구 인증이 만료되었습니다. 이메일을 인증을 다시 요청해주세요."),
 
     // Agreement
     INVALID_AGREEMENT_ID(HttpStatus.BAD_REQUEST, false, 2113, "존재하지 않는 약관 ID 입니다."),
