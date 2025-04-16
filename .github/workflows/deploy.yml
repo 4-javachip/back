@@ -11,12 +11,15 @@ jobs:
     steps:
     - name: Checkout source
       uses: actions/checkout@v3
-      
+
     - name: Remove existing QClass directory
       run: rm -rf src/main/generated
 
+    - name: Generate QClass only (compileJava)
+      run: ./gradlew compileJava -x test
+
     - name: Build with Gradle (skip tests)
-      run: ./gradlew clean build -x test --stacktrace
+      run: ./gradlew build -x test --stacktrace
 
     - name: Setup SSH
       run: |
@@ -39,11 +42,11 @@ jobs:
       run: |
         STATUS="${{ job.status }}"
         if [ "$STATUS" = "success" ]; then
-          COLOR=3066993   # green
+          COLOR=3066993
           ICON="✅"
           TITLE="Backend Deploy 성공"
         else
-          COLOR=15158332  # red
+          COLOR=15158332
           ICON="❌"
           TITLE="Backend Deploy 실패"
         fi
@@ -59,7 +62,7 @@ jobs:
           "fields": [
             {
               "name": "🔨 Commit",
-              "value": "${SHORT_MSG}}"
+              "value": "${SHORT_MSG}"
             },
             {
               "name": "👤 By",
