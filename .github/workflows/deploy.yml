@@ -15,9 +15,6 @@ jobs:
     - name: Remove existing QClass directory
       run: rm -rf src/main/generated
 
-    - name: Generate QClass only (compileJava)
-      run: ./gradlew compileJava -x test
-
     - name: Build with Gradle (skip tests)
       run: ./gradlew build -x test --stacktrace
 
