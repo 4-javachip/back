@@ -27,8 +27,7 @@ public interface ProductCustomRepository {
             String keyword,
             Long lastId,
             Integer pageSize,
-            Integer page,
-            Set<String> bestUuids
+            Integer page
     );
 
 }
