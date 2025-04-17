@@ -5,8 +5,8 @@ import lombok.Getter;
 @Getter
 public class RequestPaymentCreateVo {
 
-    private Integer amount;
+    private Integer totalOriginPrice;
+    private Integer totalPurchasePrice;
     private String method;
     private String orderName;
-    private Integer saleAmount;
 }

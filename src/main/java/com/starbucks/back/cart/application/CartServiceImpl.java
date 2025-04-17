@@ -115,6 +115,17 @@ public class CartServiceImpl implements CartService{
     }
 
     /**
+     * 장바구니 리스트 조회 by cartUuidList
+     */
+    @Override
+    public List<ResponseCartDto> getCartListByCartUuidList(List<String> cartUuidList) {
+        return cartRepository.findAllByCartUuidInAndDeletedFalse(cartUuidList)
+                .stream()
+                .map(ResponseCartDto::from)
+                .toList();
+    }
+
+    /**
      * 장바구니 전체 삭제 by userUuid
      */
     @Transactional

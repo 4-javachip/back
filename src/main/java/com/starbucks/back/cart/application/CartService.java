@@ -13,5 +13,7 @@ public interface CartService {
     void updateCartChecked(RequestUpdateCartCheckedDto requestUpdateCartCheckedDto);
     void updateAllCartChecked(RequestUpdateAllCartCheckedDto requestUpdateAllCartCheckedDto);
     void deleteCart(RequestDeleteCartDto requestDeleteCartDto);
+    List<ResponseCartDto> getCartListByCartUuidList(List<String> cartUuidList);
     void deleteAllCart(String userUuid);
+ 
 }
