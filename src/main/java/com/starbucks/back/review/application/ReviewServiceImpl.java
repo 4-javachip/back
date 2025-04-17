@@ -5,12 +5,16 @@ import com.starbucks.back.common.exception.BaseException;
 import com.starbucks.back.review.domain.Review;
 import com.starbucks.back.review.dto.in.RequestAddReviewDto;
 import com.starbucks.back.review.dto.in.RequestDeleteReviewDto;
+import com.starbucks.back.review.dto.in.RequestReviewPageDto;
 import com.starbucks.back.review.dto.in.RequestUpdateReviewDto;
 import com.starbucks.back.review.dto.out.ResponseReviewDto;
 import com.starbucks.back.review.dto.out.ResponseReviewSummaryDto;
 import com.starbucks.back.review.infrastructure.ReviewRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -55,15 +59,15 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     /**
-     * 상품 uuid로 리뷰 조회
-     * @param productUuid
+     * 상품 uuid로 리뷰 조회 (페이징)
+     * @param requestReviewPageDto
      */
     @Override
-    public List<ResponseReviewDto> getReviewByProductUuid(String productUuid) {
-        return reviewRepository.findByProductUuidAndDeletedFalse(productUuid)
-                .stream()
-                .map(ResponseReviewDto::from)
-                .toList();
+    public Page<ResponseReviewDto> getReviewByProductUuidWithPagination(RequestReviewPageDto requestReviewPageDto) {
+        Pageable pageable = PageRequest.of(requestReviewPageDto.getPage(), requestReviewPageDto.getPageSize());
+        Page<Review> page = reviewRepository.findByProductUuidAndDeletedFalseWithPagination(
+                requestReviewPageDto.getProductUuid(), requestReviewPageDto.getReviewSortType(), pageable);
+        return page.map(ResponseReviewDto::from);
     }
 
     /**
