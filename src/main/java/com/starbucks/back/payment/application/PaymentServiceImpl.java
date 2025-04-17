@@ -11,6 +11,7 @@ import com.starbucks.back.payment.dto.out.ResponsePaymentCreateDto;
 import com.starbucks.back.payment.infrastructure.PaymentRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,7 @@ import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class PaymentServiceImpl implements PaymentService{
@@ -60,7 +61,7 @@ public class PaymentServiceImpl implements PaymentService{
         Map<String, Object> body = new HashMap<>();
 
         body.put("orderId", payment.getPaymentUuid());  // 결제 고유 ID
-        body.put("amount", requestPaymentCreateDto.getTotalAmount());    // 실제 결제 금액
+        body.put("amount", requestPaymentCreateDto.getTotalPurchasePrice());    // 실제 결제 금액
         body.put("orderName", requestPaymentCreateDto.getOrderName());
         body.put("method", requestPaymentCreateDto.getMethod());
         body.put("successUrl", successUrl);
@@ -80,7 +81,7 @@ public class PaymentServiceImpl implements PaymentService{
         System.out.println("📦 Toss 응답 전체: " + response.getBody());
 
         Map responseBody = response.getBody();
-
+        log.info("responseBody: {}", responseBody);
         // 결제 생성 결과 반환
         return ResponsePaymentCreateDto.builder()
                         .checkoutUrl(((Map<String, String>) responseBody.get("checkout")).get("url"))
@@ -102,7 +103,7 @@ public class PaymentServiceImpl implements PaymentService{
         Map<String, Object> body = new HashMap<>();
         body.put("paymentKey", requestPaymentConfirmDto.getPaymentCode());
         body.put("orderId", requestPaymentConfirmDto.getPaymentUuid());
-        body.put("amount", requestPaymentConfirmDto.getTotalAmount());
+        body.put("amount", requestPaymentConfirmDto.getTotalPurchasePrice());
 
         // Basic 인증 헤더
         String auth = secretKey + ":";
@@ -151,14 +152,17 @@ public class PaymentServiceImpl implements PaymentService{
             if (failure != null) {
 //                String failureCode = failure.get("code");
                 String failReason = failure.get("message");
+                System.out.println("결제 실패 사유(toss): " + failReason);
 
                 paymentRepository.save(requestPaymentConfirmDto.updateFailPayment(
                         payment, failReason
                 ));
                 throw new BaseException(BaseResponseStatus.PAYMENT_CONFIRM_FAIL);
             }
+
             // 금액 불일치 시
-            if (!Objects.equals(amount, payment.getTotalAmount())) {
+            if (!Objects.equals(amount, payment.getTotalPurchasePrice())) {
+                System.out.println("결제 금액 불일치: " + amount + " / " + payment.getTotalPurchasePrice());
                 throw new BaseException(BaseResponseStatus.PAYMENT_AMOUNT_MISMATCH);
             }
 
@@ -171,7 +175,7 @@ public class PaymentServiceImpl implements PaymentService{
         } catch (Exception e) {
             // 결제 승인 실패 시 처리
             System.out.println("❌ 결제 승인 실패: " + e.getMessage());
-            throw new BaseException(BaseResponseStatus.PAYMENT_CONFIRM_FAIL);
+            throw e;
         }
 
 

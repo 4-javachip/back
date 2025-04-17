@@ -31,11 +31,11 @@ public class Payment {
     @Column(name = "coupon_uuid", length = 50)
     private String couponUuid;
 
-    @Column(name = "sale_amount", nullable = false)
-    private Integer saleAmount;
+    @Column(name = "total_origin_price", nullable = false)
+    private Integer totalOriginPrice;
 
-    @Column(name = "total_amount", nullable = false)
-    private Integer totalAmount;
+    @Column(name = "total_purchase_price", nullable = false)
+    private Integer totalPurchasePrice;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false, length = 20)
@@ -61,10 +61,9 @@ public class Payment {
             Long id,
             String userUuid,
             String paymentUuid,
+            Integer totalOriginPrice,
+            Integer totalPurchasePrice,
             String paymentCode,
-            String couponUuid,
-            Integer saleAmount,
-            Integer totalAmount,
             PaymentStatus status,
             String pgProvider,
             String pgTid,
@@ -75,10 +74,9 @@ public class Payment {
         this.id = id;
         this.userUuid = userUuid;
         this.paymentUuid = paymentUuid;
+        this.totalOriginPrice = totalOriginPrice;
+        this.totalPurchasePrice = totalPurchasePrice;
         this.paymentCode = paymentCode;
-        this.couponUuid = couponUuid;
-        this.saleAmount = saleAmount;
-        this.totalAmount = totalAmount;
         this.status = status;
         this.pgProvider = pgProvider;
         this.pgTid = pgTid;
