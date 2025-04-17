@@ -18,5 +18,4 @@ public interface OauthRepository extends JpaRepository<Oauth, Long> {
     @Modifying
     @Query("UPDATE Oauth o SET o.state = com.starbucks.back.oauth.domain.enums.OauthState.ACTIVE WHERE o.userUuid = :userUuid")
     void updateStateToActiveByUserUuid(@Param("userUuid") String userUuid);
-
 }
