@@ -32,4 +32,10 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
      * @return
      */
     Optional<Cart> findByUserUuidAndCartUuid(String cartUuid, String userUuid);
+
+    /**
+     * 장바구니 리스트 조회 by cartUuidList
+     * @return
+     */
+    List<Cart> findAllByCartUuidInAndDeletedFalse(List<String> cartUuidList);
 }

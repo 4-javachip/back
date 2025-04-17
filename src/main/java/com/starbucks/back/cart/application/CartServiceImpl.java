@@ -103,4 +103,15 @@ public class CartServiceImpl implements CartService{
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_CART_PRODUCT));
         cart.softDelete();
     }
+
+    /**
+     * 장바구니 리스트 조회 by cartUuidList
+     */
+    @Override
+    public List<ResponseCartDto> getCartListByCartUuidList(List<String> cartUuidList) {
+        return cartRepository.findAllByCartUuidInAndDeletedFalse(cartUuidList)
+                .stream()
+                .map(ResponseCartDto::from)
+                .toList();
+    }
 }
