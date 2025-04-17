@@ -77,6 +77,8 @@ public class OauthServiceImpl implements OauthService{
                 redisUtil.set(redisKey, dto.getEmail(), 20, TimeUnit.MINUTES);
                 // 응답 쿠키에 토큰 담아서 클라이언트로 전송
                 Cookie cookie = new Cookie("oauth_cookie", token);
+                cookie.setHttpOnly(true);
+                cookie.setSecure(false); // 운영환경에서만 true로 설정
                 cookie.setMaxAge(20 * 60);  // 20분
                 cookie.setPath("/"); // 필요한 경우 경로 변경
                 httpServletResponse.addCookie(cookie);
