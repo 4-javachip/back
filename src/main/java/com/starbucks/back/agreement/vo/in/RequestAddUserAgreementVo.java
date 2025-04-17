@@ -10,6 +10,5 @@ public class RequestAddUserAgreementVo {
     @NotNull
     private Long agreementId;
 
-    @NotNull
     private Boolean agreed;
 }

@@ -1,6 +1,6 @@
 package com.starbucks.back.user.dto.in;
 
-import com.starbucks.back.user.dto.enums.EmailVerificationPurpose;
+import com.starbucks.back.user.dto.enums.SendEmailPurpose;
 import com.starbucks.back.user.vo.in.RequestVerificationEmailVo;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,10 +11,10 @@ import lombok.NoArgsConstructor;
 public class RequestVerificationEmailDto {
     private String email;
     private String verificationCode;
-    private EmailVerificationPurpose purpose;
+    private SendEmailPurpose purpose;
 
     @Builder
-    public RequestVerificationEmailDto(String email, String verificationCode, EmailVerificationPurpose purpose) {
+    public RequestVerificationEmailDto(String email, String verificationCode, SendEmailPurpose purpose) {
         this.email = email;
         this.verificationCode = verificationCode;
         this.purpose = purpose;
@@ -24,7 +24,7 @@ public class RequestVerificationEmailDto {
         return RequestVerificationEmailDto.builder()
                 .email(requestVerificationEmailVo.getEmail())
                 .verificationCode(requestVerificationEmailVo.getVerificationCode())
-                .purpose(EmailVerificationPurpose.valueOf(requestVerificationEmailVo.getPurpose().toUpperCase()))
+                .purpose(SendEmailPurpose.valueOf(requestVerificationEmailVo.getPurpose().toUpperCase()))
                 .build();
     }
 }

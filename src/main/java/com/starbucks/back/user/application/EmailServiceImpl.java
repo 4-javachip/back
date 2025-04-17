@@ -3,11 +3,12 @@ package com.starbucks.back.user.application;
 import com.starbucks.back.common.entity.BaseResponseStatus;
 import com.starbucks.back.common.exception.BaseException;
 import com.starbucks.back.common.util.RedisUtil;
-import com.starbucks.back.user.dto.enums.EmailVerificationPurpose;
+import com.starbucks.back.user.dto.enums.SendEmailPurpose;
 import com.starbucks.back.user.dto.in.RequestSendEmailCodeDto;
 import com.starbucks.back.user.dto.in.RequestVerificationEmailDto;
 import com.starbucks.back.user.infrastructure.EmailSender;
 import com.starbucks.back.user.infrastructure.template.EmailTemplateBuilder;
+import com.starbucks.back.user_withdrwal_pending.application.UserWithdrawalPendingService;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;
@@ -21,10 +22,11 @@ public class EmailServiceImpl implements EmailService{
     private final EmailSender emailSender;
     private final EmailTemplateBuilder templateBuilder;
     private final UserService userService;
+    private final UserWithdrawalPendingService userWithdrawalPendingService;
 
     @Override
     public void sendEmailCode(RequestSendEmailCodeDto requestSendEmailCodeDto) {
-        if (requestSendEmailCodeDto.getPurpose() == EmailVerificationPurpose.PASSWORD_RESET &&
+        if (requestSendEmailCodeDto.getPurpose() == SendEmailPurpose.PASSWORD_RESET &&
                 userService.loadUserByEmail(requestSendEmailCodeDto.getEmail()) == null
         ) {
             throw new BaseException(BaseResponseStatus.NOT_FOUND_EMAIL);
@@ -42,8 +44,16 @@ public class EmailServiceImpl implements EmailService{
         redisUtil.set(email, code, 5L, TimeUnit.MINUTES);
         redisUtil.set(limitKey, "3", 3L, TimeUnit.MINUTES);
 
-        emailSender.send(email, templateBuilder.buildVerificationEmail(code));
-        redisUtil.set("Fail:EmailVerify:" + email, "0", 5L, TimeUnit.MINUTES);
+        if (requestSendEmailCodeDto.getPurpose() == SendEmailPurpose.SIGN_UP |
+        requestSendEmailCodeDto.getPurpose() == SendEmailPurpose.PASSWORD_RESET) {
+            emailSender.send(email, "Starbucks 이메일 인증", templateBuilder.buildVerificationEmail("이메일 인증을", code));
+        }
+        else {
+            emailSender.send(email, "Starbucks 계정 복구 인증", templateBuilder.buildVerificationEmail("계정 복구를", code));
+        }
+
+        redisUtil.set("EmailVerify:" + email, "0", 5L, TimeUnit.MINUTES);
+
     }
 
     @Override
@@ -56,7 +66,7 @@ public class EmailServiceImpl implements EmailService{
         }
 
         if (!redisCode.equals(requestVerificationEmailDto.getVerificationCode())) {
-            String failKey = "Fail:EmailVerify:" + email;
+            String failKey = "EmailVerify:" + email;
 
             if (redisUtil.increase(failKey, 5L, TimeUnit.MINUTES) >= 5) {
                 redisUtil.delete(email);
@@ -66,13 +76,15 @@ public class EmailServiceImpl implements EmailService{
             throw new BaseException(BaseResponseStatus.INVALID_EMAIL_CODE);
         }
 
-        if (requestVerificationEmailDto.getPurpose() == EmailVerificationPurpose.PASSWORD_RESET) {
+        if (requestVerificationEmailDto.getPurpose() == SendEmailPurpose.PASSWORD_RESET) {
             redisUtil.set("PwdReset:Verified:" + email, "true", 10, TimeUnit.MINUTES);
-        } else if (requestVerificationEmailDto.getPurpose() == EmailVerificationPurpose.SIGN_UP) {
+        } else if (requestVerificationEmailDto.getPurpose() == SendEmailPurpose.SIGN_UP) {
             redisUtil.set("SignUp:Verified:" + email, "true", 20, TimeUnit.MINUTES);
+        } else {
+            redisUtil.set("AccountRecovery:Verified:" + email, "true", 10, TimeUnit.MINUTES);
         }
 
         redisUtil.delete(email);
-        redisUtil.delete("Fail:EmailVerify:" + email);
+        redisUtil.delete("EmailVerify:" + email);
     }
 }

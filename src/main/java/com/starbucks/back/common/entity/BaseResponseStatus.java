@@ -22,6 +22,9 @@ public enum BaseResponseStatus {
     SUCCESS_UPDATE_PASSWORD(HttpStatus.OK, true, 207, "비밀번호가 변경되었습니다."),
     SUCCESS_UPDATE_NICKNAME(HttpStatus.OK, true, 208, "닉네임이 변경되었습니다."),
     SUCCESS_RECENT_VIEW(HttpStatus.OK, true, 209, "최근 본 상품이 등록되었습니다."),
+    SUCCESS_WITHDRAWAL_USER(HttpStatus.OK, true, 210, "회원 탈퇴가 완료되었습니다. 2주안에 재 로그인 시 계정 복구가 가능합니다."),
+    SUCCESS_ACCOUNT_RECOVERY(HttpStatus.OK, true, 211, "계정 복구가 완료되었습니다. 로그인 해주세요."),
+    NO_OAUTH_USER(HttpStatus.OK, true, 2200, "소셜 계정이 존재하지 않습니다. 추가 정보를 입력해 회원가입 해주세요."),
 
     /**
      * 400 : security 에러
@@ -76,6 +79,10 @@ public enum BaseResponseStatus {
     PASSWORD_CHANGE_NOT_VERIFIED(HttpStatus.BAD_REQUEST, false, 2016, "비밀번호 변경 인증이 만료되었습니다. 비밀번호를 다시 입력해주세요."),
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, false, 2017, "존재하지 않는 유저입니다."),
     SIGN_UP_NOT_VERIFIED(HttpStatus.BAD_REQUEST, false, 2018, "회원가입 인증이 만료되었습니다. 이메일을 인증을 다시 요청해주세요."),
+    INVALID_PURPOSE(HttpStatus.BAD_REQUEST, false, 2019, "정의되지 않은 목적입니다."),
+    WITHDRAWAL_PENDING(HttpStatus.BAD_REQUEST, false, 2020, "탈퇴 예정 계정입니다. 로그인을 원하시면 계정 복구를 진행해주세요."),
+    WITHDRAWAL_NOT_VERIFIED(HttpStatus.BAD_REQUEST, false, 2021, "탈퇴를 위한 인증이 만료되었습니다. 비밀번호를 다시 입력해주세요."),
+    ACCOUNT_RECOVERY_NOT_VERIFIED(HttpStatus.BAD_REQUEST, false, 2022, "계정 복구 인증이 만료되었습니다. 이메일을 인증을 다시 요청해주세요."),
 
     // Agreement
     INVALID_AGREEMENT_ID(HttpStatus.BAD_REQUEST, false, 2113, "존재하지 않는 약관 ID 입니다."),
@@ -91,11 +98,14 @@ public enum BaseResponseStatus {
     NOT_FOUND_EMAIL(HttpStatus.NOT_FOUND, false, 2121, "가입되지 않은 이메일입니다."),
 
     // oauth
-    NO_OAUTH_USER(HttpStatus.NOT_FOUND, false, 2200, "소셜 계정이 존재하지 않습니다. 추가 정보를 입력해 회원가입 해주세요."),
+
     SOCIAL_USER_PASSWORD_CHANGE(HttpStatus.BAD_REQUEST, false, 2201, "소셜로 가입한 유저는 비밀번호가 존재하지 않습니다."),
     INVALID_GOOGLE_TOKEN(HttpStatus.UNAUTHORIZED, false, 2202, "google access token이 유효하지 않습니다."),
     INVALID_NAVER_TOKEN(HttpStatus.UNAUTHORIZED, false, 2203, "naver access token이 유효하지 않습니다."),
     INVALID_KAKAO_TOKEN(HttpStatus.UNAUTHORIZED, false, 2204, "kakao access token이 유효하지 않습니다."),
+    NOT_SUPPORTED_OAUTH(HttpStatus.BAD_REQUEST, false, 2205, "지원하지 않는 소셜 로그인입니다."),
+    NOT_FOUND_COOKIE(HttpStatus.BAD_REQUEST, false, 2206, "쿠키가 존재하지 않습니다."),
+    INVALID_OAUTH_TOKEN(HttpStatus.BAD_REQUEST, false, 2207, "유효하지 않은 소셜 회원가입 토큰입니다."),
 
     /**
      * 3000: product service error
@@ -129,6 +139,13 @@ public enum BaseResponseStatus {
     NO_EXIST_EVENT(HttpStatus.NOT_FOUND, false, 3016, "존재하지 않는 기획전입니다"),
 
     NO_EXIST_MAIN_BANNER(HttpStatus.NOT_FOUND, false, 3017, "존재하지 않는 메인 배너입니다"),
+
+    /**
+     * 3100: review service error
+     */
+    NO_EXIST_REVIEW(HttpStatus.NOT_FOUND, false, 3101, "존재하지 않는 리뷰입니다"),
+    NO_EXIST_REVIEW_PHOTO(HttpStatus.NOT_FOUND, false, 3102, "존재하지 않는 리뷰 사진입니다"),
+    TOO_MANY_REVIEW_IMAGES(HttpStatus.BAD_REQUEST, false, 3103, "리뷰 이미지는 최대 5장까지 등록 가능합니다"),
 
     /**
      * 4000: comment service error

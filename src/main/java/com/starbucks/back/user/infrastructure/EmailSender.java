@@ -18,7 +18,7 @@ public class EmailSender {
 
     private final JavaMailSender javaMailSender;
 
-    public void send(String to, String html) {
+    public void send(String to, String subject, String html) {
         MimeMessage message = javaMailSender.createMimeMessage();
         try {
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
@@ -27,7 +27,7 @@ public class EmailSender {
                     "스타벅스 스토어",
                     "UTF-8"));
             helper.setTo(to);
-            helper.setSubject("Starbucks 이메일 인증");
+            helper.setSubject(subject);
             helper.setText(html, true);
             javaMailSender.send(message);
         } catch (MessagingException | UnsupportedEncodingException e ) {

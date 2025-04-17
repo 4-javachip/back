@@ -56,12 +56,6 @@ public class Review extends SoftDeletableEntity {
     @Column(name = "rating", nullable = false)
     private Integer rating;
 
-    /**
-     * 리뷰 사진 리스트
-     */
-    @OneToMany(mappedBy = "review")
-    private List<ReviewPhoto> photoList;
-
     @Builder
     public  Review(Long id, String userUuid, String productUuid, String reviewUuid,
                    String title, String content, Integer rating) {
@@ -72,7 +66,6 @@ public class Review extends SoftDeletableEntity {
         this.title = title;
         this.content = content;
         this.rating = rating;
-        this.photoList = new ArrayList<>();
     }
 
 }

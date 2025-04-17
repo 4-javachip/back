@@ -3,31 +3,39 @@ package com.starbucks.back.user.application;
 import com.starbucks.back.common.entity.BaseResponseStatus;
 import com.starbucks.back.common.exception.BaseException;
 import com.starbucks.back.common.util.RedisUtil;
+import com.starbucks.back.oauth.application.OauthService;
 import com.starbucks.back.user.domain.User;
-import com.starbucks.back.user.domain.enums.SignUpType;
-import com.starbucks.back.user.dto.in.RequestMatchPasswordDto;
-import com.starbucks.back.user.dto.in.RequestResetPasswordDto;
-import com.starbucks.back.user.dto.in.RequestUpdateNicknameDto;
-import com.starbucks.back.user.dto.in.RequestUpdatePasswordDto;
+import com.starbucks.back.user.domain.enums.UserState;
+import com.starbucks.back.user.dto.in.*;
 import com.starbucks.back.user.dto.out.ResponseGetUserInfoDto;
 import com.starbucks.back.user.infrastructure.UserRepository;
+import com.starbucks.back.user_withdrwal_pending.application.UserWithdrawalPendingService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 import static com.starbucks.back.common.entity.BaseResponseStatus.*;
 
 
 @Service
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 public class UserServiceImpl implements UserService{
     private final UserRepository userRepository;
+    private final UserWithdrawalPendingService userWithdrawalPendingService;
+    private final OauthService oauthService;
     private final RedisUtil<String> redisUtil;
     private final PasswordEncoder passwordEncoder;
+
+    public UserServiceImpl(UserRepository userRepository, UserWithdrawalPendingService userWithdrawalPendingService, OauthService oauthService, RedisUtil<String> redisUtil, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.userWithdrawalPendingService = userWithdrawalPendingService;
+        this.oauthService = oauthService;
+        this.redisUtil = redisUtil;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String userUuid) {
@@ -48,21 +56,29 @@ public class UserServiceImpl implements UserService{
         );
     }
 
+    @Transactional
     @Override
     public void authenticateCurrentPassword(RequestMatchPasswordDto requestMatchPasswordDto) {
         User user = userRepository.findByUserUuid(requestMatchPasswordDto.getUserUuid())
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_USER));
 
-        if(user.getType() == SignUpType.SOCIAL) {
-            throw new BaseException(BaseResponseStatus.SOCIAL_USER_PASSWORD_CHANGE);
-        }
         if (!passwordEncoder.matches(requestMatchPasswordDto.getCurrentPassword(), user.getPassword())) {
             throw new BaseException(BaseResponseStatus.PASSWORD_MATCH_FAILED);
         }
 
-        redisUtil.set("PwdChange:Verified:" + requestMatchPasswordDto.getUserUuid(), "true", 10, TimeUnit.MINUTES);
+        switch (requestMatchPasswordDto.getPurpose()) {
+            case PASSWORD_UPDATE:
+                redisUtil.set("PwdChange:Verified:" + requestMatchPasswordDto.getUserUuid(), "true", 10, TimeUnit.MINUTES);
+                break;
+            case WITHDRAWAL:
+                redisUtil.set("Withdrawal:Verified:" + requestMatchPasswordDto.getUserUuid(), "true", 5, TimeUnit.MINUTES);
+                break;
+            default:
+                throw new BaseException(BaseResponseStatus.INVALID_PURPOSE);
+        }
     }
 
+    @Transactional
     @Override
     public void updatePassword(RequestUpdatePasswordDto requestUpdatePasswordDto) {
         if (!requestUpdatePasswordDto.getNewPassword()
@@ -88,6 +104,7 @@ public class UserServiceImpl implements UserService{
         redisUtil.delete("PwdChange:Verified:" + requestUpdatePasswordDto.getUserUuid());
     }
 
+    @Transactional
     @Override
     public void resetPassword(RequestResetPasswordDto requestResetPasswordDto) {
         if (!requestResetPasswordDto.getNewPassword()
@@ -113,6 +130,7 @@ public class UserServiceImpl implements UserService{
         redisUtil.delete("PwdChange:Verified:" + requestResetPasswordDto.getEmail());
     }
 
+    @Transactional
     @Override
     public void updateNickname(RequestUpdateNicknameDto requestUpdateNicknameDto) {
         userRepository.save(
@@ -122,6 +140,31 @@ public class UserServiceImpl implements UserService{
                         requestUpdateNicknameDto
                 )
         );
+    }
+
+    @Transactional
+    @Override
+    public void withdrawalUser(RequestWithdrawalUserDto requestWithdrawalUserDto) {
+        User user = userRepository.findByUserUuid(requestWithdrawalUserDto.getUserUuid())
+                .orElseThrow(() -> new BaseException(USER_NOT_FOUND));
+
+        if (!"true".equals(redisUtil.get("Withdrawal:Verified:" + requestWithdrawalUserDto.getUserUuid()))) {
+            throw new BaseException(BaseResponseStatus.WITHDRAWAL_NOT_VERIFIED);
+        }
+
+        userRepository.save(requestWithdrawalUserDto.toEntity(user));
+
+        if (oauthService.existsOauth(requestWithdrawalUserDto.getUserUuid())) {
+            oauthService.withdrawalPendingOauth(requestWithdrawalUserDto.getUserUuid());
+        }
+        userWithdrawalPendingService.addWithdrawalPendingUser(requestWithdrawalUserDto);
+
+        redisUtil.delete("Withdrawal:Verified:" + requestWithdrawalUserDto.getUserUuid());
+    }
+
+    @Override
+    public void accountRecovery(RequestAccountRecoveryDto requestAccountRecoveryDto) {
+        userWithdrawalPendingService.recoveryAccount(requestAccountRecoveryDto.getEmail());
     }
 
 }
