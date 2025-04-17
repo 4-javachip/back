@@ -26,7 +26,7 @@ public class OrderList extends BaseEntity {
     @Column(name = "payment_uuid", nullable = false, length = 50)
     private String paymentUuid;
 
-    @Column(name = "order_code", nullable = false, length = 50)
+    @Column(name = "order_code", nullable = false, length = 50, unique = true)
     private String orderCode;
 
     @Column(name = "user_uuid", nullable = false, length = 50)
@@ -38,11 +38,11 @@ public class OrderList extends BaseEntity {
     @Column(name = "payment_status", nullable = false, length = 50)
     private PaymentStatus paymentStatus;
 
-    @Column(name = "total_order_price", nullable = false)
-    private Integer totalOrderPrice;
+    @Column(name = "total_origin_price", nullable = false)
+    private Integer totalOriginPrice;
 
-    @Column(name = "total_amount", nullable = false)
-    private Integer totalAmount;
+    @Column(name = "total_purchase_price", nullable = false)
+    private Integer totalPurchasePrice;
 
     @Column(name = "shipping_address_uuid", nullable = false, length = 50)
     private String shippingAddressUuid;
@@ -56,8 +56,8 @@ public class OrderList extends BaseEntity {
             String userUuid,
             Integer discountRate,
             PaymentStatus paymentStatus,
-            Integer totalOrderPrice,
-            Integer totalAmount,
+            Integer totalOriginPrice,
+            Integer totalPurchasePrice,
             String shippingAddressUuid
     ) {
         this.id = id;
@@ -67,8 +67,8 @@ public class OrderList extends BaseEntity {
         this.userUuid = userUuid;
         this.discountRate = discountRate;
         this.paymentStatus = paymentStatus;
-        this.totalOrderPrice = totalOrderPrice;
-        this.totalAmount = totalAmount;
+        this.totalOriginPrice = totalOriginPrice;
+        this.totalPurchasePrice = totalPurchasePrice;
         this.shippingAddressUuid = shippingAddressUuid;
     }
 }

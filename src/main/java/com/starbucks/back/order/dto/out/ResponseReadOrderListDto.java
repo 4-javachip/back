@@ -13,8 +13,8 @@ public class ResponseReadOrderListDto {
     private String orderCode;
     private String shippingAddressUuid;
     private LocalDateTime createdAt;
-    private Integer totalOrderPrice;
-    private Integer totalAmount;
+    private Integer totalOriginPrice;
+    private Integer totalPurchasePrice;
     private Integer discountRate;
 
     @Builder
@@ -23,18 +23,18 @@ public class ResponseReadOrderListDto {
             String orderCode,
             String shippingAddressUuid,
             LocalDateTime createdAt,
-            Integer totalOrderPrice,
-            Integer totalAmount,
+            Integer totalOriginPrice,
+            Integer totalPurchasePrice,
             Integer discountRate
     ) {
         this.orderListUuid = orderListUuid;
         this.orderCode = orderCode;
         this.shippingAddressUuid = shippingAddressUuid;
         this.createdAt = createdAt;
-        this.totalOrderPrice = totalOrderPrice;
-        this.totalAmount = totalAmount;
+        this.totalOriginPrice = totalOriginPrice;
+        this.totalPurchasePrice = totalPurchasePrice;
         this.discountRate = discountRate;
-    };
+    }
 
     // entity => vo
     public static ResponseReadOrderListDto from(OrderList orderList) {
@@ -43,8 +43,8 @@ public class ResponseReadOrderListDto {
                 .orderCode(orderList.getOrderCode())
                 .shippingAddressUuid(orderList.getShippingAddressUuid())
                 .createdAt(orderList.getCreatedAt())
-                .totalOrderPrice(orderList.getTotalOrderPrice())
-                .totalAmount(orderList.getTotalAmount())
+                .totalOriginPrice(orderList.getTotalOriginPrice())
+                .totalPurchasePrice(orderList.getTotalPurchasePrice())
                 .discountRate(orderList.getDiscountRate())
                 .build();
     }
@@ -56,8 +56,8 @@ public class ResponseReadOrderListDto {
                 .orderCode(orderCode)
                 .shippingAddressUuid(shippingAddressUuid)
                 .createdAt(createdAt)
-                .totalOrderPrice(totalOrderPrice)
-                .totalAmount(totalAmount)
+                .totalOriginPrice(totalOriginPrice)
+                .totalPurchasePrice(totalPurchasePrice)
                 .discountRate(discountRate)
                 .build();
     }

@@ -9,19 +9,27 @@ public class OrderDetailInfoDto {
     private String orderListUuid;
     private String name;
     private String thumbnail;
-    private String price;
+    private String totalOriginPrice;
     private String discountRate;
-    private String discountPrice;
+    private String totalPurchasePrice;
     private String quantity;
 
     @Builder
-    public OrderDetailInfoDto(String orderListUuid, String name, String thumbnail, String price, String discountRate, String discountPrice, String quantity) {
+    public OrderDetailInfoDto(
+            String orderListUuid,
+            String name,
+            String thumbnail,
+            String totalOriginPrice,
+            String discountRate,
+            String totalPurchasePrice,
+            String quantity
+    ) {
         this.orderListUuid = orderListUuid;
         this.name = name;
         this.thumbnail = thumbnail;
-        this.price = price;
+        this.totalOriginPrice = totalOriginPrice;
         this.discountRate = discountRate;
-        this.discountPrice = discountPrice;
+        this.totalPurchasePrice = totalPurchasePrice;
         this.quantity = quantity;
     }
 }

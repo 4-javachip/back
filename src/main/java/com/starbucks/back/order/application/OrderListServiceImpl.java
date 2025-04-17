@@ -33,7 +33,7 @@ public class OrderListServiceImpl implements OrderListService {
     public void addOrderList(RequestAddOrderListDto requestAddOrderListDto) {
         // 장바구니 uuid들로 장바구니 정보 조회
         List<ResponseCartDto> cartDtoList = cartService
-                .getCartListByCartUuidList(requestAddOrderListDto.getCheckedCartUuidList());
+                .getCartListByCartUuidList(requestAddOrderListDto.getOrderItemUuids());
         if (cartDtoList.isEmpty()) {
             throw new BaseException(BaseResponseStatus.NOT_FOUND_ITEM);
         }

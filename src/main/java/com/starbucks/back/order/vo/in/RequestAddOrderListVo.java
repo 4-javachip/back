@@ -7,10 +7,10 @@ import java.util.List;
 
 @Getter
 public class RequestAddOrderListVo {
-    private List<String> checkedCartUuidList;
+    private List<String> orderItemUuids;
     private String shippingAddressUuid;
-    private Integer totalOrderPrice;
-    private Integer totalAmount;
+    private Integer totalOriginPrice;
+    private Integer totalPurchasePrice;
     private String paymentUuid;
     private PaymentStatus paymentStatus;
 }

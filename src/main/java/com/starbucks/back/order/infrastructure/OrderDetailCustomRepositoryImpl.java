@@ -26,8 +26,6 @@ public class OrderDetailCustomRepositoryImpl implements OrderDetailCustomReposit
         QProductOption productOption = QProductOption.productOption;
         QThumbnail thumbnail = QThumbnail.thumbnail;
         QCart cart = QCart.cart;
-        log.info("cartUuid : {}", cartUuid);
-        log.info("orderListUuid : {}", orderListUuid);
 
         Tuple result = jpaQueryFactory
                 .select(

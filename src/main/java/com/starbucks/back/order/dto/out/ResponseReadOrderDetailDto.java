@@ -12,9 +12,9 @@ public class ResponseReadOrderDetailDto {
     private String orderDetailUuid;
     private String name;
     private String thumbnail;
-    private Integer price;
+    private Integer totalOriginPrice;
     private Integer discountRate;
-    private Integer discountPrice;
+    private Integer totalPurchasePrice;
     private Integer quantity;
 
     @Builder
@@ -23,18 +23,18 @@ public class ResponseReadOrderDetailDto {
             String orderDetailUuid,
             String name,
             String thumbnail,
-            Integer price,
+            Integer totalOriginPrice,
             Integer discountRate,
-            Integer discountPrice,
+            Integer totalPurchasePrice,
             Integer quantity
     ) {
         this.orderListUuid = orderListUuid;
         this.orderDetailUuid = orderDetailUuid;
         this.name = name;
         this.thumbnail = thumbnail;
-        this.price = price;
+        this.totalOriginPrice = totalOriginPrice;
         this.discountRate = discountRate;
-        this.discountPrice = discountPrice;
+        this.totalPurchasePrice = totalPurchasePrice;
         this.quantity = quantity;
     }
 
@@ -45,9 +45,9 @@ public class ResponseReadOrderDetailDto {
                 .orderDetailUuid(orderDetail.getOrderDetailUuid())
                 .name(orderDetail.getName())
                 .thumbnail(orderDetail.getThumbnail())
-                .price(orderDetail.getPrice())
+                .totalOriginPrice(orderDetail.getTotalOriginPrice())
                 .discountRate(orderDetail.getDiscountRate())
-                .discountPrice(orderDetail.getDiscountPrice())
+                .totalPurchasePrice(orderDetail.getTotalPurchasePrice())
                 .quantity(orderDetail.getQuantity())
                 .build();
     }
@@ -59,9 +59,9 @@ public class ResponseReadOrderDetailDto {
                 .orderDetailUuid(responseReadOrderDetailDto.getOrderDetailUuid())
                 .name(responseReadOrderDetailDto.getName())
                 .thumbnail(responseReadOrderDetailDto.getThumbnail())
-                .price(responseReadOrderDetailDto.getPrice())
+                .totalOriginPrice(responseReadOrderDetailDto.getTotalOriginPrice())
                 .discountRate(responseReadOrderDetailDto.getDiscountRate())
-                .discountPrice(responseReadOrderDetailDto.getDiscountPrice())
+                .totalPurchasePrice(responseReadOrderDetailDto.getTotalPurchasePrice())
                 .quantity(responseReadOrderDetailDto.getQuantity())
                 .build();
     }

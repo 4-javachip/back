@@ -15,28 +15,28 @@ import java.util.UUID;
 @Getter
 public class RequestAddOrderListDto {
     public String userUuid;
-    private List<String> checkedCartUuidList;
+    private List<String> orderItemUuids;
     private String shippingAddressUuid;
-    private Integer totalOrderPrice;
-    private Integer totalAmount;
+    private Integer totalOriginPrice;
+    private Integer totalPurchasePrice;
     private String paymentUuid;
     private PaymentStatus paymentStatus;
 
     @Builder
     public RequestAddOrderListDto(
             String userUuid,
-            List<String> checkedCartUuidList,
+            List<String> orderItemUuids,
             String shippingAddressUuid,
-            Integer totalOrderPrice,
-            Integer totalAmount,
+            Integer totalOriginPrice,
+            Integer totalPurchasePrice,
             String paymentUuid,
             PaymentStatus paymentStatus
     ) {
         this.userUuid = userUuid;
-        this.checkedCartUuidList = checkedCartUuidList;
+        this.orderItemUuids = orderItemUuids;
         this.shippingAddressUuid = shippingAddressUuid;
-        this.totalOrderPrice = totalOrderPrice;
-        this.totalAmount = totalAmount;
+        this.totalOriginPrice = totalOriginPrice;
+        this.totalPurchasePrice = totalPurchasePrice;
         this.paymentUuid = paymentUuid;
         this.paymentStatus = paymentStatus;
     }
@@ -44,9 +44,9 @@ public class RequestAddOrderListDto {
     // dto => entity
     public OrderList toEntity() {
         String date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-        String randomPart = UUID.randomUUID().toString().replace("-", "").substring(0, 6).toUpperCase();
+        String randomPart = UUID.randomUUID().toString().replace("-", "").substring(0, 8).toUpperCase();
 
-        int discountRate = Math.round((1 - ((float) totalAmount / totalOrderPrice)) * 100);
+        int discountRate = Math.round((1 - ((float) totalPurchasePrice / totalOriginPrice)) * 100);
 
         return OrderList.builder()
                 .orderListUuid(UUID.randomUUID().toString())
@@ -55,8 +55,8 @@ public class RequestAddOrderListDto {
                 .userUuid(userUuid)
                 .discountRate(discountRate)
                 .paymentStatus(paymentStatus)
-                .totalOrderPrice(totalOrderPrice)
-                .totalAmount(totalAmount)
+                .totalOriginPrice(totalOriginPrice)
+                .totalPurchasePrice(totalPurchasePrice)
                 .shippingAddressUuid(shippingAddressUuid)
                 .build();
     }
@@ -65,10 +65,10 @@ public class RequestAddOrderListDto {
     public static RequestAddOrderListDto from(String userUuid, RequestAddOrderListVo requestAddOrderListVo) {
         return RequestAddOrderListDto.builder()
                 .userUuid(userUuid)
-                .checkedCartUuidList(requestAddOrderListVo.getCheckedCartUuidList())
+                .orderItemUuids(requestAddOrderListVo.getOrderItemUuids())
                 .shippingAddressUuid(requestAddOrderListVo.getShippingAddressUuid())
-                .totalOrderPrice(requestAddOrderListVo.getTotalOrderPrice())
-                .totalAmount(requestAddOrderListVo.getTotalAmount())
+                .totalOriginPrice(requestAddOrderListVo.getTotalOriginPrice())
+                .totalPurchasePrice(requestAddOrderListVo.getTotalPurchasePrice())
                 .paymentUuid(requestAddOrderListVo.getPaymentUuid())
                 .paymentStatus(requestAddOrderListVo.getPaymentStatus())
                 .build();

@@ -30,37 +30,35 @@ public class OrderDetail extends BaseEntity {
     private String thumbnail;
 
     @Column(name = "price", nullable = false)
-    private Integer price;
+    private Integer totalOriginPrice;
 
     @Column(name = "discount_rate", nullable = false)
     private Integer discountRate;
 
     @Column(name = "discount_price", nullable = false)
-    private Integer discountPrice;
+    private Integer totalPurchasePrice;
 
     @Column(name = "quantity", nullable = false)
     private Integer quantity;
 
     @Builder
     public OrderDetail(
-            Long id,
             String orderListUuid,
             String orderDetailUuid,
             String name,
             String thumbnail,
-            Integer price,
+            Integer totalOriginPrice,
             Integer discountRate,
-            Integer discountPrice,
+            Integer totalPurchasePrice,
             Integer quantity
     ) {
-        this.id = id;
         this.orderListUuid = orderListUuid;
         this.orderDetailUuid = orderDetailUuid;
         this.name = name;
         this.thumbnail = thumbnail;
-        this.price = price;
+        this.totalOriginPrice = totalOriginPrice;
         this.discountRate = discountRate;
-        this.discountPrice = discountPrice;
+        this.totalPurchasePrice = totalPurchasePrice;
         this.quantity = quantity;
     }
 
