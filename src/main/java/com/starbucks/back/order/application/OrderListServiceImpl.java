@@ -8,12 +8,15 @@ import com.starbucks.back.common.exception.BaseException;
 import com.starbucks.back.order.domain.OrderDetail;
 import com.starbucks.back.order.domain.OrderList;
 import com.starbucks.back.order.dto.in.RequestAddOrderListDto;
+import com.starbucks.back.order.dto.out.ResponseReadOrderListDto;
 import com.starbucks.back.order.infrastructure.OrderListRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -58,4 +61,17 @@ public class OrderListServiceImpl implements OrderListService {
         }
 
     }
+
+    /**
+     * 주문 내역 조회
+     */
+    @Override
+    public List<ResponseReadOrderListDto> getAllOrderList(String userUuid) {
+        return orderListRepository.findAllByUserUuid(userUuid)
+                .stream()
+                .map(ResponseReadOrderListDto::from)
+                .toList();
+
+    }
+
 }
