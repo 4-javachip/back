@@ -14,19 +14,19 @@ public class RequestPaymentConfirmDto {
     private String userUuid;
     private String paymentCode;      // toss의 paymentKey
     private String paymentUuid;     // toss의 orderId
-    private Integer totalAmount;    // toss의 amount
+    private Integer totalPurchasePrice;    // toss의 amount
 
     @Builder
     public RequestPaymentConfirmDto(
             String userUuid,
             String paymentCode,
             String paymentUuid,
-            Integer totalAmount
+            Integer totalPurchasePrice
     ) {
         this.userUuid = userUuid;
         this.paymentCode = paymentCode;
         this.paymentUuid = paymentUuid;
-        this.totalAmount = totalAmount;
+        this.totalPurchasePrice = totalPurchasePrice;
     }
 
     public static RequestPaymentConfirmDto from(
@@ -37,7 +37,7 @@ public class RequestPaymentConfirmDto {
                 .userUuid(userUuid)
                 .paymentCode(requestPaymentConfirmVo.getPaymentKey())
                 .paymentUuid(requestPaymentConfirmVo.getOrderId())
-                .totalAmount(requestPaymentConfirmVo.getAmount())
+                .totalPurchasePrice(requestPaymentConfirmVo.getAmount())
                 .build();
     }
 
@@ -55,8 +55,8 @@ public class RequestPaymentConfirmDto {
                 .paymentUuid(paymentUuid)
                 .paymentCode(paymentCode)
                 // amount, method, orderName은 Payment 테이블에 저장하지 않음. 차후 추가될 수도 있음
-                .saleAmount(payment.getSaleAmount())
-                .totalAmount(totalAmount)
+                .totalOriginPrice(payment.getTotalOriginPrice())
+                .totalPurchasePrice(totalPurchasePrice)
                 .status(paymentStatus)
                 .pgProvider("TOSS")
                 .pgTid(payment.getPgTid())
@@ -77,8 +77,8 @@ public class RequestPaymentConfirmDto {
                 .paymentUuid(paymentUuid)
                 .paymentCode(paymentCode)
                 // amount, method, orderName은 Payment 테이블에 저장하지 않음. 차후 추가될 수도 있음
-                .saleAmount(payment.getSaleAmount())
-                .totalAmount(totalAmount)
+                .totalOriginPrice(payment.getTotalOriginPrice())
+                .totalPurchasePrice(totalPurchasePrice)
                 .status(PaymentStatus.ABORTED)
                 .pgProvider("TOSS")
                 .pgTid(payment.getPgTid())

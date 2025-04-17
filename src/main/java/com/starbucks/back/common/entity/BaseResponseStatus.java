@@ -188,6 +188,9 @@ public enum BaseResponseStatus {
     PAYMENT_AMOUNT_MISMATCH(HttpStatus.BAD_REQUEST, false, 7104, "결제 금액이 일치하지 않습니다"),
     PAYMENT_ALREADY_DONE(HttpStatus.BAD_REQUEST, false, 7105, "이미 처리가 완료된 주문입니다"),
     TOSS_EMPTY_RESPONSE(HttpStatus.INTERNAL_SERVER_ERROR, false, 7106, "TOSS 결제 승인 응답이 비어있습니다"),
+    // order
+    NOT_FOUND_ITEM(HttpStatus.NOT_FOUND, false, 7201, "주문 내역에 상품이 존재하지 않습니다."),
+    NO_EXIST_QUERY_FOR_ORDER_DETAIL(HttpStatus.BAD_REQUEST, false, 7202, "주문 상세 조회를 위한 쿼리가 존재하지 않습니다."),
     // shipping adress
     NO_EXIST_USER_SHIPPING_ADDRESS(HttpStatus.NOT_FOUND, false, 7202, "해당하는 유저-배송지가 존재하지 않습니다."),
     NO_EXIST_SHIPPING_ADDRESS(HttpStatus.NOT_FOUND, false, 7210, "존재하지 않는 배송지입니다");

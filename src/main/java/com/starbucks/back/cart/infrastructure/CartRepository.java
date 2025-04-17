@@ -38,6 +38,12 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
     Optional<Cart> findByUserUuidAndCartUuid(String cartUuid, String userUuid);
 
     /**
+     * 장바구니 리스트 조회 by cartUuidList
+     * @return
+     */
+    List<Cart> findAllByCartUuidInAndDeletedFalse(List<String> cartUuidList);
+  
+    /**
      * 장바구니 checked 전체 by userUuid
      * @return
      */
@@ -45,4 +51,9 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
     @Query("UPDATE Cart c SET c.checked = :checked WHERE c.userUuid = :userUuid AND c.deleted = false")
     void updateAllCheckedByUserUuid(@Param("userUuid") String userUuid, @Param("checked") Boolean checked);
 
+    /**
+     * 장바구니 checked by cartUuid
+     * @return
+     */
+    List<Cart> findAllByUserUuidAndCheckedTrueAndDeletedFalse(String userUuid);
 }

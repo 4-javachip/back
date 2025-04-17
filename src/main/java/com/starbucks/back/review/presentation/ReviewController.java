@@ -4,18 +4,24 @@ import com.starbucks.back.common.entity.BaseResponseEntity;
 import com.starbucks.back.common.entity.BaseResponseStatus;
 import com.starbucks.back.common.util.SecurityUtil;
 import com.starbucks.back.review.application.ReviewService;
+import com.starbucks.back.review.domain.ReviewSortType;
 import com.starbucks.back.review.dto.in.RequestAddReviewDto;
 import com.starbucks.back.review.dto.in.RequestDeleteReviewDto;
+import com.starbucks.back.review.dto.in.RequestReviewPageDto;
 import com.starbucks.back.review.dto.in.RequestUpdateReviewDto;
 import com.starbucks.back.review.dto.out.ResponseReviewDto;
 import com.starbucks.back.review.dto.out.ResponseReviewSummaryDto;
 import com.starbucks.back.review.vo.in.RequestAddReviewVo;
 import com.starbucks.back.review.vo.in.RequestDeleteReviewVo;
+import com.starbucks.back.review.vo.in.RequestReviewPageVo;
 import com.starbucks.back.review.vo.in.RequestReviewVo;
+import com.starbucks.back.review.vo.out.ResponseReviewPageVo;
 import com.starbucks.back.review.vo.out.ResponseReviewSummaryVo;
 import com.starbucks.back.review.vo.out.ResponseReviewVo;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -64,17 +70,25 @@ public class ReviewController {
     }
 
     /**
-     * productUuid로 리뷰 조회
+     * 상품 uuid로 리뷰 조회 (페이징)
      * @param productUuid
+     * @param reviewSortType
+     * @param page
+     * @param pageSize
      */
-    @Operation(summary = "productUuid로 리뷰 조회 API", description = "productUuid로 리뷰 조회 API 입니다.", tags = {"Review-Service"})
-    @GetMapping("/product/{productUuid}")
-    public BaseResponseEntity<List<ResponseReviewVo>> getReviewByProductUuid(@PathVariable("productUuid") String productUuid) {
-        List<ResponseReviewVo> result = reviewService.getReviewByProductUuid(productUuid)
-                .stream()
-                .map(ResponseReviewDto::toVo)
-                .toList();
-        return new BaseResponseEntity<>(result);
+    @Operation(summary = "상품 uuid로 리뷰 조회 (페이징) API", description = "상품 uuid로 리뷰 조회 (페이징) API 입니다.", tags = {"Review-Service"})
+    @GetMapping("/product")
+    public BaseResponseEntity<ResponseReviewPageVo> getPagedReviews(
+            @RequestParam(name = "productUuid") String productUuid,
+            @RequestParam(name = "sortType", required = false, defaultValue = "LATEST") ReviewSortType reviewSortType,
+            @RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
+            @RequestParam(name = "pageSize", required = false, defaultValue = "10") Integer pageSize
+    ) {
+        Page<ResponseReviewDto> result = reviewService.getReviewByProductUuidWithPagination(
+                RequestReviewPageDto.of(productUuid, reviewSortType, page, pageSize)
+        );
+
+        return new BaseResponseEntity<>(ResponseReviewPageVo.from(result));
     }
 
     /**
