@@ -115,6 +115,17 @@ public class CartServiceImpl implements CartService{
     }
 
     /**
+     * 장바구니 리스트 조회 by cartUuidList
+     */
+    @Override
+    public List<ResponseCartDto> getCartListByCartUuidList(List<String> cartUuidList) {
+        return cartRepository.findAllByCartUuidInAndDeletedFalse(cartUuidList)
+                .stream()
+                .map(ResponseCartDto::from)
+                .toList();
+    }
+
+    /**
      * 장바구니 전체 삭제 by userUuid
      */
     @Transactional
@@ -125,4 +136,16 @@ public class CartServiceImpl implements CartService{
             cart.softDelete();
         }
     }
+
+    /**
+     * 장바구니 체크된 리스트 조회 by userUuid
+     */
+    @Override
+    public List<ResponseCartDto> getCartCheckedListByUserUuid(String userUuid) {
+        return cartRepository.findAllByUserUuidAndCheckedTrueAndDeletedFalse(userUuid)
+                .stream()
+                .map(ResponseCartDto::from)
+                .toList();
+    }
+
 }

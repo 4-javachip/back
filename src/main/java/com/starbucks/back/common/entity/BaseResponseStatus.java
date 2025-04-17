@@ -24,6 +24,7 @@ public enum BaseResponseStatus {
     SUCCESS_RECENT_VIEW(HttpStatus.OK, true, 209, "최근 본 상품이 등록되었습니다."),
     SUCCESS_WITHDRAWAL_USER(HttpStatus.OK, true, 210, "회원 탈퇴가 완료되었습니다. 2주안에 재 로그인 시 계정 복구가 가능합니다."),
     SUCCESS_ACCOUNT_RECOVERY(HttpStatus.OK, true, 211, "계정 복구가 완료되었습니다. 로그인 해주세요."),
+    NO_OAUTH_USER(HttpStatus.OK, true, 2200, "소셜 계정이 존재하지 않습니다. 추가 정보를 입력해 회원가입 해주세요."),
 
     /**
      * 400 : security 에러
@@ -97,7 +98,7 @@ public enum BaseResponseStatus {
     NOT_FOUND_EMAIL(HttpStatus.NOT_FOUND, false, 2121, "가입되지 않은 이메일입니다."),
 
     // oauth
-    NO_OAUTH_USER(HttpStatus.NOT_FOUND, false, 2200, "소셜 계정이 존재하지 않습니다. 추가 정보를 입력해 회원가입 해주세요."),
+
     SOCIAL_USER_PASSWORD_CHANGE(HttpStatus.BAD_REQUEST, false, 2201, "소셜로 가입한 유저는 비밀번호가 존재하지 않습니다."),
     INVALID_GOOGLE_TOKEN(HttpStatus.UNAUTHORIZED, false, 2202, "google access token이 유효하지 않습니다."),
     INVALID_NAVER_TOKEN(HttpStatus.UNAUTHORIZED, false, 2203, "naver access token이 유효하지 않습니다."),
@@ -187,6 +188,9 @@ public enum BaseResponseStatus {
     PAYMENT_AMOUNT_MISMATCH(HttpStatus.BAD_REQUEST, false, 7104, "결제 금액이 일치하지 않습니다"),
     PAYMENT_ALREADY_DONE(HttpStatus.BAD_REQUEST, false, 7105, "이미 처리가 완료된 주문입니다"),
     TOSS_EMPTY_RESPONSE(HttpStatus.INTERNAL_SERVER_ERROR, false, 7106, "TOSS 결제 승인 응답이 비어있습니다"),
+    // order
+    NOT_FOUND_ITEM(HttpStatus.NOT_FOUND, false, 7201, "주문 내역에 상품이 존재하지 않습니다."),
+    NO_EXIST_QUERY_FOR_ORDER_DETAIL(HttpStatus.BAD_REQUEST, false, 7202, "주문 상세 조회를 위한 쿼리가 존재하지 않습니다."),
     // shipping adress
     NO_EXIST_USER_SHIPPING_ADDRESS(HttpStatus.NOT_FOUND, false, 7202, "해당하는 유저-배송지가 존재하지 않습니다."),
     NO_EXIST_SHIPPING_ADDRESS(HttpStatus.NOT_FOUND, false, 7210, "존재하지 않는 배송지입니다");

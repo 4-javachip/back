@@ -31,6 +31,12 @@ public class Product extends BaseEntity {
     @Column(name = "product_uuid", length = 50, nullable = false, unique = true)
     private String productUuid;
 
+    /**
+     * 베스트
+     */
+    @Column(name = "best", nullable = false, columnDefinition = "boolean default false")
+    private boolean best;
+
     public boolean isNew() {
         return this.getCreatedAt() != null
                 && this.getCreatedAt().isAfter(LocalDateTime.now().minusMonths(1));
@@ -41,6 +47,7 @@ public class Product extends BaseEntity {
         this.id = id;
         this.name = name;
         this.productUuid = productUuid;
+        this.best = false;
     }
 
 }
