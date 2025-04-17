@@ -1,5 +1,6 @@
 package com.starbucks.back.order.application;
 
+import com.starbucks.back.best.application.BestService;
 import com.starbucks.back.cart.application.CartService;
 import com.starbucks.back.cart.dto.in.RequestDeleteCartDto;
 import com.starbucks.back.cart.dto.out.ResponseCartDto;
@@ -7,9 +8,13 @@ import com.starbucks.back.common.entity.BaseResponseStatus;
 import com.starbucks.back.common.exception.BaseException;
 import com.starbucks.back.order.domain.OrderDetail;
 import com.starbucks.back.order.domain.OrderList;
+import com.starbucks.back.order.domain.enums.PaymentStatus;
 import com.starbucks.back.order.dto.in.RequestAddOrderListDto;
 import com.starbucks.back.order.dto.out.ResponseReadOrderListDto;
 import com.starbucks.back.order.infrastructure.OrderListRepository;
+import com.starbucks.back.payment.application.PaymentService;
+import com.starbucks.back.payment.domain.Payment;
+import com.starbucks.back.payment.dto.out.ResponsePaymentDto;
 import com.starbucks.back.product.application.ProductOptionService;
 import com.starbucks.back.product.application.ProductService;
 import com.starbucks.back.product.domain.ProductOption;
@@ -29,7 +34,9 @@ public class OrderListServiceImpl implements OrderListService {
     private final OrderListRepository orderListRepository;
     private final OrderDetailService orderDetailService;
     private final ProductOptionService productOptionService;
+    private final PaymentService paymentService;
     private final CartService cartService;
+    private final BestService bestService;
 
     /**
      * 주문 생성 (결제 성공 후 생성
@@ -43,10 +50,15 @@ public class OrderListServiceImpl implements OrderListService {
         if (cartDtoList.isEmpty()) {
             throw new BaseException(BaseResponseStatus.NOT_FOUND_ITEM);
         }
-        log.info("장바구니 정보 조회 성공, cartDtoList: {}", cartDtoList);
+
         // OrderList 생성
-        OrderList orderList = orderListRepository.save(requestAddOrderListDto.toEntity());
-        log.info("주문 리스트 생성 성공, orderList: {}", orderList);
+        ResponsePaymentDto responsePaymentDto = paymentService.getPayment(requestAddOrderListDto.getPaymentUuid());
+        OrderList orderList = orderListRepository.save(
+                requestAddOrderListDto.toEntity(PaymentStatus
+                        .from(responsePaymentDto.getPaymentStatus().getDescription())
+                )
+        );
+
         // OrderDetail에 상품 정보 추가 (장바구니List에서 cartUuid 받아와서, QueryDSL로 OrderDetail 생성)
 
         for (ResponseCartDto responseCartDto : cartDtoList) {
@@ -76,6 +88,8 @@ public class OrderListServiceImpl implements OrderListService {
                     responseProductOptionDto.getStock() - responseCartDto.getProductQuantity()
             );
 
+            // Best 테이블에 판매량 추가
+            // (productUuid로 상품 찾고, 있으면 판매량 +, 없으면 생성)
         }
 
         // cartList의 항목들 삭제

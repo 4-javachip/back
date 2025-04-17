@@ -20,7 +20,6 @@ public class RequestAddOrderListDto {
     private Integer totalOriginPrice;
     private Integer totalPurchasePrice;
     private String paymentUuid;
-    private PaymentStatus paymentStatus;
 
     @Builder
     public RequestAddOrderListDto(
@@ -29,8 +28,7 @@ public class RequestAddOrderListDto {
             String shippingAddressUuid,
             Integer totalOriginPrice,
             Integer totalPurchasePrice,
-            String paymentUuid,
-            PaymentStatus paymentStatus
+            String paymentUuid
     ) {
         this.userUuid = userUuid;
         this.orderItemUuids = orderItemUuids;
@@ -38,11 +36,10 @@ public class RequestAddOrderListDto {
         this.totalOriginPrice = totalOriginPrice;
         this.totalPurchasePrice = totalPurchasePrice;
         this.paymentUuid = paymentUuid;
-        this.paymentStatus = paymentStatus;
     }
 
     // dto => entity
-    public OrderList toEntity() {
+    public OrderList toEntity(PaymentStatus paymentStatus) {
         String date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
         String randomPart = UUID.randomUUID().toString().replace("-", "").substring(0, 8).toUpperCase();
 
@@ -70,7 +67,6 @@ public class RequestAddOrderListDto {
                 .totalOriginPrice(requestAddOrderListVo.getTotalOriginPrice())
                 .totalPurchasePrice(requestAddOrderListVo.getTotalPurchasePrice())
                 .paymentUuid(requestAddOrderListVo.getPaymentUuid())
-                .paymentStatus(requestAddOrderListVo.getPaymentStatus())
                 .build();
     }
 }
