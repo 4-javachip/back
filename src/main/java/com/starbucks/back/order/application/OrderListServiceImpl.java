@@ -42,8 +42,7 @@ public class OrderListServiceImpl implements OrderListService {
         OrderList orderList = orderListRepository.save(requestAddOrderListDto.toEntity());
 
         // OrderDetail에 상품 정보 추가 (장바구니List에서 cartUuid 받아와서, QueryDSL로 OrderDetail 생성)
-        log.info(orderList.getOrderListUuid());
-        log.info("orderCode : {}", orderList.getOrderCode());
+
         for (ResponseCartDto responseCartDto : cartDtoList) {
             // orderDetail 에서 save 로직 작성
             orderDetailService.addOrderDetail(

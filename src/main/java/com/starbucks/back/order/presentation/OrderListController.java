@@ -9,15 +9,15 @@ import com.starbucks.back.order.dto.out.ResponseReadOrderListDto;
 import com.starbucks.back.order.vo.in.RequestAddOrderListVo;
 import com.starbucks.back.order.vo.out.ResponseReadOrderListVo;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/order")
 @RequiredArgsConstructor
-public class OrderController {
+public class OrderListController {
 
     private final OrderListService orderListService;
     private final SecurityUtil securityUtil;
@@ -25,6 +25,7 @@ public class OrderController {
     /**
      * 주문 생성
      */
+    @Transactional
     @PostMapping
     @Operation(summary = "CreateOrder API", description = "주문 생성 (장바구니 선택된 상품만)", tags = {"Order-Service"})
     public BaseResponseEntity<Void> addOrder(@RequestBody RequestAddOrderListVo requestAddOrderListVo) {
