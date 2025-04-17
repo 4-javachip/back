@@ -56,5 +56,4 @@ public class OrderDetailController {
 
         return new BaseResponseEntity<>(result);
     }
-
 }
