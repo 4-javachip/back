@@ -10,6 +10,11 @@ import com.starbucks.back.order.domain.OrderList;
 import com.starbucks.back.order.dto.in.RequestAddOrderListDto;
 import com.starbucks.back.order.dto.out.ResponseReadOrderListDto;
 import com.starbucks.back.order.infrastructure.OrderListRepository;
+import com.starbucks.back.product.application.ProductOptionService;
+import com.starbucks.back.product.application.ProductService;
+import com.starbucks.back.product.domain.ProductOption;
+import com.starbucks.back.product.dto.in.RequestUpdateProductOptionDto;
+import com.starbucks.back.product.dto.out.ResponseProductOptionDto;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +28,7 @@ import java.util.List;
 public class OrderListServiceImpl implements OrderListService {
     private final OrderListRepository orderListRepository;
     private final OrderDetailService orderDetailService;
+    private final ProductOptionService productOptionService;
     private final CartService cartService;
 
     /**
@@ -49,6 +55,23 @@ public class OrderListServiceImpl implements OrderListService {
                     responseCartDto.getCartUuid(),
                     orderList.getOrderListUuid()
             );
+
+            // 재고 감소시키기
+            ResponseProductOptionDto responseProductOptionDto = productOptionService
+                    .getProductOptionByProductOptionUuid(responseCartDto.getProductOptionUuid());
+
+            productOptionService.updateProductOption(
+                    RequestUpdateProductOptionDto.builder()
+                            .productOptionUuid(responseProductOptionDto.getProductOptionUuid())
+                            .productUuid(responseProductOptionDto.getProductUuid())
+                            .colorOptionId(responseProductOptionDto.getColorOptionId())
+                            .sizeOptionId(responseProductOptionDto.getSizeOptionId())
+                            .stock(responseProductOptionDto.getStock() - responseCartDto.getProductQuantity()) // 재고 감소
+                            .price(responseProductOptionDto.getPrice())
+                            .discountRate(responseProductOptionDto.getDiscountRate())
+                            .build()
+                    );
+
         }
 
         // cartList의 항목들 삭제
