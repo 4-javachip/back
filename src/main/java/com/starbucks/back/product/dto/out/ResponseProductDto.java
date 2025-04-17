@@ -28,15 +28,7 @@ public class ResponseProductDto {
                 .productUuid(product.getProductUuid())
                 .name(product.getName())
                 .isNew(product.isNew())
-                .build();
-    }
-
-    public static ResponseProductDto of(Product product, boolean isBest) {
-        return ResponseProductDto.builder()
-                .productUuid(product.getProductUuid())
-                .name(product.getName())
-                .isNew(product.isNew())
-                .isBest(isBest)
+                .isBest(product.isBest())
                 .build();
     }
 

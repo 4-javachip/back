@@ -38,7 +38,6 @@ public class ProductCustomRepositoryImpl implements ProductCustomRepository {
      * @param lastId
      * @param pageSize
      * @param page
-     * @param bestUuids
      */
     @Override
     public CursorPageUtil<ResponseProductDto, Long> findByFilterWithPagination(
@@ -49,8 +48,7 @@ public class ProductCustomRepositoryImpl implements ProductCustomRepository {
             String keyword,
             Long lastId,
             Integer pageSize,
-            Integer page,
-            Set<String> bestUuids) {
+            Integer page) {
 
         int currentPageSize = Optional.ofNullable(pageSize).orElse(DEFAULT_PAGE_SIZE);
         int currentPage = Optional.ofNullable(page).orElse(DEFAULT_PAGE_NUMBER);
@@ -106,7 +104,7 @@ public class ProductCustomRepositoryImpl implements ProductCustomRepository {
         }
 
         List<ResponseProductDto> dtoList = getContent.stream()
-                .map(p -> ResponseProductDto.of(p, bestUuids.contains(p.getProductUuid())))
+                .map(ResponseProductDto::from)
                 .toList();
 
         return new CursorPageUtil<>(

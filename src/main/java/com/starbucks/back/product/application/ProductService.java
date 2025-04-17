@@ -61,4 +61,9 @@ public interface ProductService {
      */
     void deleteProduct(RequestDeleteProductDto requestDeleteProductDto);
 
+    /**
+     * 상품 베스트 상품 상태 업데이트
+     */
+    void updateBestProductStatus();
+
 }
