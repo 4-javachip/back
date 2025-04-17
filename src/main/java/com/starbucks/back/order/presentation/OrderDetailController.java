@@ -1,5 +1,8 @@
 package com.starbucks.back.order.presentation;
 
+import com.starbucks.back.cart.application.CartService;
+import com.starbucks.back.cart.dto.out.ResponseCartDto;
+import com.starbucks.back.cart.vo.out.ResponseCartVo;
 import com.starbucks.back.common.entity.BaseResponseEntity;
 import com.starbucks.back.common.util.SecurityUtil;
 import com.starbucks.back.order.application.OrderDetailService;
@@ -20,6 +23,7 @@ import java.util.List;
 public class OrderDetailController {
     private final OrderDetailService orderDetailService;
     private final SecurityUtil securityUtil;
+    private final CartService cartService;
 
     /**
      * 주문 상세 조회 by userUuid, orderListUuid
@@ -37,4 +41,19 @@ public class OrderDetailController {
         return new BaseResponseEntity<>(result);
     }
 
+    /**
+     * 주문 아이템 목록(장바구니) by userUuid
+     */
+    @GetMapping("/items")
+    @Operation(summary = "GetOrderItemListByUserUuid API", description = "주문 아이템 목록 조회 api 입니다.", tags = {"Order-Service"})
+    public BaseResponseEntity<List<ResponseCartVo>> getOrderItemList() {
+        String userUuid = securityUtil.getCurrentUserUuid();
+
+        List<ResponseCartVo> result = cartService.getCartCheckedListByUserUuid(userUuid)
+                .stream()
+                .map(ResponseCartDto::toVo)
+                .toList();
+
+        return new BaseResponseEntity<>(result);
+    }
 }

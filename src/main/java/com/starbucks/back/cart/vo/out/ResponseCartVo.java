@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ResponseCartVo {
 
-    private String userUuid;
+//    private String userUuid;
     private String cartUuid;
     private Integer productQuantity;
     private Boolean checked;
@@ -17,14 +17,14 @@ public class ResponseCartVo {
 
     @Builder
     public ResponseCartVo(
-            String userUuid,
+//            String userUuid,
             String cartUuid,
             Integer productQuantity,
             Boolean checked,
             String productUuid,
             String productOptionUuid
     ) {
-        this.userUuid = userUuid;
+//        this.userUuid = userUuid;
         this.cartUuid = cartUuid;
         this.productQuantity = productQuantity;
         this.checked = checked;
