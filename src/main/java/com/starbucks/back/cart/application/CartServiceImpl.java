@@ -136,4 +136,16 @@ public class CartServiceImpl implements CartService{
             cart.softDelete();
         }
     }
+
+    /**
+     * 장바구니 체크된 리스트 조회 by userUuid
+     */
+    @Override
+    public List<ResponseCartDto> getCartCheckedListByUserUuid(String userUuid) {
+        return cartRepository.findAllByUserUuidAndCheckedTrueAndDeletedFalse(userUuid)
+                .stream()
+                .map(ResponseCartDto::from)
+                .toList();
+    }
+
 }
