@@ -43,10 +43,10 @@ public class OrderListServiceImpl implements OrderListService {
         if (cartDtoList.isEmpty()) {
             throw new BaseException(BaseResponseStatus.NOT_FOUND_ITEM);
         }
-
+        log.info("장바구니 정보 조회 성공, cartDtoList: {}", cartDtoList);
         // OrderList 생성
         OrderList orderList = orderListRepository.save(requestAddOrderListDto.toEntity());
-
+        log.info("주문 리스트 생성 성공, orderList: {}", orderList);
         // OrderDetail에 상품 정보 추가 (장바구니List에서 cartUuid 받아와서, QueryDSL로 OrderDetail 생성)
 
         for (ResponseCartDto responseCartDto : cartDtoList) {
@@ -71,6 +71,10 @@ public class OrderListServiceImpl implements OrderListService {
                             .discountRate(responseProductOptionDto.getDiscountRate())
                             .build()
                     );
+            log.info("재고 감소 성공, productOptionUuid: {}, stock: {}",
+                    responseProductOptionDto.getProductOptionUuid(),
+                    responseProductOptionDto.getStock() - responseCartDto.getProductQuantity()
+            );
 
         }
 
@@ -81,6 +85,7 @@ public class OrderListServiceImpl implements OrderListService {
                     responseCartDto.getCartUuid()
                     ));
         }
+        log.info("장바구니 삭제 성공, cartDtoList: {}", cartDtoList);
 
     }
 

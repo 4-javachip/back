@@ -39,7 +39,9 @@ public class OrderDetailCustomRepositoryImpl implements OrderDetailCustomReposit
                 .from(cart)
                 .join(productOption).on(cart.productOptionUuid.eq(productOption.productOptionUuid))
                 .join(product).on(productOption.productUuid.eq(product.productUuid))
-                .join(thumbnail).on(product.productUuid.eq(thumbnail.productUuid))
+                .join(thumbnail).on(product.productUuid.eq(thumbnail.productUuid)
+                        .and(thumbnail.defaulted.eq(true))
+                )
                 .where(cart.cartUuid.eq(cartUuid))
                 .fetchOne();
 
