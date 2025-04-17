@@ -123,6 +123,7 @@ public class CartServiceImpl implements CartService{
                 .stream()
                 .map(ResponseCartDto::from)
                 .toList();
+    }
 
     /**
      * 장바구니 전체 삭제 by userUuid
