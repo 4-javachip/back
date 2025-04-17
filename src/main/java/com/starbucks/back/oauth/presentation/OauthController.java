@@ -53,13 +53,13 @@ public class OauthController {
     @PostMapping("/sign-up")
     public BaseResponseEntity<Void> oauthSignUp(
             @RequestBody RequestOauthSignUpVo requestOauthSignUpVo,
-            @CookieValue(value = "oauth_cookie", required = false) String oauthCookieValue
+            @CookieValue(value = "oauth_cookie", required = false) String oauthCookie
         ) throws Exception {
 
-        System.out.println("123123");
+        System.out.println("123123 : " + oauthCookie);
         oauthService.oauthSignUp(
                 RequestOauthSignUpDto.from(requestOauthSignUpVo),
-                oauthCookieValue
+                oauthCookie
         );
         System.out.println("222222");
         return new BaseResponseEntity<>(BaseResponseStatus.SIGN_UP_SUCCESS);
