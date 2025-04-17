@@ -26,4 +26,14 @@ public class RequestDeleteCartDto {
                 .cartUuid(requestDeleteCartVo.getCartUuid())
                 .build();
     }
+
+    public static RequestDeleteCartDto from(
+            String userUuid,
+            String cartUuid
+    ) {
+        return RequestDeleteCartDto.builder()
+                .userUuid(userUuid)
+                .cartUuid(cartUuid)
+                .build();
+    }
 }

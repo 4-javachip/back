@@ -13,11 +13,10 @@ import java.util.UUID;
 public class RequestPaymentCreateDto {
     private String userUuid;
     private String paymentUuid;
-    private Integer amount;
+    private Integer totalOriginPrice;
     private String method;
     private String orderName;
-    private Integer saleAmount;
-    private Integer totalAmount;
+    private Integer totalPurchasePrice;
 
     // 아래 항목은 결제가 진행되면서 추가될 내용
     private String paymentCode;
@@ -32,11 +31,10 @@ public class RequestPaymentCreateDto {
     public RequestPaymentCreateDto(
             String userUuid,
             String paymentUuid,
-            Integer amount,
+            Integer totalOriginPrice,
             String method,
             String orderName,
-            Integer saleAmount,
-            Integer totalAmount,
+            Integer totalPurchasePrice,
             String paymentCode,
             PaymentStatus status,
             String pgProvider,
@@ -47,11 +45,10 @@ public class RequestPaymentCreateDto {
     ) {
         this.userUuid = userUuid;
         this.paymentUuid = paymentUuid;
-        this.amount = amount;
+        this.totalOriginPrice = totalOriginPrice;
         this.method = method;
         this.orderName = orderName;
-        this.saleAmount = saleAmount;
-        this.totalAmount = totalAmount;
+        this.totalPurchasePrice = totalPurchasePrice;
         this.paymentCode = paymentCode;
         this.status = status;
         this.pgProvider = pgProvider;
@@ -69,11 +66,10 @@ public class RequestPaymentCreateDto {
         return RequestPaymentCreateDto.builder()
                 .userUuid(userUuid)
                 .paymentUuid(UUID.randomUUID().toString())
-                .amount(requestPaymentCreateVo.getAmount())
+                .totalOriginPrice(requestPaymentCreateVo.getTotalOriginPrice())
                 .method(requestPaymentCreateVo.getMethod())
                 .orderName(requestPaymentCreateVo.getOrderName())
-                .saleAmount(requestPaymentCreateVo.getSaleAmount())
-                .totalAmount(requestPaymentCreateVo.getAmount() - requestPaymentCreateVo.getSaleAmount())
+                .totalPurchasePrice(requestPaymentCreateVo.getTotalPurchasePrice())
                 .paymentCode("")
                 .status(PaymentStatus.READY)
                 .pgProvider("")
@@ -91,8 +87,8 @@ public class RequestPaymentCreateDto {
                 .paymentUuid(paymentUuid)
                 .paymentCode(paymentCode)
                 // amount, method, orderName은 Payment 테이블에 저장하지 않음. 차후 추가될 수도 있음
-                .saleAmount(saleAmount)
-                .totalAmount(totalAmount)
+                .totalOriginPrice(totalOriginPrice)
+                .totalPurchasePrice(totalPurchasePrice)
                 .status(status)
                 .pgProvider(pgProvider)
                 .pgTid(pgTid)
