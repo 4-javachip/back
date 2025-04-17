@@ -79,9 +79,9 @@ public class OauthServiceImpl implements OauthService{
                 final String cookieValue = "oauth_cookie=" + token
                         + "; Max-Age=" + (20 * 60)
                         + "; HttpOnly"
-//                        + "; Secure"        // 로컬이면 제거
-//                        + "; SameSite=None" // 크로스 도메인 대응
-//                        + "; Domain=.starbucks-store.shop" // 운영환경에서만 설정
+                        + "; Secure"        // 로컬이면 제거
+                        + "; SameSite=None" // 크로스 도메인 대응
+                        + "; Domain=.starbucks-store.shop" // 운영환경에서만 설정
                         + "; Path=/";
                 httpServletResponse.setHeader("Set-Cookie", cookieValue);
 
