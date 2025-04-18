@@ -26,7 +26,6 @@ public class ProductServiceImpl implements ProductService {
 
     /**
      * 상품 추가
-     * @param requestAddProductDto
      */
     @Transactional
     @Override
@@ -39,7 +38,6 @@ public class ProductServiceImpl implements ProductService {
 
     /**
      * 상품 이름으로 조회
-     * @param name
      */
     @Override
     public ResponseProductDto getProductByName(String name) {
@@ -50,28 +48,16 @@ public class ProductServiceImpl implements ProductService {
 
     /**
      * 상품 UUID로 조회
-     * @param productUuid
      */
     @Override
     public ResponseProductDto getProductByUuid(String productUuid) {
         Product product = productRepository.findByProductUuid(productUuid)
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_PRODUCT));
-
-        Set<String> top30 = bestService.getTop30BestProductUuids();
-        boolean isBest = top30.contains(productUuid);
-
-        return ResponseProductDto.of(product, isBest);
+        return ResponseProductDto.from(product);
     }
 
     /**
      * 상품 필터링 조회
-     * @param categoryId
-     * @param subCategoryId
-     * @param seasonId
-     * @param sortType
-     * @param cursor
-     * @param pageSize
-     * @param page
      */
     @Override
     public CursorPageUtil<ResponseProductDto, Long> getAllProductsByFilter(
@@ -83,7 +69,7 @@ public class ProductServiceImpl implements ProductService {
             Long cursor,
             Integer pageSize,
             Integer page) {
-        Set<String> bestUuids = bestService.getTop30BestProductUuids();
+
         return productRepository.findByFilterWithPagination(
                 categoryId,
                 subCategoryId,
@@ -92,14 +78,12 @@ public class ProductServiceImpl implements ProductService {
                 keyword,
                 cursor,
                 pageSize,
-                page,
-                bestUuids
+                page
         );
     }
 
     /**
      * 상품 수정
-     * @param requestUpdateProductDto
      */
     @Transactional
     @Override
@@ -111,7 +95,6 @@ public class ProductServiceImpl implements ProductService {
 
     /**
      * 상품 삭제
-     * @param requestDeleteProductDto
      */
     @Transactional
     @Override
@@ -120,4 +103,21 @@ public class ProductServiceImpl implements ProductService {
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_PRODUCT));
         productRepository.delete(product);
     }
+
+    /**
+     * 상품 베스트 상품 상태 업데이트
+     */
+    @Transactional
+    @Override
+    public void updateBestProductStatus() {
+        // 전체 product best = false 초기화
+        productRepository.updateAllBestFalse();
+
+        // 상위 30개 UUID 조회
+        Set<String> top30 = bestService.getTop30BestProductUuids();
+
+        // 해당 UUID만 best = true로 업데이트
+        productRepository.updateBestTrueByProductUuids(top30);
+    }
+
 }
