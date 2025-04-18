@@ -96,9 +96,10 @@ public class OrderListServiceImpl implements OrderListService {
 
             // Best 테이블에 판매량 추가
             // (productUuid로 상품 찾고, 있으면 판매량 +, 없으면 생성)
+            bestService.increaseBestProductSalesCount(
+                    responseProductOptionDto.getProductUuid(), orderItemVo.getQuantity()
+            );
         }
-
-
     }
 
     /**
