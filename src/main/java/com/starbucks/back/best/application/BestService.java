@@ -39,6 +39,13 @@ public interface BestService {
     void updateBestProduct(RequestUpdateBestDto requestUpdateBestDto);
 
     /**
+     * 베스트 상품 판매량 증가
+     * @param productUuid
+     * @param productSalesCount
+     */
+    void increaseBestProductSalesCount(String productUuid, int productSalesCount);
+
+    /**
      * 베스트 상품 삭제
      * @param requestDeleteBestDto
      */
