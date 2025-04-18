@@ -79,6 +79,25 @@ public class BestServiceImpl implements BestService {
     }
 
     /**
+     * 베스트 상품 판매량 증가
+     * @param productUuid
+     * @param productSalesCount
+     */
+    @Transactional
+    @Override
+    public void increaseBestProductSalesCount(String productUuid, int productSalesCount) {
+        Best best = bestRepository.findByProductUuid(productUuid)
+                // 상품이 없으면 새로 생성
+                .orElseGet(() -> bestRepository.save(Best.builder()
+                        .productUuid(productUuid)
+                        .productSalesCount(productSalesCount)
+                        .build()));
+
+        // 판매량 증가
+        best.increaseSalesCount(productSalesCount);
+    }
+
+    /**
      * 베스트 상품 삭제
      * @param requestDeleteBestDto
      */
