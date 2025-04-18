@@ -67,16 +67,13 @@ public class PaymentController {
     public BaseResponseEntity<Void> virtualAccountWebhook(
             @RequestBody Map<String, Object> payload
     ) {
-        System.out.println("💰 가상계좌 웹훅 수신! payload: " + payload);
 
         String paymentUuid = (String) payload.get("orderId");
         PaymentStatus status = PaymentStatus.from((String) payload.get("status"));
-        System.out.println(status.name() + " : " + status.getDescription());
         // DB에 paymentStatus 업데이트
         paymentService.updatePaymentStatus(paymentUuid, status);
 
-        System.out.println("💰 입금 완료! 주문 ID: @@@" + paymentUuid);
-        return new BaseResponseEntity<>(null);
+        return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS);
     }
 
 }
