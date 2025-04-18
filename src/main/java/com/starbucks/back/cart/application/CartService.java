@@ -16,5 +16,6 @@ public interface CartService {
     List<ResponseCartDto> getCartListByCartUuidList(List<String> cartUuidList);
     void deleteAllCart(String userUuid);
     List<ResponseCartDto> getCartCheckedListByUserUuid(String userUuid);
+    void deleteCartByUserUuidAndProductOptionUuid(String userUuid, String productOptionUuid);
 
 }
