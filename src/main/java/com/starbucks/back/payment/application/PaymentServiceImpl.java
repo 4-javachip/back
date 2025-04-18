@@ -89,7 +89,6 @@ public class PaymentServiceImpl implements PaymentService{
         // toss 결제 생성 API 호출
         ResponseEntity<Map> response = restTemplate.postForEntity(
                 baseUrl + "/payments", httpRequest, Map.class);
-        System.out.println("📦 Toss 응답 전체: " + response.getBody());
 
         Map responseBody = response.getBody();
         log.info("responseBody: {}", responseBody);
@@ -144,7 +143,6 @@ public class PaymentServiceImpl implements PaymentService{
             );
 
             Map responseBody = response.getBody();
-            System.out.println("✅ 결제 승인 응답: " + responseBody);
 
             if (responseBody == null) {
                 throw new BaseException(BaseResponseStatus.TOSS_EMPTY_RESPONSE);
@@ -166,7 +164,6 @@ public class PaymentServiceImpl implements PaymentService{
             if (failure != null) {
 //                String failureCode = failure.get("code");
                 String failReason = failure.get("message");
-                System.out.println("결제 실패 사유(toss): " + failReason);
 
                 paymentRepository.save(requestPaymentConfirmDto.updateFailPayment(
                         payment, failReason
@@ -176,7 +173,6 @@ public class PaymentServiceImpl implements PaymentService{
 
             // 금액 불일치 시
             if (!Objects.equals(amount, payment.getTotalPurchasePrice())) {
-                System.out.println("결제 금액 불일치: " + amount + " / " + payment.getTotalPurchasePrice());
                 throw new BaseException(BaseResponseStatus.PAYMENT_AMOUNT_MISMATCH);
             }
 
@@ -191,7 +187,6 @@ public class PaymentServiceImpl implements PaymentService{
             );
         } catch (Exception e) {
             // 결제 승인 실패 시 처리
-            System.out.println("❌ 결제 승인 실패: " + e.getMessage());
             throw e;
         }
     }
@@ -217,10 +212,8 @@ public class PaymentServiceImpl implements PaymentService{
     public void updatePaymentStatus(String paymentUuid, PaymentStatus status) {
         // 결제 상태가 '완료'가 아닐 경우 예외 처리
         if (!PaymentStatus.DONE.equals(status)) {
-            System.out.println("paymentStatus : " + status.getDescription());
             throw new BaseException(BaseResponseStatus.VIRTUAL_PAYMENT_FAIL);
         }
-        System.out.println("service까지 옴." + paymentUuid + status.getDescription());
         // 결제 UUID가 없으면 예외처리
         paymentRepository.findByPaymentUuid(paymentUuid)
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.PAYMENT_NO_EXIST));
@@ -229,18 +222,5 @@ public class PaymentServiceImpl implements PaymentService{
         paymentRepository.updatePaymentStatus(paymentUuid, status, approvedAt);
 
         //
-    }
-
-    /**
-     * 결제 상세 조회
-     * @param paymentUuid
-     */
-    @Override
-    public ResponsePaymentDto getPayment(String paymentUuid) {
-        Payment payment = paymentRepository
-                .findByPaymentUuid(paymentUuid)
-                .orElseThrow(() -> new BaseException(BaseResponseStatus.PAYMENT_NO_EXIST));
-
-        return ResponsePaymentDto.from(payment);
     }
 }
