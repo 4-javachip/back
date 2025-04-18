@@ -230,4 +230,17 @@ public class PaymentServiceImpl implements PaymentService{
 
         //
     }
+
+    /**
+     * 결제 상세 조회
+     * @param paymentUuid
+     */
+    @Override
+    public ResponsePaymentDto getPayment(String paymentUuid) {
+        Payment payment = paymentRepository
+                .findByPaymentUuid(paymentUuid)
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.PAYMENT_NO_EXIST));
+
+        return ResponsePaymentDto.from(payment);
+    }
 }
