@@ -148,4 +148,15 @@ public class CartServiceImpl implements CartService{
                 .toList();
     }
 
+    /**
+     * 장바구니 삭제 by userUuid, productOptionUuid
+     */
+    @Override
+    public void deleteCartByUserUuidAndProductOptionUuid(String userUuid, String productOptionUuid) {
+        cartRepository.deleteByUserUuidAndProductOptionUuid(
+                userUuid,
+                productOptionUuid
+        );
+    }
+
 }
