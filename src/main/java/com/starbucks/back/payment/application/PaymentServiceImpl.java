@@ -8,6 +8,7 @@ import com.starbucks.back.payment.dto.in.RequestPaymentConfirmDto;
 import com.starbucks.back.payment.dto.in.RequestPaymentCreateDto;
 import com.starbucks.back.payment.dto.out.ResponsePaymentConfirmDto;
 import com.starbucks.back.payment.dto.out.ResponsePaymentCreateDto;
+import com.starbucks.back.payment.dto.out.ResponsePaymentDto;
 import com.starbucks.back.payment.infrastructure.PaymentRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -179,5 +180,18 @@ public class PaymentServiceImpl implements PaymentService{
         }
 
 
+    }
+
+    /**
+     * 결제 상세 조회
+     * @param paymentUuid
+     */
+    @Override
+    public ResponsePaymentDto getPayment(String paymentUuid) {
+        Payment payment = paymentRepository
+                .findByPaymentUuid(paymentUuid)
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.PAYMENT_NO_EXIST));
+
+        return ResponsePaymentDto.from(payment);
     }
 }

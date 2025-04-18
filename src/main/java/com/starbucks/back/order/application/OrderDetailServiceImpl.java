@@ -1,7 +1,7 @@
 package com.starbucks.back.order.application;
 
-import com.starbucks.back.order.dto.in.RequestAddOrderDetailDto;
-import com.starbucks.back.order.dto.out.ResponseOrderDetailByCartUuidDto;
+import com.starbucks.back.order.dto.in.OrderItemDto;
+import com.starbucks.back.order.dto.out.ResponseOrderDetailByOrderItemDto;
 import com.starbucks.back.order.dto.out.ResponseReadOrderDetailDto;
 import com.starbucks.back.order.infrastructure.OrderDetailRepository;
 import jakarta.transaction.Transactional;
@@ -20,10 +20,10 @@ public class OrderDetailServiceImpl implements OrderDetailService{
      */
     @Transactional
     @Override
-    public void addOrderDetail(String cartUuid, String OrderListUuid) {
-        ResponseOrderDetailByCartUuidDto responseOrderDetailByCartUuidDto =
-                orderDetailRepository.getOrderDetailFromCartList(cartUuid, OrderListUuid);
-        orderDetailRepository.save(responseOrderDetailByCartUuidDto.toEntity(OrderListUuid));
+    public void addOrderDetail(OrderItemDto orderItemDto) {
+        ResponseOrderDetailByOrderItemDto responseOrderDetailByOrderItemDto =
+                orderDetailRepository.getOrderDetailFromOrderItem(orderItemDto);
+        orderDetailRepository.save(responseOrderDetailByOrderItemDto.toEntity(orderItemDto.getOrderListUuid()));
     }
 
     /**

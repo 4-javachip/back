@@ -1,6 +1,5 @@
 package com.starbucks.back.order.dto.out;
 
-import com.querydsl.core.Tuple;
 import com.starbucks.back.order.domain.OrderDetail;
 import lombok.Builder;
 import lombok.Getter;
@@ -8,7 +7,7 @@ import lombok.Getter;
 import java.util.UUID;
 
 @Getter
-public class ResponseOrderDetailByCartUuidDto {
+public class ResponseOrderDetailByOrderItemDto {
 
     private String orderListUuid;
     private String name;
@@ -19,7 +18,7 @@ public class ResponseOrderDetailByCartUuidDto {
     private Integer quantity;
 
     @Builder
-    public ResponseOrderDetailByCartUuidDto(
+    public ResponseOrderDetailByOrderItemDto(
             String orderListUuid,
             String name,
             String thumbnail,
@@ -37,16 +36,16 @@ public class ResponseOrderDetailByCartUuidDto {
         this.quantity = quantity;
     }
 
-    public static ResponseOrderDetailByCartUuidDto from(
+    public static ResponseOrderDetailByOrderItemDto from(
             String orderListUuid,
             String name,
             String thumbnail,
             Integer totalOriginPrice,
-            Integer discountRate,
             Integer totalPurchasePrice,
             Integer quantity
     ) {
-        return ResponseOrderDetailByCartUuidDto.builder()
+        Integer discountRate = 100 - (totalPurchasePrice * 100 / totalOriginPrice);
+        return ResponseOrderDetailByOrderItemDto.builder()
                 .orderListUuid(orderListUuid)
                 .name(name)
                 .thumbnail(thumbnail)
