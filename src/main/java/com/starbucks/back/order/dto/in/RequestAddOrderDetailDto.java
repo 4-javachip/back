@@ -1,5 +1,6 @@
 package com.starbucks.back.order.dto.in;
 
+import com.starbucks.back.order.vo.in.OrderItemVo;
 import com.starbucks.back.order.vo.in.RequestAddOrderListVo;
 import lombok.Builder;
 import lombok.Getter;
@@ -9,7 +10,7 @@ import java.util.List;
 @Getter
 public class RequestAddOrderDetailDto {
     private String cartUuid;
-    private List<String> orderItemUuids;
+    private List<OrderItemVo> orderItems;
     private String shippingAddressUuid;
     private Integer totalOriginPrice;
     private Integer totalPurchasePrice;
@@ -18,14 +19,14 @@ public class RequestAddOrderDetailDto {
     @Builder
     public RequestAddOrderDetailDto(
             String cartUuid,
-            List<String> orderItemUuids,
+            List<OrderItemVo> orderItems,
             String shippingAddressUuid,
             Integer totalOriginPrice,
             Integer totalPurchasePrice,
             String paymentUuid
     ) {
         this.cartUuid = cartUuid;
-        this.orderItemUuids = orderItemUuids;
+        this.orderItems = orderItems;
         this.shippingAddressUuid = shippingAddressUuid;
         this.totalOriginPrice = totalOriginPrice;
         this.totalPurchasePrice = totalPurchasePrice;
@@ -38,7 +39,7 @@ public class RequestAddOrderDetailDto {
     ) {
             return RequestAddOrderDetailDto.builder()
                     .cartUuid(cartUuid)
-                    .orderItemUuids(requestAddOrderListVo.getOrderItemUuids())
+                    .orderItems(requestAddOrderListVo.getOrderItems())
                     .shippingAddressUuid(requestAddOrderListVo.getShippingAddressUuid())
                     .totalOriginPrice(requestAddOrderListVo.getTotalOriginPrice())
                     .totalPurchasePrice(requestAddOrderListVo.getTotalPurchasePrice())
