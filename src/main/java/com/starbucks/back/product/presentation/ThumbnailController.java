@@ -52,7 +52,7 @@ public class ThumbnailController {
      */
     @Operation(summary = "상품 uuid로 썸네일 조회 API", description = "상품 uuid로 썸네일 조회 API 입니다.", tags = {"Product-Thumbnail-Service"})
     @GetMapping("/list/{productUuid}")
-    public BaseResponseEntity<List<ResponseThumbnailVo>> getThumbnailByProductUuid(@PathVariable String productUuid) {
+    public BaseResponseEntity<List<ResponseThumbnailVo>> getThumbnailByProductUuid(@PathVariable("productUuid") String productUuid) {
         List<ResponseThumbnailVo> result = thumbnailService.getThumbnailByProductUuid(productUuid)
                 .stream()
                 .map(ResponseThumbnailDto::toVo)

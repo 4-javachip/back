@@ -39,7 +39,7 @@ public class ProductCategoryListController {
      */
     @Operation(summary = "상품 uuid로 상품 카테고리 리스트 조회 API", description = "상품 uuid로 상품 카테고리 리스트 조회 API 입니다.", tags = {"Product-Category-List-Service"})
     @GetMapping("/{productUuid}")
-    public BaseResponseEntity<ResponseProductCategoryListVo> getProductCategoryListByProductUuid(@PathVariable String productUuid) {
+    public BaseResponseEntity<ResponseProductCategoryListVo> getProductCategoryListByProductUuid(@PathVariable("productUuid") String productUuid) {
         ResponseProductCategoryListDto responseProductCategoryListDto = productCategoryListService.getProductCategoryListByProductUuid(productUuid);
         return  new BaseResponseEntity<>(responseProductCategoryListDto.toVo());
     }
