@@ -1,7 +1,7 @@
 package com.starbucks.back.user.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.starbucks.back.common.entity.SoftDeletableEntity;
+import com.starbucks.back.common.entity.BaseEntity;
 import com.starbucks.back.user.domain.enums.SignUpType;
 import com.starbucks.back.user.domain.enums.UserGender;
 import com.starbucks.back.user.domain.enums.UserState;
@@ -22,7 +22,7 @@ import java.util.List;
 @Table(name = "user")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class User extends SoftDeletableEntity implements UserDetails {
+public class User extends BaseEntity implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonIgnore
@@ -89,24 +89,24 @@ public class User extends SoftDeletableEntity implements UserDetails {
         return this.userUuid;
     }
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
+//    @Override
+//    public boolean isAccountNonExpired() {
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean isAccountNonLocked() {
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean isCredentialsNonExpired() {
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean isEnabled() {
+//        return true;
+//    }
 
 }
