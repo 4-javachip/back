@@ -1,8 +1,11 @@
 package com.starbucks.back.payment.presentation;
 
 import com.starbucks.back.common.entity.BaseResponseEntity;
+import com.starbucks.back.common.entity.BaseResponseStatus;
+import com.starbucks.back.common.exception.BaseException;
 import com.starbucks.back.common.util.SecurityUtil;
 import com.starbucks.back.payment.application.PaymentService;
+import com.starbucks.back.payment.domain.PaymentStatus;
 import com.starbucks.back.payment.dto.in.RequestPaymentConfirmDto;
 import com.starbucks.back.payment.dto.in.RequestPaymentCreateDto;
 import com.starbucks.back.payment.dto.out.ResponsePaymentConfirmDto;
@@ -15,6 +18,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/payment")
@@ -52,6 +57,26 @@ public class PaymentController {
                 RequestPaymentConfirmDto.from(userUuid, requestPaymentConfirmVo)
         );
         return new BaseResponseEntity<>(responsePaymentConfirmDto.toVo(responsePaymentConfirmDto));
+    }
+
+    /**
+     * 가상계좌 웹훅
+     */
+    @PostMapping("/webhook")
+    @Operation(summary = "VirtualAccountWebhook API", description = "가상계좌 웹훅 API 입니다.", tags = {"Payment-Service"})
+    public BaseResponseEntity<Void> virtualAccountWebhook(
+            @RequestBody Map<String, Object> payload
+    ) {
+        System.out.println("💰 가상계좌 웹훅 수신! payload: " + payload);
+
+        String paymentUuid = (String) payload.get("orderId");
+        PaymentStatus status = PaymentStatus.from((String) payload.get("status"));
+        System.out.println(status.name() + " : " + status.getDescription());
+        // DB에 paymentStatus 업데이트
+        paymentService.updatePaymentStatus(paymentUuid, status);
+
+        System.out.println("💰 입금 완료! 주문 ID: @@@" + paymentUuid);
+        return new BaseResponseEntity<>(null);
     }
 
 }
