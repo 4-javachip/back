@@ -75,7 +75,13 @@ public class SecurityConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.setAllowedOrigins(List.of(
+//        config.setAllowedOrigins(List.of(
+//                "http://localhost:3000",
+//                "https://starbucks-store.shop",
+//                "https://www.starbucks-store.shop",
+//                "https://back.starbucks-store.shop"
+//        ));
+        config.setAllowedOriginPatterns(List.of(
                 "http://localhost:3000",
                 "https://starbucks-store.shop",
                 "https://www.starbucks-store.shop",
