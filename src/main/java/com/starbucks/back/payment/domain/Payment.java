@@ -53,7 +53,7 @@ public class Payment {
     @Column(name = "fail_reason", length = 255)
     private String failReason;
 
-    @Column(name = "approved_at", nullable = false)
+    @Column(name = "approved_at", nullable = true)
     private LocalDateTime approvedAt;
 
     @Builder

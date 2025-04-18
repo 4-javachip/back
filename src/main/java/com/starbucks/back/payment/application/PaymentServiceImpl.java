@@ -21,10 +21,8 @@ import org.springframework.web.client.RestTemplate;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
-import java.util.Base64;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -42,6 +40,9 @@ public class PaymentServiceImpl implements PaymentService{
 
     @Value("${payment.fail-url}")
     private String failUrl;
+
+    @Value("${payment.callback-url}")
+    private String callbackUrl;
 
     /**
      * 결제 생성
@@ -67,6 +68,15 @@ public class PaymentServiceImpl implements PaymentService{
         body.put("method", requestPaymentCreateDto.getMethod());
         body.put("successUrl", successUrl);
         body.put("failUrl", failUrl);
+        body.put("cashReceipt", Map.of("type", "소득공제")); // 현금영수증 자동 발급 (선택)
+        body.put("validHours", 24); // 24시간 안에 입금 유효 (선택)
+        body.put("virtualAccountCallbackUrl", callbackUrl); // 웹훅 URL 명시 가능
+
+        // 가상계좌 결제 시 추가 정보
+        if ("VIRTUAL_ACCOUNT".equals(requestPaymentCreateDto.getMethod())) {
+            body.put("cashReceipt", Map.of("type", "소득공제"));
+            body.put("validHours", 24);
+        }
 
         String auth = secretKey + ":";
         String encodedAuth = Base64.getEncoder().encodeToString(auth.getBytes(StandardCharsets.UTF_8));
@@ -145,9 +155,12 @@ public class PaymentServiceImpl implements PaymentService{
             String method = (String) responseBody.get("method");
             Integer amount = (Integer) responseBody.get("totalAmount");
             PaymentStatus paymentStatus = PaymentStatus.valueOf((String) responseBody.get("status"));
-            OffsetDateTime offsetDateTime = OffsetDateTime.parse((String) responseBody.get("approvedAt"));
-            LocalDateTime approvedAt = offsetDateTime.toLocalDateTime();
             Map<String, String> failure = (Map<String, String>) responseBody.get("failure");
+            // 가상 결제의 경우 approvedAt이 null일 수 있음
+            LocalDateTime approvedAt = Optional.ofNullable((String) responseBody.get("approvedAt"))
+                    .map(OffsetDateTime::parse)
+                    .map(OffsetDateTime::toLocalDateTime)
+                    .orElse(null);
 
             // 결제 실패 시 관련 정보 파싱 + 저장, 이후 에러 처리
             if (failure != null) {
@@ -171,15 +184,16 @@ public class PaymentServiceImpl implements PaymentService{
                     payment, paymentCode, method, amount, paymentStatus, approvedAt));
 
             return ResponsePaymentConfirmDto.from(
-                    "결제 완료", paymentUuid, paymentStatus, approvedAt.toString()
+                    paymentStatus.getDescription(),
+                    paymentUuid,
+                    paymentStatus,
+                    approvedAt != null ? approvedAt.toString() : null
             );
         } catch (Exception e) {
             // 결제 승인 실패 시 처리
             System.out.println("❌ 결제 승인 실패: " + e.getMessage());
             throw e;
         }
-
-
     }
 
     /**
@@ -193,5 +207,27 @@ public class PaymentServiceImpl implements PaymentService{
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.PAYMENT_NO_EXIST));
 
         return ResponsePaymentDto.from(payment);
+    }
+
+    /**
+     * 결제 상태 업데이트
+     */
+    @Transactional
+    @Override
+    public void updatePaymentStatus(String paymentUuid, PaymentStatus status) {
+        // 결제 상태가 '완료'가 아닐 경우 예외 처리
+        if (!PaymentStatus.DONE.equals(status)) {
+            System.out.println("paymentStatus : " + status.getDescription());
+            throw new BaseException(BaseResponseStatus.VIRTUAL_PAYMENT_FAIL);
+        }
+        System.out.println("service까지 옴." + paymentUuid + status.getDescription());
+        // 결제 UUID가 없으면 예외처리
+        paymentRepository.findByPaymentUuid(paymentUuid)
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.PAYMENT_NO_EXIST));
+        // Payment DB에 상태 저장
+        LocalDateTime approvedAt = LocalDateTime.now();
+        paymentRepository.updatePaymentStatus(paymentUuid, status, approvedAt);
+
+        //
     }
 }
