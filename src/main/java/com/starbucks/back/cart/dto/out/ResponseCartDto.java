@@ -51,6 +51,7 @@ public class ResponseCartDto {
                 .productQuantity(productQuantity)
                 .productUuid(productUuid)
                 .productOptionUuid(productOptionUuid)
+                .checked(checked)
                 .build();
     }
 }
