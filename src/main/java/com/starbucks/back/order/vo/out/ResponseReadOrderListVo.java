@@ -9,28 +9,40 @@ import java.time.LocalDateTime;
 public class ResponseReadOrderListVo {
     private String orderListUuid;
     private String orderCode;
-    private String shippingAddressUuid;
     private LocalDateTime createdAt;
     private Integer totalOriginPrice;
     private Integer totalPurchasePrice;
     private Integer discountRate;
+    private String recipientName;
+    private String zipCode;
+    private String baseAddress;
+    private String detailAddress;
+    private String phoneNumber;
 
     @Builder
     public ResponseReadOrderListVo(
             String orderListUuid,
             String orderCode,
-            String shippingAddressUuid,
             LocalDateTime createdAt,
             Integer totalOriginPrice,
             Integer totalPurchasePrice,
-            Integer discountRate
+            Integer discountRate,
+            String recipientName,
+            String zipCode,
+            String baseAddress,
+            String detailAddress,
+            String phoneNumber
     ) {
         this.orderListUuid = orderListUuid;
         this.orderCode = orderCode;
-        this.shippingAddressUuid = shippingAddressUuid;
         this.createdAt = createdAt;
         this.totalOriginPrice = totalOriginPrice;
         this.totalPurchasePrice = totalPurchasePrice;
         this.discountRate = discountRate;
+        this.recipientName = recipientName;
+        this.zipCode = zipCode;
+        this.baseAddress = baseAddress;
+        this.detailAddress = detailAddress;
+        this.phoneNumber = phoneNumber;
     }
 }

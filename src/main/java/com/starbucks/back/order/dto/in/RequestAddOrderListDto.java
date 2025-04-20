@@ -4,6 +4,7 @@ import com.starbucks.back.order.domain.OrderList;
 import com.starbucks.back.order.domain.enums.PaymentStatus;
 import com.starbucks.back.order.vo.in.OrderItemVo;
 import com.starbucks.back.order.vo.in.RequestAddOrderListVo;
+import com.starbucks.back.shippingaddress.dto.out.ResponseReadShippingAddressWithDefaultedDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
@@ -18,32 +19,35 @@ public class RequestAddOrderListDto {
     private String userUuid;
     private Boolean fromCart;
     private List<OrderItemVo> orderItems;
-    private String shippingAddressUuid;
     private Integer totalOriginPrice;
     private Integer totalPurchasePrice;
     private String paymentUuid;
+    private String shippingAddressUuid;
 
     @Builder
     public RequestAddOrderListDto(
             String userUuid,
             Boolean fromCart,
             List<OrderItemVo> orderItems,
-            String shippingAddressUuid,
             Integer totalOriginPrice,
             Integer totalPurchasePrice,
-            String paymentUuid
-    ) {
+            String paymentUuid,
+            String shippingAddressUuid
+        ) {
         this.userUuid = userUuid;
         this.fromCart = fromCart;
         this.orderItems = orderItems;
-        this.shippingAddressUuid = shippingAddressUuid;
         this.totalOriginPrice = totalOriginPrice;
         this.totalPurchasePrice = totalPurchasePrice;
         this.paymentUuid = paymentUuid;
+        this.shippingAddressUuid = shippingAddressUuid;
     }
 
     // dto => entity
-    public OrderList toEntity(PaymentStatus paymentStatus) {
+    public OrderList toEntity(
+            PaymentStatus paymentStatus,
+            ResponseReadShippingAddressWithDefaultedDto shippingAddressDto
+        ) {
         String date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
         String randomPart = UUID.randomUUID().toString().replace("-", "").substring(0, 8).toUpperCase();
 
@@ -58,7 +62,11 @@ public class RequestAddOrderListDto {
                 .paymentStatus(paymentStatus)
                 .totalOriginPrice(totalOriginPrice)
                 .totalPurchasePrice(totalPurchasePrice)
-                .shippingAddressUuid(shippingAddressUuid)
+                .recipientName(shippingAddressDto.getRecipientName())
+                .zipCode(shippingAddressDto.getZipCode())
+                .baseAddress(shippingAddressDto.getBaseAddress())
+                .detailAddress(shippingAddressDto.getDetailAddress())
+                .phoneNumber(shippingAddressDto.getPhoneNumber())
                 .build();
     }
 

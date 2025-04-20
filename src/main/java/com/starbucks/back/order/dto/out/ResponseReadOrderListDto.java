@@ -11,29 +11,41 @@ import java.time.LocalDateTime;
 public class ResponseReadOrderListDto {
     private String orderListUuid;
     private String orderCode;
-    private String shippingAddressUuid;
     private LocalDateTime createdAt;
     private Integer totalOriginPrice;
     private Integer totalPurchasePrice;
     private Integer discountRate;
+    private String recipientName;
+    private String zipCode;
+    private String baseAddress;
+    private String detailAddress;
+    private String phoneNumber;
 
     @Builder
     public ResponseReadOrderListDto(
             String orderListUuid,
             String orderCode,
-            String shippingAddressUuid,
             LocalDateTime createdAt,
             Integer totalOriginPrice,
             Integer totalPurchasePrice,
-            Integer discountRate
+            Integer discountRate,
+            String recipientName,
+            String zipCode,
+            String baseAddress,
+            String detailAddress,
+            String phoneNumber
     ) {
         this.orderListUuid = orderListUuid;
         this.orderCode = orderCode;
-        this.shippingAddressUuid = shippingAddressUuid;
         this.createdAt = createdAt;
         this.totalOriginPrice = totalOriginPrice;
         this.totalPurchasePrice = totalPurchasePrice;
         this.discountRate = discountRate;
+        this.recipientName = recipientName;
+        this.zipCode = zipCode;
+        this.baseAddress = baseAddress;
+        this.detailAddress = detailAddress;
+        this.phoneNumber = phoneNumber;
     }
 
     // entity => vo
@@ -41,11 +53,15 @@ public class ResponseReadOrderListDto {
         return ResponseReadOrderListDto.builder()
                 .orderListUuid(orderList.getOrderListUuid())
                 .orderCode(orderList.getOrderCode())
-                .shippingAddressUuid(orderList.getShippingAddressUuid())
                 .createdAt(orderList.getCreatedAt())
                 .totalOriginPrice(orderList.getTotalOriginPrice())
                 .totalPurchasePrice(orderList.getTotalPurchasePrice())
                 .discountRate(orderList.getDiscountRate())
+                .recipientName(orderList.getRecipientName())
+                .zipCode(orderList.getZipCode())
+                .baseAddress(orderList.getBaseAddress())
+                .detailAddress(orderList.getDetailAddress())
+                .phoneNumber(orderList.getPhoneNumber())
                 .build();
     }
 
@@ -54,11 +70,15 @@ public class ResponseReadOrderListDto {
         return ResponseReadOrderListVo.builder()
                 .orderListUuid(orderListUuid)
                 .orderCode(orderCode)
-                .shippingAddressUuid(shippingAddressUuid)
                 .createdAt(createdAt)
                 .totalOriginPrice(totalOriginPrice)
                 .totalPurchasePrice(totalPurchasePrice)
                 .discountRate(discountRate)
+                .recipientName(recipientName)
+                .zipCode(zipCode)
+                .baseAddress(baseAddress)
+                .detailAddress(detailAddress)
+                .phoneNumber(phoneNumber)
                 .build();
     }
 }
