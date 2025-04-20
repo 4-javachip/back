@@ -16,6 +16,8 @@ public class ResponseReadOrderDetailDto {
     private Integer discountRate;
     private Integer totalPurchasePrice;
     private Integer quantity;
+    private String sizeName;
+    private String colorName;
 
     @Builder
     public ResponseReadOrderDetailDto(
@@ -26,7 +28,9 @@ public class ResponseReadOrderDetailDto {
             Integer totalOriginPrice,
             Integer discountRate,
             Integer totalPurchasePrice,
-            Integer quantity
+            Integer quantity,
+            String sizeName,
+            String colorName
     ) {
         this.orderListUuid = orderListUuid;
         this.orderDetailUuid = orderDetailUuid;
@@ -36,6 +40,8 @@ public class ResponseReadOrderDetailDto {
         this.discountRate = discountRate;
         this.totalPurchasePrice = totalPurchasePrice;
         this.quantity = quantity;
+        this.sizeName = sizeName;
+        this.colorName = colorName;
     }
 
     // entity => dto
@@ -49,6 +55,8 @@ public class ResponseReadOrderDetailDto {
                 .discountRate(orderDetail.getDiscountRate())
                 .totalPurchasePrice(orderDetail.getTotalPurchasePrice())
                 .quantity(orderDetail.getQuantity())
+                .sizeName(orderDetail.getSizeName())
+                .colorName(orderDetail.getColorName())
                 .build();
     }
 
@@ -63,6 +71,8 @@ public class ResponseReadOrderDetailDto {
                 .discountRate(responseReadOrderDetailDto.getDiscountRate())
                 .totalPurchasePrice(responseReadOrderDetailDto.getTotalPurchasePrice())
                 .quantity(responseReadOrderDetailDto.getQuantity())
+                .sizeName(responseReadOrderDetailDto.getSizeName())
+                .colorName(responseReadOrderDetailDto.getColorName())
                 .build();
     }
 }

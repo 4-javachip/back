@@ -2,17 +2,18 @@ package com.starbucks.back.order.application;
 
 import com.starbucks.back.best.application.BestService;
 import com.starbucks.back.cart.application.CartService;
-import com.starbucks.back.cart.dto.in.RequestDeleteCartDto;
-import com.starbucks.back.cart.dto.out.ResponseCartDto;
 import com.starbucks.back.common.entity.BaseResponseStatus;
 import com.starbucks.back.common.exception.BaseException;
 import com.starbucks.back.order.domain.OrderList;
 import com.starbucks.back.order.domain.enums.PaymentStatus;
 import com.starbucks.back.order.dto.in.OrderItemDto;
 import com.starbucks.back.order.dto.in.RequestAddOrderListDto;
+import com.starbucks.back.order.dto.out.ResponseOrderDetailByOrderItemDto;
 import com.starbucks.back.order.dto.out.ResponseReadOrderListDto;
 import com.starbucks.back.order.infrastructure.OrderListRepository;
 import com.starbucks.back.order.vo.in.OrderItemVo;
+import com.starbucks.back.order.vo.out.AddedOrderItemVo;
+import com.starbucks.back.order.vo.out.ResponseAddOrderListVo;
 import com.starbucks.back.payment.application.PaymentService;
 import com.starbucks.back.payment.dto.out.ResponsePaymentDto;
 import com.starbucks.back.product.application.ProductOptionService;
@@ -23,6 +24,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -41,7 +43,10 @@ public class OrderListServiceImpl implements OrderListService {
      */
     @Transactional
     @Override
-    public void addOrderList(RequestAddOrderListDto requestAddOrderListDto) {
+    public ResponseAddOrderListVo addOrderList(RequestAddOrderListDto requestAddOrderListDto) {
+
+
+
         // 장바구니에서 조회면, 해당 장바구니를 삭제
         if (requestAddOrderListDto.getFromCart()) {
             for (OrderItemVo orderItemVo : requestAddOrderListDto.getOrderItems()) {
@@ -66,13 +71,16 @@ public class OrderListServiceImpl implements OrderListService {
         );
 
         // OrderDetail에 상품 정보 추가 (장바구니List에서 cartUuid 받아와서, QueryDSL로 OrderDetail 생성)
+        List<AddedOrderItemVo> addedOrderItemVos = new ArrayList<>();
+
         for (OrderItemVo orderItemVo : requestAddOrderListDto.getOrderItems()) {
             OrderItemDto orderItemDto = OrderItemDto.from(
                     orderList.getOrderListUuid(),
                     orderItemVo
             );
             // orderDetail 에서 save 로직 작성
-            orderDetailService.addOrderDetail(orderItemDto);
+            ResponseOrderDetailByOrderItemDto responseOrderDetailByOrderItemDto =
+                    orderDetailService.addOrderDetail(orderItemDto);
 
             // 재고 감소시키기
             ResponseProductOptionDto responseProductOptionDto = productOptionService
@@ -99,7 +107,32 @@ public class OrderListServiceImpl implements OrderListService {
             bestService.increaseBestProductSalesCount(
                     responseProductOptionDto.getProductUuid(), orderItemVo.getQuantity()
             );
+
+            // ResponseVo에 담을 상품정보 추가
+            addedOrderItemVos.add(
+                    AddedOrderItemVo.builder()
+                            .name(responseOrderDetailByOrderItemDto.getName())
+                            .quantity(responseOrderDetailByOrderItemDto.getQuantity())
+                            .thumbnail(responseOrderDetailByOrderItemDto.getThumbnail())
+                            .sizeName(responseOrderDetailByOrderItemDto.getSizeName())
+                            .colorName(responseOrderDetailByOrderItemDto.getColorName())
+                            .build()
+            );
         }
+        String shippingAddressUuid = requestAddOrderListDto.getShippingAddressUuid();
+        String orderListUuid = orderList.getOrderListUuid();
+        com.starbucks.back.payment.domain.PaymentStatus paymentStatus = responsePaymentDto.getPaymentStatus();
+        Integer totalOriginPrice = responsePaymentDto.getTotalOriginPrice();
+        Integer totalPurchasePrice = responsePaymentDto.getTotalPurchasePrice();
+
+        return ResponseAddOrderListVo.builder()
+                .shippingAddressUuid(shippingAddressUuid)
+                .orderListUuid(orderListUuid)
+                .paymentStatus(paymentStatus)
+                .totalOriginPrice(totalOriginPrice)
+                .totalPurchasePrice(totalPurchasePrice)
+                .orderItems(addedOrderItemVos)
+                .build();
     }
 
     /**
