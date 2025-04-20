@@ -24,6 +24,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -70,6 +71,7 @@ public class OrderListServiceImpl implements OrderListService {
         );
 
         // OrderDetail에 상품 정보 추가 (장바구니List에서 cartUuid 받아와서, QueryDSL로 OrderDetail 생성)
+        List<AddedOrderItemVo> addedOrderItemVos = new ArrayList<>();
 
         for (OrderItemVo orderItemVo : requestAddOrderListDto.getOrderItems()) {
             OrderItemDto orderItemDto = OrderItemDto.from(
@@ -107,19 +109,30 @@ public class OrderListServiceImpl implements OrderListService {
             );
 
             // ResponseVo에 담을 상품정보 추가
-//            addedOrderItemVos.add(
-//                    AddedOrderItemVo.builder()
-//                            .name(responseOrderDetailByOrderItemDto.getName())
-//                            .quantity(responseOrderDetailByOrderItemDto.getQuantity())
-//                            .thumbnail(responseOrderDetailByOrderItemDto.getThumbnail())
-//                            .sizeName()
-//            )
+            addedOrderItemVos.add(
+                    AddedOrderItemVo.builder()
+                            .name(responseOrderDetailByOrderItemDto.getName())
+                            .quantity(responseOrderDetailByOrderItemDto.getQuantity())
+                            .thumbnail(responseOrderDetailByOrderItemDto.getThumbnail())
+                            .sizeName(responseOrderDetailByOrderItemDto.getSizeName())
+                            .colorName(responseOrderDetailByOrderItemDto.getColorName())
+                            .build()
+            );
         }
         String shippingAddressUuid = requestAddOrderListDto.getShippingAddressUuid();
         String orderListUuid = orderList.getOrderListUuid();
         com.starbucks.back.payment.domain.PaymentStatus paymentStatus = responsePaymentDto.getPaymentStatus();
         Integer totalOriginPrice = responsePaymentDto.getTotalOriginPrice();
         Integer totalPurchasePrice = responsePaymentDto.getTotalPurchasePrice();
+
+        return ResponseAddOrderListVo.builder()
+                .shippingAddressUuid(shippingAddressUuid)
+                .orderListUuid(orderListUuid)
+                .paymentStatus(paymentStatus)
+                .totalOriginPrice(totalOriginPrice)
+                .totalPurchasePrice(totalPurchasePrice)
+                .orderItems(addedOrderItemVos)
+                .build();
     }
 
     /**
