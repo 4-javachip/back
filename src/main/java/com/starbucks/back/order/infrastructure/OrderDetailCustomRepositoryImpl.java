@@ -54,6 +54,7 @@ public class OrderDetailCustomRepositoryImpl implements OrderDetailCustomReposit
 
         return ResponseOrderDetailByOrderItemDto.from(
                 orderItemDto.getOrderListUuid(),
+                orderItemDto.getProductUuid(),
                 result.get(product.name),
                 result.get(thumbnail.thumbnailUrl),
                 orderItemDto.getTotalOriginPrice(),
