@@ -20,10 +20,11 @@ public class OrderDetailServiceImpl implements OrderDetailService{
      */
     @Transactional
     @Override
-    public void addOrderDetail(OrderItemDto orderItemDto) {
+    public ResponseOrderDetailByOrderItemDto addOrderDetail(OrderItemDto orderItemDto) {
         ResponseOrderDetailByOrderItemDto responseOrderDetailByOrderItemDto =
                 orderDetailRepository.getOrderDetailFromOrderItem(orderItemDto);
         orderDetailRepository.save(responseOrderDetailByOrderItemDto.toEntity(orderItemDto.getOrderListUuid()));
+        return responseOrderDetailByOrderItemDto;
     }
 
     /**

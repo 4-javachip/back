@@ -22,22 +22,6 @@ public class OrderDetailCustomRepositoryImpl implements OrderDetailCustomReposit
 
     @Override
     public ResponseOrderDetailByOrderItemDto getOrderDetailFromOrderItem(OrderItemDto orderItemDto) {
-//        QProduct product = QProduct.product;
-//        QProductOption productOption = QProductOption.productOption;
-//        QThumbnail thumbnail = QThumbnail.thumbnail;
-//
-//        Tuple result = jpaQueryFactory
-//                .select(
-//                        product.name,
-//                        thumbnail.thumbnailUrl
-//                )
-//                .from(productOption)
-//                .join(product).on(productOption.productUuid.eq(product.productUuid))
-//                .join(thumbnail).on(product.productUuid.eq(thumbnail.productUuid)
-//                        .and(thumbnail.defaulted.eq(true))
-//                )
-//                .where(productOption.productOptionUuid.eq(orderItemDto.getProductOptionUuid()))
-//                .fetchOne();
 
         QProduct product = QProduct.product;
         QThumbnail thumbnail = QThumbnail.thumbnail;

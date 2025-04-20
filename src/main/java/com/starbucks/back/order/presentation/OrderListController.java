@@ -5,8 +5,10 @@ import com.starbucks.back.common.entity.BaseResponseStatus;
 import com.starbucks.back.common.util.SecurityUtil;
 import com.starbucks.back.order.application.OrderListService;
 import com.starbucks.back.order.dto.in.RequestAddOrderListDto;
+import com.starbucks.back.order.dto.out.ResponseAddOrderListDto;
 import com.starbucks.back.order.dto.out.ResponseReadOrderListDto;
 import com.starbucks.back.order.vo.in.RequestAddOrderListVo;
+import com.starbucks.back.order.vo.out.ResponseAddOrderListVo;
 import com.starbucks.back.order.vo.out.ResponseReadOrderListVo;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.transaction.Transactional;
@@ -28,14 +30,14 @@ public class OrderListController {
     @Transactional
     @PostMapping
     @Operation(summary = "CreateOrder API", description = "주문 생성 (장바구니 선택된 상품만)", tags = {"Order-Service"})
-    public BaseResponseEntity<Void> addOrder(@RequestBody RequestAddOrderListVo requestAddOrderListVo) {
+    public BaseResponseEntity<ResponseAddOrderListVo> addOrder(@RequestBody RequestAddOrderListVo requestAddOrderListVo) {
         String userUuid = securityUtil.getCurrentUserUuid();
 
         RequestAddOrderListDto requestAddOrderListDto = RequestAddOrderListDto.from(userUuid, requestAddOrderListVo);
 
-        orderListService.addOrderList(requestAddOrderListDto);
+        ResponseAddOrderListVo result = orderListService.addOrderList(requestAddOrderListDto);
 
-        return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS);
+        return new BaseResponseEntity<>(result);
     }
 
     /**
