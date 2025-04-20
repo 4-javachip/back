@@ -70,8 +70,8 @@ public class OrderListServiceImpl implements OrderListService {
                 shippingAddressService.getShippingAddressByShippingAddressUuid(
                         requestAddOrderListDto.getShippingAddressUuid()
                 );
-
         ResponsePaymentDto responsePaymentDto = paymentService.getPayment(requestAddOrderListDto.getPaymentUuid());
+
         OrderList orderList = orderListRepository.save(
                 requestAddOrderListDto.toEntity(
                         PaymentStatus.from(responsePaymentDto.getPaymentStatus().getDescription()),
@@ -130,10 +130,13 @@ public class OrderListServiceImpl implements OrderListService {
             );
         }
 
+        String addressName = responseReadShippingAddressWithDefaultedDto.getAddressName();
         String recipientName = responseReadShippingAddressWithDefaultedDto.getRecipientName();
         String zipCode = responseReadShippingAddressWithDefaultedDto.getZipCode();
         String baseAddress = responseReadShippingAddressWithDefaultedDto.getBaseAddress();
         String detailAddress = responseReadShippingAddressWithDefaultedDto.getDetailAddress();
+        String secondPhoneNumber = responseReadShippingAddressWithDefaultedDto.getSecondPhoneNumber();
+        String shippingNote = responseReadShippingAddressWithDefaultedDto.getShippingNote();
         String phoneNumber = responseReadShippingAddressWithDefaultedDto.getPhoneNumber();
         String orderListUuid = orderList.getOrderListUuid();
         com.starbucks.back.payment.domain.PaymentStatus paymentStatus = responsePaymentDto.getPaymentStatus();
@@ -146,11 +149,14 @@ public class OrderListServiceImpl implements OrderListService {
                 .totalOriginPrice(totalOriginPrice)
                 .totalPurchasePrice(totalPurchasePrice)
                 .orderItems(addedOrderItemVos)
+                .addressName(addressName)
                 .recipientName(recipientName)
                 .zipCode(zipCode)
                 .baseAddress(baseAddress)
                 .detailAddress(detailAddress)
                 .phoneNumber(phoneNumber)
+                .secondPhoneNumber(secondPhoneNumber)
+                .shippingNote(shippingNote)
                 .build();
     }
 

@@ -14,11 +14,14 @@ public class ResponseAddOrderListVo {
     private Integer totalOriginPrice;
     private Integer totalPurchasePrice;
     private List<AddedOrderItemVo> orderItems;
+    private String addressName;
     private String recipientName;
     private String zipCode;
     private String baseAddress;
     private String detailAddress;
     private String phoneNumber;
+    private String shippingNote;
+    private String secondPhoneNumber;
 
     @Builder
     public ResponseAddOrderListVo(
@@ -27,21 +30,27 @@ public class ResponseAddOrderListVo {
             Integer totalOriginPrice,
             Integer totalPurchasePrice,
             List<AddedOrderItemVo> orderItems,
+            String addressName,
             String recipientName,
             String zipCode,
             String baseAddress,
             String detailAddress,
-            String phoneNumber
+            String phoneNumber,
+            String shippingNote,
+            String secondPhoneNumber
     ) {
         this.orderListUuid = orderListUuid;
         this.paymentStatus = paymentStatus;
         this.totalOriginPrice = totalOriginPrice;
         this.totalPurchasePrice = totalPurchasePrice;
         this.orderItems = orderItems;
+        this.addressName = addressName;
         this.recipientName = recipientName;
         this.zipCode = zipCode;
         this.baseAddress = baseAddress;
         this.detailAddress = detailAddress;
         this.phoneNumber = phoneNumber;
+        this.shippingNote = shippingNote;
+        this.secondPhoneNumber = secondPhoneNumber;
     }
 }
