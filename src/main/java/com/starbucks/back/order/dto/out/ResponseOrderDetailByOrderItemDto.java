@@ -10,6 +10,7 @@ import java.util.UUID;
 public class ResponseOrderDetailByOrderItemDto {
 
     private String orderListUuid;
+    private String productUuid;
     private String name;
     private String thumbnail;
     private Integer totalOriginPrice;
@@ -22,6 +23,7 @@ public class ResponseOrderDetailByOrderItemDto {
     @Builder
     public ResponseOrderDetailByOrderItemDto(
             String orderListUuid,
+            String productUuid,
             String name,
             String thumbnail,
             Integer totalOriginPrice,
@@ -32,6 +34,7 @@ public class ResponseOrderDetailByOrderItemDto {
             String colorName
     ) {
         this.orderListUuid = orderListUuid;
+        this.productUuid = productUuid;
         this.name = name;
         this.thumbnail = thumbnail;
         this.totalOriginPrice = totalOriginPrice;
@@ -44,6 +47,7 @@ public class ResponseOrderDetailByOrderItemDto {
 
     public static ResponseOrderDetailByOrderItemDto from(
             String orderListUuid,
+            String productUuid,
             String name,
             String thumbnail,
             Integer totalOriginPrice,
@@ -55,6 +59,7 @@ public class ResponseOrderDetailByOrderItemDto {
         Integer discountRate = 100 - (totalPurchasePrice * 100 / totalOriginPrice);
         return ResponseOrderDetailByOrderItemDto.builder()
                 .orderListUuid(orderListUuid)
+                .productUuid(productUuid)
                 .name(name)
                 .thumbnail(thumbnail)
                 .totalOriginPrice(totalOriginPrice)
@@ -71,6 +76,7 @@ public class ResponseOrderDetailByOrderItemDto {
         return OrderDetail.builder()
                 .orderListUuid(orderListUuid)
                 .orderDetailUuid(UUID.randomUUID().toString())
+                .productUuid(productUuid)
                 .name(name)
                 .thumbnail(thumbnail)
                 .totalOriginPrice(totalOriginPrice)

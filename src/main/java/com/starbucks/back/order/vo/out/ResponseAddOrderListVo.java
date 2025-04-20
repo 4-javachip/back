@@ -11,16 +11,25 @@ public class ResponseAddOrderListVo {
 
     private String shippingAddressUuid;
     private String orderListUuid;
+    private String proquctUuid;
     private PaymentStatus paymentStatus;
     private Integer totalOriginPrice;
     private Integer totalPurchasePrice;
     private List<AddedOrderItemVo> orderItems;
 
     @Builder
-    public ResponseAddOrderListVo(String shippingAddressUuid, String orderListUuid, PaymentStatus paymentStatus,
-                                   Integer totalOriginPrice, Integer totalPurchasePrice, List<AddedOrderItemVo> orderItems) {
+    public ResponseAddOrderListVo(
+            String shippingAddressUuid,
+            String orderListUuid,
+            String proquctUuid,
+            PaymentStatus paymentStatus,
+            Integer totalOriginPrice,
+            Integer totalPurchasePrice,
+            List<AddedOrderItemVo> orderItems
+    ) {
         this.shippingAddressUuid = shippingAddressUuid;
         this.orderListUuid = orderListUuid;
+        this.proquctUuid = proquctUuid;
         this.paymentStatus = paymentStatus;
         this.totalOriginPrice = totalOriginPrice;
         this.totalPurchasePrice = totalPurchasePrice;
