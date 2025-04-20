@@ -15,11 +15,14 @@ public class ResponseReadOrderListDto {
     private Integer totalOriginPrice;
     private Integer totalPurchasePrice;
     private Integer discountRate;
+    private String addressName;
     private String recipientName;
     private String zipCode;
     private String baseAddress;
     private String detailAddress;
     private String phoneNumber;
+    private String secondPhoneNumber;
+    private String shippingNote;
 
     @Builder
     public ResponseReadOrderListDto(
@@ -29,11 +32,14 @@ public class ResponseReadOrderListDto {
             Integer totalOriginPrice,
             Integer totalPurchasePrice,
             Integer discountRate,
+            String addressName,
             String recipientName,
             String zipCode,
             String baseAddress,
             String detailAddress,
-            String phoneNumber
+            String phoneNumber,
+            String secondPhoneNumber,
+            String shippingNote
     ) {
         this.orderListUuid = orderListUuid;
         this.orderCode = orderCode;
@@ -41,11 +47,14 @@ public class ResponseReadOrderListDto {
         this.totalOriginPrice = totalOriginPrice;
         this.totalPurchasePrice = totalPurchasePrice;
         this.discountRate = discountRate;
+        this.addressName = addressName;
         this.recipientName = recipientName;
         this.zipCode = zipCode;
         this.baseAddress = baseAddress;
         this.detailAddress = detailAddress;
         this.phoneNumber = phoneNumber;
+        this.secondPhoneNumber = secondPhoneNumber;
+        this.shippingNote = shippingNote;
     }
 
     // entity => vo
@@ -57,11 +66,14 @@ public class ResponseReadOrderListDto {
                 .totalOriginPrice(orderList.getTotalOriginPrice())
                 .totalPurchasePrice(orderList.getTotalPurchasePrice())
                 .discountRate(orderList.getDiscountRate())
+                .addressName(orderList.getAddressName())
                 .recipientName(orderList.getRecipientName())
                 .zipCode(orderList.getZipCode())
                 .baseAddress(orderList.getBaseAddress())
                 .detailAddress(orderList.getDetailAddress())
                 .phoneNumber(orderList.getPhoneNumber())
+                .secondPhoneNumber(orderList.getSecondPhoneNumber())
+                .shippingNote(orderList.getShippingNote())
                 .build();
     }
 
@@ -74,11 +86,14 @@ public class ResponseReadOrderListDto {
                 .totalOriginPrice(totalOriginPrice)
                 .totalPurchasePrice(totalPurchasePrice)
                 .discountRate(discountRate)
+                .addressName(addressName)
                 .recipientName(recipientName)
                 .zipCode(zipCode)
                 .baseAddress(baseAddress)
                 .detailAddress(detailAddress)
                 .phoneNumber(phoneNumber)
+                .secondPhoneNumber(secondPhoneNumber)
+                .shippingNote(shippingNote)
                 .build();
     }
 }
