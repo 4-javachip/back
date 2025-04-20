@@ -19,6 +19,8 @@ import com.starbucks.back.payment.dto.out.ResponsePaymentDto;
 import com.starbucks.back.product.application.ProductOptionService;
 import com.starbucks.back.product.dto.in.RequestUpdateProductOptionDto;
 import com.starbucks.back.product.dto.out.ResponseProductOptionDto;
+import com.starbucks.back.shippingaddress.application.ShippingAddressService;
+import com.starbucks.back.shippingaddress.dto.out.ResponseReadShippingAddressWithDefaultedDto;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,6 +37,7 @@ public class OrderListServiceImpl implements OrderListService {
     private final OrderDetailService orderDetailService;
     private final ProductOptionService productOptionService;
     private final PaymentService paymentService;
+    private final ShippingAddressService shippingAddressService;
     private final CartService cartService;
     private final BestService bestService;
 
@@ -63,10 +66,16 @@ public class OrderListServiceImpl implements OrderListService {
         }
 
         // OrderList 생성
+        ResponseReadShippingAddressWithDefaultedDto responseReadShippingAddressWithDefaultedDto =
+                shippingAddressService.getShippingAddressByShippingAddressUuid(
+                        requestAddOrderListDto.getShippingAddressUuid()
+                );
+
         ResponsePaymentDto responsePaymentDto = paymentService.getPayment(requestAddOrderListDto.getPaymentUuid());
         OrderList orderList = orderListRepository.save(
-                requestAddOrderListDto.toEntity(PaymentStatus
-                        .from(responsePaymentDto.getPaymentStatus().getDescription())
+                requestAddOrderListDto.toEntity(
+                        PaymentStatus.from(responsePaymentDto.getPaymentStatus().getDescription()),
+                        responseReadShippingAddressWithDefaultedDto
                 )
         );
 
@@ -120,19 +129,28 @@ public class OrderListServiceImpl implements OrderListService {
                             .build()
             );
         }
-        String shippingAddressUuid = requestAddOrderListDto.getShippingAddressUuid();
+
+        String recipientName = responseReadShippingAddressWithDefaultedDto.getRecipientName();
+        String zipCode = responseReadShippingAddressWithDefaultedDto.getZipCode();
+        String baseAddress = responseReadShippingAddressWithDefaultedDto.getBaseAddress();
+        String detailAddress = responseReadShippingAddressWithDefaultedDto.getDetailAddress();
+        String phoneNumber = responseReadShippingAddressWithDefaultedDto.getPhoneNumber();
         String orderListUuid = orderList.getOrderListUuid();
         com.starbucks.back.payment.domain.PaymentStatus paymentStatus = responsePaymentDto.getPaymentStatus();
         Integer totalOriginPrice = responsePaymentDto.getTotalOriginPrice();
         Integer totalPurchasePrice = responsePaymentDto.getTotalPurchasePrice();
 
         return ResponseAddOrderListVo.builder()
-                .shippingAddressUuid(shippingAddressUuid)
                 .orderListUuid(orderListUuid)
                 .paymentStatus(paymentStatus)
                 .totalOriginPrice(totalOriginPrice)
                 .totalPurchasePrice(totalPurchasePrice)
                 .orderItems(addedOrderItemVos)
+                .recipientName(recipientName)
+                .zipCode(zipCode)
+                .baseAddress(baseAddress)
+                .detailAddress(detailAddress)
+                .phoneNumber(phoneNumber)
                 .build();
     }
 
