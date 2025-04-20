@@ -16,6 +16,8 @@ public class ResponseOrderDetailByOrderItemDto {
     private Integer discountRate;
     private Integer totalPurchasePrice;
     private Integer quantity;
+    private String sizeName;
+    private String colorName;
 
     @Builder
     public ResponseOrderDetailByOrderItemDto(
@@ -25,7 +27,9 @@ public class ResponseOrderDetailByOrderItemDto {
             Integer totalOriginPrice,
             Integer discountRate,
             Integer totalPurchasePrice,
-            Integer quantity
+            Integer quantity,
+            String sizeName,
+            String colorName
     ) {
         this.orderListUuid = orderListUuid;
         this.name = name;
@@ -34,6 +38,8 @@ public class ResponseOrderDetailByOrderItemDto {
         this.discountRate = discountRate;
         this.totalPurchasePrice = totalPurchasePrice;
         this.quantity = quantity;
+        this.sizeName = sizeName;
+        this.colorName = colorName;
     }
 
     public static ResponseOrderDetailByOrderItemDto from(
@@ -42,7 +48,9 @@ public class ResponseOrderDetailByOrderItemDto {
             String thumbnail,
             Integer totalOriginPrice,
             Integer totalPurchasePrice,
-            Integer quantity
+            Integer quantity,
+            String sizeName,
+            String colorName
     ) {
         Integer discountRate = 100 - (totalPurchasePrice * 100 / totalOriginPrice);
         return ResponseOrderDetailByOrderItemDto.builder()
@@ -53,6 +61,8 @@ public class ResponseOrderDetailByOrderItemDto {
                 .discountRate(discountRate)
                 .totalPurchasePrice(totalPurchasePrice)
                 .quantity(quantity)
+                .sizeName(sizeName)
+                .colorName(colorName)
                 .build();
 
     }
@@ -67,6 +77,8 @@ public class ResponseOrderDetailByOrderItemDto {
                 .discountRate(discountRate)
                 .totalPurchasePrice(totalPurchasePrice)
                 .quantity(quantity)
+                .sizeName(sizeName)
+                .colorName(colorName)
                 .build();
     }
 }
