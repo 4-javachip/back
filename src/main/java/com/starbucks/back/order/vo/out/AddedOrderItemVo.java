@@ -5,6 +5,7 @@ import lombok.Getter;
 
 @Getter
 public class AddedOrderItemVo {
+    private String productUuid;
     private String name;
     private Integer quantity;
     private String thumbnail;
@@ -12,7 +13,15 @@ public class AddedOrderItemVo {
     private String colorName;
 
     @Builder
-    public AddedOrderItemVo(String name, Integer quantity, String thumbnail, String sizeName, String colorName) {
+    public AddedOrderItemVo(
+            String productUuid,
+            String name,
+            Integer quantity,
+            String thumbnail,
+            String sizeName,
+            String colorName
+    ) {
+        this.productUuid = productUuid;
         this.name = name;
         this.quantity = quantity;
         this.thumbnail = thumbnail;

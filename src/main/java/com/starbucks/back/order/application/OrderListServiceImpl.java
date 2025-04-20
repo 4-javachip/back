@@ -111,6 +111,7 @@ public class OrderListServiceImpl implements OrderListService {
             // ResponseVo에 담을 상품정보 추가
             addedOrderItemVos.add(
                     AddedOrderItemVo.builder()
+                            .productUuid(responseOrderDetailByOrderItemDto.getProductUuid())
                             .name(responseOrderDetailByOrderItemDto.getName())
                             .quantity(responseOrderDetailByOrderItemDto.getQuantity())
                             .thumbnail(responseOrderDetailByOrderItemDto.getThumbnail())

@@ -23,6 +23,9 @@ public class OrderDetail extends BaseEntity {
     @Column(name = "order_detail_uuid", nullable = false, length = 50)
     private String orderDetailUuid;
 
+    @Column(name = "product_uuid", nullable = false, length = 50)
+    private String productUuid;
+
     @Column(name = "name", nullable = false, length = 50)
     private String name;
 
@@ -51,6 +54,7 @@ public class OrderDetail extends BaseEntity {
     public OrderDetail(
             String orderListUuid,
             String orderDetailUuid,
+            String productUuid,
             String name,
             String thumbnail,
             Integer totalOriginPrice,
@@ -62,6 +66,7 @@ public class OrderDetail extends BaseEntity {
     ) {
         this.orderListUuid = orderListUuid;
         this.orderDetailUuid = orderDetailUuid;
+        this.productUuid = productUuid;
         this.name = name;
         this.thumbnail = thumbnail;
         this.totalOriginPrice = totalOriginPrice;

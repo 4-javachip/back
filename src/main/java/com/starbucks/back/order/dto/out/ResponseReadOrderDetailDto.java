@@ -10,6 +10,7 @@ public class ResponseReadOrderDetailDto {
 
     private String orderListUuid;
     private String orderDetailUuid;
+    private String productUuid;
     private String name;
     private String thumbnail;
     private Integer totalOriginPrice;
@@ -23,6 +24,7 @@ public class ResponseReadOrderDetailDto {
     public ResponseReadOrderDetailDto(
             String orderListUuid,
             String orderDetailUuid,
+            String productUuid,
             String name,
             String thumbnail,
             Integer totalOriginPrice,
@@ -34,6 +36,7 @@ public class ResponseReadOrderDetailDto {
     ) {
         this.orderListUuid = orderListUuid;
         this.orderDetailUuid = orderDetailUuid;
+        this.productUuid = productUuid;
         this.name = name;
         this.thumbnail = thumbnail;
         this.totalOriginPrice = totalOriginPrice;
@@ -49,6 +52,7 @@ public class ResponseReadOrderDetailDto {
         return ResponseReadOrderDetailDto.builder()
                 .orderListUuid(orderDetail.getOrderListUuid())
                 .orderDetailUuid(orderDetail.getOrderDetailUuid())
+                .productUuid(orderDetail.getProductUuid())
                 .name(orderDetail.getName())
                 .thumbnail(orderDetail.getThumbnail())
                 .totalOriginPrice(orderDetail.getTotalOriginPrice())
@@ -65,6 +69,7 @@ public class ResponseReadOrderDetailDto {
         return ResponseReadOrderDetailVo.builder()
                 .orderListUuid(responseReadOrderDetailDto.getOrderListUuid())
                 .orderDetailUuid(responseReadOrderDetailDto.getOrderDetailUuid())
+                .productUuid(responseReadOrderDetailDto.getProductUuid())
                 .name(responseReadOrderDetailDto.getName())
                 .thumbnail(responseReadOrderDetailDto.getThumbnail())
                 .totalOriginPrice(responseReadOrderDetailDto.getTotalOriginPrice())

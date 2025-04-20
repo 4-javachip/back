@@ -8,6 +8,7 @@ public class ResponseReadOrderDetailVo {
 
     private String orderListUuid;
     private String orderDetailUuid;
+    private String productUuid;
     private String name;
     private String thumbnail;
     private Integer totalOriginPrice;
@@ -21,6 +22,7 @@ public class ResponseReadOrderDetailVo {
     public ResponseReadOrderDetailVo(
             String orderListUuid,
             String orderDetailUuid,
+            String productUuid,
             String name,
             String thumbnail,
             Integer totalOriginPrice,
@@ -32,6 +34,7 @@ public class ResponseReadOrderDetailVo {
     ) {
         this.orderListUuid = orderListUuid;
         this.orderDetailUuid = orderDetailUuid;
+        this.productUuid = productUuid;
         this.name = name;
         this.thumbnail = thumbnail;
         this.totalOriginPrice = totalOriginPrice;
