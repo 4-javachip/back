@@ -14,6 +14,8 @@ public class ResponseReadOrderDetailVo {
     private Integer discountRate;
     private Integer totalPurchasePrice;
     private Integer quantity;
+    private String sizeName;
+    private String colorName;
 
     @Builder
     public ResponseReadOrderDetailVo(
@@ -24,7 +26,9 @@ public class ResponseReadOrderDetailVo {
             Integer totalOriginPrice,
             Integer discountRate,
             Integer totalPurchasePrice,
-            Integer quantity
+            Integer quantity,
+            String sizeName,
+            String colorName
     ) {
         this.orderListUuid = orderListUuid;
         this.orderDetailUuid = orderDetailUuid;
@@ -34,5 +38,7 @@ public class ResponseReadOrderDetailVo {
         this.discountRate = discountRate;
         this.totalPurchasePrice = totalPurchasePrice;
         this.quantity = quantity;
+        this.sizeName = sizeName;
+        this.colorName = colorName;
     }
 }

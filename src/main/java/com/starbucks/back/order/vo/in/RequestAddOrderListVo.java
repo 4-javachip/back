@@ -8,8 +8,8 @@ import java.util.List;
 public class RequestAddOrderListVo {
     private Boolean fromCart;
     private List<OrderItemVo> orderItems;
-    private String shippingAddressUuid;
     private Integer totalOriginPrice;
     private Integer totalPurchasePrice;
+    private String shippingAddressUuid;
     private String paymentUuid;
 }
