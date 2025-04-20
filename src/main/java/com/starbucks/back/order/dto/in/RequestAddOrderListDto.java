@@ -62,11 +62,14 @@ public class RequestAddOrderListDto {
                 .paymentStatus(paymentStatus)
                 .totalOriginPrice(totalOriginPrice)
                 .totalPurchasePrice(totalPurchasePrice)
+                .addressName(shippingAddressDto.getAddressName())
                 .recipientName(shippingAddressDto.getRecipientName())
                 .zipCode(shippingAddressDto.getZipCode())
                 .baseAddress(shippingAddressDto.getBaseAddress())
                 .detailAddress(shippingAddressDto.getDetailAddress())
                 .phoneNumber(shippingAddressDto.getPhoneNumber())
+                .secondPhoneNumber(shippingAddressDto.getSecondPhoneNumber())
+                .shippingNote(shippingAddressDto.getShippingNote())
                 .build();
     }
 
