@@ -9,30 +9,39 @@ import java.util.List;
 @Getter
 public class ResponseAddOrderListVo {
 
-    private String shippingAddressUuid;
     private String orderListUuid;
-    private String proquctUuid;
     private PaymentStatus paymentStatus;
     private Integer totalOriginPrice;
     private Integer totalPurchasePrice;
     private List<AddedOrderItemVo> orderItems;
+    private String recipientName;
+    private String zipCode;
+    private String baseAddress;
+    private String detailAddress;
+    private String phoneNumber;
 
     @Builder
     public ResponseAddOrderListVo(
-            String shippingAddressUuid,
             String orderListUuid,
-            String proquctUuid,
             PaymentStatus paymentStatus,
             Integer totalOriginPrice,
             Integer totalPurchasePrice,
-            List<AddedOrderItemVo> orderItems
+            List<AddedOrderItemVo> orderItems,
+            String recipientName,
+            String zipCode,
+            String baseAddress,
+            String detailAddress,
+            String phoneNumber
     ) {
-        this.shippingAddressUuid = shippingAddressUuid;
         this.orderListUuid = orderListUuid;
-        this.proquctUuid = proquctUuid;
         this.paymentStatus = paymentStatus;
         this.totalOriginPrice = totalOriginPrice;
         this.totalPurchasePrice = totalPurchasePrice;
         this.orderItems = orderItems;
+        this.recipientName = recipientName;
+        this.zipCode = zipCode;
+        this.baseAddress = baseAddress;
+        this.detailAddress = detailAddress;
+        this.phoneNumber = phoneNumber;
     }
 }

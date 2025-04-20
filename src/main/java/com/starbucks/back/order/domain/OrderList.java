@@ -44,12 +44,23 @@ public class OrderList extends BaseEntity {
     @Column(name = "total_purchase_price", nullable = false)
     private Integer totalPurchasePrice;
 
-    @Column(name = "shipping_address_uuid", nullable = false, length = 50)
-    private String shippingAddressUuid;
+    @Column(name = "recipient_name", length = 50)
+    private String recipientName;
+
+    @Column(name = "zip_code", length = 10)
+    private String zipCode;
+
+    @Column(name = "base_address", length = 50)
+    private String baseAddress;
+
+    @Column(name = "detail_address", length = 50)
+    private String detailAddress;
+
+    @Column(name = "phone_number", length = 20)
+    private String phoneNumber;
 
     @Builder
     public OrderList(
-            Long id,
             String orderListUuid,
             String paymentUuid,
             String orderCode,
@@ -58,9 +69,12 @@ public class OrderList extends BaseEntity {
             PaymentStatus paymentStatus,
             Integer totalOriginPrice,
             Integer totalPurchasePrice,
-            String shippingAddressUuid
+            String recipientName,
+            String zipCode,
+            String baseAddress,
+            String detailAddress,
+            String phoneNumber
     ) {
-        this.id = id;
         this.orderListUuid = orderListUuid;
         this.paymentUuid = paymentUuid;
         this.orderCode = orderCode;
@@ -69,6 +83,10 @@ public class OrderList extends BaseEntity {
         this.paymentStatus = paymentStatus;
         this.totalOriginPrice = totalOriginPrice;
         this.totalPurchasePrice = totalPurchasePrice;
-        this.shippingAddressUuid = shippingAddressUuid;
+        this.recipientName = recipientName;
+        this.zipCode = zipCode;
+        this.baseAddress = baseAddress;
+        this.detailAddress = detailAddress;
+        this.phoneNumber = phoneNumber;
     }
 }

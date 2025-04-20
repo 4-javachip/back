@@ -11,9 +11,9 @@ public class ResponseReadOrderDetailVo {
     private String productUuid;
     private String name;
     private String thumbnail;
-    private Integer totalOriginPrice;
+    private Integer price;
     private Integer discountRate;
-    private Integer totalPurchasePrice;
+    private Integer totalPrice;
     private Integer quantity;
     private String sizeName;
     private String colorName;
@@ -25,9 +25,9 @@ public class ResponseReadOrderDetailVo {
             String productUuid,
             String name,
             String thumbnail,
-            Integer totalOriginPrice,
+            Integer price,
             Integer discountRate,
-            Integer totalPurchasePrice,
+            Integer totalPrice,
             Integer quantity,
             String sizeName,
             String colorName
@@ -37,9 +37,9 @@ public class ResponseReadOrderDetailVo {
         this.productUuid = productUuid;
         this.name = name;
         this.thumbnail = thumbnail;
-        this.totalOriginPrice = totalOriginPrice;
+        this.price = price;
         this.discountRate = discountRate;
-        this.totalPurchasePrice = totalPurchasePrice;
+        this.totalPrice = totalPrice;
         this.quantity = quantity;
         this.sizeName = sizeName;
         this.colorName = colorName;
