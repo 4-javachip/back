@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface OrderListService {
     ResponseAddOrderListVo addOrderList(RequestAddOrderListDto requestAddOrderListDto);
-    void updateOrderList(String userUuid, String orderListUuid);
+    void updateOrderList(String userUuid, String orderListUuid, String orderStatus);
     List<ResponseReadOrderListDto> getAllOrderList(String userUuid);
     ResponseRecentOrderListVo getRecentOrderList(String userUuid);
 }
