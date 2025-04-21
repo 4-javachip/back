@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum PaymentStatus {
 
-
     READY("준비"),
     IN_PROGRESS("진행 중"),
     WAITING_FOR_DEPOSIT("입금 대기 중"),

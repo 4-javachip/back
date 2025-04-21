@@ -48,15 +48,15 @@ public class OrderListServiceImpl implements OrderListService {
     @Override
     public ResponseAddOrderListVo addOrderList(RequestAddOrderListDto requestAddOrderListDto) {
 
-        // 장바구니에서 조회면, 해당 장바구니를 삭제
-        if (requestAddOrderListDto.getFromCart()) {
-            for (OrderItemVo orderItemVo : requestAddOrderListDto.getOrderItems()) {
-                cartService.deleteCartByUserUuidAndProductOptionUuid(
-                        requestAddOrderListDto.getUserUuid(),
-                        orderItemVo.getProductOptionUuid()
-                );
-            }
-        }
+//        // 장바구니에서 조회면, 해당 장바구니를 삭제
+//        if (requestAddOrderListDto.getFromCart()) {
+//            for (OrderItemVo orderItemVo : requestAddOrderListDto.getOrderItems()) {
+//                cartService.deleteCartByUserUuidAndProductOptionUuid(
+//                        requestAddOrderListDto.getUserUuid(),
+//                        orderItemVo.getProductOptionUuid()
+//                );
+//            }
+//        }
 
         // 주문 상품이 없으면 에러
         if (requestAddOrderListDto.getOrderItems().isEmpty()) {
@@ -68,11 +68,9 @@ public class OrderListServiceImpl implements OrderListService {
                 shippingAddressService.getShippingAddressByShippingAddressUuid(
                         requestAddOrderListDto.getShippingAddressUuid()
                 );
-        ResponsePaymentDto responsePaymentDto = paymentService.getPayment(requestAddOrderListDto.getPaymentUuid());
 
         OrderList orderList = orderListRepository.save(
                 requestAddOrderListDto.toEntity(
-                        PaymentStatus.from(responsePaymentDto.getPaymentStatus().getDescription()),
                         responseReadShippingAddressWithDefaultedDto
                 )
         );
@@ -89,73 +87,87 @@ public class OrderListServiceImpl implements OrderListService {
             ResponseOrderDetailByOrderItemDto responseOrderDetailByOrderItemDto =
                     orderDetailService.addOrderDetail(orderItemDto);
 
-            // 재고 감소시키기
-            ResponseProductOptionDto responseProductOptionDto = productOptionService
-                    .getProductOptionByProductOptionUuid(orderItemVo.getProductOptionUuid());
+//            // 재고 감소시키기
+//            ResponseProductOptionDto responseProductOptionDto = productOptionService
+//                    .getProductOptionByProductOptionUuid(orderItemVo.getProductOptionUuid());
+//
+//            productOptionService.updateProductOption(
+//                    RequestUpdateProductOptionDto.builder()
+//                            .productOptionUuid(responseProductOptionDto.getProductOptionUuid())
+//                            .productUuid(responseProductOptionDto.getProductUuid())
+//                            .colorOptionId(responseProductOptionDto.getColorOptionId())
+//                            .sizeOptionId(responseProductOptionDto.getSizeOptionId())
+//                            .stock(responseProductOptionDto.getStock() - orderItemVo.getQuantity()) // 재고 감소
+//                            .price(responseProductOptionDto.getPrice())
+//                            .discountRate(responseProductOptionDto.getDiscountRate())
+//                            .build()
+//                    );
+//            log.info("재고 감소 성공, productOptionUuid: {}, stock: {}",
+//                    responseProductOptionDto.getProductOptionUuid(),
+//                    responseProductOptionDto.getStock() - orderItemVo.getQuantity()
+//            );
+//
+//            // Best 테이블에 판매량 추가
+//            // (productUuid로 상품 찾고, 있으면 판매량 +, 없으면 생성)
+//            bestService.increaseBestProductSalesCount(
+//                    responseProductOptionDto.getProductUuid(), orderItemVo.getQuantity()
+//            );
 
-            productOptionService.updateProductOption(
-                    RequestUpdateProductOptionDto.builder()
-                            .productOptionUuid(responseProductOptionDto.getProductOptionUuid())
-                            .productUuid(responseProductOptionDto.getProductUuid())
-                            .colorOptionId(responseProductOptionDto.getColorOptionId())
-                            .sizeOptionId(responseProductOptionDto.getSizeOptionId())
-                            .stock(responseProductOptionDto.getStock() - orderItemVo.getQuantity()) // 재고 감소
-                            .price(responseProductOptionDto.getPrice())
-                            .discountRate(responseProductOptionDto.getDiscountRate())
-                            .build()
-                    );
-            log.info("재고 감소 성공, productOptionUuid: {}, stock: {}",
-                    responseProductOptionDto.getProductOptionUuid(),
-                    responseProductOptionDto.getStock() - orderItemVo.getQuantity()
-            );
-
-            // Best 테이블에 판매량 추가
-            // (productUuid로 상품 찾고, 있으면 판매량 +, 없으면 생성)
-            bestService.increaseBestProductSalesCount(
-                    responseProductOptionDto.getProductUuid(), orderItemVo.getQuantity()
-            );
-
-            // ResponseVo에 담을 상품정보 추가
-            addedOrderItemVos.add(
-                    AddedOrderItemVo.builder()
-                            .productUuid(responseOrderDetailByOrderItemDto.getProductUuid())
-                            .name(responseOrderDetailByOrderItemDto.getName())
-                            .quantity(responseOrderDetailByOrderItemDto.getQuantity())
-                            .thumbnail(responseOrderDetailByOrderItemDto.getThumbnail())
-                            .sizeName(responseOrderDetailByOrderItemDto.getSizeName())
-                            .colorName(responseOrderDetailByOrderItemDto.getColorName())
-                            .build()
-            );
+//            // ResponseVo에 담을 상품정보 추가
+//            addedOrderItemVos.add(
+//                    AddedOrderItemVo.builder()
+//                            .productUuid(responseOrderDetailByOrderItemDto.getProductUuid())
+//                            .name(responseOrderDetailByOrderItemDto.getName())
+//                            .quantity(responseOrderDetailByOrderItemDto.getQuantity())
+//                            .thumbnail(responseOrderDetailByOrderItemDto.getThumbnail())
+//                            .sizeName(responseOrderDetailByOrderItemDto.getSizeName())
+//                            .colorName(responseOrderDetailByOrderItemDto.getColorName())
+//                            .build()
+//            );
         }
 
-        String addressName = responseReadShippingAddressWithDefaultedDto.getAddressName();
-        String recipientName = responseReadShippingAddressWithDefaultedDto.getRecipientName();
-        String zipCode = responseReadShippingAddressWithDefaultedDto.getZipCode();
-        String baseAddress = responseReadShippingAddressWithDefaultedDto.getBaseAddress();
-        String detailAddress = responseReadShippingAddressWithDefaultedDto.getDetailAddress();
-        String secondPhoneNumber = responseReadShippingAddressWithDefaultedDto.getSecondPhoneNumber();
-        String shippingNote = responseReadShippingAddressWithDefaultedDto.getShippingNote();
-        String phoneNumber = responseReadShippingAddressWithDefaultedDto.getPhoneNumber();
-        String orderListUuid = orderList.getOrderListUuid();
-        com.starbucks.back.payment.domain.PaymentStatus paymentStatus = responsePaymentDto.getPaymentStatus();
-        Integer totalOriginPrice = responsePaymentDto.getTotalOriginPrice();
-        Integer totalPurchasePrice = responsePaymentDto.getTotalPurchasePrice();
+//        String addressName = responseReadShippingAddressWithDefaultedDto.getAddressName();
+//        String recipientName = responseReadShippingAddressWithDefaultedDto.getRecipientName();
+//        String zipCode = responseReadShippingAddressWithDefaultedDto.getZipCode();
+//        String baseAddress = responseReadShippingAddressWithDefaultedDto.getBaseAddress();
+//        String detailAddress = responseReadShippingAddressWithDefaultedDto.getDetailAddress();
+//        String secondPhoneNumber = responseReadShippingAddressWithDefaultedDto.getSecondPhoneNumber();
+//        String shippingNote = responseReadShippingAddressWithDefaultedDto.getShippingNote();
+//        String phoneNumber = responseReadShippingAddressWithDefaultedDto.getPhoneNumber();
+//        String orderListUuid = orderList.getOrderListUuid();
+//        com.starbucks.back.payment.domain.PaymentStatus paymentStatus = responsePaymentDto.getPaymentStatus();
+//        Integer totalOriginPrice = responsePaymentDto.getTotalOriginPrice();
+//        Integer totalPurchasePrice = responsePaymentDto.getTotalPurchasePrice();
 
+//        return ResponseAddOrderListVo.builder()
+//                .orderListUuid(orderListUuid)
+//                .paymentStatus(paymentStatus)
+//                .totalOriginPrice(totalOriginPrice)
+//                .totalPurchasePrice(totalPurchasePrice)
+//                .orderItems(addedOrderItemVos)
+//                .addressName(addressName)
+//                .recipientName(recipientName)
+//                .zipCode(zipCode)
+//                .baseAddress(baseAddress)
+//                .detailAddress(detailAddress)
+//                .phoneNumber(phoneNumber)
+//                .secondPhoneNumber(secondPhoneNumber)
+//                .shippingNote(shippingNote)
+//                .build();
         return ResponseAddOrderListVo.builder()
-                .orderListUuid(orderListUuid)
-                .paymentStatus(paymentStatus)
-                .totalOriginPrice(totalOriginPrice)
-                .totalPurchasePrice(totalPurchasePrice)
-                .orderItems(addedOrderItemVos)
-                .addressName(addressName)
-                .recipientName(recipientName)
-                .zipCode(zipCode)
-                .baseAddress(baseAddress)
-                .detailAddress(detailAddress)
-                .phoneNumber(phoneNumber)
-                .secondPhoneNumber(secondPhoneNumber)
-                .shippingNote(shippingNote)
+                .orderListUuid(orderList.getOrderListUuid())
                 .build();
+    }
+
+    /**
+     * 주문 내역 수정
+     */
+    @Override
+    public ResponseAddOrderListVo updateOrderList (String paymentUuid) {
+
+        OrderList orderList = orderListRepository.get
+
+
     }
 
     /**

@@ -44,10 +44,7 @@ public class RequestAddOrderListDto {
     }
 
     // dto => entity
-    public OrderList toEntity(
-            PaymentStatus paymentStatus,
-            ResponseReadShippingAddressWithDefaultedDto shippingAddressDto
-        ) {
+    public OrderList toEntity(ResponseReadShippingAddressWithDefaultedDto shippingAddressDto) {
         String date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
         String randomPart = UUID.randomUUID().toString().replace("-", "").substring(0, 8).toUpperCase();
 
@@ -56,10 +53,11 @@ public class RequestAddOrderListDto {
         return OrderList.builder()
                 .orderListUuid(UUID.randomUUID().toString())
                 .paymentUuid(paymentUuid)
+                .fromCart(fromCart)
                 .orderCode(date+"-"+randomPart)
                 .userUuid(userUuid)
                 .discountRate(discountRate)
-                .paymentStatus(paymentStatus)
+                .paymentStatus(PaymentStatus.READY)
                 .totalOriginPrice(totalOriginPrice)
                 .totalPurchasePrice(totalPurchasePrice)
                 .addressName(shippingAddressDto.getAddressName())

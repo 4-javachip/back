@@ -2,6 +2,7 @@ package com.starbucks.back.payment.application;
 
 import com.starbucks.back.common.entity.BaseResponseStatus;
 import com.starbucks.back.common.exception.BaseException;
+import com.starbucks.back.order.application.OrderListService;
 import com.starbucks.back.payment.domain.Payment;
 import com.starbucks.back.payment.domain.PaymentStatus;
 import com.starbucks.back.payment.dto.in.RequestPaymentConfirmDto;
@@ -28,6 +29,7 @@ import java.util.*;
 @RequiredArgsConstructor
 public class PaymentServiceImpl implements PaymentService{
     private final PaymentRepository paymentRepository;
+    private final OrderListService orderListService;
 
     @Value("${payment.secret-key}")
     private String secretKey;
@@ -178,6 +180,9 @@ public class PaymentServiceImpl implements PaymentService{
             // 결제 승인 성공 시 결제 상태 업데이트
             paymentRepository.save(requestPaymentConfirmDto.updateSuccessPayment(
                     payment, paymentCode, method, paymentStatus, approvedAt));
+
+            // 결제 승인 성공 시 주문 상태 업데이트
+            orderListService.
 
             return ResponsePaymentConfirmDto.from(
                     paymentStatus.getDescription(),

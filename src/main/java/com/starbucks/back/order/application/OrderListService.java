@@ -8,5 +8,6 @@ import java.util.List;
 
 public interface OrderListService {
     ResponseAddOrderListVo addOrderList(RequestAddOrderListDto requestAddOrderListDto);
+    ResponseAddOrderListVo updateOrderList(String paymentUuid);
     List<ResponseReadOrderListDto> getAllOrderList(String userUuid);
 }
