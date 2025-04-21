@@ -39,6 +39,8 @@ public class DummyDataService {
             for (int i = 1; i <= 5; i++) {
                 Category category = categoryRepository.save(Category.builder()
                         .name("카테고리 " + i)
+                        .description("카테고리 설명 " + i)
+                        .image("https://dummyimage.com/600x400/000/fff&text=카테고리+" + i)
                         .build());
 
                 for (int j = 1; j <= 3; j++) {
