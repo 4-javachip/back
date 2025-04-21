@@ -5,6 +5,7 @@ import com.starbucks.back.cart.application.CartService;
 import com.starbucks.back.common.entity.BaseResponseStatus;
 import com.starbucks.back.common.exception.BaseException;
 import com.starbucks.back.order.domain.OrderList;
+import com.starbucks.back.order.domain.enums.PaymentStatus;
 import com.starbucks.back.order.dto.in.OrderItemDto;
 import com.starbucks.back.order.dto.in.RequestAddOrderListDto;
 import com.starbucks.back.order.dto.out.ResponseOrderDetailByOrderItemDto;
@@ -83,7 +84,7 @@ public class OrderListServiceImpl implements OrderListService {
      * 주문 내역 수정
      */
     @Override
-    public void updateOrderList (String userUuid, String orderListUuid) {
+    public void updateOrderList (String userUuid, String orderListUuid, String orderStatus) {
 
         log.info("userUuid@@, orderListUuid: {}", orderListUuid);
         OrderList orderList = orderListRepository.findByOrderListUuid(orderListUuid)
@@ -93,7 +94,6 @@ public class OrderListServiceImpl implements OrderListService {
         List<ResponseReadOrderDetailDto> responseReadOrderDetailDtos = orderDetailService
                 .getOrderDetailByOrderListUuid(orderListUuid);
 
-        log.info("fromCart@@: {}", orderList.getFromCart());
         // 장바구니에서 조회면, 해당 장바구니를 삭제
         if (orderList.getFromCart()) {
             for (ResponseReadOrderDetailDto responseReadOrderDetailDto : responseReadOrderDetailDtos) {
@@ -104,8 +104,13 @@ public class OrderListServiceImpl implements OrderListService {
             }
         }
 
-        // 재고 감소
+        // orderList 테이블 수정
+        orderListRepository.updateOrderListStatus(
+                orderListUuid,
+                PaymentStatus.from(orderStatus)
+        );
 
+        // for문 시작
         for (ResponseReadOrderDetailDto responseReadOrderDetailDto : responseReadOrderDetailDtos) {
             log.info("responseReadOrderDetailDto@@: {}", responseReadOrderDetailDto.getProductOptionUuid());
             ResponseProductOptionDto responseProductOptionDto = productOptionService
