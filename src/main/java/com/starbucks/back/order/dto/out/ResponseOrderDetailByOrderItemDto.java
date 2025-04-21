@@ -1,6 +1,5 @@
 package com.starbucks.back.order.dto.out;
 
-import com.querydsl.core.Tuple;
 import com.starbucks.back.order.domain.OrderDetail;
 import lombok.Builder;
 import lombok.Getter;
@@ -8,52 +7,67 @@ import lombok.Getter;
 import java.util.UUID;
 
 @Getter
-public class ResponseOrderDetailByCartUuidDto {
+public class ResponseOrderDetailByOrderItemDto {
 
     private String orderListUuid;
+    private String productUuid;
     private String name;
     private String thumbnail;
     private Integer totalOriginPrice;
     private Integer discountRate;
     private Integer totalPurchasePrice;
     private Integer quantity;
+    private String sizeName;
+    private String colorName;
 
     @Builder
-    public ResponseOrderDetailByCartUuidDto(
+    public ResponseOrderDetailByOrderItemDto(
             String orderListUuid,
+            String productUuid,
             String name,
             String thumbnail,
             Integer totalOriginPrice,
             Integer discountRate,
             Integer totalPurchasePrice,
-            Integer quantity
+            Integer quantity,
+            String sizeName,
+            String colorName
     ) {
         this.orderListUuid = orderListUuid;
+        this.productUuid = productUuid;
         this.name = name;
         this.thumbnail = thumbnail;
         this.totalOriginPrice = totalOriginPrice;
         this.discountRate = discountRate;
         this.totalPurchasePrice = totalPurchasePrice;
         this.quantity = quantity;
+        this.sizeName = sizeName;
+        this.colorName = colorName;
     }
 
-    public static ResponseOrderDetailByCartUuidDto from(
+    public static ResponseOrderDetailByOrderItemDto from(
             String orderListUuid,
+            String productUuid,
             String name,
             String thumbnail,
             Integer totalOriginPrice,
-            Integer discountRate,
             Integer totalPurchasePrice,
-            Integer quantity
+            Integer quantity,
+            String sizeName,
+            String colorName
     ) {
-        return ResponseOrderDetailByCartUuidDto.builder()
+        Integer discountRate = 100 - (totalPurchasePrice * 100 / totalOriginPrice);
+        return ResponseOrderDetailByOrderItemDto.builder()
                 .orderListUuid(orderListUuid)
+                .productUuid(productUuid)
                 .name(name)
                 .thumbnail(thumbnail)
                 .totalOriginPrice(totalOriginPrice)
                 .discountRate(discountRate)
                 .totalPurchasePrice(totalPurchasePrice)
                 .quantity(quantity)
+                .sizeName(sizeName)
+                .colorName(colorName)
                 .build();
 
     }
@@ -62,12 +76,15 @@ public class ResponseOrderDetailByCartUuidDto {
         return OrderDetail.builder()
                 .orderListUuid(orderListUuid)
                 .orderDetailUuid(UUID.randomUUID().toString())
+                .productUuid(productUuid)
                 .name(name)
                 .thumbnail(thumbnail)
                 .totalOriginPrice(totalOriginPrice)
                 .discountRate(discountRate)
                 .totalPurchasePrice(totalPurchasePrice)
                 .quantity(quantity)
+                .sizeName(sizeName)
+                .colorName(colorName)
                 .build();
     }
 }

@@ -86,7 +86,6 @@ public class RequestPaymentCreateDto {
                 .userUuid(userUuid)
                 .paymentUuid(paymentUuid)
                 .paymentCode(paymentCode)
-                // amount, method, orderName은 Payment 테이블에 저장하지 않음. 차후 추가될 수도 있음
                 .totalOriginPrice(totalOriginPrice)
                 .totalPurchasePrice(totalPurchasePrice)
                 .status(status)
@@ -95,6 +94,8 @@ public class RequestPaymentCreateDto {
                 .paymentToken(paymentToken)
                 .failReason(failReason)
                 .approvedAt(approvedAt)
+                .method(method)
+                .orderName(orderName)
                 .build();
     }
 }

@@ -2,13 +2,10 @@ package com.starbucks.back.payment.domain;
 
 import com.starbucks.back.payment.domain.PaymentStatus;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
-
+@ToString
 @Entity
 @Getter
 @Table(name = "payment")
@@ -53,8 +50,14 @@ public class Payment {
     @Column(name = "fail_reason", length = 255)
     private String failReason;
 
-    @Column(name = "approved_at", nullable = false)
+    @Column(name = "approved_at", nullable = true)
     private LocalDateTime approvedAt;
+
+    @Column(name = "method", length = 50)
+    private String method;
+
+    @Column(name = "order_name", length = 100)
+    private String orderName;
 
     @Builder
     public Payment(
@@ -69,7 +72,9 @@ public class Payment {
             String pgTid,
             String paymentToken,
             String failReason,
-            LocalDateTime approvedAt
+            LocalDateTime approvedAt,
+            String method,
+            String orderName
     ) {
         this.id = id;
         this.userUuid = userUuid;
@@ -83,5 +88,7 @@ public class Payment {
         this.paymentToken = paymentToken;
         this.failReason = failReason;
         this.approvedAt = approvedAt;
+        this.method = method;
+        this.orderName = orderName;
     }
 }

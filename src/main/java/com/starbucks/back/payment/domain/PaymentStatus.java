@@ -29,10 +29,11 @@ public enum PaymentStatus {
     @JsonCreator
     public static PaymentStatus from(String value) {
         for (PaymentStatus status : PaymentStatus.values()) {
-            if (status.description.equals(value)) {
+            if (status.name().equals(value) || status.getDescription().equals(value)) {
                 return status;
             }
         }
+
         throw new IllegalArgumentException("알 수 없는 결제 상태: " + value);
     }
 }

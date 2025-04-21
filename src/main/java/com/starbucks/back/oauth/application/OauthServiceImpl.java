@@ -76,14 +76,14 @@ public class OauthServiceImpl implements OauthService{
                 // Redis에 이메일 저장 (만료시간 20분)
                 redisUtil.set(redisKey, dto.getEmail(), 20, TimeUnit.MINUTES);
 
-                final String cookieValue = "oauth_cookie=" + token
+                final String cookie = "oauth_cookie=" + token
                         + "; Max-Age=" + (20 * 60)
                         + "; HttpOnly"
                         + "; Secure"        // 로컬이면 제거
                         + "; SameSite=None" // 크로스 도메인 대응
                         + "; Domain=.starbucks-store.shop" // 운영환경에서만 설정
                         + "; Path=/";
-                httpServletResponse.setHeader("Set-Cookie", cookieValue);
+                httpServletResponse.setHeader("Set-Cookie", cookie);
 
                 throw new BaseException(BaseResponseStatus.NO_OAUTH_USER);
             }else {

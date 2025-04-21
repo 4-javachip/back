@@ -1,57 +1,56 @@
 package com.starbucks.back.order.vo.out;
 
+import com.starbucks.back.payment.domain.PaymentStatus;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
-public class ResponseReadOrderListVo {
+public class ResponseAddOrderListVo {
+
     private String orderListUuid;
-    private String orderCode;
-    private LocalDateTime createdAt;
+    private PaymentStatus paymentStatus;
     private Integer totalOriginPrice;
     private Integer totalPurchasePrice;
-    private Integer discountRate;
+    private List<AddedOrderItemVo> orderItems;
     private String addressName;
     private String recipientName;
     private String zipCode;
     private String baseAddress;
     private String detailAddress;
     private String phoneNumber;
-    private String secondPhoneNumber;
     private String shippingNote;
+    private String secondPhoneNumber;
 
     @Builder
-    public ResponseReadOrderListVo(
+    public ResponseAddOrderListVo(
             String orderListUuid,
-            String orderCode,
-            LocalDateTime createdAt,
+            PaymentStatus paymentStatus,
             Integer totalOriginPrice,
             Integer totalPurchasePrice,
-            Integer discountRate,
+            List<AddedOrderItemVo> orderItems,
             String addressName,
             String recipientName,
             String zipCode,
             String baseAddress,
             String detailAddress,
             String phoneNumber,
-            String secondPhoneNumber,
-            String shippingNote
+            String shippingNote,
+            String secondPhoneNumber
     ) {
         this.orderListUuid = orderListUuid;
-        this.orderCode = orderCode;
-        this.createdAt = createdAt;
+        this.paymentStatus = paymentStatus;
         this.totalOriginPrice = totalOriginPrice;
         this.totalPurchasePrice = totalPurchasePrice;
-        this.discountRate = discountRate;
+        this.orderItems = orderItems;
         this.addressName = addressName;
         this.recipientName = recipientName;
         this.zipCode = zipCode;
         this.baseAddress = baseAddress;
         this.detailAddress = detailAddress;
         this.phoneNumber = phoneNumber;
-        this.secondPhoneNumber = secondPhoneNumber;
         this.shippingNote = shippingNote;
+        this.secondPhoneNumber = secondPhoneNumber;
     }
 }

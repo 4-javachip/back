@@ -23,6 +23,9 @@ public class OrderDetail extends BaseEntity {
     @Column(name = "order_detail_uuid", nullable = false, length = 50)
     private String orderDetailUuid;
 
+    @Column(name = "product_uuid", nullable = false, length = 50)
+    private String productUuid;
+
     @Column(name = "name", nullable = false, length = 50)
     private String name;
 
@@ -41,25 +44,37 @@ public class OrderDetail extends BaseEntity {
     @Column(name = "quantity", nullable = false)
     private Integer quantity;
 
+    @Column(name = "size_name", length = 50)
+    private String sizeName;
+
+    @Column(name = "color_name", length = 50)
+    private String colorName;
+
     @Builder
     public OrderDetail(
             String orderListUuid,
             String orderDetailUuid,
+            String productUuid,
             String name,
             String thumbnail,
             Integer totalOriginPrice,
             Integer discountRate,
             Integer totalPurchasePrice,
-            Integer quantity
+            Integer quantity,
+            String sizeName,
+            String colorName
     ) {
         this.orderListUuid = orderListUuid;
         this.orderDetailUuid = orderDetailUuid;
+        this.productUuid = productUuid;
         this.name = name;
         this.thumbnail = thumbnail;
         this.totalOriginPrice = totalOriginPrice;
         this.discountRate = discountRate;
         this.totalPurchasePrice = totalPurchasePrice;
         this.quantity = quantity;
+        this.sizeName = sizeName;
+        this.colorName = colorName;
     }
 
 }

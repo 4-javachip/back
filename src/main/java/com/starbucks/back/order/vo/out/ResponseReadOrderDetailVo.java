@@ -8,31 +8,40 @@ public class ResponseReadOrderDetailVo {
 
     private String orderListUuid;
     private String orderDetailUuid;
+    private String productUuid;
     private String name;
     private String thumbnail;
-    private Integer totalOriginPrice;
+    private Integer price;
     private Integer discountRate;
-    private Integer totalPurchasePrice;
+    private Integer totalPrice;
     private Integer quantity;
+    private String sizeName;
+    private String colorName;
 
     @Builder
     public ResponseReadOrderDetailVo(
             String orderListUuid,
             String orderDetailUuid,
+            String productUuid,
             String name,
             String thumbnail,
-            Integer totalOriginPrice,
+            Integer price,
             Integer discountRate,
-            Integer totalPurchasePrice,
-            Integer quantity
+            Integer totalPrice,
+            Integer quantity,
+            String sizeName,
+            String colorName
     ) {
         this.orderListUuid = orderListUuid;
         this.orderDetailUuid = orderDetailUuid;
+        this.productUuid = productUuid;
         this.name = name;
         this.thumbnail = thumbnail;
-        this.totalOriginPrice = totalOriginPrice;
+        this.price = price;
         this.discountRate = discountRate;
-        this.totalPurchasePrice = totalPurchasePrice;
+        this.totalPrice = totalPrice;
         this.quantity = quantity;
+        this.sizeName = sizeName;
+        this.colorName = colorName;
     }
 }
