@@ -2,6 +2,7 @@ package com.starbucks.back.payment.dto.out;
 
 import com.starbucks.back.payment.domain.Payment;
 import com.starbucks.back.payment.domain.PaymentStatus;
+import com.starbucks.back.payment.vo.out.ResponsePaymentVo;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -22,6 +23,7 @@ public class ResponsePaymentDto {
     private LocalDateTime approvedAt;
     private String method;
     private String orderName;
+    private String orderListUuid;
 
     @Builder
     public ResponsePaymentDto(
@@ -37,7 +39,8 @@ public class ResponsePaymentDto {
             String failReason,
             LocalDateTime approvedAt,
             String method,
-            String orderName
+            String orderName,
+            String orderListUuid
     ) {
         this.id = id;
         this.userUuid = userUuid;
@@ -52,6 +55,7 @@ public class ResponsePaymentDto {
         this.approvedAt = approvedAt;
         this.method = method;
         this.orderName = orderName;
+        this.orderListUuid = orderListUuid;
     }
 
     // entity -> dto
@@ -70,6 +74,19 @@ public class ResponsePaymentDto {
                 .approvedAt(payment.getApprovedAt())
                 .method(payment.getMethod())
                 .orderName(payment.getOrderName())
+                .orderListUuid(payment.getOrderListUuid())
+                .build();
+    }
+
+    // dto -> vo
+    public ResponsePaymentVo toVo() {
+        return ResponsePaymentVo.builder()
+                .totalOriginPrice(totalOriginPrice)
+                .totalPurchasePrice(totalPurchasePrice)
+                .totalSalePrice(totalOriginPrice-totalPurchasePrice)
+                .paymentStatus(paymentStatus)
+                .method(method)
+                .approvedAt(approvedAt)
                 .build();
     }
 }
