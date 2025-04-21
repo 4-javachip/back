@@ -11,6 +11,7 @@ public class ResponseOrderDetailByOrderItemDto {
 
     private String orderListUuid;
     private String productUuid;
+    private String productOptionUuid;
     private String name;
     private String thumbnail;
     private Integer totalOriginPrice;
@@ -24,6 +25,7 @@ public class ResponseOrderDetailByOrderItemDto {
     public ResponseOrderDetailByOrderItemDto(
             String orderListUuid,
             String productUuid,
+            String productOptionUuid,
             String name,
             String thumbnail,
             Integer totalOriginPrice,
@@ -35,6 +37,7 @@ public class ResponseOrderDetailByOrderItemDto {
     ) {
         this.orderListUuid = orderListUuid;
         this.productUuid = productUuid;
+        this.productOptionUuid = productOptionUuid;
         this.name = name;
         this.thumbnail = thumbnail;
         this.totalOriginPrice = totalOriginPrice;
@@ -48,6 +51,7 @@ public class ResponseOrderDetailByOrderItemDto {
     public static ResponseOrderDetailByOrderItemDto from(
             String orderListUuid,
             String productUuid,
+            String productOptionUuid,
             String name,
             String thumbnail,
             Integer totalOriginPrice,
@@ -60,6 +64,7 @@ public class ResponseOrderDetailByOrderItemDto {
         return ResponseOrderDetailByOrderItemDto.builder()
                 .orderListUuid(orderListUuid)
                 .productUuid(productUuid)
+                .productOptionUuid(productOptionUuid)
                 .name(name)
                 .thumbnail(thumbnail)
                 .totalOriginPrice(totalOriginPrice)
@@ -72,11 +77,12 @@ public class ResponseOrderDetailByOrderItemDto {
 
     }
 
-    public OrderDetail toEntity(String orderListUuid) {
+    public OrderDetail toEntity(String orderListUuid, String productOptionUuid) {
         return OrderDetail.builder()
                 .orderListUuid(orderListUuid)
                 .orderDetailUuid(UUID.randomUUID().toString())
                 .productUuid(productUuid)
+                .productOptionUuid(productOptionUuid)
                 .name(name)
                 .thumbnail(thumbnail)
                 .totalOriginPrice(totalOriginPrice)

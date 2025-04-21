@@ -21,7 +21,6 @@ public class RequestAddOrderListDto {
     private List<OrderItemVo> orderItems;
     private Integer totalOriginPrice;
     private Integer totalPurchasePrice;
-    private String paymentUuid;
     private String shippingAddressUuid;
 
     @Builder
@@ -31,7 +30,6 @@ public class RequestAddOrderListDto {
             List<OrderItemVo> orderItems,
             Integer totalOriginPrice,
             Integer totalPurchasePrice,
-            String paymentUuid,
             String shippingAddressUuid
         ) {
         this.userUuid = userUuid;
@@ -39,7 +37,6 @@ public class RequestAddOrderListDto {
         this.orderItems = orderItems;
         this.totalOriginPrice = totalOriginPrice;
         this.totalPurchasePrice = totalPurchasePrice;
-        this.paymentUuid = paymentUuid;
         this.shippingAddressUuid = shippingAddressUuid;
     }
 
@@ -52,7 +49,6 @@ public class RequestAddOrderListDto {
 
         return OrderList.builder()
                 .orderListUuid(UUID.randomUUID().toString())
-                .paymentUuid(paymentUuid)
                 .fromCart(fromCart)
                 .orderCode(date+"-"+randomPart)
                 .userUuid(userUuid)
@@ -80,7 +76,6 @@ public class RequestAddOrderListDto {
                 .shippingAddressUuid(requestAddOrderListVo.getShippingAddressUuid())
                 .totalOriginPrice(requestAddOrderListVo.getTotalOriginPrice())
                 .totalPurchasePrice(requestAddOrderListVo.getTotalPurchasePrice())
-                .paymentUuid(requestAddOrderListVo.getPaymentUuid())
                 .build();
     }
 }

@@ -24,7 +24,7 @@ public class OrderDetailCustomRepositoryImpl implements OrderDetailCustomReposit
 
     @Override
     public ResponseOrderDetailByOrderItemDto getOrderDetailFromOrderItem(OrderItemDto orderItemDto) {
-
+        log.info("orderItemDto.getProductOptionUuid()@@: {}", orderItemDto.getProductOptionUuid());
         QProduct product = QProduct.product;
         QProductOption productOption = QProductOption.productOption;
         QThumbnail thumbnail = QThumbnail.thumbnail;
@@ -51,10 +51,12 @@ public class OrderDetailCustomRepositoryImpl implements OrderDetailCustomReposit
         if (result == null) {
            throw new BaseException(BaseResponseStatus.NO_EXIST_QUERY_FOR_ORDER_DETAIL);
         }
-
+        log.info("result@@: {}", result);
+        log.info("orderItemDto.getProductOptionUuid(): {}", orderItemDto.getProductOptionUuid());
         return ResponseOrderDetailByOrderItemDto.from(
                 orderItemDto.getOrderListUuid(),
                 orderItemDto.getProductUuid(),
+                orderItemDto.getProductOptionUuid(),
                 result.get(product.name),
                 result.get(thumbnail.thumbnailUrl),
                 orderItemDto.getPrice(),

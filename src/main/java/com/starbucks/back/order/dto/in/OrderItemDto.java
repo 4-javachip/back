@@ -3,7 +3,9 @@ package com.starbucks.back.order.dto.in;
 import com.starbucks.back.order.vo.in.OrderItemVo;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.ToString;
 
+@ToString
 @Getter
 public class OrderItemDto {
     private String orderListUuid;
@@ -31,11 +33,11 @@ public class OrderItemDto {
     }
 
     public static OrderItemDto from(
-            String orderItemUuid,
+            String orderListUuid,
             OrderItemVo orderItemVo
     ) {
         return OrderItemDto.builder()
-                .orderListUuid(orderItemUuid)
+                .orderListUuid(orderListUuid)
                 .productUuid(orderItemVo.getProductUuid())
                 .productOptionUuid(orderItemVo.getProductOptionUuid())
                 .quantity(orderItemVo.getQuantity())

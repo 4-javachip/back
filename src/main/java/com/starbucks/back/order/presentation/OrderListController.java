@@ -47,7 +47,6 @@ public class OrderListController {
     public BaseResponseEntity<List<ResponseReadOrderListVo>> getOrderList() {
         String userUuid = securityUtil.getCurrentUserUuid();
 
-
         List<ResponseReadOrderListVo> result = orderListService.getAllOrderList(userUuid)
                 .stream()
                 .map(ResponseReadOrderListDto::toVo)
