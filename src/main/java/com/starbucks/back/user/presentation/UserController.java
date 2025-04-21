@@ -28,13 +28,14 @@ public class UserController {
         );
     }
 
-//    @Operation(summary = "Get User Details API", description = "유저 상세 정보 조회", tags = {"User-service"})
-//    @GetMapping("/detail")
-//    public BaseResponseEntity<UserDetails> getUserDetails() {
-//        return new BaseResponseEntity<>(
-//                securityUtil.getCurrentUserDetails()
-//        );
-//    }
+    @Operation(summary = "Get User Details API", description = "유저 상세 정보 조회", tags = {"User-service"})
+    @GetMapping("/detail")
+    public BaseResponseEntity<UserDetails> getUserDetails() {
+        System.out.println(securityUtil.getCurrentUserNickname());
+        return new BaseResponseEntity<>(
+                securityUtil.getCurrentUserDetails()
+        );
+    }
 
     @Operation(summary = "Match CurrentPassword API", description = "비밀번호 변경을 위한 현재 비밀번호 확인", tags = {"User-service"})
     @PostMapping("/current-password")
