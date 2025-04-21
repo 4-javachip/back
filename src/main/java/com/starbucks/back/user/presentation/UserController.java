@@ -1,5 +1,6 @@
 package com.starbucks.back.user.presentation;
 
+import com.starbucks.back.auth.dto.in.RequestGetUserNicknameDto;
 import com.starbucks.back.common.entity.BaseResponseEntity;
 import com.starbucks.back.common.entity.BaseResponseStatus;
 import com.starbucks.back.common.util.SecurityUtil;
@@ -7,6 +8,7 @@ import com.starbucks.back.user.application.UserService;
 import com.starbucks.back.user.dto.in.*;
 import com.starbucks.back.user.vo.in.*;
 import com.starbucks.back.user.vo.out.ResponseGetUserInfoVo;
+import com.starbucks.back.auth.vo.out.ResponseGetUserNicknameVo;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -28,13 +30,14 @@ public class UserController {
         );
     }
 
-//    @Operation(summary = "Get User Details API", description = "유저 상세 정보 조회", tags = {"User-service"})
-//    @GetMapping("/detail")
-//    public BaseResponseEntity<UserDetails> getUserDetails() {
-//        return new BaseResponseEntity<>(
-//                securityUtil.getCurrentUserDetails()
-//        );
-//    }
+    @Operation(summary = "Get User Details API", description = "유저 상세 정보 조회", tags = {"User-service"})
+    @GetMapping("/detail")
+    public BaseResponseEntity<UserDetails> getUserDetails() {
+        System.out.println(securityUtil.getCurrentUserNickname());
+        return new BaseResponseEntity<>(
+                securityUtil.getCurrentUserDetails()
+        );
+    }
 
     @Operation(summary = "Match CurrentPassword API", description = "비밀번호 변경을 위한 현재 비밀번호 확인", tags = {"User-service"})
     @PostMapping("/current-password")
