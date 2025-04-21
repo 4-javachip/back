@@ -8,7 +8,6 @@ public class OrderItemVo {
     private String productUuid;
     private String productOptionUuid;
     private Integer quantity;
-    private Integer totalOriginPrice;
-    private Integer totalPurchasePrice;
-
+    private Integer price;
+    private Integer totalPrice;
 }

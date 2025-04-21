@@ -10,8 +10,8 @@ public class OrderItemDto {
     private String productUuid;
     private String productOptionUuid;
     private Integer quantity;
-    private Integer totalOriginPrice;
-    private Integer totalPurchasePrice;
+    private Integer price;
+    private Integer totalPrice;
 
     @Builder
     public OrderItemDto(
@@ -19,15 +19,15 @@ public class OrderItemDto {
             String productUuid,
             String productOptionUuid,
             Integer quantity,
-            Integer totalOriginPrice,
-            Integer totalPurchasePrice
+            Integer price,
+            Integer totalPrice
     ) {
         this.orderListUuid = orderListUuid;
         this.productUuid = productUuid;
         this.productOptionUuid = productOptionUuid;
         this.quantity = quantity;
-        this.totalOriginPrice = totalOriginPrice;
-        this.totalPurchasePrice = totalPurchasePrice;
+        this.price = price;
+        this.totalPrice = totalPrice;
     }
 
     public static OrderItemDto from(
@@ -39,8 +39,8 @@ public class OrderItemDto {
                 .productUuid(orderItemVo.getProductUuid())
                 .productOptionUuid(orderItemVo.getProductOptionUuid())
                 .quantity(orderItemVo.getQuantity())
-                .totalOriginPrice(orderItemVo.getTotalOriginPrice())
-                .totalPurchasePrice(orderItemVo.getTotalPurchasePrice())
+                .price(orderItemVo.getPrice())
+                .totalPrice(orderItemVo.getTotalPrice())
                 .build();
     }
 }
