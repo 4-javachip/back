@@ -23,7 +23,10 @@ public class OrderDetailServiceImpl implements OrderDetailService{
     public ResponseOrderDetailByOrderItemDto addOrderDetail(OrderItemDto orderItemDto) {
         ResponseOrderDetailByOrderItemDto responseOrderDetailByOrderItemDto =
                 orderDetailRepository.getOrderDetailFromOrderItem(orderItemDto);
-        orderDetailRepository.save(responseOrderDetailByOrderItemDto.toEntity(orderItemDto.getOrderListUuid()));
+        orderDetailRepository.save(responseOrderDetailByOrderItemDto.toEntity(
+                orderItemDto.getOrderListUuid(),
+                responseOrderDetailByOrderItemDto.getProductOptionUuid()
+        ));
         return responseOrderDetailByOrderItemDto;
     }
 
