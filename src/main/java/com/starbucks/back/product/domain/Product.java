@@ -43,7 +43,7 @@ public class Product extends BaseEntity {
     }
 
     @Builder
-    public Product(Long id, String name, String productUuid) {
+    public Product(Long id, String name, String productUuid, boolean best) {
         this.id = id;
         this.name = name;
         this.productUuid = productUuid;
