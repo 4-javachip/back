@@ -63,6 +63,7 @@ public class RequestPaymentConfirmDto {
                 .approvedAt(approvedAt)
                 .method(method)
                 .orderName(payment.getOrderName())
+                .orderListUuid(payment.getOrderListUuid())
                 .build();
     }
 
@@ -76,7 +77,9 @@ public class RequestPaymentConfirmDto {
                 .userUuid(userUuid)
                 .paymentUuid(paymentUuid)
                 .paymentCode(paymentCode)
-                // amount, method, orderName은 Payment 테이블에 저장하지 않음. 차후 추가될 수도 있음
+                .method(payment.getMethod())
+                .orderName(payment.getOrderName())
+                .orderListUuid(payment.getOrderListUuid())
                 .totalOriginPrice(payment.getTotalOriginPrice())
                 .totalPurchasePrice(totalPurchasePrice)
                 .status(PaymentStatus.ABORTED)

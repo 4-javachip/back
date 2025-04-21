@@ -17,6 +17,7 @@ public class RequestPaymentCreateDto {
     private String method;
     private String orderName;
     private Integer totalPurchasePrice;
+    private String orderListUuid;
 
     // 아래 항목은 결제가 진행되면서 추가될 내용
     private String paymentCode;
@@ -35,6 +36,7 @@ public class RequestPaymentCreateDto {
             String method,
             String orderName,
             Integer totalPurchasePrice,
+            String orderListUuid,
             String paymentCode,
             PaymentStatus status,
             String pgProvider,
@@ -49,6 +51,7 @@ public class RequestPaymentCreateDto {
         this.method = method;
         this.orderName = orderName;
         this.totalPurchasePrice = totalPurchasePrice;
+        this.orderListUuid = orderListUuid;
         this.paymentCode = paymentCode;
         this.status = status;
         this.pgProvider = pgProvider;
@@ -68,6 +71,7 @@ public class RequestPaymentCreateDto {
                 .paymentUuid(UUID.randomUUID().toString())
                 .totalOriginPrice(requestPaymentCreateVo.getTotalOriginPrice())
                 .method(requestPaymentCreateVo.getMethod())
+                .orderListUuid(requestPaymentCreateVo.getOrderListUuid())
                 .orderName(requestPaymentCreateVo.getOrderName())
                 .totalPurchasePrice(requestPaymentCreateVo.getTotalPurchasePrice())
                 .paymentCode("")
@@ -88,6 +92,7 @@ public class RequestPaymentCreateDto {
                 .paymentCode(paymentCode)
                 .totalOriginPrice(totalOriginPrice)
                 .totalPurchasePrice(totalPurchasePrice)
+                .orderListUuid(orderListUuid)
                 .status(status)
                 .pgProvider(pgProvider)
                 .pgTid(pgTid)

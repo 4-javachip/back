@@ -11,6 +11,7 @@ public class ResponseReadOrderDetailDto {
     private String orderListUuid;
     private String orderDetailUuid;
     private String productUuid;
+    private String productOptionUuid;
     private String name;
     private String thumbnail;
     private Integer totalOriginPrice;
@@ -25,6 +26,7 @@ public class ResponseReadOrderDetailDto {
             String orderListUuid,
             String orderDetailUuid,
             String productUuid,
+            String productOptionUuid,
             String name,
             String thumbnail,
             Integer totalOriginPrice,
@@ -37,6 +39,7 @@ public class ResponseReadOrderDetailDto {
         this.orderListUuid = orderListUuid;
         this.orderDetailUuid = orderDetailUuid;
         this.productUuid = productUuid;
+        this.productOptionUuid = productOptionUuid;
         this.name = name;
         this.thumbnail = thumbnail;
         this.totalOriginPrice = totalOriginPrice;
@@ -53,6 +56,7 @@ public class ResponseReadOrderDetailDto {
                 .orderListUuid(orderDetail.getOrderListUuid())
                 .orderDetailUuid(orderDetail.getOrderDetailUuid())
                 .productUuid(orderDetail.getProductUuid())
+                .productOptionUuid(orderDetail.getProductOptionUuid())
                 .name(orderDetail.getName())
                 .thumbnail(orderDetail.getThumbnail())
                 .totalOriginPrice(orderDetail.getTotalOriginPrice())

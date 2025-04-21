@@ -189,6 +189,7 @@ public enum BaseResponseStatus {
     PAYMENT_ALREADY_DONE(HttpStatus.BAD_REQUEST, false, 7105, "이미 처리가 완료된 주문입니다"),
     TOSS_EMPTY_RESPONSE(HttpStatus.INTERNAL_SERVER_ERROR, false, 7106, "TOSS 결제 승인 응답이 비어있습니다"),
     VIRTUAL_PAYMENT_FAIL(HttpStatus.BAD_REQUEST, false, 7107, "가상계좌 결제에 실패했습니다."),
+    NOT_FOUND_ORDER_LIST(HttpStatus.NOT_FOUND, false, 7108, "존재하지 않는 주문 내역입니다."),
     // order
     NOT_FOUND_ITEM(HttpStatus.NOT_FOUND, false, 7201, "주문 내역에 상품이 존재하지 않습니다."),
     NO_EXIST_QUERY_FOR_ORDER_DETAIL(HttpStatus.BAD_REQUEST, false, 7202, "주문 상세 조회를 위한 쿼리가 존재하지 않습니다."),

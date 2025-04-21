@@ -9,4 +9,5 @@ public class RequestPaymentCreateVo {
     private Integer totalPurchasePrice;
     private String method;
     private String orderName;
+    private String orderListUuid;
 }
