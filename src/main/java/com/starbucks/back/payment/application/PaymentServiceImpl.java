@@ -71,12 +71,11 @@ public class PaymentServiceImpl implements PaymentService{
         body.put("cashReceipt", Map.of("type", "소득공제")); // 현금영수증 자동 발급 (선택)
         body.put("validHours", 24); // 24시간 안에 입금 유효 (선택)
         body.put("virtualAccountCallbackUrl", callbackUrl); // 웹훅 URL 명시 가능
+        // 가상계좌 결제 시 설정값
+        body.put("useEscrow", false); // 👉 에스크로 사용 안 함
+        body.put("cashReceipt", Map.of("type", "소득공제"));
+        body.put("validHours", 1);
 
-        // 가상계좌 결제 시 추가 정보
-        if ("VIRTUAL_ACCOUNT".equals(requestPaymentCreateDto.getMethod())) {
-            body.put("cashReceipt", Map.of("type", "소득공제"));
-            body.put("validHours", 24);
-        }
 
         String auth = secretKey + ":";
         String encodedAuth = Base64.getEncoder().encodeToString(auth.getBytes(StandardCharsets.UTF_8));
