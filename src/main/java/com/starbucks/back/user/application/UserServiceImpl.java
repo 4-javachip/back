@@ -8,7 +8,6 @@ import com.starbucks.back.user.domain.User;
 import com.starbucks.back.user.domain.enums.UserState;
 import com.starbucks.back.user.dto.in.*;
 import com.starbucks.back.user.dto.out.ResponseGetUserInfoDto;
-import com.starbucks.back.user.dto.out.ResponseGetUserNicknameDto;
 import com.starbucks.back.user.infrastructure.UserRepository;
 import com.starbucks.back.user_withdrwal_pending.application.UserWithdrawalPendingService;
 import jakarta.transaction.Transactional;
@@ -54,15 +53,6 @@ public class UserServiceImpl implements UserService{
                 userRepository.findByUserUuid(userUuid).orElseThrow(
                         () -> new IllegalArgumentException(userUuid)
                 )
-        );
-    }
-
-    @Override
-    public ResponseGetUserNicknameDto getUserNickname(RequestGetUserNicknameDto requestGetUserNicknameDto) {
-        return ResponseGetUserNicknameDto.from(
-                userRepository.findByUserUuid(requestGetUserNicknameDto.getUserUuid())
-                        .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_USER))
-                        .getNickname()
         );
     }
 
