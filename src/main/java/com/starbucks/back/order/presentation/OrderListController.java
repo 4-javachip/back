@@ -28,7 +28,7 @@ public class OrderListController {
      */
     @Transactional
     @PostMapping
-    @Operation(summary = "CreateOrder API", description = "주문 생성 (장바구니 선택된 상품만)", tags = {"Order-Service"})
+    @Operation(summary = "CreateOrder API", description = "주문 생성 api", tags = {"Order-Service"})
     public BaseResponseEntity<ResponseAddOrderListVo> addOrder(@RequestBody RequestAddOrderListVo requestAddOrderListVo) {
         String userUuid = securityUtil.getCurrentUserUuid();
 
