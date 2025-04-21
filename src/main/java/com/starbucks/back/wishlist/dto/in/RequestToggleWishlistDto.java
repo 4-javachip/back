@@ -9,15 +9,13 @@ import java.util.UUID;
 
 @Getter
 public class RequestToggleWishlistDto {
-    private String userUuid;
+    public String userUuid;
     private String productUuid;
-    private String productOptionUuid;
 
     @Builder
-    public RequestToggleWishlistDto(String userUuid, String productUuid, String productOptionUuid) {
+    public RequestToggleWishlistDto(String userUuid, String productUuid) {
         this.userUuid = userUuid;
         this.productUuid = productUuid;
-        this.productOptionUuid = productOptionUuid;
     }
 
     public Wishlist toEntity() {
@@ -25,7 +23,6 @@ public class RequestToggleWishlistDto {
                 .wishlistUuid(UUID.randomUUID().toString())
                 .userUuid(userUuid)
                 .productUuid(productUuid)
-                .productOptionUuid(productOptionUuid)
                 .build();
     }
 
@@ -36,7 +33,6 @@ public class RequestToggleWishlistDto {
         return RequestToggleWishlistDto.builder()
                 .userUuid(userUuid)
                 .productUuid(requestToggleWishlistVo.getProductUuid())
-                .productOptionUuid(requestToggleWishlistVo.getProductOptionUuid())
                 .build();
     }
 }
