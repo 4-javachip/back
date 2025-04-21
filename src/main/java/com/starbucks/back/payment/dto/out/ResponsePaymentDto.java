@@ -20,6 +20,8 @@ public class ResponsePaymentDto {
     private String paymentToken;
     private String failReason;
     private LocalDateTime approvedAt;
+    private String method;
+    private String orderName;
 
     @Builder
     public ResponsePaymentDto(
@@ -33,7 +35,9 @@ public class ResponsePaymentDto {
             PaymentStatus paymentStatus,
             String paymentToken,
             String failReason,
-            LocalDateTime approvedAt
+            LocalDateTime approvedAt,
+            String method,
+            String orderName
     ) {
         this.id = id;
         this.userUuid = userUuid;
@@ -46,6 +50,8 @@ public class ResponsePaymentDto {
         this.paymentToken = paymentToken;
         this.failReason = failReason;
         this.approvedAt = approvedAt;
+        this.method = method;
+        this.orderName = orderName;
     }
 
     // entity -> dto
@@ -62,6 +68,8 @@ public class ResponsePaymentDto {
                 .paymentToken(payment.getPaymentToken())
                 .failReason(payment.getFailReason())
                 .approvedAt(payment.getApprovedAt())
+                .method(payment.getMethod())
+                .orderName(payment.getOrderName())
                 .build();
     }
 }

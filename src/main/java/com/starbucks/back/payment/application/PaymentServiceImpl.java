@@ -143,6 +143,7 @@ public class PaymentServiceImpl implements PaymentService{
             );
 
             Map responseBody = response.getBody();
+            log.info("responseBody@@: {}", responseBody);
 
             if (responseBody == null) {
                 throw new BaseException(BaseResponseStatus.TOSS_EMPTY_RESPONSE);
@@ -175,15 +176,16 @@ public class PaymentServiceImpl implements PaymentService{
             if (!Objects.equals(amount, payment.getTotalPurchasePrice())) {
                 throw new BaseException(BaseResponseStatus.PAYMENT_AMOUNT_MISMATCH);
             }
-
+            // 결제 승인 성공 시 결제 상태 업데이트
             paymentRepository.save(requestPaymentConfirmDto.updateSuccessPayment(
-                    payment, paymentCode, method, amount, paymentStatus, approvedAt));
+                    payment, paymentCode, method, paymentStatus, approvedAt));
 
             return ResponsePaymentConfirmDto.from(
                     paymentStatus.getDescription(),
                     paymentUuid,
                     paymentStatus,
-                    approvedAt != null ? approvedAt.toString() : null
+                    approvedAt != null ? approvedAt.toString() : null,
+                    method
             );
         } catch (Exception e) {
             // 결제 승인 실패 시 처리
