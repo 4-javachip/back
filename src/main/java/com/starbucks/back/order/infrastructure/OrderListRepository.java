@@ -1,6 +1,7 @@
 package com.starbucks.back.order.infrastructure;
 
 import com.starbucks.back.order.domain.OrderList;
+import com.starbucks.back.order.domain.enums.PaymentStatus;
 import com.starbucks.back.order.dto.in.RequestAddOrderListDto;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -26,4 +27,11 @@ public interface OrderListRepository extends JpaRepository<OrderList, Long> {
      */
     Optional<OrderList> findTopByUserUuidOrderByCreatedAtDesc(String userUuid);
 
+    /**
+     * 주문 내역 수정 by orderListUuid
+     */
+    @Modifying
+    @Transactional
+    @Query("UPDATE OrderList o SET o.paymentStatus = :paymentStatus WHERE o.orderListUuid = :orderListUuid")
+    void updateOrderListStatus(String orderListUuid, PaymentStatus paymentStatus);
 }

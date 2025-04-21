@@ -186,7 +186,11 @@ public class PaymentServiceImpl implements PaymentService{
                     payment, paymentCode, method, paymentStatus, approvedAt));
 
             // 2. 결제 승인 성공 시 주문 상태 업데이트 (여기서 1. 카트수정, 2. 재고감소, 3. best판매량추가 로직 처리)
-            orderListService.updateOrderList(requestPaymentConfirmDto.getUserUuid(), payment.getOrderListUuid());
+            orderListService.updateOrderList(
+                    requestPaymentConfirmDto.getUserUuid(),
+                    payment.getOrderListUuid(),
+                    paymentStatus.getDescription()
+            );
 
             return ResponsePaymentConfirmDto.from(
                     paymentStatus.getDescription(),
