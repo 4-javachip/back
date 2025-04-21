@@ -4,9 +4,7 @@ import com.starbucks.back.best.application.BestService;
 import com.starbucks.back.cart.application.CartService;
 import com.starbucks.back.common.entity.BaseResponseStatus;
 import com.starbucks.back.common.exception.BaseException;
-import com.starbucks.back.order.domain.OrderDetail;
 import com.starbucks.back.order.domain.OrderList;
-import com.starbucks.back.order.domain.enums.PaymentStatus;
 import com.starbucks.back.order.dto.in.OrderItemDto;
 import com.starbucks.back.order.dto.in.RequestAddOrderListDto;
 import com.starbucks.back.order.dto.out.ResponseOrderDetailByOrderItemDto;
@@ -14,9 +12,9 @@ import com.starbucks.back.order.dto.out.ResponseReadOrderDetailDto;
 import com.starbucks.back.order.dto.out.ResponseReadOrderListDto;
 import com.starbucks.back.order.infrastructure.OrderListRepository;
 import com.starbucks.back.order.vo.in.OrderItemVo;
-import com.starbucks.back.order.vo.out.AddedOrderItemVo;
+import com.starbucks.back.order.vo.out.RecentOrderItemVo;
 import com.starbucks.back.order.vo.out.ResponseAddOrderListVo;
-import com.starbucks.back.payment.dto.out.ResponsePaymentDto;
+import com.starbucks.back.order.vo.out.ResponseRecentOrderListVo;
 import com.starbucks.back.product.application.ProductOptionService;
 import com.starbucks.back.product.dto.in.RequestUpdateProductOptionDto;
 import com.starbucks.back.product.dto.out.ResponseProductOptionDto;
@@ -64,9 +62,7 @@ public class OrderListServiceImpl implements OrderListService {
                 )
         );
 
-        // OrderDetail에 상품 정보 추가 (장바구니List에서 cartUuid 받아와서, QueryDSL로 OrderDetail 생성)
-        List<AddedOrderItemVo> addedOrderItemVos = new ArrayList<>();
-
+        // OrderDetail에 상품 정보 추가
         for (OrderItemVo orderItemVo : requestAddOrderListDto.getOrderItems()) {
             OrderItemDto orderItemDto = OrderItemDto.from(
                     orderList.getOrderListUuid(),
@@ -153,4 +149,25 @@ public class OrderListServiceImpl implements OrderListService {
 
     }
 
+    /**
+     * 최근 주문 내역 조회
+     */
+    @Override
+    public ResponseRecentOrderListVo getRecentOrderList(String userUuid) {
+
+        OrderList orderList =  orderListRepository.findTopByUserUuidOrderByCreatedAtDesc(userUuid)
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_ORDER_LIST));
+
+        List<RecentOrderItemVo> recentOrderItemVos = new ArrayList<>();
+
+        // 주문한 상품들 (order items) 목록 생성
+        List<ResponseReadOrderDetailDto> responseReadOrderDetailDtos = orderDetailService
+                .getOrderDetailByOrderListUuid(orderList.getOrderListUuid());
+
+        for (ResponseReadOrderDetailDto responseReadOrderDetailDto : responseReadOrderDetailDtos) {
+            recentOrderItemVos.add(RecentOrderItemVo.from(responseReadOrderDetailDto));
+        }
+
+        return ResponseRecentOrderListVo.from(orderList, recentOrderItemVos);
+    }
 }

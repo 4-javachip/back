@@ -20,4 +20,10 @@ public interface OrderListRepository extends JpaRepository<OrderList, Long> {
      * 주문 내역 조회 by orderListUuid
      */
     Optional<OrderList> findByOrderListUuid(String orderListUuid);
+
+    /**
+     * 최근 주문 내역 조회 by userUuid
+     */
+    Optional<OrderList> findTopByUserUuidOrderByCreatedAtDesc(String userUuid);
+
 }
