@@ -1,6 +1,5 @@
 package com.starbucks.back.auth.application;
 
-import com.starbucks.back.auth.dto.UserAuthDto;
 import com.starbucks.back.auth.dto.in.RequestSignInDto;
 import com.starbucks.back.auth.dto.in.RequestSignUpDto;
 import com.starbucks.back.auth.dto.out.ResponseSignInDto;
@@ -11,6 +10,8 @@ import com.starbucks.back.common.util.JwtUtil;
 import com.starbucks.back.common.util.RedisUtil;
 import com.starbucks.back.user.domain.User;
 import com.starbucks.back.user.domain.enums.UserState;
+import com.starbucks.back.auth.dto.in.RequestGetUserNicknameDto;
+import com.starbucks.back.auth.dto.out.ResponseGetUserNicknameDto;
 import com.starbucks.back.user.infrastructure.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -103,5 +104,14 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public void oauthSignUp(User user) {userRepository.save(user);}
+
+    @Override
+    public ResponseGetUserNicknameDto getUserNickname(RequestGetUserNicknameDto requestGetUserNicknameDto) {
+        return ResponseGetUserNicknameDto.from(
+                userRepository.findByUserUuid(requestGetUserNicknameDto.getUserUuid())
+                        .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_USER))
+                        .getNickname()
+        );
+    }
 
 }
