@@ -9,6 +9,7 @@ import com.starbucks.back.order.dto.out.ResponseReadOrderListDto;
 import com.starbucks.back.order.vo.in.RequestAddOrderListVo;
 import com.starbucks.back.order.vo.out.ResponseAddOrderListVo;
 import com.starbucks.back.order.vo.out.ResponseReadOrderListVo;
+import com.starbucks.back.order.vo.out.ResponseRecentOrderListVo;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -54,5 +55,19 @@ public class OrderListController {
 
         return new BaseResponseEntity<>(result);
     }
+
+    /**
+     * 최근 주문 조회 by userUuid
+     */
+    @GetMapping("/recent")
+    @Operation(summary = "GetRecentOrderList API", description = "최근 주문 내역 조회 API 입니다.", tags = {"Order-Service"})
+    public BaseResponseEntity<ResponseRecentOrderListVo> getRecentOrderList() {
+        String userUuid = securityUtil.getCurrentUserUuid();
+
+        ResponseRecentOrderListVo result = orderListService.getRecentOrderList(userUuid);
+
+        return new BaseResponseEntity<>(result);
+    }
+
 
 }
