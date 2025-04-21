@@ -5,8 +5,10 @@ import com.starbucks.back.common.entity.BaseResponseStatus;
 import com.starbucks.back.common.util.SecurityUtil;
 import com.starbucks.back.user.application.UserService;
 import com.starbucks.back.user.dto.in.*;
+import com.starbucks.back.user.dto.out.ResponseGetUserNicknameDto;
 import com.starbucks.back.user.vo.in.*;
 import com.starbucks.back.user.vo.out.ResponseGetUserInfoVo;
+import com.starbucks.back.user.vo.out.ResponseGetUserNicknameVo;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -34,6 +36,16 @@ public class UserController {
         System.out.println(securityUtil.getCurrentUserNickname());
         return new BaseResponseEntity<>(
                 securityUtil.getCurrentUserDetails()
+        );
+    }
+
+    @Operation(summary = "Get User Nickname API", description = "유저 닉네임 조회", tags = {"User-service"})
+    @GetMapping("/nickname")
+    public BaseResponseEntity<ResponseGetUserNicknameVo> getUserNickname(
+            @RequestHeader(value = "Uuid") String userUuid
+    ) {
+        return new BaseResponseEntity<>(
+                userService.getUserNickname(RequestGetUserNicknameDto.from(userUuid)).toVo()
         );
     }
 
