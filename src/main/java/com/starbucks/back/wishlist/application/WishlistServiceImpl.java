@@ -1,7 +1,9 @@
 package com.starbucks.back.wishlist.application;
 
+import com.starbucks.back.wishlist.domain.Wishlist;
 import com.starbucks.back.wishlist.dto.in.RequestToggleWishlistDto;
 import com.starbucks.back.wishlist.dto.out.ResponseReadWishlistListDto;
+import com.starbucks.back.wishlist.dto.out.ResponseReadWishlistProductDto;
 import com.starbucks.back.wishlist.infrastructure.WishlistRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -32,10 +34,9 @@ public class WishlistServiceImpl implements WishlistService{
     @Transactional
     @Override
     public void toggleWishlist(RequestToggleWishlistDto requestToggleWishlistDto) {
-        wishlistRepository.findByUserUuidAndProductUuidAndProductOptionUuid(
+        wishlistRepository.findByUserUuidAndProductUuid(
                         requestToggleWishlistDto.getUserUuid(),
-                        requestToggleWishlistDto.getProductUuid(),
-                        requestToggleWishlistDto.getProductOptionUuid()
+                        requestToggleWishlistDto.getProductUuid()
                 )
                 .ifPresentOrElse(
                         // 찜 목록이 존재하는 경우, 삭제
@@ -45,4 +46,14 @@ public class WishlistServiceImpl implements WishlistService{
                 );
     }
 
+
+    /**
+     * 찜 특정 상품 조회 (userUuid, productUuid)
+     */
+    @Override
+    public ResponseReadWishlistProductDto getWishlistByProductUuid(String userUuid, String productUuid) {
+        Boolean checked = wishlistRepository.existsByUserUuidAndProductUuid(userUuid, productUuid);
+
+        return ResponseReadWishlistProductDto.from(checked);
+    }
 }
