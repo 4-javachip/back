@@ -4,6 +4,7 @@ import com.starbucks.back.auth.application.AuthService;
 import com.starbucks.back.auth.dto.in.*;
 import com.starbucks.back.auth.dto.out.ResponseSignInDto;
 import com.starbucks.back.auth.vo.in.*;
+import com.starbucks.back.auth.vo.out.ResponseGetUserNicknameVo;
 import com.starbucks.back.auth.vo.out.ResponseSignInVo;
 import com.starbucks.back.common.entity.BaseResponseEntity;
 import com.starbucks.back.common.entity.BaseResponseStatus;
@@ -90,6 +91,16 @@ public class AuthController {
     ) {
         return new BaseResponseEntity<>(
                 authService.existsPhoneNumber(RequestExistsPhoneNumberDto.from(requestExistsPhoneNumberVo).getPhoneNumber())
+        );
+    }
+
+    @Operation(summary = "Get User Nickname API", description = "유저 닉네임 조회", tags = {"User-service"})
+    @GetMapping("/nickname")
+    public BaseResponseEntity<ResponseGetUserNicknameVo> getUserNickname(
+            @RequestHeader(value = "Uuid") String userUuid
+    ) {
+        return new BaseResponseEntity<>(
+                authService.getUserNickname(RequestGetUserNicknameDto.from(userUuid)).toVo()
         );
     }
 }

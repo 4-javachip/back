@@ -1,5 +1,6 @@
 package com.starbucks.back.user.presentation;
 
+import com.starbucks.back.auth.dto.in.RequestGetUserNicknameDto;
 import com.starbucks.back.common.entity.BaseResponseEntity;
 import com.starbucks.back.common.entity.BaseResponseStatus;
 import com.starbucks.back.common.util.SecurityUtil;
@@ -7,6 +8,7 @@ import com.starbucks.back.user.application.UserService;
 import com.starbucks.back.user.dto.in.*;
 import com.starbucks.back.user.vo.in.*;
 import com.starbucks.back.user.vo.out.ResponseGetUserInfoVo;
+import com.starbucks.back.auth.vo.out.ResponseGetUserNicknameVo;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

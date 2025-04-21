@@ -5,8 +5,6 @@ import com.starbucks.back.user.dto.in.*;
 import com.starbucks.back.user.dto.out.ResponseGetUserInfoDto;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Optional;
-
 public interface UserService {
     UserDetails loadUserByUsername(String userUuid);
     User loadUserByEmail(String email);
