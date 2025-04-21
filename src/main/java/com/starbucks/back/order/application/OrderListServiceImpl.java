@@ -48,8 +48,6 @@ public class OrderListServiceImpl implements OrderListService {
     @Override
     public ResponseAddOrderListVo addOrderList(RequestAddOrderListDto requestAddOrderListDto) {
 
-
-
         // 장바구니에서 조회면, 해당 장바구니를 삭제
         if (requestAddOrderListDto.getFromCart()) {
             for (OrderItemVo orderItemVo : requestAddOrderListDto.getOrderItems()) {
