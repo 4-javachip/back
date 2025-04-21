@@ -1,4 +1,4 @@
-package com.starbucks.back.user.vo.out;
+package com.starbucks.back.auth.vo.out;
 
 import lombok.Builder;
 import lombok.Getter;

@@ -3,16 +3,12 @@ package com.starbucks.back.user.application;
 import com.starbucks.back.user.domain.User;
 import com.starbucks.back.user.dto.in.*;
 import com.starbucks.back.user.dto.out.ResponseGetUserInfoDto;
-import com.starbucks.back.user.dto.out.ResponseGetUserNicknameDto;
 import org.springframework.security.core.userdetails.UserDetails;
-
-import java.util.Optional;
 
 public interface UserService {
     UserDetails loadUserByUsername(String userUuid);
     User loadUserByEmail(String email);
     ResponseGetUserInfoDto getUserInfo(String userUuid);
-    ResponseGetUserNicknameDto getUserNickname(RequestGetUserNicknameDto requestGetUserNicknameDto);
     void authenticateCurrentPassword(RequestMatchPasswordDto requestMatchPasswordDto);
     void updatePassword(RequestUpdatePasswordDto requestUpdatePasswordDto);
     void resetPassword(RequestResetPasswordDto requestResetPasswordDto);

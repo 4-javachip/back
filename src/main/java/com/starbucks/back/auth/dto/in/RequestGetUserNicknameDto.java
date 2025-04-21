@@ -1,4 +1,4 @@
-package com.starbucks.back.user.dto.in;
+package com.starbucks.back.auth.dto.in;
 
 import lombok.Builder;
 import lombok.Getter;
