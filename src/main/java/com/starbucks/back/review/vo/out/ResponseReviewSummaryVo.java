@@ -6,11 +6,11 @@ import lombok.Getter;
 @Getter
 public class ResponseReviewSummaryVo {
 
-    private Double averageRating;
+    private String averageRating;
     private Long totalReviews;
 
     @Builder
-    public ResponseReviewSummaryVo(Double averageRating, Long totalReviews) {
+    public ResponseReviewSummaryVo(String averageRating, Long totalReviews) {
         this.averageRating = averageRating;
         this.totalReviews = totalReviews;
     }

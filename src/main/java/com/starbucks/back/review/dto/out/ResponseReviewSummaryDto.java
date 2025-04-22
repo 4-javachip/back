@@ -16,9 +16,13 @@ public class ResponseReviewSummaryDto {
         this.totalReviews = totalReviews;
     }
 
+    public String getFormattedAverageRating() {
+        return String.format("%.1f", averageRating);
+    }
+
     public ResponseReviewSummaryVo toVo() {
         return ResponseReviewSummaryVo.builder()
-                .averageRating(averageRating)
+                .averageRating(getFormattedAverageRating())
                 .totalReviews(totalReviews)
                 .build();
     }
