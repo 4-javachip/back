@@ -21,6 +21,8 @@ public class ResponseReadOrderListVo {
     private String phoneNumber;
     private String secondPhoneNumber;
     private String shippingNote;
+    private String orderName;
+    private String method;
 
     @Builder
     public ResponseReadOrderListVo(
@@ -37,7 +39,9 @@ public class ResponseReadOrderListVo {
             String detailAddress,
             String phoneNumber,
             String secondPhoneNumber,
-            String shippingNote
+            String shippingNote,
+            String orderName,
+            String method
     ) {
         this.orderListUuid = orderListUuid;
         this.orderCode = orderCode;
@@ -53,5 +57,7 @@ public class ResponseReadOrderListVo {
         this.phoneNumber = phoneNumber;
         this.secondPhoneNumber = secondPhoneNumber;
         this.shippingNote = shippingNote;
+        this.orderName = orderName;
+        this.method = method;
     }
 }
