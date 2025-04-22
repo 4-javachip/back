@@ -42,7 +42,9 @@ jobs:
         cd ~/starbucks-app/back
 
         echo "[CONFIG] writing application.yml..."
-        echo "$BACK_APPLICATION_YML" > application.yml
+        cat <<EOT > application.yml
+        ${{ secrets.BACK_APPLICATION_YML }}
+        EOT
 
         echo "[DOCKER] pulling latest image and restarting..."
         docker pull ${{ secrets.DOCKER_USERNAME }}/starbucks-backend:latest
