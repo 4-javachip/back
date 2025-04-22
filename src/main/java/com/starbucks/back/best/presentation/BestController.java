@@ -54,7 +54,7 @@ public class BestController {
      */
     @Operation(summary = "카테고리별 베스트 상품 리스트 조회 API", description = "카테고리별 베스트 상품 리스트 조회 API 입니다.", tags = {"Best-Service"})
     @GetMapping("/category/{categoryId}")
-    public BaseResponseEntity<List<ResponseBestVo>> getTop30BestProductsByCategoryId(@PathVariable Long categoryId) {
+    public BaseResponseEntity<List<ResponseBestVo>> getTop30BestProductsByCategoryId(@PathVariable("categoryId") Long categoryId) {
         List<ResponseBestVo> result = bestService.getTop30BestProductsByCategoryId(categoryId)
                 .stream()
                 .map(ResponseBestDto::toVo)
