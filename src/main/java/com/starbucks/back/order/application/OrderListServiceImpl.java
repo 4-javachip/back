@@ -146,7 +146,7 @@ public class OrderListServiceImpl implements OrderListService {
      */
     @Override
     public List<ResponseReadOrderListDto> getAllOrderList(String userUuid) {
-        return orderListRepository.findAllByUserUuid(userUuid)
+        return orderListRepository.findAllByUserUuidAndPaymentStatus(userUuid, PaymentStatus.DONE)
                 .stream()
                 .map(ResponseReadOrderListDto::from)
                 .toList();
