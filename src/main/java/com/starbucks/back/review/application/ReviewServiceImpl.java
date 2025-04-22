@@ -2,6 +2,7 @@ package com.starbucks.back.review.application;
 
 import com.starbucks.back.common.entity.BaseResponseStatus;
 import com.starbucks.back.common.exception.BaseException;
+import com.starbucks.back.order.application.OrderListService;
 import com.starbucks.back.review.domain.Review;
 import com.starbucks.back.review.dto.in.RequestAddReviewDto;
 import com.starbucks.back.review.dto.in.RequestDeleteReviewDto;
@@ -24,6 +25,7 @@ import java.util.List;
 public class ReviewServiceImpl implements ReviewService {
 
     private final ReviewRepository reviewRepository;
+    private final OrderListService orderListService;
 
     /**
      * 리뷰 등록
@@ -32,6 +34,9 @@ public class ReviewServiceImpl implements ReviewService {
     @Transactional
     @Override
     public void addReview(RequestAddReviewDto requestAddReviewDto) {
+        if (!orderListService.existsOrderByUserUuidAndProductUuid(requestAddReviewDto.getUserUuid(), requestAddReviewDto.getProductUuid())) {
+            throw new BaseException(BaseResponseStatus.REVIEW_NOT_ELIGIBLE);
+        }
         reviewRepository.save(requestAddReviewDto.toEntity());
     }
 
