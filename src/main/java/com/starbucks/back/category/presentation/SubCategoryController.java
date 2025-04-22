@@ -41,7 +41,7 @@ public class SubCategoryController {
      */
     @Operation(summary = "id로 서브 카테고리 조회 API", description = "id로 서브 카테고리 조회 API 입니다.", tags = {"Sub-Category-Service"})
     @GetMapping("/{id}")
-    public BaseResponseEntity<ResponseSubCategoryVo> getSubCategoryById(@PathVariable Long id) {
+    public BaseResponseEntity<ResponseSubCategoryVo> getSubCategoryById(@PathVariable("id") Long id) {
         ResponseSubCategoryDto responseSubCategoryDto = subCategoryService.getSubCategoryById(id);
         return new BaseResponseEntity<>(responseSubCategoryDto.toVo());
     }
@@ -52,7 +52,7 @@ public class SubCategoryController {
      */
     @Operation(summary = "이름으로 서브 카테고리 조회 API", description = "이름으로 서브 카테고리 조회 API 입니다.", tags = {"Sub-Category-Service"})
     @GetMapping("/search")
-    public BaseResponseEntity<ResponseSubCategoryVo> getSubCategoryByName(@RequestParam String name) {
+    public BaseResponseEntity<ResponseSubCategoryVo> getSubCategoryByName(@RequestParam("name") String name) {
         ResponseSubCategoryDto responseSubCategoryDto = subCategoryService.getSubCategoryByName(name);
         return new BaseResponseEntity<>(responseSubCategoryDto.toVo());
     }

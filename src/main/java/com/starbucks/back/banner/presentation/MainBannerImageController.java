@@ -36,8 +36,8 @@ public class MainBannerImageController {
     }
 
     @Operation(summary = "메인 배너 이미지 uuid로 조회 API", description = "메인 배너 이미지 uuid로 조회 API 입니다.", tags = {"Main-Banner-Image-Service"})
-    @GetMapping("{mainBannerImageUuid}")
-    public BaseResponseEntity<ResponseMainBannerImageVo> getMainBannerImageByMainBannerImageUuid(@PathVariable String mainBannerImageUuid) {
+    @GetMapping("/{mainBannerImageUuid}")
+    public BaseResponseEntity<ResponseMainBannerImageVo> getMainBannerImageByMainBannerImageUuid(@PathVariable("mainBannerImageUuid") String mainBannerImageUuid) {
         ResponseMainBannerImageDto responseMainBannerImageDto = mainBannerImageService.getMainBannerImageByMainBannerImageUuid(mainBannerImageUuid);
         return new BaseResponseEntity<>(responseMainBannerImageDto.toVo());
     }

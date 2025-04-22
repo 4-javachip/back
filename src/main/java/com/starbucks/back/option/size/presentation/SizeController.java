@@ -53,7 +53,7 @@ public class SizeController {
      */
     @Operation(summary = "이름으로 사이즈 옵션 조회 API", description = "이름으로 사이즈 옵션 조회 API 입니다.", tags = {"Size-Service"})
     @GetMapping("/search")
-    public BaseResponseEntity<ResponseSizeVo> getSizeByName(@RequestParam String name) {
+    public BaseResponseEntity<ResponseSizeVo> getSizeByName(@RequestParam("name") String name) {
         ResponseSizeDto responseSizeDto = sizeService.getSizeByName(name);
         return new BaseResponseEntity<>(responseSizeDto.toVo());
     }
