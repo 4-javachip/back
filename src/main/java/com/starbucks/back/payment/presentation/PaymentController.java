@@ -84,7 +84,7 @@ public class PaymentController {
     @GetMapping("/{paymentUuid}")
     @Operation(summary = "GetPayment API", description = "결제 내역 조회 API 입니다.", tags = {"Payment-Service"})
     public BaseResponseEntity<ResponsePaymentVo> getPayment(
-            @PathVariable String paymentUuid
+            @PathVariable("paymentUuid") String paymentUuid
     ) {
         String userUuid = securityUtil.getCurrentUserUuid();
         ResponsePaymentDto responsePaymentDto = paymentService.getPayment(paymentUuid);

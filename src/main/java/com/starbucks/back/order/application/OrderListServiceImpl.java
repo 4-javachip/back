@@ -5,6 +5,7 @@ import com.starbucks.back.cart.application.CartService;
 import com.starbucks.back.common.entity.BaseResponseStatus;
 import com.starbucks.back.common.exception.BaseException;
 import com.starbucks.back.order.domain.OrderList;
+import com.starbucks.back.order.domain.enums.PaymentStatus;
 import com.starbucks.back.order.dto.in.OrderItemDto;
 import com.starbucks.back.order.dto.in.RequestAddOrderListDto;
 import com.starbucks.back.order.dto.out.ResponseOrderDetailByOrderItemDto;
