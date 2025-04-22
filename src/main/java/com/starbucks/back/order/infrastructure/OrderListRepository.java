@@ -16,7 +16,7 @@ public interface OrderListRepository extends JpaRepository<OrderList, Long> {
     /**
      * 주문 내역 리스트 조회 by userUuid
      */
-    List<OrderList> findAllByUserUuid(String userUuid);
+    List<OrderList> findAllByUserUuidAndPaymentStatus(String userUuid, PaymentStatus paymentStatus);
 
     /**
      * 주문 내역 조회 by orderListUuid
@@ -26,16 +26,26 @@ public interface OrderListRepository extends JpaRepository<OrderList, Long> {
     /**
      * 최근 주문 내역 조회 by userUuid
      */
-    Optional<OrderList> findTopByUserUuidOrderByCreatedAtDesc(String userUuid);
+    Optional<OrderList> findTopByUserUuidAndPaymentStatusOrderByCreatedAtDesc(String userUuid, PaymentStatus paymentStatus);
 
     /**
      * 주문 내역 수정 by orderListUuid
      */
     @Modifying
     @Transactional
-    @Query("UPDATE OrderList o SET o.paymentStatus = :paymentStatus WHERE o.orderListUuid = :orderListUuid")
+    @Query("""
+        UPDATE OrderList o 
+        SET o.paymentStatus = :paymentStatus, 
+            o.paymentUuid = :paymentUuid,
+            o.orderName = :orderName,
+            o.method = :method
+        WHERE o.orderListUuid = :orderListUuid
+    """)
     void updateOrderListStatus(
             @Param("orderListUuid") String orderListUuid,
+            @Param("paymentUuid") String paymentUuid,
+            @Param("orderName") String orderName,
+            @Param("method") String method,
             @Param("paymentStatus") PaymentStatus paymentStatus);
 
     /**
