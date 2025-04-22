@@ -23,6 +23,8 @@ public class ResponseRecentOrderListVo {
     private String phoneNumber;
     private String shippingNote;
     private String secondPhoneNumber;
+    private String orderName;
+    private String method;
 
     @Builder
     public ResponseRecentOrderListVo(
@@ -38,7 +40,9 @@ public class ResponseRecentOrderListVo {
             String detailAddress,
             String phoneNumber,
             String shippingNote,
-            String secondPhoneNumber
+            String secondPhoneNumber,
+            String orderName,
+            String method
     ) {
         this.orderListUuid = orderListUuid;
         this.paymentStatus = paymentStatus;
@@ -53,6 +57,8 @@ public class ResponseRecentOrderListVo {
         this.phoneNumber = phoneNumber;
         this.shippingNote = shippingNote;
         this.secondPhoneNumber = secondPhoneNumber;
+        this.orderName = orderName;
+        this.method = method;
     }
 
     public static ResponseRecentOrderListVo from(
@@ -73,6 +79,8 @@ public class ResponseRecentOrderListVo {
                 .phoneNumber(orderList.getPhoneNumber())
                 .shippingNote(orderList.getShippingNote())
                 .secondPhoneNumber(orderList.getSecondPhoneNumber())
+                .orderName(orderList.getOrderName())
+                .method(orderList.getMethod())
                 .build();
     }
 }

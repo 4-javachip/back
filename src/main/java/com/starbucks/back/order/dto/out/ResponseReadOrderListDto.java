@@ -23,6 +23,8 @@ public class ResponseReadOrderListDto {
     private String phoneNumber;
     private String secondPhoneNumber;
     private String shippingNote;
+    private String orderName;
+    private String method;
 
     @Builder
     public ResponseReadOrderListDto(
@@ -39,7 +41,9 @@ public class ResponseReadOrderListDto {
             String detailAddress,
             String phoneNumber,
             String secondPhoneNumber,
-            String shippingNote
+            String shippingNote,
+            String orderName,
+            String method
     ) {
         this.orderListUuid = orderListUuid;
         this.orderCode = orderCode;
@@ -55,6 +59,8 @@ public class ResponseReadOrderListDto {
         this.phoneNumber = phoneNumber;
         this.secondPhoneNumber = secondPhoneNumber;
         this.shippingNote = shippingNote;
+        this.orderName = orderName;
+        this.method = method;
     }
 
     // entity => vo
@@ -74,6 +80,8 @@ public class ResponseReadOrderListDto {
                 .phoneNumber(orderList.getPhoneNumber())
                 .secondPhoneNumber(orderList.getSecondPhoneNumber())
                 .shippingNote(orderList.getShippingNote())
+                .orderName(orderList.getOrderName())
+                .method(orderList.getMethod())
                 .build();
     }
 
@@ -94,6 +102,8 @@ public class ResponseReadOrderListDto {
                 .phoneNumber(phoneNumber)
                 .secondPhoneNumber(secondPhoneNumber)
                 .shippingNote(shippingNote)
+                .orderName(orderName)
+                .method(method)
                 .build();
     }
 }
