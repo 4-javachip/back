@@ -36,5 +36,5 @@ public interface OrderListRepository extends JpaRepository<OrderList, Long> {
     @Query("UPDATE OrderList o SET o.paymentStatus = :paymentStatus WHERE o.orderListUuid = :orderListUuid")
     void updateOrderListStatus(
             @Param("orderListUuid") String orderListUuid,
-            @Param("paymentStatus")PaymentStatus paymentStatus);
+            @Param("paymentStatus") PaymentStatus paymentStatus);
 }
