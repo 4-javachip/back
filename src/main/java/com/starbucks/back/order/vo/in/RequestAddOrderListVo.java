@@ -11,5 +11,4 @@ public class RequestAddOrderListVo {
     private Integer totalOriginPrice;
     private Integer totalPurchasePrice;
     private String shippingAddressUuid;
-    private String paymentUuid;
 }

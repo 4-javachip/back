@@ -2,6 +2,8 @@ package com.starbucks.back.payment.application;
 
 import com.starbucks.back.common.entity.BaseResponseStatus;
 import com.starbucks.back.common.exception.BaseException;
+import com.starbucks.back.order.application.OrderListService;
+import com.starbucks.back.order.domain.OrderList;
 import com.starbucks.back.payment.domain.Payment;
 import com.starbucks.back.payment.domain.PaymentStatus;
 import com.starbucks.back.payment.dto.in.RequestPaymentConfirmDto;
@@ -28,6 +30,7 @@ import java.util.*;
 @RequiredArgsConstructor
 public class PaymentServiceImpl implements PaymentService{
     private final PaymentRepository paymentRepository;
+    private final OrderListService orderListService;
 
     @Value("${payment.secret-key}")
     private String secretKey;
@@ -124,11 +127,13 @@ public class PaymentServiceImpl implements PaymentService{
         // 요청 바디와 헤더를 HttpEntity로 감싸기
         HttpEntity<Map<String, Object>> httpRequest = new HttpEntity<>(body, headers);
 
+        log.info("requestPaymentConfirmDto: {}", requestPaymentConfirmDto);
+        log.info("requestPaymentConfirmDto.getPaymentUuid(): {}", requestPaymentConfirmDto.getPaymentUuid());
         // ✅ 결제 정보 갱신 (paymentCode, status)
         Payment payment = paymentRepository
                 .findByPaymentUuid(requestPaymentConfirmDto.getPaymentUuid())
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.PAYMENT_NO_EXIST));
-
+        log.info("payment@@: {}", payment);
         // 결제 승인 처리가 이미 완료된 경우
         if (payment.getStatus() != PaymentStatus.READY) {
             // 이미 완료된 결제는 무시
@@ -136,6 +141,7 @@ public class PaymentServiceImpl implements PaymentService{
         }
 
         try {
+            // 1. toss 통신 후 결제상태 갱신
             // Toss 결제 승인 api 요청 (postForEntity)
             ResponseEntity<Map> response = restTemplate.postForEntity(
                     baseUrl + "/payments/confirm", httpRequest, Map.class
@@ -178,6 +184,13 @@ public class PaymentServiceImpl implements PaymentService{
             // 결제 승인 성공 시 결제 상태 업데이트
             paymentRepository.save(requestPaymentConfirmDto.updateSuccessPayment(
                     payment, paymentCode, method, paymentStatus, approvedAt));
+
+            // 2. 결제 승인 성공 시 주문 상태 업데이트 (여기서 1. 카트수정, 2. 재고감소, 3. best판매량추가 로직 처리)
+            orderListService.updateOrderList(
+                    requestPaymentConfirmDto.getUserUuid(),
+                    payment.getOrderListUuid(),
+                    paymentStatus.getDescription()
+            );
 
             return ResponsePaymentConfirmDto.from(
                     paymentStatus.getDescription(),

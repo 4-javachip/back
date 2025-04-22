@@ -59,14 +59,18 @@ public class Payment {
     @Column(name = "order_name", length = 100)
     private String orderName;
 
+    @Column(name = "order_list_uuid", length = 50)
+    private String orderListUuid;
+
     @Builder
     public Payment(
             Long id,
             String userUuid,
             String paymentUuid,
+            String paymentCode,
+            String couponUuid,
             Integer totalOriginPrice,
             Integer totalPurchasePrice,
-            String paymentCode,
             PaymentStatus status,
             String pgProvider,
             String pgTid,
@@ -74,14 +78,16 @@ public class Payment {
             String failReason,
             LocalDateTime approvedAt,
             String method,
-            String orderName
+            String orderName,
+            String orderListUuid
     ) {
         this.id = id;
         this.userUuid = userUuid;
         this.paymentUuid = paymentUuid;
+        this.paymentCode = paymentCode;
+        this.couponUuid = couponUuid;
         this.totalOriginPrice = totalOriginPrice;
         this.totalPurchasePrice = totalPurchasePrice;
-        this.paymentCode = paymentCode;
         this.status = status;
         this.pgProvider = pgProvider;
         this.pgTid = pgTid;
@@ -90,5 +96,6 @@ public class Payment {
         this.approvedAt = approvedAt;
         this.method = method;
         this.orderName = orderName;
+        this.orderListUuid = orderListUuid;
     }
 }

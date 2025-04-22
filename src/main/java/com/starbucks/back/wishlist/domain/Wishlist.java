@@ -26,21 +26,16 @@ public class Wishlist extends SoftDeletableEntity {
     @Column(name = "product_uuid", nullable = false, length = 50)
     private String productUuid;
 
-    @Column(name = "product_option_list_uuid", length = 50)
-    private String productOptionUuid;
-
     @Builder
     public Wishlist(
             Long id,
             String wishlistUuid,
             String userUuid,
-            String productUuid,
-            String productOptionUuid
+            String productUuid
     ) {
         this.id = id;
         this.wishlistUuid = wishlistUuid;
         this.userUuid = userUuid;
         this.productUuid = productUuid;
-        this.productOptionUuid = productOptionUuid;
     }
 }

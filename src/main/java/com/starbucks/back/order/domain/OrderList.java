@@ -23,8 +23,11 @@ public class OrderList extends BaseEntity {
     @Column(name = "order_list_uuid", nullable = false, length = 50)
     private String orderListUuid;
 
-    @Column(name = "payment_uuid", nullable = false, length = 50)
+    @Column(name = "payment_uuid", length = 50)
     private String paymentUuid;
+
+    @Column(name = "from_cart")
+    private Boolean fromCart;
 
     @Column(name = "order_code", nullable = false, length = 50, unique = true)
     private String orderCode;
@@ -70,8 +73,10 @@ public class OrderList extends BaseEntity {
 
     @Builder
     public OrderList(
+            Long id,
             String orderListUuid,
             String paymentUuid,
+            Boolean fromCart,
             String orderCode,
             String userUuid,
             Integer discountRate,
@@ -87,8 +92,10 @@ public class OrderList extends BaseEntity {
             String secondPhoneNumber,
             String shippingNote
     ) {
+        this.id = id;
         this.orderListUuid = orderListUuid;
         this.paymentUuid = paymentUuid;
+        this.fromCart = fromCart;
         this.orderCode = orderCode;
         this.userUuid = userUuid;
         this.discountRate = discountRate;

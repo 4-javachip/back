@@ -1,4 +1,4 @@
-name: Deploy Backend
+name: Deploy Backend with Docker Hub
 
 on:
   push:
@@ -12,20 +12,42 @@ jobs:
     - name: Checkout source
       uses: actions/checkout@v3
 
-    - name: Build with Gradle (skip tests)
-      run: ./gradlew clean build -x test --stacktrace
+    - name: Set up JDK
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '17'
 
-    - name: Setup SSH
+    - name: Build with Gradle
+      run: ./gradlew clean build -x test
+
+    - name: Build Docker image
+      run: docker build -t ${{ secrets.DOCKER_USERNAME }}/starbucks-backend:latest .
+
+    - name: Push Docker image to Docker Hub (public repo)
+      run: |
+        echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+        docker push ${{ secrets.DOCKER_USERNAME }}/starbucks-backend:latest
+
+    - name: Setup SSH to EC2
       run: |
         mkdir -p ~/.ssh
         echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
         ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
 
-    - name: Deploy to EC2
+    - name: Deploy on EC2
       run: |
-        ssh ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} \
-          "BACK_APPLICATION_YML='${{ secrets.BACK_APPLICATION_YML }}' bash ~/starbucks-app/deploy/deploy-back.sh"
+        ssh ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
+        cd ~/starbucks-app/back
+        echo "[CONFIG] writing application.yml..."
+        mkdir -p src/main/resources
+        echo "$BACK_APPLICATION_YML" > src/main/resources/application.yml
+        echo "[DOCKER] pulling latest image and restarting..."
+        docker pull ${{ secrets.DOCKER_USERNAME }}/starbucks-backend:latest
+        docker compose up -d
+        docker image prune --filter "dangling=true" -f
+        EOF
 
     - name: Get Short Commit Message
       id: commit_msg
@@ -44,30 +66,30 @@ jobs:
           ICON="❌"
           TITLE="Backend Deploy 실패"
         fi
-    
+
         curl -X POST ${{ secrets.DISCORD_WEBHOOK }} \
         -H "Content-Type: application/json" \
         -d @- <<EOF
         {
-        "embeds": [
-        {
-          "title": "$ICON $TITLE",
-          "color": $COLOR,
-          "fields": [
+          "embeds": [
             {
-              "name": "🔨 Commit",
-              "value": "${SHORT_MSG}"
-            },
-            {
-              "name": "👤 By",
-              "value": "${{ github.actor }}"
-            },
-            {
-              "name": "📅 When",
-              "value": "${{ github.event.head_commit.timestamp }}"
+              "title": "$ICON $TITLE",
+              "color": $COLOR,
+              "fields": [
+                {
+                  "name": "🔨 Commit",
+                  "value": "${SHORT_MSG}"
+                },
+                {
+                  "name": "👤 By",
+                  "value": "${{ github.actor }}"
+                },
+                {
+                  "name": "📅 When",
+                  "value": "${{ github.event.head_commit.timestamp }}"
+                }
+              ]
             }
           ]
-        }
-        ]
         }
         EOF
