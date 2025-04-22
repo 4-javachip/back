@@ -37,4 +37,21 @@ public interface OrderListRepository extends JpaRepository<OrderList, Long> {
     void updateOrderListStatus(
             @Param("orderListUuid") String orderListUuid,
             @Param("paymentStatus") PaymentStatus paymentStatus);
+
+    /**
+     * 주문 내역 존재 여부 조회 by userUuid, productUuid
+     * 결제 완료 상태면 paymentStatus = 3
+     */
+    @Query("""
+        SELECT CASE WHEN COUNT(*) > 0 THEN true ELSE false END
+        FROM OrderDetail od
+        JOIN OrderList ol ON od.orderListUuid = ol.orderListUuid
+        WHERE od.productUuid = :productUuid
+          AND ol.userUuid = :userUuid
+          AND ol.paymentStatus = 3
+    """)
+    Boolean existsOrderByUserUuidAndProductUuid(
+            @Param("userUuid") String userUuid,
+            @Param("productUuid") String productUuid
+    );
 }

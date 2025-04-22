@@ -174,4 +174,12 @@ public class OrderListServiceImpl implements OrderListService {
 
         return ResponseRecentOrderListVo.from(orderList, recentOrderItemVos);
     }
+
+    /**
+     * 주문 내역 존재 여부
+     */
+    @Override
+    public Boolean existsOrderByUserUuidAndProductUuid(String userUuid, String productUuid) {
+        return orderListRepository.existsOrderByUserUuidAndProductUuid(userUuid, productUuid);
+    }
 }
