@@ -42,7 +42,7 @@ public class SeasonController {
      */
     @Operation(summary = "id로 시즌 조회 API", description = "id로 시즌 조회 API 입니다.", tags = {"Season-Service"})
     @GetMapping("/{id}")
-    public BaseResponseEntity<ResponseSeasonVo> getSeasonById(@PathVariable Long id) {
+    public BaseResponseEntity<ResponseSeasonVo> getSeasonById(@PathVariable("id") Long id) {
         ResponseSeasonDto responseSeasonDto = seasonService.getSeasonById(id);
         return new BaseResponseEntity<>(responseSeasonDto.toVo());
     }
@@ -53,7 +53,7 @@ public class SeasonController {
      */
     @Operation(summary = "이름으로 시즌 조회 API", description = "이름으로 시즌 조회 API 입니다.", tags = {"Season-Service"})
     @GetMapping("/search")
-    public BaseResponseEntity<ResponseSeasonVo> getSeasonByName(@RequestParam String name) {
+    public BaseResponseEntity<ResponseSeasonVo> getSeasonByName(@RequestParam("name") String name) {
         ResponseSeasonDto responseSeasonDto = seasonService.getSeasonByName(name);
         return new BaseResponseEntity<>(responseSeasonDto.toVo());
     }
