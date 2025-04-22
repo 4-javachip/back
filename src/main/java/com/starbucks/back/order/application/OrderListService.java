@@ -12,4 +12,5 @@ public interface OrderListService {
     void updateOrderList(String userUuid, String orderListUuid, String orderStatus);
     List<ResponseReadOrderListDto> getAllOrderList(String userUuid);
     ResponseRecentOrderListVo getRecentOrderList(String userUuid);
+    Boolean existsOrderByUserUuidAndProductUuid(String userUuid, String productUuid);
 }
