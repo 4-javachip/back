@@ -34,9 +34,15 @@ public class ReviewServiceImpl implements ReviewService {
     @Transactional
     @Override
     public void addReview(RequestAddReviewDto requestAddReviewDto) {
+        // 유저가 상품을 구매했는지 검증
         if (!orderListService.existsOrderByUserUuidAndProductUuid(requestAddReviewDto.getUserUuid(), requestAddReviewDto.getProductUuid())) {
             throw new BaseException(BaseResponseStatus.REVIEW_NOT_ELIGIBLE);
         }
+
+        if (reviewRepository.existsByOrderDetailUuidAndDeletedFalse(requestAddReviewDto.getOrderDetailUuid())) {
+            throw new BaseException(BaseResponseStatus.REVIEW_ALREADY_EXISTS);
+        }
+
         reviewRepository.save(requestAddReviewDto.toEntity());
     }
 
@@ -117,6 +123,16 @@ public class ReviewServiceImpl implements ReviewService {
         Review review = reviewRepository.findByReviewUuidAndDeletedFalse(requestDeleteReviewDto.getReviewUuid())
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_REVIEW));
         review.softDelete();
+    }
+
+    /**
+     * 리뷰를 했는지 검증
+     * @param userUuid
+     * @param orderDetailUuid
+     */
+    @Override
+    public Boolean hasReview(String userUuid, String orderDetailUuid) {
+        return reviewRepository.existsByUserUuidAndOrderDetailUuidAndDeletedFalse(userUuid, orderDetailUuid);
     }
 
 }

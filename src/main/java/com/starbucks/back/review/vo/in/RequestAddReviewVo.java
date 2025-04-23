@@ -11,5 +11,6 @@ public class RequestAddReviewVo {
     private String title;
     private String content;
     private Integer rating;
+    private String orderDetailUuid;
 
 }
