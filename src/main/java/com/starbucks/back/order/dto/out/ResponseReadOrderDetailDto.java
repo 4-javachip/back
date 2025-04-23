@@ -74,6 +74,7 @@ public class ResponseReadOrderDetailDto {
                 .orderListUuid(responseReadOrderDetailDto.getOrderListUuid())
                 .orderDetailUuid(responseReadOrderDetailDto.getOrderDetailUuid())
                 .productUuid(responseReadOrderDetailDto.getProductUuid())
+                .productOptionUuid(responseReadOrderDetailDto.getProductOptionUuid())
                 .name(responseReadOrderDetailDto.getName())
                 .thumbnail(responseReadOrderDetailDto.getThumbnail())
                 .price(responseReadOrderDetailDto.getTotalOriginPrice())
