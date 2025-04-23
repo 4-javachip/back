@@ -59,4 +59,11 @@ public interface ReviewService {
      */
     void deleteReview(RequestDeleteReviewDto requestDeleteReviewDto);
 
+    /**
+     * 리뷰를 했는지 검증
+     * @param userUuid
+     * @param orderDetailUuid
+     */
+    Boolean hasReview(String userUuid, String orderDetailUuid);
+
 }

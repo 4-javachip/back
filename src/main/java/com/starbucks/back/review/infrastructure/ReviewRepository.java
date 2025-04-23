@@ -41,4 +41,18 @@ public interface ReviewRepository extends JpaRepository<Review, Long>, ReviewCus
      */
     List<Review> findAllByDeletedFalse();
 
+    /**
+     * 주문 상품이 있는지 검증
+     * @param orderDetailUuid
+     */
+    Boolean existsByOrderDetailUuidAndDeletedFalse(String orderDetailUuid);
+
+    /**
+     * 유저가 상품을 구매했는지 검증
+     * @param userUuid
+     * @param orderDetailUuid
+     */
+    Boolean existsByUserUuidAndOrderDetailUuidAndDeletedFalse(String userUuid, String orderDetailUuid);
+
+
 }

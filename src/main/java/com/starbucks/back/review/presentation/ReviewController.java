@@ -13,14 +13,12 @@ import com.starbucks.back.review.dto.out.ResponseReviewDto;
 import com.starbucks.back.review.dto.out.ResponseReviewSummaryDto;
 import com.starbucks.back.review.vo.in.RequestAddReviewVo;
 import com.starbucks.back.review.vo.in.RequestDeleteReviewVo;
-import com.starbucks.back.review.vo.in.RequestReviewPageVo;
 import com.starbucks.back.review.vo.in.RequestReviewVo;
 import com.starbucks.back.review.vo.out.ResponseReviewPageVo;
 import com.starbucks.back.review.vo.out.ResponseReviewSummaryVo;
 import com.starbucks.back.review.vo.out.ResponseReviewVo;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
-import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
@@ -135,6 +133,17 @@ public class ReviewController {
     public BaseResponseEntity<Void> deleteReview(@RequestBody RequestDeleteReviewVo requestDeleteReviewVo) {
         reviewService.deleteReview(RequestDeleteReviewDto.of(securityUtil.getCurrentUserUuid(), requestDeleteReviewVo));
         return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS);
+    }
+
+    /**
+     * 리뷰 작성 여부 확인
+     * @param orderDetailUuid
+     */
+    @Operation(summary = "리뷰 작성 여부 확인 API", description = "사용자가 해당 주문 상품에 대해 이미 리뷰를 작성했는지 확인합니다.", tags = {"Review-Service"})
+    @GetMapping("/exist/{orderDetailUuid}")
+    public BaseResponseEntity<String> hasReview(@PathVariable("orderDetailUuid") String orderDetailUuid) {
+        boolean exists = reviewService.hasReview(securityUtil.getCurrentUserUuid(), orderDetailUuid);
+        return new BaseResponseEntity<>("리뷰 작성 : " + exists);
     }
 
 }
