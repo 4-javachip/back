@@ -70,7 +70,6 @@ public class OrderListServiceImpl implements OrderListService {
                     orderList.getOrderListUuid(),
                     orderItemVo
             );
-            log.info("orderItemDto@@: {}", orderItemDto.toString());
             // orderDetail 에서 save 로직 작성
             ResponseOrderDetailByOrderItemDto responseOrderDetailByOrderItemDto =
                     orderDetailService.addOrderDetail(orderItemDto);
@@ -89,7 +88,6 @@ public class OrderListServiceImpl implements OrderListService {
 
         OrderList orderList = orderListRepository.findByOrderListUuid(updateOrderDto.getOrderListUuid())
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_ORDER_LIST));
-        log.info("orderList@@: {}", orderList);
         List<ResponseReadOrderDetailDto> responseReadOrderDetailDtos = orderDetailService
                 .getOrderDetailByOrderListUuid(updateOrderDto.getOrderListUuid());
 
@@ -97,9 +95,10 @@ public class OrderListServiceImpl implements OrderListService {
         if (orderList.getFromCart()) {
             for (ResponseReadOrderDetailDto responseReadOrderDetailDto : responseReadOrderDetailDtos) {
                 cartService.deleteCartByUserUuidAndProductOptionUuid(
-                        updateOrderDto.getOrderListUuid(),
+                        updateOrderDto.getUserUuid(),
                         responseReadOrderDetailDto.getProductOptionUuid()
                 );
+
             }
         }
 
@@ -114,10 +113,8 @@ public class OrderListServiceImpl implements OrderListService {
 
         // for문 시작
         for (ResponseReadOrderDetailDto responseReadOrderDetailDto : responseReadOrderDetailDtos) {
-            log.info("responseReadOrderDetailDto@@: {}", responseReadOrderDetailDto.getProductOptionUuid());
             ResponseProductOptionDto responseProductOptionDto = productOptionService
                     .getProductOptionByProductOptionUuid(responseReadOrderDetailDto.getProductOptionUuid());
-            log.info("responseProductOptionDto@@: {}", responseProductOptionDto);
             productOptionService.updateProductOption(
                     RequestUpdateProductOptionDto.builder()
                             .productOptionUuid(responseProductOptionDto.getProductOptionUuid())
@@ -129,15 +126,9 @@ public class OrderListServiceImpl implements OrderListService {
                             .discountRate(responseProductOptionDto.getDiscountRate())
                             .build()
             );
-            log.info("재고 감소 성공, productOptionUuid: {}, stock: {}",
-                    responseProductOptionDto.getProductOptionUuid(),
-                    responseProductOptionDto.getStock() - responseReadOrderDetailDto.getQuantity()
-            );
 
             // Best 테이블에 판매량 추가
             // (productUuid로 상품 찾고, 있으면 판매량 +, 없으면 생성)
-            log.info("responseProductOptionDto.getProductUuid(), responseReadOrderDetailDto.getQuantity()" +
-                    " : {}, {}", responseProductOptionDto.getProductUuid(), responseReadOrderDetailDto.getQuantity());
             bestService.increaseBestProductSalesCount(
                     responseProductOptionDto.getProductUuid(), responseReadOrderDetailDto.getQuantity()
             );
