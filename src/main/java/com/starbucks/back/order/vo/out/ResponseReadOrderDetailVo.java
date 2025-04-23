@@ -9,6 +9,7 @@ public class ResponseReadOrderDetailVo {
     private String orderListUuid;
     private String orderDetailUuid;
     private String productUuid;
+    private String productOptionUuid;
     private String name;
     private String thumbnail;
     private Integer price;
@@ -23,6 +24,7 @@ public class ResponseReadOrderDetailVo {
             String orderListUuid,
             String orderDetailUuid,
             String productUuid,
+            String productOptionUuid,
             String name,
             String thumbnail,
             Integer price,
@@ -35,6 +37,7 @@ public class ResponseReadOrderDetailVo {
         this.orderListUuid = orderListUuid;
         this.orderDetailUuid = orderDetailUuid;
         this.productUuid = productUuid;
+        this.productOptionUuid = productOptionUuid;
         this.name = name;
         this.thumbnail = thumbnail;
         this.price = price;

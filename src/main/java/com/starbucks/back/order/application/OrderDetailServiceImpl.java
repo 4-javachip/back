@@ -1,5 +1,8 @@
 package com.starbucks.back.order.application;
 
+import com.starbucks.back.common.entity.BaseResponseStatus;
+import com.starbucks.back.common.exception.BaseException;
+import com.starbucks.back.order.domain.OrderDetail;
 import com.starbucks.back.order.dto.in.OrderItemDto;
 import com.starbucks.back.order.dto.out.ResponseOrderDetailByOrderItemDto;
 import com.starbucks.back.order.dto.out.ResponseReadOrderDetailDto;
@@ -31,7 +34,7 @@ public class OrderDetailServiceImpl implements OrderDetailService{
     }
 
     /**
-     * 주문 상세 조회
+     * 주문 상세 리스트 조회
      */
     @Override
     public List<ResponseReadOrderDetailDto> getOrderDetailByOrderListUuid(String orderListUuid) {
@@ -39,5 +42,16 @@ public class OrderDetailServiceImpl implements OrderDetailService{
                 ).stream()
                 .map(ResponseReadOrderDetailDto::from)
                 .toList();
+    }
+
+    /**
+     * 주문 상세 조회
+     */
+    @Override
+    public ResponseReadOrderDetailDto getOrderDetailByOrderDetailUuid(String orderDetailUuid) {
+        OrderDetail orderDetail = orderDetailRepository.findByOrderDetailUuid(orderDetailUuid)
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_ORDER_DETAIL));
+
+        return ResponseReadOrderDetailDto.from(orderDetail);
     }
 }

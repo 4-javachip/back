@@ -194,6 +194,7 @@ public enum BaseResponseStatus {
     // order
     NOT_FOUND_ITEM(HttpStatus.NOT_FOUND, false, 7201, "주문 내역에 상품이 존재하지 않습니다."),
     NO_EXIST_QUERY_FOR_ORDER_DETAIL(HttpStatus.BAD_REQUEST, false, 7202, "주문 상세 조회를 위한 쿼리가 존재하지 않습니다."),
+    NO_EXIST_ORDER_DETAIL(HttpStatus.NOT_FOUND, false, 7203, "존재하지 않는 주문 상품입니다."),
     // shipping adress
     NO_EXIST_USER_SHIPPING_ADDRESS(HttpStatus.NOT_FOUND, false, 7202, "해당하는 유저-배송지가 존재하지 않습니다."),
     NO_EXIST_SHIPPING_ADDRESS(HttpStatus.NOT_FOUND, false, 7210, "존재하지 않는 배송지입니다");
