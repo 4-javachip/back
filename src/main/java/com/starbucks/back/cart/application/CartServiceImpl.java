@@ -153,6 +153,7 @@ public class CartServiceImpl implements CartService{
      */
     @Override
     public void deleteCartByUserUuidAndProductOptionUuid(String userUuid, String productOptionUuid) {
+        System.out.println("userUuid, productOptionUuid = " + userUuid + ", " + productOptionUuid);
         cartRepository.deleteByUserUuidAndProductOptionUuid(
                 userUuid,
                 productOptionUuid
