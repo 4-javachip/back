@@ -63,7 +63,7 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
      */
     @Modifying
     @Transactional
-    @Query("UPDATE Cart c SET c.deleted = true WHERE c.userUuid = :userUuid AND c.productOptionUuid = :productOptionUuid")
+    @Query("UPDATE Cart c SET c.deleted = true WHERE c.userUuid = :userUuid AND c.productOptionUuid = :productOptionUuid AND c.deleted = false")
     void deleteByUserUuidAndProductOptionUuid(
             @Param("userUuid") String userUuid,
             @Param("productOptionUuid") String productOptionUuid
