@@ -11,4 +11,5 @@ public interface OrderDetailService {
 
     ResponseOrderDetailByOrderItemDto addOrderDetail(OrderItemDto orderItemDto);
     List<ResponseReadOrderDetailDto> getOrderDetailByOrderListUuid(String orderListUuid);
+    ResponseReadOrderDetailDto getOrderDetailByOrderDetailUuid(String orderDetailUuid);
 }

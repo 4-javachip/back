@@ -56,4 +56,15 @@ public class OrderDetailController {
 
         return new BaseResponseEntity<>(result);
     }
+
+    /**
+     * 주문 아이템 상세 by orderDetailUuid
+     */
+    @GetMapping("/detail/{orderDetailUuid}")
+    @Operation(summary = "GetOrderItemDetailByOrderDetailUuid API", description = "주문 상품 상세 조회 api 입니다.", tags = {"Order-Service"})
+    public BaseResponseEntity<ResponseReadOrderDetailVo> getOrderItemDetail(@PathVariable("orderDetailUuid") String orderDetailUuid) {
+        ResponseReadOrderDetailDto result = orderDetailService.getOrderDetailByOrderDetailUuid(orderDetailUuid);
+
+        return new BaseResponseEntity<>(ResponseReadOrderDetailDto.toVo(result));
+    }
 }
