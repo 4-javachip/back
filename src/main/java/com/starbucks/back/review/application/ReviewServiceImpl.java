@@ -33,7 +33,7 @@ public class ReviewServiceImpl implements ReviewService {
      */
     @Transactional
     @Override
-    public void addReview(RequestAddReviewDto requestAddReviewDto) {
+    public String addReview(RequestAddReviewDto requestAddReviewDto) {
         // 유저가 상품을 구매했는지 검증
         if (!orderListService.existsOrderByUserUuidAndProductUuid(requestAddReviewDto.getUserUuid(), requestAddReviewDto.getProductUuid())) {
             throw new BaseException(BaseResponseStatus.REVIEW_NOT_ELIGIBLE);
@@ -43,7 +43,9 @@ public class ReviewServiceImpl implements ReviewService {
             throw new BaseException(BaseResponseStatus.REVIEW_ALREADY_EXISTS);
         }
 
-        reviewRepository.save(requestAddReviewDto.toEntity());
+        Review review = reviewRepository.save(requestAddReviewDto.toEntity());
+
+        return review.getReviewUuid();
     }
 
     /**

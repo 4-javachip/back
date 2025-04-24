@@ -39,9 +39,9 @@ public class ReviewController {
      */
     @Operation(summary = "리뷰 추가 API", description = "리뷰 추가 API 입니다.", tags = {"Review-Service"})
     @PostMapping
-    public BaseResponseEntity<Void> addReview(@RequestBody RequestAddReviewVo requestAddReviewVo) {
-        reviewService.addReview(RequestAddReviewDto.of(securityUtil.getCurrentUserUuid(), requestAddReviewVo));
-        return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS);
+    public BaseResponseEntity<String> addReview(@RequestBody RequestAddReviewVo requestAddReviewVo) {
+        String reviewUuid = reviewService.addReview(RequestAddReviewDto.of(securityUtil.getCurrentUserUuid(), requestAddReviewVo));
+        return new BaseResponseEntity<>(reviewUuid);
     }
 
     /**

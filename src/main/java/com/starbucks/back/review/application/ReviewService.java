@@ -16,7 +16,7 @@ public interface ReviewService {
      * 리뷰 등록
      * @param requestAddReviewDto
      */
-    void addReview(RequestAddReviewDto requestAddReviewDto);
+    String addReview(RequestAddReviewDto requestAddReviewDto);
 
     /**
      * 유저 uuid로 리뷰 조회
