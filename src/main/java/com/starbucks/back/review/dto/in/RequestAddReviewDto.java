@@ -17,14 +17,16 @@ public class RequestAddReviewDto {
     private String title;
     private String content;
     private Integer rating;
+    private String orderDetailUuid;
 
     @Builder
-    public RequestAddReviewDto(String userUuid, String productUuid, String title, String content, Integer rating) {
+    public RequestAddReviewDto(String userUuid, String productUuid, String title, String content, Integer rating, String orderDetailUuid) {
         this.userUuid = userUuid;
         this.productUuid = productUuid;
         this.title = title;
         this.content = content;
         this.rating = rating;
+        this.orderDetailUuid = orderDetailUuid;
     }
 
     public Review toEntity() {
@@ -35,6 +37,7 @@ public class RequestAddReviewDto {
                 .title(title)
                 .content(content)
                 .rating(rating)
+                .orderDetailUuid(orderDetailUuid)
                 .build();
     }
 
@@ -45,6 +48,7 @@ public class RequestAddReviewDto {
                 .title(requestAddReviewVo.getTitle())
                 .content(requestAddReviewVo.getContent())
                 .rating(requestAddReviewVo.getRating())
+                .orderDetailUuid(requestAddReviewVo.getOrderDetailUuid())
                 .build();
     }
 

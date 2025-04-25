@@ -42,7 +42,7 @@ public class EventController {
      */
     @Operation(summary = "기획전 UUID로 기획전 조회 API", description = "기획전 UUID로 기획전 조회 API 입니다.", tags = {"Event-Service"})
     @GetMapping("/{eventUuid}")
-    public BaseResponseEntity<ResponseEventVo> getEventByEventUuid(@PathVariable String eventUuid) {
+    public BaseResponseEntity<ResponseEventVo> getEventByEventUuid(@PathVariable("eventUuid") String eventUuid) {
         ResponseEventDto responseEventDto = eventService.getEventByEventUuid(eventUuid);
         return new BaseResponseEntity<>(responseEventDto.toVo());
     }

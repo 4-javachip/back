@@ -103,4 +103,15 @@ public class AuthController {
                 authService.getUserNickname(RequestGetUserNicknameDto.from(userUuid)).toVo()
         );
     }
+
+    @PostMapping("qr/sign-in")
+    public BaseResponseEntity<ResponseSignInVo> qrSignIn(
+            @Valid @RequestBody RequestSignInVo requestSignInVo
+    ) {
+        return new BaseResponseEntity<>(
+                BaseResponseStatus.SIGN_IN_SUCCESS,
+                authService.qrSignIn(RequestSignInDto.from(requestSignInVo)).toVo()
+        );
+    }
+
 }

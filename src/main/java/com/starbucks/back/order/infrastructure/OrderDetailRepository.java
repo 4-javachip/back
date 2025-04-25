@@ -6,6 +6,7 @@ import com.starbucks.back.order.dto.out.ResponseOrderDetailByOrderItemDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface OrderDetailRepository extends JpaRepository<OrderDetail, Long>, OrderDetailCustomRepository {
@@ -20,4 +21,9 @@ public interface OrderDetailRepository extends JpaRepository<OrderDetail, Long>,
      * @param orderListUuid
      */
     List<OrderDetail> findAllByOrderListUuid(String orderListUuid);
+
+    /**
+     * OrderDetail 조회 by orderDetail
+     */
+    Optional<OrderDetail> findByOrderDetailUuid(String orderDetailUuid);
 }

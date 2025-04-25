@@ -2,6 +2,7 @@ package com.starbucks.back.review.application;
 
 import com.starbucks.back.common.entity.BaseResponseStatus;
 import com.starbucks.back.common.exception.BaseException;
+import com.starbucks.back.order.application.OrderListService;
 import com.starbucks.back.review.domain.Review;
 import com.starbucks.back.review.dto.in.RequestAddReviewDto;
 import com.starbucks.back.review.dto.in.RequestDeleteReviewDto;
@@ -24,6 +25,7 @@ import java.util.List;
 public class ReviewServiceImpl implements ReviewService {
 
     private final ReviewRepository reviewRepository;
+    private final OrderListService orderListService;
 
     /**
      * 리뷰 등록
@@ -31,8 +33,19 @@ public class ReviewServiceImpl implements ReviewService {
      */
     @Transactional
     @Override
-    public void addReview(RequestAddReviewDto requestAddReviewDto) {
-        reviewRepository.save(requestAddReviewDto.toEntity());
+    public String addReview(RequestAddReviewDto requestAddReviewDto) {
+        // 유저가 상품을 구매했는지 검증
+        if (!orderListService.existsOrderByUserUuidAndProductUuid(requestAddReviewDto.getUserUuid(), requestAddReviewDto.getProductUuid())) {
+            throw new BaseException(BaseResponseStatus.REVIEW_NOT_ELIGIBLE);
+        }
+
+        if (reviewRepository.existsByOrderDetailUuidAndDeletedFalse(requestAddReviewDto.getOrderDetailUuid())) {
+            throw new BaseException(BaseResponseStatus.REVIEW_ALREADY_EXISTS);
+        }
+
+        Review review = reviewRepository.save(requestAddReviewDto.toEntity());
+
+        return review.getReviewUuid();
     }
 
     /**
@@ -112,6 +125,16 @@ public class ReviewServiceImpl implements ReviewService {
         Review review = reviewRepository.findByReviewUuidAndDeletedFalse(requestDeleteReviewDto.getReviewUuid())
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_REVIEW));
         review.softDelete();
+    }
+
+    /**
+     * 리뷰를 했는지 검증
+     * @param userUuid
+     * @param orderDetailUuid
+     */
+    @Override
+    public Boolean hasReview(String userUuid, String orderDetailUuid) {
+        return reviewRepository.existsByUserUuidAndOrderDetailUuidAndDeletedFalse(userUuid, orderDetailUuid);
     }
 
 }

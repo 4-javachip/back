@@ -71,6 +71,12 @@ public class OrderList extends BaseEntity {
     @Column(name = "shipping_note", length = 1000)
     private String shippingNote;
 
+    @Column(name = "order_name", length = 50)
+    private String orderName;
+
+    @Column(name = "method", length = 50)
+    private String method;
+
     @Builder
     public OrderList(
             Long id,
@@ -90,7 +96,9 @@ public class OrderList extends BaseEntity {
             String detailAddress,
             String phoneNumber,
             String secondPhoneNumber,
-            String shippingNote
+            String shippingNote,
+            String orderName,
+            String method
     ) {
         this.id = id;
         this.orderListUuid = orderListUuid;
@@ -110,5 +118,7 @@ public class OrderList extends BaseEntity {
         this.phoneNumber = phoneNumber;
         this.secondPhoneNumber = secondPhoneNumber;
         this.shippingNote = shippingNote;
+        this.orderName = orderName;
+        this.method = method;
     }
 }

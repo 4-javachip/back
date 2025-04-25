@@ -8,6 +8,7 @@ import com.starbucks.back.payment.domain.Payment;
 import com.starbucks.back.payment.domain.PaymentStatus;
 import com.starbucks.back.payment.dto.in.RequestPaymentConfirmDto;
 import com.starbucks.back.payment.dto.in.RequestPaymentCreateDto;
+import com.starbucks.back.payment.dto.in.UpdateOrderDto;
 import com.starbucks.back.payment.dto.out.ResponsePaymentConfirmDto;
 import com.starbucks.back.payment.dto.out.ResponsePaymentCreateDto;
 import com.starbucks.back.payment.dto.out.ResponsePaymentDto;
@@ -185,12 +186,10 @@ public class PaymentServiceImpl implements PaymentService{
             paymentRepository.save(requestPaymentConfirmDto.updateSuccessPayment(
                     payment, paymentCode, method, paymentStatus, approvedAt));
 
+            UpdateOrderDto updateOrderDto = UpdateOrderDto.from(payment);
+
             // 2. 결제 승인 성공 시 주문 상태 업데이트 (여기서 1. 카트수정, 2. 재고감소, 3. best판매량추가 로직 처리)
-            orderListService.updateOrderList(
-                    requestPaymentConfirmDto.getUserUuid(),
-                    payment.getOrderListUuid(),
-                    paymentStatus.getDescription()
-            );
+            orderListService.updateOrderList(updateOrderDto);
 
             return ResponsePaymentConfirmDto.from(
                     paymentStatus.getDescription(),

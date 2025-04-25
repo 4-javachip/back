@@ -146,6 +146,8 @@ public enum BaseResponseStatus {
     NO_EXIST_REVIEW(HttpStatus.NOT_FOUND, false, 3101, "존재하지 않는 리뷰입니다"),
     NO_EXIST_REVIEW_PHOTO(HttpStatus.NOT_FOUND, false, 3102, "존재하지 않는 리뷰 사진입니다"),
     TOO_MANY_REVIEW_IMAGES(HttpStatus.BAD_REQUEST, false, 3103, "리뷰 이미지는 최대 5장까지 등록 가능합니다"),
+    REVIEW_NOT_ELIGIBLE(HttpStatus.BAD_REQUEST, false, 3101, "구매하지 않은 상품은 리뷰 등록이 불가능 합니다"),
+    REVIEW_ALREADY_EXISTS(HttpStatus.BAD_REQUEST, false, 3102, "이미 리뷰가 등록된 상품입니다"),
 
     /**
      * 4000: comment service error
@@ -193,6 +195,7 @@ public enum BaseResponseStatus {
     // order
     NOT_FOUND_ITEM(HttpStatus.NOT_FOUND, false, 7201, "주문 내역에 상품이 존재하지 않습니다."),
     NO_EXIST_QUERY_FOR_ORDER_DETAIL(HttpStatus.BAD_REQUEST, false, 7202, "주문 상세 조회를 위한 쿼리가 존재하지 않습니다."),
+    NO_EXIST_ORDER_DETAIL(HttpStatus.NOT_FOUND, false, 7203, "존재하지 않는 주문 상품입니다."),
     // shipping adress
     NO_EXIST_USER_SHIPPING_ADDRESS(HttpStatus.NOT_FOUND, false, 7202, "해당하는 유저-배송지가 존재하지 않습니다."),
     NO_EXIST_SHIPPING_ADDRESS(HttpStatus.NOT_FOUND, false, 7210, "존재하지 않는 배송지입니다");

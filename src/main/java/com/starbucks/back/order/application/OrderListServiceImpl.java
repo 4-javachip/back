@@ -16,6 +16,7 @@ import com.starbucks.back.order.vo.in.OrderItemVo;
 import com.starbucks.back.order.vo.out.RecentOrderItemVo;
 import com.starbucks.back.order.vo.out.ResponseAddOrderListVo;
 import com.starbucks.back.order.vo.out.ResponseRecentOrderListVo;
+import com.starbucks.back.payment.dto.in.UpdateOrderDto;
 import com.starbucks.back.product.application.ProductOptionService;
 import com.starbucks.back.product.dto.in.RequestUpdateProductOptionDto;
 import com.starbucks.back.product.dto.out.ResponseProductOptionDto;
@@ -41,7 +42,7 @@ public class OrderListServiceImpl implements OrderListService {
     private final BestService bestService;
 
     /**
-     * 주문 생성 (결제 성공 후 생성
+     * 주문 생성
      */
     @Transactional
     @Override
@@ -69,7 +70,6 @@ public class OrderListServiceImpl implements OrderListService {
                     orderList.getOrderListUuid(),
                     orderItemVo
             );
-            log.info("orderItemDto@@: {}", orderItemDto.toString());
             // orderDetail 에서 save 로직 작성
             ResponseOrderDetailByOrderItemDto responseOrderDetailByOrderItemDto =
                     orderDetailService.addOrderDetail(orderItemDto);
@@ -84,37 +84,37 @@ public class OrderListServiceImpl implements OrderListService {
      * 주문 내역 수정
      */
     @Override
-    public void updateOrderList (String userUuid, String orderListUuid, String orderStatus) {
+    public void updateOrderList (UpdateOrderDto updateOrderDto) {
 
-        log.info("userUuid@@, orderListUuid: {}", orderListUuid);
-        OrderList orderList = orderListRepository.findByOrderListUuid(orderListUuid)
+        OrderList orderList = orderListRepository.findByOrderListUuid(updateOrderDto.getOrderListUuid())
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_ORDER_LIST));
-        log.info("orderList@@: {}", orderList);
         List<ResponseReadOrderDetailDto> responseReadOrderDetailDtos = orderDetailService
-                .getOrderDetailByOrderListUuid(orderListUuid);
+                .getOrderDetailByOrderListUuid(updateOrderDto.getOrderListUuid());
 
         // 장바구니에서 조회면, 해당 장바구니를 삭제
         if (orderList.getFromCart()) {
             for (ResponseReadOrderDetailDto responseReadOrderDetailDto : responseReadOrderDetailDtos) {
                 cartService.deleteCartByUserUuidAndProductOptionUuid(
-                        userUuid,
+                        updateOrderDto.getUserUuid(),
                         responseReadOrderDetailDto.getProductOptionUuid()
                 );
+
             }
         }
 
         // orderList 테이블 수정
         orderListRepository.updateOrderListStatus(
-                orderListUuid,
-                PaymentStatus.from(orderStatus)
+                updateOrderDto.getOrderListUuid(),
+                updateOrderDto.getPaymentUuid(),
+                updateOrderDto.getOrderName(),
+                updateOrderDto.getMethod(),
+                PaymentStatus.from(updateOrderDto.getPaymentStatus())
         );
 
         // for문 시작
         for (ResponseReadOrderDetailDto responseReadOrderDetailDto : responseReadOrderDetailDtos) {
-            log.info("responseReadOrderDetailDto@@: {}", responseReadOrderDetailDto.getProductOptionUuid());
             ResponseProductOptionDto responseProductOptionDto = productOptionService
                     .getProductOptionByProductOptionUuid(responseReadOrderDetailDto.getProductOptionUuid());
-            log.info("responseProductOptionDto@@: {}", responseProductOptionDto);
             productOptionService.updateProductOption(
                     RequestUpdateProductOptionDto.builder()
                             .productOptionUuid(responseProductOptionDto.getProductOptionUuid())
@@ -126,15 +126,9 @@ public class OrderListServiceImpl implements OrderListService {
                             .discountRate(responseProductOptionDto.getDiscountRate())
                             .build()
             );
-            log.info("재고 감소 성공, productOptionUuid: {}, stock: {}",
-                    responseProductOptionDto.getProductOptionUuid(),
-                    responseProductOptionDto.getStock() - responseReadOrderDetailDto.getQuantity()
-            );
 
             // Best 테이블에 판매량 추가
             // (productUuid로 상품 찾고, 있으면 판매량 +, 없으면 생성)
-            log.info("responseProductOptionDto.getProductUuid(), responseReadOrderDetailDto.getQuantity()" +
-                    " : {}, {}", responseProductOptionDto.getProductUuid(), responseReadOrderDetailDto.getQuantity());
             bestService.increaseBestProductSalesCount(
                     responseProductOptionDto.getProductUuid(), responseReadOrderDetailDto.getQuantity()
             );
@@ -146,7 +140,7 @@ public class OrderListServiceImpl implements OrderListService {
      */
     @Override
     public List<ResponseReadOrderListDto> getAllOrderList(String userUuid) {
-        return orderListRepository.findAllByUserUuid(userUuid)
+        return orderListRepository.findAllByUserUuidAndPaymentStatus(userUuid, PaymentStatus.DONE)
                 .stream()
                 .map(ResponseReadOrderListDto::from)
                 .toList();
@@ -159,7 +153,7 @@ public class OrderListServiceImpl implements OrderListService {
     @Override
     public ResponseRecentOrderListVo getRecentOrderList(String userUuid) {
 
-        OrderList orderList =  orderListRepository.findTopByUserUuidOrderByCreatedAtDesc(userUuid)
+        OrderList orderList =  orderListRepository.findTopByUserUuidAndPaymentStatusOrderByCreatedAtDesc(userUuid, PaymentStatus.DONE)
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_ORDER_LIST));
 
         List<RecentOrderItemVo> recentOrderItemVos = new ArrayList<>();
@@ -173,5 +167,13 @@ public class OrderListServiceImpl implements OrderListService {
         }
 
         return ResponseRecentOrderListVo.from(orderList, recentOrderItemVos);
+    }
+
+    /**
+     * 주문 내역 존재 여부
+     */
+    @Override
+    public Boolean existsOrderByUserUuidAndProductUuid(String userUuid, String productUuid) {
+        return orderListRepository.existsOrderByUserUuidAndProductUuid(userUuid, productUuid);
     }
 }

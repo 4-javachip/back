@@ -54,7 +54,7 @@ public class ColorController {
      */
     @Operation(summary = "이름으로 색상 옵션 조회 API", description = "이름으로 색상 옵션 조회 API 입니다.", tags = {"Color-Service"})
     @GetMapping("/search")
-    public BaseResponseEntity<ResponseColorVo> getColorByName(@RequestParam String name) {
+    public BaseResponseEntity<ResponseColorVo> getColorByName(@RequestParam("name") String name) {
         ResponseColorDto responseColorDto = colorService.getColorByName(name);
         return new BaseResponseEntity<>(responseColorDto.toVo());
     }
