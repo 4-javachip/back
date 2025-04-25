@@ -15,8 +15,13 @@ import com.starbucks.back.auth.dto.out.ResponseGetUserNicknameDto;
 import com.starbucks.back.user.infrastructure.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
@@ -112,6 +117,41 @@ public class AuthServiceImpl implements AuthService {
                         .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_USER))
                         .getNickname()
         );
+    }
+
+    @Transactional
+    @Override
+    public ResponseSignInDto qrSignIn(
+            RequestSignInDto requestSignInDto
+    ) {
+        final User user = userRepository.findByEmail(requestSignInDto.getEmail())
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.INVALID_LOGIN));
+
+        // 비밀번호 검증
+        if (!passwordEncoder.matches(requestSignInDto.getPassword(), user.getPassword())) {
+            throw new BaseException(BaseResponseStatus.INVALID_LOGIN);
+        } else if (user.getState() == UserState.WITHDRAWAL_PENDING) {
+            throw new BaseException(BaseResponseStatus.WITHDRAWAL_PENDING);
+        }
+
+        final String accessToken = "eyJhbGciOiJIUzUxMiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwidXVpZCI6IjVlNGM1NjFlLTU1YTgtNGE1MS1hNzg3LTQ2MGYwYTcyMmIwYiIsImlhdCI6MTc0NTU0NDg3MiwiZXhwIjoxNzQ1NjMxMjcyfQ.cGg9jP2LOkW47uIt995oIUd2tuS9z6TkxECNEk8D3pay9FqVnsZ9GcSkXugaNQp4hrdqRDPiR69yo1fhxRI0OQ";
+        final String refreshToken = "eyJhbGciOiJIUzUxMiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsInV1aWQiOiI1ZTRjNTYxZS01NWE4LTRhNTEtYTc4Ny00NjBmMGE3MjJiMGIiLCJpYXQiOjE3NDU1NDQ4NzIsImV4cCI6MTc0Njc1NDQ3Mn0.Gir1S7iveKX5kxoIxOqlzr60sdNeCkN4jd4sDBGOEQ2buG0XsJcPY71NaaxgUSP05yWKhg7cqKWFb75dNv-Z6w";
+
+        redisUtil.set(
+                "Access:" + user.getUserUuid(),
+                accessToken,
+                1,
+                TimeUnit.DAYS
+        );
+
+        redisUtil.set(
+                "Refresh:" + user.getUserUuid(),
+                refreshToken,
+                14,
+                TimeUnit.DAYS
+        );
+            return ResponseSignInDto.of(accessToken, refreshToken);
+        }
     }
 
 }
