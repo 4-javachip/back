@@ -140,7 +140,7 @@ public class AuthServiceImpl implements AuthService {
         redisUtil.set(
                 "Access:" + user.getUserUuid(),
                 accessToken,
-                1,
+                14,
                 TimeUnit.DAYS
         );
 
@@ -152,6 +152,5 @@ public class AuthServiceImpl implements AuthService {
         );
             return ResponseSignInDto.of(accessToken, refreshToken);
         }
-    }
-
 }
+
