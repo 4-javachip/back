@@ -25,6 +25,7 @@ public enum BaseResponseStatus {
     SUCCESS_WITHDRAWAL_USER(HttpStatus.OK, true, 210, "회원 탈퇴가 완료되었습니다. 2주안에 재 로그인 시 계정 복구가 가능합니다."),
     SUCCESS_ACCOUNT_RECOVERY(HttpStatus.OK, true, 211, "계정 복구가 완료되었습니다. 로그인 해주세요."),
     NO_OAUTH_USER(HttpStatus.OK, true, 2200, "소셜 계정이 존재하지 않습니다. 추가 정보를 입력해 회원가입 해주세요."),
+    NO_AVAILABLE_COUPON(HttpStatus.OK, true, 2201, "사용 가능한 쿠폰이 없습니다."),
 
     /**
      * 400 : security 에러

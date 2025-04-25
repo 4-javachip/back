@@ -2,7 +2,6 @@ package com.starbucks.back.user.dto.in;
 
 import com.starbucks.back.user.domain.User;
 import com.starbucks.back.user.vo.in.RequestResetPasswordVo;
-import com.starbucks.back.user.vo.in.RequestUpdatePasswordVo;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.security.crypto.password.PasswordEncoder;

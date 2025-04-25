@@ -1,7 +1,6 @@
 package com.starbucks.back.recent.dto.in;
 
 import com.starbucks.back.recent.domain.RecentViewedProduct;
-import com.starbucks.back.recent.vo.in.RequestAddRecentViewedProductVo;
 import lombok.Builder;
 import lombok.Getter;
 

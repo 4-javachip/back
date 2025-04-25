@@ -2,7 +2,6 @@ package com.starbucks.back.recent.application.scheduler;
 
 import com.starbucks.back.common.util.DateTimeUtil;
 import com.starbucks.back.common.util.RedisUtil;
-import com.starbucks.back.recent.domain.RecentViewedProduct;
 import com.starbucks.back.recent.dto.in.RequestAddRecentViewedProductDto;
 import com.starbucks.back.recent.infrastructure.RecentViewedProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -11,12 +10,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.List;
 import java.util.Set;
-
-import static java.util.UUID.randomUUID;
 
 @Slf4j
 @Component

@@ -10,7 +10,6 @@ import com.starbucks.back.oauth.dto.out.ResponseOauthUserInfoDto;
 import com.starbucks.back.oauth.vo.in.RequestOauthSignUpVo;
 import com.starbucks.back.oauth.vo.in.RequestOauthUserInfoVo;
 import io.swagger.v3.oas.annotations.Operation;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

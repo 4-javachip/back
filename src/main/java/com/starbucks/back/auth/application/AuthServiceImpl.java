@@ -1,6 +1,5 @@
 package com.starbucks.back.auth.application;
 
-import com.starbucks.back.auth.dto.UserAuthDto;
 import com.starbucks.back.auth.dto.in.RequestSignInDto;
 import com.starbucks.back.auth.dto.in.RequestSignUpDto;
 import com.starbucks.back.auth.dto.out.ResponseSignInDto;
