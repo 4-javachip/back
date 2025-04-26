@@ -1,6 +1,7 @@
 package com.starbucks.back.order.application;
 
 import com.starbucks.back.order.dto.in.RequestAddOrderListDto;
+import com.starbucks.back.order.dto.out.ResponseOrderListCountDto;
 import com.starbucks.back.order.dto.out.ResponseReadOrderListDto;
 import com.starbucks.back.order.vo.out.ResponseAddOrderListVo;
 import com.starbucks.back.order.vo.out.ResponseRecentOrderListVo;
@@ -14,4 +15,5 @@ public interface OrderListService {
     List<ResponseReadOrderListDto> getAllOrderList(String userUuid);
     ResponseRecentOrderListVo getRecentOrderList(String userUuid);
     Boolean existsOrderByUserUuidAndProductUuid(String userUuid, String productUuid);
+    ResponseOrderListCountDto getOrderListCount(String userUuid);
 }

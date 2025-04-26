@@ -64,4 +64,6 @@ public interface OrderListRepository extends JpaRepository<OrderList, Long> {
             @Param("userUuid") String userUuid,
             @Param("productUuid") String productUuid
     );
+
+    Integer countByUserUuidAndPaymentStatus(String userUuid, PaymentStatus paymentStatus);
 }
