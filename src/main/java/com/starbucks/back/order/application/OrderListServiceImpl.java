@@ -9,6 +9,7 @@ import com.starbucks.back.order.domain.enums.PaymentStatus;
 import com.starbucks.back.order.dto.in.OrderItemDto;
 import com.starbucks.back.order.dto.in.RequestAddOrderListDto;
 import com.starbucks.back.order.dto.out.ResponseOrderDetailByOrderItemDto;
+import com.starbucks.back.order.dto.out.ResponseOrderListCountDto;
 import com.starbucks.back.order.dto.out.ResponseReadOrderDetailDto;
 import com.starbucks.back.order.dto.out.ResponseReadOrderListDto;
 import com.starbucks.back.order.infrastructure.OrderListRepository;
@@ -175,5 +176,14 @@ public class OrderListServiceImpl implements OrderListService {
     @Override
     public Boolean existsOrderByUserUuidAndProductUuid(String userUuid, String productUuid) {
         return orderListRepository.existsOrderByUserUuidAndProductUuid(userUuid, productUuid);
+    }
+
+    /**
+     * 주문 내역 개수 조회
+     */
+    @Override
+    public ResponseOrderListCountDto getOrderListCount(String userUuid) {
+        Integer result = orderListRepository.countByUserUuidAndPaymentStatus(userUuid, PaymentStatus.DONE);
+        return ResponseOrderListCountDto.from(result);
     }
 }
