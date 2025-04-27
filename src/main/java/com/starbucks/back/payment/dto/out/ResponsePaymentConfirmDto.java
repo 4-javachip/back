@@ -1,7 +1,6 @@
 package com.starbucks.back.payment.dto.out;
 
 import com.starbucks.back.payment.domain.PaymentStatus;
-import com.starbucks.back.payment.vo.in.RequestPaymentConfirmVo;
 import com.starbucks.back.payment.vo.out.ResponsePaymentConfirmVo;
 import lombok.Builder;
 import lombok.Getter;
