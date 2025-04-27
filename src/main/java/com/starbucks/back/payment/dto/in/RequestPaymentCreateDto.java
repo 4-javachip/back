@@ -17,6 +17,7 @@ public class RequestPaymentCreateDto {
     private String method;
     private String orderName;
     private Integer totalPurchasePrice;
+    private String orderListUuid;
 
     // 아래 항목은 결제가 진행되면서 추가될 내용
     private String paymentCode;
@@ -35,6 +36,7 @@ public class RequestPaymentCreateDto {
             String method,
             String orderName,
             Integer totalPurchasePrice,
+            String orderListUuid,
             String paymentCode,
             PaymentStatus status,
             String pgProvider,
@@ -49,6 +51,7 @@ public class RequestPaymentCreateDto {
         this.method = method;
         this.orderName = orderName;
         this.totalPurchasePrice = totalPurchasePrice;
+        this.orderListUuid = orderListUuid;
         this.paymentCode = paymentCode;
         this.status = status;
         this.pgProvider = pgProvider;
@@ -68,6 +71,7 @@ public class RequestPaymentCreateDto {
                 .paymentUuid(UUID.randomUUID().toString())
                 .totalOriginPrice(requestPaymentCreateVo.getTotalOriginPrice())
                 .method(requestPaymentCreateVo.getMethod())
+                .orderListUuid(requestPaymentCreateVo.getOrderListUuid())
                 .orderName(requestPaymentCreateVo.getOrderName())
                 .totalPurchasePrice(requestPaymentCreateVo.getTotalPurchasePrice())
                 .paymentCode("")
@@ -86,15 +90,17 @@ public class RequestPaymentCreateDto {
                 .userUuid(userUuid)
                 .paymentUuid(paymentUuid)
                 .paymentCode(paymentCode)
-                // amount, method, orderName은 Payment 테이블에 저장하지 않음. 차후 추가될 수도 있음
                 .totalOriginPrice(totalOriginPrice)
                 .totalPurchasePrice(totalPurchasePrice)
+                .orderListUuid(orderListUuid)
                 .status(status)
                 .pgProvider(pgProvider)
                 .pgTid(pgTid)
                 .paymentToken(paymentToken)
                 .failReason(failReason)
                 .approvedAt(approvedAt)
+                .method(method)
+                .orderName(orderName)
                 .build();
     }
 }

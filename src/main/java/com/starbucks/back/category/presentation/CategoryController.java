@@ -53,7 +53,7 @@ public class CategoryController {
      */
     @Operation(summary = "이름으로 카테고리 조회 API", description = "이름으로 카테고리 조회 API 입니다.", tags = {"Category-Service"})
     @GetMapping("/search")
-    public BaseResponseEntity<ResponseCategoryVo> getCategoryByName(@RequestParam String name) {
+    public BaseResponseEntity<ResponseCategoryVo> getCategoryByName(@RequestParam("name") String name) {
         ResponseCategoryDto responseCategoryDto = categoryService.getCategoryByName(name);
         return new BaseResponseEntity<>(responseCategoryDto.toVo());
     }

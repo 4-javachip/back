@@ -37,4 +37,12 @@ public class Best extends BaseEntity{
         this.productSalesCount = productSalesCount;
     }
 
+    /**
+     * 판매량 증가
+     * @param productSalesCount
+     */
+    public void increaseSalesCount(int productSalesCount) {
+        this.productSalesCount += productSalesCount;
+    }
+
 }

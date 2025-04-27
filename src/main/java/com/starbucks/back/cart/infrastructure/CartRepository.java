@@ -56,4 +56,16 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
      * @return
      */
     List<Cart> findAllByUserUuidAndCheckedTrueAndDeletedFalse(String userUuid);
+
+    /**
+     * 장바구니 delete by userUuid, productOptionUuid
+     * @return
+     */
+    @Modifying
+    @Transactional
+    @Query("UPDATE Cart c SET c.deleted = true WHERE c.userUuid = :userUuid AND c.productOptionUuid = :productOptionUuid AND c.deleted = false")
+    void deleteByUserUuidAndProductOptionUuid(
+            @Param("userUuid") String userUuid,
+            @Param("productOptionUuid") String productOptionUuid
+    );
 }

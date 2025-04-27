@@ -45,7 +45,7 @@ public class OrderDetailController {
      * 주문 아이템 목록(장바구니) by userUuid
      */
     @GetMapping("/items")
-    @Operation(summary = "GetOrderItemListByUserUuid API", description = "주문 아이템 목록 조회 api 입니다.", tags = {"Order-Service"})
+    @Operation(summary = "GetOrderItemListByUserUuid API", description = "장바구니에서 결제 시 주문 아이템 목록 조회 api 입니다.", tags = {"Order-Service"})
     public BaseResponseEntity<List<ResponseCartVo>> getOrderItemList() {
         String userUuid = securityUtil.getCurrentUserUuid();
 
@@ -55,5 +55,16 @@ public class OrderDetailController {
                 .toList();
 
         return new BaseResponseEntity<>(result);
+    }
+
+    /**
+     * 주문 아이템 상세 by orderDetailUuid
+     */
+    @GetMapping("/detail/{orderDetailUuid}")
+    @Operation(summary = "GetOrderItemDetailByOrderDetailUuid API", description = "주문 상품 상세 조회 api 입니다.", tags = {"Order-Service"})
+    public BaseResponseEntity<ResponseReadOrderDetailVo> getOrderItemDetail(@PathVariable("orderDetailUuid") String orderDetailUuid) {
+        ResponseReadOrderDetailDto result = orderDetailService.getOrderDetailByOrderDetailUuid(orderDetailUuid);
+
+        return new BaseResponseEntity<>(ResponseReadOrderDetailDto.toVo(result));
     }
 }

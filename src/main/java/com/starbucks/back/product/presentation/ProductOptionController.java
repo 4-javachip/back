@@ -63,7 +63,7 @@ public class ProductOptionController {
      */
     @Operation(summary = "상품 uuid로 상품 옵션 리스트 조회 API", description = "상품 uuid로 상품 옵션 리스트 조회 API 입니다.", tags = {"Product-Option-Service"})
     @GetMapping("/list/{productUuid}")
-    public BaseResponseEntity<List<ResponseProductOptionVo>> getProductOptionsByProductUuid(@PathVariable String productUuid) {
+    public BaseResponseEntity<List<ResponseProductOptionVo>> getProductOptionsByProductUuid(@PathVariable("productUuid") String productUuid) {
         List<ResponseProductOptionVo> result = productOptionService.getProductOptionsByProductUuid(productUuid)
                 .stream()
                 .map(ResponseProductOptionDto::toVo)

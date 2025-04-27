@@ -47,12 +47,11 @@ public class ResponseCartDto {
     // dto => vo
     public ResponseCartVo toVo() {
         return ResponseCartVo.builder()
-//                .userUuid(userUuid)
                 .cartUuid(cartUuid)
                 .productQuantity(productQuantity)
-                .checked(checked)
                 .productUuid(productUuid)
                 .productOptionUuid(productOptionUuid)
+                .checked(checked)
                 .build();
     }
 }

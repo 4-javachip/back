@@ -8,21 +8,16 @@ import lombok.Getter;
 @Getter
 public class ResponseReadWishlistListDto {
 
-    private final String wishlistUuid;
-    private final String userUuid;
     private final String productUuid;
 
     @Builder
-    public ResponseReadWishlistListDto(String wishlistUuid, String userUuid, String productUuid) {
-        this.wishlistUuid = wishlistUuid;
-        this.userUuid = userUuid;
+    public ResponseReadWishlistListDto(String productUuid) {
         this.productUuid = productUuid;
     }
 
     // entity => dto
     public static ResponseReadWishlistListDto from(Wishlist wishlist) {
         return ResponseReadWishlistListDto.builder()
-                .wishlistUuid(wishlist.getWishlistUuid())
                 .productUuid(wishlist.getProductUuid())
                 .build();
     }
@@ -30,7 +25,6 @@ public class ResponseReadWishlistListDto {
     // dto => vo
     public ResponseReadWishlistListVo toVo() {
         return ResponseReadWishlistListVo.builder()
-                .wishlistUuid(wishlistUuid)
                 .productUuid(productUuid)
                 .build();
     }

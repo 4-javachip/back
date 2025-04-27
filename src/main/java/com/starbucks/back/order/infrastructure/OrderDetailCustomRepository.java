@@ -1,7 +1,8 @@
 package com.starbucks.back.order.infrastructure;
 
-import com.starbucks.back.order.dto.out.ResponseOrderDetailByCartUuidDto;
+import com.starbucks.back.order.dto.in.OrderItemDto;
+import com.starbucks.back.order.dto.out.ResponseOrderDetailByOrderItemDto;
 
 public interface OrderDetailCustomRepository {
-    ResponseOrderDetailByCartUuidDto getOrderDetailFromCartList(String cartUuid, String orderListUuid);
+    ResponseOrderDetailByOrderItemDto getOrderDetailFromOrderItem(OrderItemDto orderItemDto);
 }

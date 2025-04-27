@@ -2,13 +2,10 @@ package com.starbucks.back.payment.domain;
 
 import com.starbucks.back.payment.domain.PaymentStatus;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
-
+@ToString
 @Entity
 @Getter
 @Table(name = "payment")
@@ -53,35 +50,52 @@ public class Payment {
     @Column(name = "fail_reason", length = 255)
     private String failReason;
 
-    @Column(name = "approved_at", nullable = false)
+    @Column(name = "approved_at", nullable = true)
     private LocalDateTime approvedAt;
+
+    @Column(name = "method", length = 50)
+    private String method;
+
+    @Column(name = "order_name", length = 100)
+    private String orderName;
+
+    @Column(name = "order_list_uuid", length = 50)
+    private String orderListUuid;
 
     @Builder
     public Payment(
             Long id,
             String userUuid,
             String paymentUuid,
+            String paymentCode,
+            String couponUuid,
             Integer totalOriginPrice,
             Integer totalPurchasePrice,
-            String paymentCode,
             PaymentStatus status,
             String pgProvider,
             String pgTid,
             String paymentToken,
             String failReason,
-            LocalDateTime approvedAt
+            LocalDateTime approvedAt,
+            String method,
+            String orderName,
+            String orderListUuid
     ) {
         this.id = id;
         this.userUuid = userUuid;
         this.paymentUuid = paymentUuid;
+        this.paymentCode = paymentCode;
+        this.couponUuid = couponUuid;
         this.totalOriginPrice = totalOriginPrice;
         this.totalPurchasePrice = totalPurchasePrice;
-        this.paymentCode = paymentCode;
         this.status = status;
         this.pgProvider = pgProvider;
         this.pgTid = pgTid;
         this.paymentToken = paymentToken;
         this.failReason = failReason;
         this.approvedAt = approvedAt;
+        this.method = method;
+        this.orderName = orderName;
+        this.orderListUuid = orderListUuid;
     }
 }

@@ -70,7 +70,7 @@ public class ProductCustomRepositoryImpl implements ProductCustomRepository {
         }
 
         if (seasonId != null) {
-            builder.and(seasonList.id.eq(seasonId));
+            builder.and(seasonList.seasonId.eq(seasonId));
         }
 
         if (keyword != null && !keyword.isBlank()) {

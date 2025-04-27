@@ -16,7 +16,7 @@ public interface ReviewService {
      * 리뷰 등록
      * @param requestAddReviewDto
      */
-    void addReview(RequestAddReviewDto requestAddReviewDto);
+    String addReview(RequestAddReviewDto requestAddReviewDto);
 
     /**
      * 유저 uuid로 리뷰 조회
@@ -58,5 +58,12 @@ public interface ReviewService {
      * @param requestDeleteReviewDto
      */
     void deleteReview(RequestDeleteReviewDto requestDeleteReviewDto);
+
+    /**
+     * 리뷰를 했는지 검증
+     * @param userUuid
+     * @param orderDetailUuid
+     */
+    Boolean hasReview(String userUuid, String orderDetailUuid);
 
 }

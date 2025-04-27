@@ -5,5 +5,4 @@ import lombok.Getter;
 @Getter
 public class RequestToggleWishlistVo {
     private String productUuid;
-    private String productOptionUuid;
 }

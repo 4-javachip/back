@@ -56,9 +56,15 @@ public class Review extends SoftDeletableEntity {
     @Column(name = "rating", nullable = false)
     private Integer rating;
 
+    /**
+     * 주문 상품 uuid
+     */
+    @Column(name = "order_detail_uuid", nullable = false)
+    private String orderDetailUuid;
+
     @Builder
     public  Review(Long id, String userUuid, String productUuid, String reviewUuid,
-                   String title, String content, Integer rating) {
+                   String title, String content, Integer rating, String orderDetailUuid) {
         this.id = id;
         this.userUuid = userUuid;
         this.productUuid = productUuid;
@@ -66,6 +72,7 @@ public class Review extends SoftDeletableEntity {
         this.title = title;
         this.content = content;
         this.rating = rating;
+        this.orderDetailUuid = orderDetailUuid;
     }
 
 }

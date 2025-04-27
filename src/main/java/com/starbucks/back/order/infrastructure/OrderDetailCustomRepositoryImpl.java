@@ -5,8 +5,10 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.starbucks.back.cart.domain.QCart;
 import com.starbucks.back.common.entity.BaseResponseStatus;
 import com.starbucks.back.common.exception.BaseException;
-import com.starbucks.back.order.domain.OrderDetail;
-import com.starbucks.back.order.dto.out.ResponseOrderDetailByCartUuidDto;
+import com.starbucks.back.option.color.domain.QColor;
+import com.starbucks.back.option.size.domain.QSize;
+import com.starbucks.back.order.dto.in.OrderItemDto;
+import com.starbucks.back.order.dto.out.ResponseOrderDetailByOrderItemDto;
 import com.starbucks.back.product.domain.QProduct;
 import com.starbucks.back.product.domain.QProductOption;
 import com.starbucks.back.product.domain.QThumbnail;
@@ -21,42 +23,47 @@ public class OrderDetailCustomRepositoryImpl implements OrderDetailCustomReposit
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public ResponseOrderDetailByCartUuidDto getOrderDetailFromCartList(String cartUuid, String orderListUuid) {
+    public ResponseOrderDetailByOrderItemDto getOrderDetailFromOrderItem(OrderItemDto orderItemDto) {
+        log.info("orderItemDto.getProductOptionUuid()@@: {}", orderItemDto.getProductOptionUuid());
         QProduct product = QProduct.product;
         QProductOption productOption = QProductOption.productOption;
         QThumbnail thumbnail = QThumbnail.thumbnail;
-        QCart cart = QCart.cart;
+        QSize size = QSize.size;
+        QColor color = QColor.color;
 
         Tuple result = jpaQueryFactory
                 .select(
                         product.name,
-                        productOption.price,
-                        productOption.discountRate,
-                        productOption.totalPrice,
                         thumbnail.thumbnailUrl,
-                        cart.productQuantity
+                        size.name,
+                        color.name
                 )
-                .from(cart)
-                .join(productOption).on(cart.productOptionUuid.eq(productOption.productOptionUuid))
-                .join(product).on(productOption.productUuid.eq(product.productUuid))
+                .from(productOption)
+                .join(product).on(product.productUuid.eq(productOption.productUuid))
+                .leftJoin(size).on(productOption.sizeOptionId.eq(size.id))
+                .leftJoin(color).on(productOption.colorOptionId.eq(color.id))
                 .join(thumbnail).on(product.productUuid.eq(thumbnail.productUuid)
                         .and(thumbnail.defaulted.eq(true))
                 )
-                .where(cart.cartUuid.eq(cartUuid))
+                .where(productOption.productOptionUuid.eq(orderItemDto.getProductOptionUuid()))
                 .fetchOne();
 
         if (result == null) {
            throw new BaseException(BaseResponseStatus.NO_EXIST_QUERY_FOR_ORDER_DETAIL);
         }
-
-        return ResponseOrderDetailByCartUuidDto.from(
-                orderListUuid,
+        log.info("result@@: {}", result);
+        log.info("orderItemDto.getProductOptionUuid(): {}", orderItemDto.getProductOptionUuid());
+        return ResponseOrderDetailByOrderItemDto.from(
+                orderItemDto.getOrderListUuid(),
+                orderItemDto.getProductUuid(),
+                orderItemDto.getProductOptionUuid(),
                 result.get(product.name),
                 result.get(thumbnail.thumbnailUrl),
-                result.get(productOption.price),
-                result.get(productOption.discountRate),
-                result.get(productOption.totalPrice),
-                result.get(cart.productQuantity)
+                orderItemDto.getPrice(),
+                orderItemDto.getTotalPrice(),
+                orderItemDto.getQuantity(),
+                result.get(size.name),
+                result.get(color.name)
         );
     }
 
