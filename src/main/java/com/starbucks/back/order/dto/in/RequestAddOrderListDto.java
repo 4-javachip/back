@@ -7,13 +7,12 @@ import com.starbucks.back.order.vo.in.RequestAddOrderListVo;
 import com.starbucks.back.shippingaddress.dto.out.ResponseReadShippingAddressWithDefaultedDto;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.ToString;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.UUID;
-@ToString
+
 @Getter
 public class RequestAddOrderListDto {
     private String userUuid;

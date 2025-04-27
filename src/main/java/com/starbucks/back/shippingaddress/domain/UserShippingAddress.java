@@ -4,7 +4,6 @@ import com.starbucks.back.common.entity.SoftDeletableEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
-@ToString
 @Entity
 @Table(name = "user_shipping_address")
 @Getter

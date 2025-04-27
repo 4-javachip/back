@@ -1,11 +1,10 @@
 package com.starbucks.back.payment.domain;
 
-import com.starbucks.back.payment.domain.PaymentStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
-@ToString
+
 @Entity
 @Getter
 @Table(name = "payment")

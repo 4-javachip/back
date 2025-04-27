@@ -2,7 +2,6 @@ package com.starbucks.back.order.infrastructure;
 
 import com.querydsl.core.Tuple;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.starbucks.back.cart.domain.QCart;
 import com.starbucks.back.common.entity.BaseResponseStatus;
 import com.starbucks.back.common.exception.BaseException;
 import com.starbucks.back.option.color.domain.QColor;
@@ -13,9 +12,8 @@ import com.starbucks.back.product.domain.QProduct;
 import com.starbucks.back.product.domain.QProductOption;
 import com.starbucks.back.product.domain.QThumbnail;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
-@Slf4j
+
 @Repository
 @RequiredArgsConstructor
 public class OrderDetailCustomRepositoryImpl implements OrderDetailCustomRepository{
@@ -24,7 +22,6 @@ public class OrderDetailCustomRepositoryImpl implements OrderDetailCustomReposit
 
     @Override
     public ResponseOrderDetailByOrderItemDto getOrderDetailFromOrderItem(OrderItemDto orderItemDto) {
-        log.info("orderItemDto.getProductOptionUuid()@@: {}", orderItemDto.getProductOptionUuid());
         QProduct product = QProduct.product;
         QProductOption productOption = QProductOption.productOption;
         QThumbnail thumbnail = QThumbnail.thumbnail;
@@ -51,8 +48,6 @@ public class OrderDetailCustomRepositoryImpl implements OrderDetailCustomReposit
         if (result == null) {
            throw new BaseException(BaseResponseStatus.NO_EXIST_QUERY_FOR_ORDER_DETAIL);
         }
-        log.info("result@@: {}", result);
-        log.info("orderItemDto.getProductOptionUuid(): {}", orderItemDto.getProductOptionUuid());
         return ResponseOrderDetailByOrderItemDto.from(
                 orderItemDto.getOrderListUuid(),
                 orderItemDto.getProductUuid(),
@@ -66,5 +61,4 @@ public class OrderDetailCustomRepositoryImpl implements OrderDetailCustomReposit
                 result.get(color.name)
         );
     }
-
 }
