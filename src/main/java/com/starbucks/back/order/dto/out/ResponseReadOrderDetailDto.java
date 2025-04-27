@@ -69,20 +69,20 @@ public class ResponseReadOrderDetailDto {
     }
 
     // dto => vo
-    public static ResponseReadOrderDetailVo toVo(ResponseReadOrderDetailDto responseReadOrderDetailDto) {
+    public ResponseReadOrderDetailVo toVo() {
         return ResponseReadOrderDetailVo.builder()
-                .orderListUuid(responseReadOrderDetailDto.getOrderListUuid())
-                .orderDetailUuid(responseReadOrderDetailDto.getOrderDetailUuid())
-                .productUuid(responseReadOrderDetailDto.getProductUuid())
-                .productOptionUuid(responseReadOrderDetailDto.getProductOptionUuid())
-                .name(responseReadOrderDetailDto.getName())
-                .thumbnail(responseReadOrderDetailDto.getThumbnail())
-                .price(responseReadOrderDetailDto.getTotalOriginPrice())
-                .discountRate(responseReadOrderDetailDto.getDiscountRate())
-                .totalPrice(responseReadOrderDetailDto.getTotalPurchasePrice())
-                .quantity(responseReadOrderDetailDto.getQuantity())
-                .sizeName(responseReadOrderDetailDto.getSizeName())
-                .colorName(responseReadOrderDetailDto.getColorName())
+                .orderListUuid(orderListUuid)
+                .orderDetailUuid(orderDetailUuid)
+                .productUuid(productUuid)
+                .productOptionUuid(productOptionUuid)
+                .name(name)
+                .thumbnail(thumbnail)
+                .price(totalOriginPrice)
+                .discountRate(discountRate)
+                .totalPrice(totalPurchasePrice)
+                .quantity(quantity)
+                .sizeName(sizeName)
+                .colorName(colorName)
                 .build();
     }
 }

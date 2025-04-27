@@ -45,15 +45,13 @@ public class ResponsePaymentConfirmDto {
                 .build();
     }
 
-    public static ResponsePaymentConfirmVo toVo(
-            ResponsePaymentConfirmDto responsePaymentConfirmDto
-    ) {
+    public ResponsePaymentConfirmVo toVo() {
         return ResponsePaymentConfirmVo.builder()
-                .message(responsePaymentConfirmDto.getMessage())
-                .paymentUuid(responsePaymentConfirmDto.getPaymentUuid())
-                .paymentStatus(responsePaymentConfirmDto.getStatus())
-                .approvedAt(responsePaymentConfirmDto.getApprovedAt())
-                .method(responsePaymentConfirmDto.getMethod())
+                .message(message)
+                .paymentUuid(paymentUuid)
+                .paymentStatus(status)
+                .approvedAt(approvedAt)
+                .method(method)
                 .build();
     }
 }

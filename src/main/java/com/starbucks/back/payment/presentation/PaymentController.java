@@ -56,7 +56,7 @@ public class PaymentController {
         ResponsePaymentConfirmDto responsePaymentConfirmDto = paymentService.confirmPayment(
                 RequestPaymentConfirmDto.from(userUuid, requestPaymentConfirmVo)
         );
-        return new BaseResponseEntity<>(responsePaymentConfirmDto.toVo(responsePaymentConfirmDto));
+        return new BaseResponseEntity<>(responsePaymentConfirmDto.toVo());
     }
 
     /**

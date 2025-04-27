@@ -67,8 +67,8 @@ public class OrderDetailController {
     public BaseResponseEntity<ResponseReadOrderDetailVo> getOrderItemDetail(
             @PathVariable("orderDetailUuid") String orderDetailUuid
     ) {
-        ResponseReadOrderDetailDto result = orderDetailService.getOrderDetailByOrderDetailUuid(orderDetailUuid);
+        ResponseReadOrderDetailDto responseReadOrderDetailDto = orderDetailService.getOrderDetailByOrderDetailUuid(orderDetailUuid);
 
-        return new BaseResponseEntity<>(ResponseReadOrderDetailDto.toVo(result));
+        return new BaseResponseEntity<>(responseReadOrderDetailDto.toVo());
     }
 }
