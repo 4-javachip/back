@@ -24,7 +24,6 @@ public class CartServiceImpl implements CartService{
     /**
      * 장바구니 조회 by userUuid
      */
-    @Transactional
     @Override
     public List<ResponseCartDto> getCartListByUserUuid(String userUuid) {
         return cartRepository.findAllByUserUuidAndDeletedFalse(userUuid)
@@ -151,6 +150,7 @@ public class CartServiceImpl implements CartService{
     /**
      * 장바구니 삭제 by userUuid, productOptionUuid
      */
+    @Transactional
     @Override
     public void deleteCartByUserUuidAndProductOptionUuid(String userUuid, String productOptionUuid) {
         System.out.println("userUuid, productOptionUuid = " + userUuid + ", " + productOptionUuid);
