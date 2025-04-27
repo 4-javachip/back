@@ -3,7 +3,6 @@ package com.starbucks.back.order.application;
 import com.starbucks.back.order.dto.in.OrderItemDto;
 import com.starbucks.back.order.dto.out.ResponseOrderDetailByOrderItemDto;
 import com.starbucks.back.order.dto.out.ResponseReadOrderDetailDto;
-import com.starbucks.back.order.vo.out.ResponseReadOrderDetailVo;
 
 import java.util.List;
 
