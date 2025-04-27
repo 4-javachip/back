@@ -7,17 +7,14 @@ import com.starbucks.back.shippingaddress.application.UserShippingAddressService
 import com.starbucks.back.shippingaddress.dto.in.RequestDeleteShippingAddressDto;
 import com.starbucks.back.shippingaddress.dto.in.RequestShippingAddressAndUserDto;
 import com.starbucks.back.shippingaddress.dto.in.RequestUpdateShippingAddressDto;
-import com.starbucks.back.shippingaddress.dto.in.RequestUpdateUserShippingAddressDto;
 import com.starbucks.back.shippingaddress.dto.out.ResponseReadShippingAddressWithDefaultedDto;
 import com.starbucks.back.shippingaddress.dto.out.ResponseReadUserShippingAddressDto;
 import com.starbucks.back.shippingaddress.vo.in.RequestDeleteShippingAddressVo;
 import com.starbucks.back.shippingaddress.vo.in.RequestShippingAddressAndUserVo;
 import com.starbucks.back.shippingaddress.vo.in.RequestUpdateShippingAddressVo;
-import com.starbucks.back.shippingaddress.vo.in.RequestUpdateUserShippingAddressVo;
 import com.starbucks.back.shippingaddress.vo.out.ResponseReadShippingAddressListVo;
 import com.starbucks.back.shippingaddress.vo.out.ResponseShippingAddressVo;
 import io.swagger.v3.oas.annotations.Operation;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,7 +32,7 @@ public class UserShippingAddressController {
      * 배송지 List 조회 by userUuid
      * @return
      */
-    @Operation(summary = "getUserShippingAddressAllListByUserUuid API", description = "배송지 List 조회 API 입니다.", tags = {"ShippingAddress-Service"})
+    @Operation(summary = "배송지 리스트 조회 API", description = "배송지 List 조회 API 입니다.", tags = {"ShippingAddress-Service"})
     @GetMapping("/list")
     public BaseResponseEntity<List<ResponseReadShippingAddressListVo>> getUserShippingAddressAllListByUserUuid() {
         String userUuid = securityUtil.getCurrentUserUuid();
@@ -49,30 +46,11 @@ public class UserShippingAddressController {
         return new BaseResponseEntity<>(result);
     }
 
-//    /**
-//     * 기본외배송지 List 조회 by userUuid
-//     * @param userUuid
-//     * @return
-//     */
-//    @Operation(summary = "getUserShippingAddressListByUserUuid API", description = "기본외배송지 List 조회 API 입니다.", tags = {"ShippingAddress-Service"})
-//    @GetMapping("/user/not-default")
-//    public BaseResponseEntity<List<ResponseReadShippingAddressListVo>> getUserShippingAddressListByUserUuid(
-//            @RequestHeader("userUuid") String userUuid
-//    ) {
-//        List<ResponseReadShippingAddressListVo> result = userShippingAddressService
-//                .getUserShippingAddressListByUserUuid(userUuid)
-//                .stream()
-//                .map(ResponseReadUserShippingAddressDto::toVo)
-//                .toList();
-//
-//        return new BaseResponseEntity<>(result);
-//    }
-
     /**
      * 기본배송지 객체 조회 by userUuid
      * @return
      */
-    @Operation(summary = "getUserDefaultShippingAddressUuid API", description = "기본배송지 객체 조회 API 입니다.", tags = {"ShippingAddress-Service"})
+    @Operation(summary = "배송지 객체 조회 API", description = "기본배송지 객체 조회 API 입니다.", tags = {"ShippingAddress-Service"})
     @GetMapping("/user/default")
     public BaseResponseEntity<ResponseShippingAddressVo> getUserDefaultShippingAddress() {
         String userUuid = securityUtil.getCurrentUserUuid();
@@ -86,8 +64,7 @@ public class UserShippingAddressController {
      * 배송지 삭제 by userUuid, shippingAddressUuid
      * @param
      */
-    @Operation(summary = "DeleteShippingAddress API", description = "배송지 객체 삭제 API 입니다.", tags = {"ShippingAddress-Service"})
-    @Transactional
+    @Operation(summary = "배송지 삭제 API", description = "배송지 객체 삭제 API 입니다.", tags = {"ShippingAddress-Service"})
     @DeleteMapping
     public BaseResponseEntity<Void> deleteShippingAddress(
             @RequestBody RequestDeleteShippingAddressVo requestDeleteShippingAddressVo
@@ -104,8 +81,7 @@ public class UserShippingAddressController {
     /**
      * 배송지 전부 삭제 by userUuid
      */
-    @Operation(summary = "deleteAllShippingAddressByUserUuid API", description = "배송지 전체 삭제 API 입니다.", tags = {"ShippingAddress-Service"})
-    @Transactional
+    @Operation(summary = "배송지 전체 삭제 API", description = "배송지 전체 삭제 API 입니다.", tags = {"ShippingAddress-Service"})
     @DeleteMapping("/user")
     public BaseResponseEntity<Void> deleteAllShippingAddressByUserUuid() {
         String userUuid = securityUtil.getCurrentUserUuid();
@@ -115,33 +91,11 @@ public class UserShippingAddressController {
         return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS);
     }
 
-//    /**
-//     * 배송지 default 변경 by [{userUuid, shippingAddressUuid, defaulted}, ..]
-//     */
-//    @Operation(summary = "updateUserShippingAddressDefaulted API", description = "배송지 defaulted 수정 API 입니다.", tags = {"ShippingAddress-Service"})
-//    @Transactional
-//    @PutMapping("/user/default")
-//    public BaseResponseEntity<Void> updateUserShippingAddressDefaulted(
-//            @RequestHeader("userUuid") String userUuid,
-//            @RequestBody List<RequestUpdateUserShippingAddressVo> requestUpdateUserShippingAddressVoList
-//    ) {
-//
-//        List<RequestUpdateUserShippingAddressDto> dtoList = requestUpdateUserShippingAddressVoList
-//                .stream()
-//                .map(vo -> RequestUpdateUserShippingAddressDto.of(userUuid, vo))
-//                .toList();
-//
-//        userShippingAddressService.updateUserShippingAddressDefaulted(dtoList);
-//
-//        return new BaseResponseEntity<>(BaseResponseStatus.SUCCESS);
-//    }
-
     /**
      * 배송지 수정 by shippingAddressUuid
      * @param requestUpdateShippingAddressVo
      */
-    @Operation(summary = "UpdateShippingAddressByUuid API", description = "배송지 객체 수정 API 입니다.", tags = {"ShippingAddress-Service"})
-    @Transactional
+    @Operation(summary = "배송지 수정 API", description = "배송지 객체 수정 API 입니다.", tags = {"ShippingAddress-Service"})
     @PutMapping
     public BaseResponseEntity<Void> updateShippingAddressByUuid(
             @RequestBody RequestUpdateShippingAddressVo requestUpdateShippingAddressVo
@@ -158,8 +112,7 @@ public class UserShippingAddressController {
      * 배송지 추가 by userUuid, requestShippingAddressAndUserVo
      * @param
      */
-    @Operation(summary = "AddShippingAddress API", description = "배송지 추가 API 입니다.", tags = {"ShippingAddress-Service"})
-    @Transactional
+    @Operation(summary = "배송지 추가 API", description = "배송지 추가 API 입니다.", tags = {"ShippingAddress-Service"})
     @PostMapping
     public BaseResponseEntity<Void> addShippingAddress(
             @RequestBody RequestShippingAddressAndUserVo requestShippingAddressAndUserVo

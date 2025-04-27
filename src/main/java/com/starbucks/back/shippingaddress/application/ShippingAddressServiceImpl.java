@@ -56,26 +56,4 @@ public class ShippingAddressServiceImpl implements ShippingAddressService {
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_SHIPPING_ADDRESS));
         shippingAddressRepository.save(requestUpdateShippingAddressDto.updateShippingAddress(shippingAddress));
     }
-
-//    /**
-//     * 배송지 삭제
-//     * @param
-//     */
-//    @Transactional
-//    @Override
-//    public void deleteShippingAddress(RequestDeleteShippingAddressDto requestDeleteShippingAddressDto) {
-//        ShippingAddress shippingAddress = shippingAddressRepository.findByShippingAddressUuid(
-//                requestDeleteShippingAddressDto.getShippingAddressUuid()
-//                )
-//                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_OPTION));
-//        shippingAddress.softDelete();
-//    }
-
-//    /**
-//     * 배송지 전부 삭제 by userUuid
-//     */
-//    @Override
-//    public void deleteAllShippingAddressByUserUuid(String userUuid) {
-//        shippingAddressRepository.bulkSoftDeleteShippingAddressesByUserUuid(userUuid);
-//    }
 }

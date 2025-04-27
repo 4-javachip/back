@@ -48,26 +48,6 @@ public class ResponseReadShippingAddressWithDefaultedDto {
         this.defaulted = defaulted;
     }
 
-//    // entity => dto
-//    public static ResponseReadShippingAddressWithDefaultedDto from(
-//            Boolean defaulted,
-//            ShippingAddress shippingAddress
-//    ) {
-//        return ResponseReadShippingAddressWithDefaultedDto.builder()
-//                .id(shippingAddress.getId())
-//                .shippingAddressUuid(shippingAddress.getShippingAddressUuid())
-//                .addressName(shippingAddress.getAddressName())
-//                .recipientName(shippingAddress.getRecipientName())
-//                .zipCode(shippingAddress.getZipCode())
-//                .baseAddress(shippingAddress.getBaseAddress())
-//                .detailAddress(shippingAddress.getDetailAddress())
-//                .phoneNumber(shippingAddress.getPhoneNumber())
-//                .secondPhoneNumber(shippingAddress.getSecondPhoneNumber())
-//                .shippingNote(shippingAddress.getShippingNote())
-//                .defaulted(defaulted)
-//                .build();
-//    }
-
     // dto => vo
     public ResponseShippingAddressVo toVo() {
         return ResponseShippingAddressVo.builder()

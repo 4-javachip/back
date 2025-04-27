@@ -12,11 +12,10 @@ import com.starbucks.back.shippingaddress.dto.out.ResponseReadUserShippingAddres
 import com.starbucks.back.shippingaddress.infrastructure.UserShippingAddressRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-@Slf4j
+
 @Service
 @RequiredArgsConstructor
 public class UserShippingAddressServiceImpl implements UserShippingAddressService{
@@ -60,7 +59,6 @@ public class UserShippingAddressServiceImpl implements UserShippingAddressServic
         UserShippingAddress userShippingAddress = userShippingAddressRepository
                 .findByUserUuidAndDefaultedTrueAndDeletedFalse(userUuid)
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_USER_SHIPPING_ADDRESS));
-        log.info("userShippingAddress : {}", userShippingAddress);
         // 배송지 uuid 로 배송지 조회 (배송지 service 의 getShippingAddressByShippingAddressUuid 메서드 사용)
         return shippingAddressService.
                 getShippingAddressByShippingAddressUuid(userShippingAddress.getShippingAddressUuid());

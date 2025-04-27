@@ -3,9 +3,7 @@ package com.starbucks.back.order.dto.in;
 import com.starbucks.back.order.vo.in.OrderItemVo;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.ToString;
 
-@ToString
 @Getter
 public class OrderItemDto {
     private String orderListUuid;

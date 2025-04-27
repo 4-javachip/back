@@ -2,7 +2,6 @@ package com.starbucks.back.payment.presentation;
 
 import com.starbucks.back.common.entity.BaseResponseEntity;
 import com.starbucks.back.common.entity.BaseResponseStatus;
-import com.starbucks.back.common.exception.BaseException;
 import com.starbucks.back.common.util.SecurityUtil;
 import com.starbucks.back.payment.application.PaymentService;
 import com.starbucks.back.payment.domain.PaymentStatus;
@@ -18,7 +17,6 @@ import com.starbucks.back.payment.vo.out.ResponsePaymentCreateVo;
 import com.starbucks.back.payment.vo.out.ResponsePaymentVo;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -35,7 +33,7 @@ public class PaymentController {
      * 결제 생성
      */
     @PostMapping
-    @Operation(summary = "CreatePayment API", description = "결제 생성(결제창 호출) API 입니다.", tags = {"Payment-Service"})
+    @Operation(summary = "결제 생성 API", description = "결제 생성(결제창 호출) API 입니다.", tags = {"Payment-Service"})
     public BaseResponseEntity<ResponsePaymentCreateVo> addPayment(
            @RequestBody RequestPaymentCreateVo requestPaymentCreateVo
     ) {
@@ -50,7 +48,7 @@ public class PaymentController {
      * 결제 승인
      */
     @PostMapping("/confirm")
-    @Operation(summary = "ConfirmPayment API", description = "결제 승인 API 입니다.", tags = {"Payment-Service"})
+    @Operation(summary = "결제 승인 API", description = "결제 승인 API 입니다.", tags = {"Payment-Service"})
     public BaseResponseEntity<ResponsePaymentConfirmVo> confirmPayment(
             @RequestBody RequestPaymentConfirmVo requestPaymentConfirmVo
             ) {
@@ -58,14 +56,14 @@ public class PaymentController {
         ResponsePaymentConfirmDto responsePaymentConfirmDto = paymentService.confirmPayment(
                 RequestPaymentConfirmDto.from(userUuid, requestPaymentConfirmVo)
         );
-        return new BaseResponseEntity<>(responsePaymentConfirmDto.toVo(responsePaymentConfirmDto));
+        return new BaseResponseEntity<>(responsePaymentConfirmDto.toVo());
     }
 
     /**
      * 가상계좌 웹훅
      */
     @PostMapping("/webhook")
-    @Operation(summary = "VirtualAccountWebhook API", description = "가상계좌 웹훅 API 입니다.", tags = {"Payment-Service"})
+    @Operation(summary = "가상계좌 웹훅 API", description = "가상계좌 웹훅 API 입니다.", tags = {"Payment-Service"})
     public BaseResponseEntity<Void> virtualAccountWebhook(
             @RequestBody Map<String, Object> payload
     ) {
@@ -82,7 +80,7 @@ public class PaymentController {
      * 결제 내역 조회
      */
     @GetMapping("/{paymentUuid}")
-    @Operation(summary = "GetPayment API", description = "결제 내역 조회 API 입니다.", tags = {"Payment-Service"})
+    @Operation(summary = "결제 내역 조회 API", description = "결제 내역 조회 API 입니다.", tags = {"Payment-Service"})
     public BaseResponseEntity<ResponsePaymentVo> getPayment(
             @PathVariable("paymentUuid") String paymentUuid
     ) {

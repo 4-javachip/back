@@ -1,6 +1,5 @@
 package com.starbucks.back.cart.dto.in;
 
-import com.starbucks.back.cart.domain.Cart;
 import com.starbucks.back.cart.vo.in.RequestDeleteCartVo;
 import lombok.Builder;
 import lombok.Getter;

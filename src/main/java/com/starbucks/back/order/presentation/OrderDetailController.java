@@ -29,8 +29,10 @@ public class OrderDetailController {
      * 주문 상세 조회 by userUuid, orderListUuid
      */
     @GetMapping("/detail/list/{orderListUuid}")
-    @Operation(summary = "GetOrderDetailByCartUuid API", description = "주문 상세 조회 api 입니다.", tags = {"Order-Service"})
-    public BaseResponseEntity<List<ResponseReadOrderDetailVo>> getOrderDetail(@PathVariable("orderListUuid") String orderListUuid) {
+    @Operation(summary = "주문 상세 조회 API", description = "주문 상세 조회 api 입니다.", tags = {"Order-Service"})
+    public BaseResponseEntity<List<ResponseReadOrderDetailVo>> getOrderDetail(
+            @PathVariable("orderListUuid") String orderListUuid
+    ) {
         String userUuid = securityUtil.getCurrentUserUuid();
 
         List<ResponseReadOrderDetailVo> result = orderDetailService.getOrderDetailByOrderListUuid(orderListUuid)
@@ -45,7 +47,7 @@ public class OrderDetailController {
      * 주문 아이템 목록(장바구니) by userUuid
      */
     @GetMapping("/items")
-    @Operation(summary = "GetOrderItemListByUserUuid API", description = "장바구니에서 결제 시 주문 아이템 목록 조회 api 입니다.", tags = {"Order-Service"})
+    @Operation(summary = "주문 아이템 목록(from 장바구니) API", description = "장바구니에서 결제 시 주문 아이템 목록 조회 api 입니다.", tags = {"Order-Service"})
     public BaseResponseEntity<List<ResponseCartVo>> getOrderItemList() {
         String userUuid = securityUtil.getCurrentUserUuid();
 
@@ -61,10 +63,12 @@ public class OrderDetailController {
      * 주문 아이템 상세 by orderDetailUuid
      */
     @GetMapping("/detail/{orderDetailUuid}")
-    @Operation(summary = "GetOrderItemDetailByOrderDetailUuid API", description = "주문 상품 상세 조회 api 입니다.", tags = {"Order-Service"})
-    public BaseResponseEntity<ResponseReadOrderDetailVo> getOrderItemDetail(@PathVariable("orderDetailUuid") String orderDetailUuid) {
-        ResponseReadOrderDetailDto result = orderDetailService.getOrderDetailByOrderDetailUuid(orderDetailUuid);
+    @Operation(summary = "주문 상품 상세 조회 API", description = "주문 상품 상세 조회 api 입니다.", tags = {"Order-Service"})
+    public BaseResponseEntity<ResponseReadOrderDetailVo> getOrderItemDetail(
+            @PathVariable("orderDetailUuid") String orderDetailUuid
+    ) {
+        ResponseReadOrderDetailDto responseReadOrderDetailDto = orderDetailService.getOrderDetailByOrderDetailUuid(orderDetailUuid);
 
-        return new BaseResponseEntity<>(ResponseReadOrderDetailDto.toVo(result));
+        return new BaseResponseEntity<>(responseReadOrderDetailDto.toVo());
     }
 }

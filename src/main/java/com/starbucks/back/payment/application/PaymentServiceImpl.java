@@ -3,7 +3,6 @@ package com.starbucks.back.payment.application;
 import com.starbucks.back.common.entity.BaseResponseStatus;
 import com.starbucks.back.common.exception.BaseException;
 import com.starbucks.back.order.application.OrderListService;
-import com.starbucks.back.order.domain.OrderList;
 import com.starbucks.back.payment.domain.Payment;
 import com.starbucks.back.payment.domain.PaymentStatus;
 import com.starbucks.back.payment.dto.in.RequestPaymentConfirmDto;
@@ -15,7 +14,6 @@ import com.starbucks.back.payment.dto.out.ResponsePaymentDto;
 import com.starbucks.back.payment.infrastructure.PaymentRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -26,7 +24,6 @@ import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.*;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class PaymentServiceImpl implements PaymentService{
@@ -94,7 +91,6 @@ public class PaymentServiceImpl implements PaymentService{
                 baseUrl + "/payments", httpRequest, Map.class);
 
         Map responseBody = response.getBody();
-        log.info("responseBody: {}", responseBody);
         // 결제 생성 결과 반환
         return ResponsePaymentCreateDto.builder()
                         .checkoutUrl(((Map<String, String>) responseBody.get("checkout")).get("url"))
@@ -128,13 +124,10 @@ public class PaymentServiceImpl implements PaymentService{
         // 요청 바디와 헤더를 HttpEntity로 감싸기
         HttpEntity<Map<String, Object>> httpRequest = new HttpEntity<>(body, headers);
 
-        log.info("requestPaymentConfirmDto: {}", requestPaymentConfirmDto);
-        log.info("requestPaymentConfirmDto.getPaymentUuid(): {}", requestPaymentConfirmDto.getPaymentUuid());
         // ✅ 결제 정보 갱신 (paymentCode, status)
         Payment payment = paymentRepository
                 .findByPaymentUuid(requestPaymentConfirmDto.getPaymentUuid())
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.PAYMENT_NO_EXIST));
-        log.info("payment@@: {}", payment);
         // 결제 승인 처리가 이미 완료된 경우
         if (payment.getStatus() != PaymentStatus.READY) {
             // 이미 완료된 결제는 무시
@@ -149,7 +142,6 @@ public class PaymentServiceImpl implements PaymentService{
             );
 
             Map responseBody = response.getBody();
-            log.info("responseBody@@: {}", responseBody);
 
             if (responseBody == null) {
                 throw new BaseException(BaseResponseStatus.TOSS_EMPTY_RESPONSE);
@@ -169,7 +161,6 @@ public class PaymentServiceImpl implements PaymentService{
 
             // 결제 실패 시 관련 정보 파싱 + 저장, 이후 에러 처리
             if (failure != null) {
-//                String failureCode = failure.get("code");
                 String failReason = failure.get("message");
 
                 paymentRepository.save(requestPaymentConfirmDto.updateFailPayment(
