@@ -91,7 +91,7 @@ src
 
 ## ⚙️ 프로젝트 실행 방법
 백엔드 프로젝트를 실행하기 전 아래 항목들을 실행해주세요.
-- DataBase(MySQL, Redis, S3)가 실행되고 있어야 합니다.
+- MySQL, Redis, S3 연결을 위한 설정이 필요합니다.
 - SMTP를 이용하기 위해, 구글 계정(이메일 전송자)을 준비해야합니다.
 - toss-payments API를 이용하기 위해 [toss 개발자 문서](https://developers.tosspayments.com/)를 참고하여 
 toss-payments secret-key, client-key를 발급받아야 합니다.
