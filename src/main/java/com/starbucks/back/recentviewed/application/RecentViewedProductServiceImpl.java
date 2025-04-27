@@ -1,10 +1,10 @@
-package com.starbucks.back.recent.application;
+package com.starbucks.back.recentviewed.application;
 
 import com.starbucks.back.common.util.DateTimeUtil;
 import com.starbucks.back.common.util.RedisUtil;
-import com.starbucks.back.recent.dto.in.RequestAddRecentViewedProductDto;
-import com.starbucks.back.recent.dto.out.ResponseGetRecentViewedProductDto;
-import com.starbucks.back.recent.infrastructure.RecentViewedProductRepository;
+import com.starbucks.back.recentviewed.dto.in.RequestAddRecentViewedProductDto;
+import com.starbucks.back.recentviewed.dto.out.ResponseGetRecentViewedProductDto;
+import com.starbucks.back.recentviewed.infrastructure.RecentViewedProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

@@ -1,13 +1,13 @@
-package com.starbucks.back.recent.presentation;
+package com.starbucks.back.recentviewed.presentation;
 
 import com.starbucks.back.common.entity.BaseResponseEntity;
 import com.starbucks.back.common.entity.BaseResponseStatus;
 import com.starbucks.back.common.util.SecurityUtil;
-import com.starbucks.back.recent.application.RecentViewedProductService;
-import com.starbucks.back.recent.dto.in.RequestAddRecentViewedProductDto;
-import com.starbucks.back.recent.dto.out.ResponseGetRecentViewedProductDto;
-import com.starbucks.back.recent.vo.in.RequestAddRecentViewedProductVo;
-import com.starbucks.back.recent.vo.out.ResponseGetRecentViewedProductVo;
+import com.starbucks.back.recentviewed.application.RecentViewedProductService;
+import com.starbucks.back.recentviewed.dto.in.RequestAddRecentViewedProductDto;
+import com.starbucks.back.recentviewed.dto.out.ResponseGetRecentViewedProductDto;
+import com.starbucks.back.recentviewed.vo.in.RequestAddRecentViewedProductVo;
+import com.starbucks.back.recentviewed.vo.out.ResponseGetRecentViewedProductVo;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

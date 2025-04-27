@@ -1,4 +1,4 @@
-package com.starbucks.back.recent.domain;
+package com.starbucks.back.recentviewed.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.starbucks.back.common.entity.BaseEntity;

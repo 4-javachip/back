@@ -8,5 +8,6 @@ import java.util.Optional;
 
 public interface CouponRepository extends JpaRepository<Coupon, Long> {
     // 사용가능한 쿠폰 조회
-    Optional<List<Coupon>> findAllByDeletedFalse();
+    List<Coupon> findAllByDeletedFalse();
+    Coupon findByCouponUuidAndDeletedFalse(String couponUuid);
 }

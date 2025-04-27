@@ -1,6 +1,6 @@
-package com.starbucks.back.recent.dto.in;
+package com.starbucks.back.recentviewed.dto.in;
 
-import com.starbucks.back.recent.domain.RecentViewedProduct;
+import com.starbucks.back.recentviewed.domain.RecentViewedProduct;
 import lombok.Builder;
 import lombok.Getter;
 

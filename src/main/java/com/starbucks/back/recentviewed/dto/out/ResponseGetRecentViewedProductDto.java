@@ -1,6 +1,6 @@
-package com.starbucks.back.recent.dto.out;
+package com.starbucks.back.recentviewed.dto.out;
 
-import com.starbucks.back.recent.vo.out.ResponseGetRecentViewedProductVo;
+import com.starbucks.back.recentviewed.vo.out.ResponseGetRecentViewedProductVo;
 import lombok.Builder;
 import lombok.Getter;
 

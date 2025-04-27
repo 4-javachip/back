@@ -1,9 +1,15 @@
 package com.starbucks.back.common.util;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.data.redis.connection.ReturnType;
+import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -33,6 +39,10 @@ public class RedisUtil<T> {
         return value;
     }
 
+    public Long decrement(String key) {
+        return redisTemplate.opsForValue().decrement(key);
+    }
+
     // **** List 관련 메서드 ****
 
     // 왼쪽에 값 추가 (LPUSH)
@@ -60,4 +70,19 @@ public class RedisUtil<T> {
         return redisTemplate.keys(pattern);
     }
 
+    // **** lua script 주입 ****
+    public Long executeCouponDownloadScript(String key) {
+        try {
+            Resource resource = new ClassPathResource("lua/coupon_download.lua");
+            String script = new String(resource.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
+
+
+            return redisTemplate.execute(
+                    (RedisCallback<Long>) connection ->
+                            connection.eval(script.getBytes(), ReturnType.INTEGER, 1, key.getBytes())
+            );
+        } catch (IOException e) {
+            throw new RuntimeException("Lua 스크립트 읽기 실패 ", e);
+        }
+    }
 }

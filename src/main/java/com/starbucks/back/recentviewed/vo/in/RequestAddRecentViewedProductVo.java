@@ -1,4 +1,4 @@
-package com.starbucks.back.recent.vo.in;
+package com.starbucks.back.recentviewed.vo.in;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;

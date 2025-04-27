@@ -1,4 +1,4 @@
-package com.starbucks.back.recent.vo.out;
+package com.starbucks.back.recentviewed.vo.out;
 
 import lombok.Builder;
 import lombok.Getter;

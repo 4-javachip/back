@@ -25,7 +25,8 @@ public enum BaseResponseStatus {
     SUCCESS_WITHDRAWAL_USER(HttpStatus.OK, true, 210, "회원 탈퇴가 완료되었습니다. 2주안에 재 로그인 시 계정 복구가 가능합니다."),
     SUCCESS_ACCOUNT_RECOVERY(HttpStatus.OK, true, 211, "계정 복구가 완료되었습니다. 로그인 해주세요."),
     NO_OAUTH_USER(HttpStatus.OK, true, 2200, "소셜 계정이 존재하지 않습니다. 추가 정보를 입력해 회원가입 해주세요."),
-    NO_AVAILABLE_COUPON(HttpStatus.OK, true, 2201, "사용 가능한 쿠폰이 없습니다."),
+    SUCCESS_DOWNLOAD_COUPON(HttpStatus.OK, true, 2201, "쿠폰 다운로드에 성공하였습니다."),
+    SUCCESS_USE_COUPON(HttpStatus.OK, true, 2202, "쿠폰 사용에 성공하였습니다."),
 
     /**
      * 400 : security 에러
@@ -194,7 +195,16 @@ public enum BaseResponseStatus {
     NO_EXIST_QUERY_FOR_ORDER_DETAIL(HttpStatus.BAD_REQUEST, false, 7202, "주문 상세 조회를 위한 쿼리가 존재하지 않습니다."),
     // shipping adress
     NO_EXIST_USER_SHIPPING_ADDRESS(HttpStatus.NOT_FOUND, false, 7202, "해당하는 유저-배송지가 존재하지 않습니다."),
-    NO_EXIST_SHIPPING_ADDRESS(HttpStatus.NOT_FOUND, false, 7210, "존재하지 않는 배송지입니다");
+    NO_EXIST_SHIPPING_ADDRESS(HttpStatus.NOT_FOUND, false, 7210, "존재하지 않는 배송지입니다"),
+
+    /**
+     * 8000: coupon service error
+     */
+    COUPON_NOT_FOUND(HttpStatus.NOT_FOUND, false, 8001, "존재하지 않는 쿠폰입니다."),
+    COUPON_OUT_OF_STOCK(HttpStatus.BAD_REQUEST, false, 8002, "수량이 소진된 쿠폰입니다."),
+    COUPON_ALREADY_DOWNLOADED(HttpStatus.BAD_REQUEST, false, 8003, "이미 다운로드한 쿠폰입니다."),
+    COUPON_ALREADY_USED(HttpStatus.BAD_REQUEST, false, 8005, "이미 사용한 쿠폰입니다.");
+
     private final HttpStatusCode httpStatusCode;
     private final boolean isSuccess;
     private final int code;
