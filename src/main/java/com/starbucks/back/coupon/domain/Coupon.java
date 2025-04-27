@@ -1,93 +1,64 @@
 package com.starbucks.back.coupon.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.starbucks.back.common.entity.SoftDeletableEntity;
+import com.starbucks.back.coupon.domain.enums.DiscountType;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "coupon")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Coupon {
+public class  Coupon extends SoftDeletableEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     private Long id;
 
-    /**
-     * 쿠폰 UUID
-     */
     @Column(name = "coupon_uuid", length = 50, nullable = false, unique = true)
     private String couponUuid;
 
-    /**
-     * 쿠폰 이름
-     */
-    @Column(name = "name", nullable = false)
+    @Column(name = "name", nullable = false, length = 100, unique = true)
     private String name;
 
-    /**
-     * 카테고리 id
-     */
-    @Column(name = "category_id", nullable = false)
-    private Integer categoryId;
-
-    /**
-     * 최소 주문 금액
-     */
-    @Column(name = "minimum_order_amount", nullable = false)
-    private Integer minimumOrderAmount;
-
-    /**
-     * 최대 할인 금액
-     */
-    @Column(name = "maximum_discount_amount", nullable = false)
-    private Integer maximumDiscountAmount;
-
-    /**
-     * 쿠폰 타입
-     */
     @Enumerated(EnumType.STRING)
-    @Column(name = "coupon_type", nullable = false)
-    private CouponType couponType;
+    @Column(name = "discount_type", nullable = false)
+    private DiscountType discountType;
 
-    /**
-     * 쿠폰 상태
-     */
-    @Column(name = "state", nullable = false)
-    private Boolean state;
+    @Column(name = "discount_amount", nullable = false)
+    private Integer discountAmount;
 
-    /**
-     * 사용 가능 시점
-     */
-    @Column(name = "valid_from", nullable = false, columnDefinition = "DATETIME(0)")
-    private LocalDateTime validFrom;
+    @Column(name = "max_discount_amount", nullable = false)
+    private Integer maxDiscountAmount;
 
-    /**
-     * 사용 종료 시점
-     */
-    @Column(name = "valid_until", nullable = false, columnDefinition = "DATETIME(0)")
-    private LocalDateTime validUntil;
+    @Column(name = "valid_from", nullable = false)
+    private LocalDate validFrom;
+
+    @Column(name = "valid_until", nullable = false)
+    private LocalDate validUntil;
+
+    @Column(name = "supply")
+    private String supply;
 
     @Builder
-    public Coupon(Long id, String couponUuid, String name, Integer categoryId,
-                  Integer minimumOrderAmount, Integer maximumDiscountAmount,
-                  CouponType couponType, Boolean state, LocalDateTime validFrom,
-                  LocalDateTime validUntil) {
+    public Coupon(Long id, String couponUuid, String name, DiscountType discountType, Integer discountAmount,
+                  Integer maxDiscountAmount, LocalDate validFrom, LocalDate validUntil, String supply) {
         this.id = id;
         this.couponUuid = couponUuid;
         this.name = name;
-        this.categoryId = categoryId;
-        this.minimumOrderAmount = minimumOrderAmount;
-        this.maximumDiscountAmount = maximumDiscountAmount;
-        this.couponType = couponType;
-        this.state = state;
+        this.discountType = discountType;
+        this.discountAmount = discountAmount;
+        this.maxDiscountAmount = maxDiscountAmount;
         this.validFrom = validFrom;
         this.validUntil = validUntil;
+        this.supply = supply;
     }
 
 }

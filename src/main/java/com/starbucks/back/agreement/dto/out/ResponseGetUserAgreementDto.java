@@ -1,7 +1,6 @@
 package com.starbucks.back.agreement.dto.out;
 
 import com.starbucks.back.agreement.domain.UserAgreement;
-import com.starbucks.back.agreement.vo.out.ResponseGetAgreementVo;
 import com.starbucks.back.agreement.vo.out.ResponseGetUserAgreementVo;
 import lombok.Builder;
 import lombok.Getter;

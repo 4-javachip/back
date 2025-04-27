@@ -1,7 +1,5 @@
 package com.starbucks.back.agreement.vo.in;
 
-import com.starbucks.back.agreement.domain.Agreement;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 

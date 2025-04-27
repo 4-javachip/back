@@ -1,7 +1,6 @@
 package com.starbucks.back.agreement.application;
 
 import com.starbucks.back.agreement.domain.Agreement;
-import com.starbucks.back.agreement.domain.UserAgreement;
 import com.starbucks.back.agreement.domain.enums.AgreementType;
 import com.starbucks.back.agreement.dto.in.RequestAddUserAgreementDto;
 import com.starbucks.back.agreement.dto.out.ResponseGetUserAgreementDto;

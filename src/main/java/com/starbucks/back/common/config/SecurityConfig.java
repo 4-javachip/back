@@ -34,28 +34,24 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                         authorizeRequests -> authorizeRequests
                                 .requestMatchers(
-//                                    "/api/v1/auth/**",
-//                                    "/api/v1/oauth/**",
-//                                    "/api/v1/user/password/reset",
-//                                    "/api/v1/email/**",
-//                                    "/api/v1/agreement/**",
-//                                    "/api/v1/option/**",
-//                                    "/api/v1/product/**",
-//                                    "/api/v1/category/**",
-//                                    "/api/v1/season/**",
-//                                    "/api/v1/best/**",
-//                                    "/api/v1/event/**",
-//                                    "/swagger-ui/**",
-//                                    "/v3/api-docs/**",
-//                                    "/error"
-                                        "/**"
+                                    "/api/v1/auth/**",
+                                    "/api/v1/oauth/**",
+                                    "/api/v1/user/password/reset",
+                                        "/api/v1/user/recovery",
+                                    "/api/v1/email/**",
+                                    "/api/v1/agreement/**",
+                                    "/api/v1/option/**",
+                                    "/api/v1/product/**",
+                                    "/api/v1/category/**",
+                                    "/api/v1/season/**",
+                                    "/api/v1/best/**",
+                                    "/api/v1/event/**",
+                                    "/swagger-ui/**",
+                                    "/v3/api-docs/**",
+                                    "/error"
                                 )
                                 .permitAll()
-//                               .requestMatchers("/api/v1/review/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/v1/review/**").permitAll()  // GET 요청 허용
-//                               .requestMatchers(HttpMethod.POST, "/api/v1/review/**").denyAll()   // POST 요청 차단
-//                               .requestMatchers(HttpMethod.PUT, "/api/v1/review/**").denyAll()    // PUT 요청 차단
-//                               .requestMatchers(HttpMethod.DELETE, "/api/v1/review/**").denyAll() // DELETE 요청 차단
                                 .anyRequest()
                                 .authenticated()
                 )
@@ -75,12 +71,6 @@ public class SecurityConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-//        config.setAllowedOrigins(List.of(
-//                "http://localhost:3000",
-//                "https://starbucks-store.shop",
-//                "https://www.starbucks-store.shop",
-//                "https://back.starbucks-store.shop"
-//        ));
         config.setAllowedOriginPatterns(List.of(
                 "http://localhost:3000",
                 "https://starbucks-store.shop",
