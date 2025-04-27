@@ -5,7 +5,6 @@ import com.starbucks.back.auth.dto.out.ResponseSignInDto;
 import com.starbucks.back.oauth.dto.in.RequestOauthUserInfoDto;
 import com.starbucks.back.oauth.dto.in.RequestOauthSignUpDto;
 import com.starbucks.back.oauth.dto.out.ResponseOauthUserInfoDto;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 public interface OauthService {

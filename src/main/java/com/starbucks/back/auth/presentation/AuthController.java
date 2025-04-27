@@ -2,19 +2,14 @@ package com.starbucks.back.auth.presentation;
 
 import com.starbucks.back.auth.application.AuthService;
 import com.starbucks.back.auth.dto.in.*;
-import com.starbucks.back.auth.dto.out.ResponseSignInDto;
 import com.starbucks.back.auth.vo.in.*;
 import com.starbucks.back.auth.vo.out.ResponseGetUserNicknameVo;
 import com.starbucks.back.auth.vo.out.ResponseSignInVo;
 import com.starbucks.back.common.entity.BaseResponseEntity;
 import com.starbucks.back.common.entity.BaseResponseStatus;
-import com.starbucks.back.common.exception.BaseException;
 import io.swagger.v3.oas.annotations.Operation;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseCookie;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

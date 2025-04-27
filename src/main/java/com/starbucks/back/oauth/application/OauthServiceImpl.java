@@ -15,7 +15,6 @@ import com.starbucks.back.oauth.infrastructure.OauthRepository;
 import com.starbucks.back.oauth.infrastructure.OauthUserInfoProvider;
 import com.starbucks.back.user.domain.User;
 import com.starbucks.back.user.infrastructure.UserRepository;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
