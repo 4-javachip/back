@@ -36,9 +36,6 @@ public interface ShippingAddressRepository extends JpaRepository<ShippingAddress
             ON sa.shippingAddressUuid = usa.shippingAddressUuid
         WHERE sa.shippingAddressUuid = :uuid AND usa.deleted = false
     """)
-    Optional<ResponseReadShippingAddressWithDefaultedDto> findShippingAddressWithDefaultedByShippingAddressUuid(@Param("uuid") String uuid);
-
-
-
-
+    Optional<ResponseReadShippingAddressWithDefaultedDto> findShippingAddressWithDefaultedByShippingAddressUuid(
+            @Param("uuid") String uuid);
 }
