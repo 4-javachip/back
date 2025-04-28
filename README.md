@@ -38,7 +38,7 @@ MSA 및 CQRS 도입 필요성을 학습하는 것을 목표로 진행되었습�
 |:------:|:-------------------------------------|
 | WAS | Spring Boot 3.4.3                    |
 | DB | Mysql 9.2.0                          |
-| Cache | Redis |
+| Cache | Redis 7.4.2 |
 | 언어 | Java (JDK 17)        |
 | 빌드 도구 | Gradle 8.13 |
 | IDE | Intellij IDEA                        |
