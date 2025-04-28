@@ -42,16 +42,20 @@ public class SecurityConfig {
                                     "/api/v1/agreement/**",
                                     "/api/v1/option/**",
                                     "/api/v1/product/**",
+                                    "/api/v1/product-category/**",
                                     "/api/v1/category/**",
+                                    "/api/v1/sub-category/**",
                                     "/api/v1/season/**",
                                     "/api/v1/best/**",
                                     "/api/v1/event/**",
+                                    "/api/v1/banner/**",
                                     "/swagger-ui/**",
                                     "/v3/api-docs/**",
                                     "/error"
                                 )
                                 .permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/v1/review/**").permitAll()  // GET 요청 허용
+                                .requestMatchers(HttpMethod.GET, "/api/v1/review/user/**").authenticated()
                                 .anyRequest()
                                 .authenticated()
                 )
