@@ -32,7 +32,7 @@ MSA 및 CQRS 도입 필요성을 학습하는 것을 목표로 진행되었습�
 <img src="https://img.shields.io/badge/swagger-85EA2D?&style=flat-square&logo=swagger&logoColor=white"/>
 <img src="https://img.shields.io/badge/Discord-5865F2?style=flat-square&logo=Discord&logoColor=white"/> 
 
-### System Spec
+### 🖥️ System Spec
 
 | * | Specification                        |
 |:------:|:-------------------------------------|
@@ -61,13 +61,13 @@ MSA 및 CQRS 도입 필요성을 학습하는 것을 목표로 진행되었습�
 * 복잡한 비즈니스 데이터 모델링과 무결성 관리를 위한 RDB + Spring Boot와의 호환성을 고려하여 선정
 * 단, 차후 MSA 학습을 위한 용도로 각 도메인간의 relation은 최대한 끊는 방향으로 프로젝트 진행
 
-### System Architecture
+### 🏛️ System Architecture
 ![image](https://github.com/user-attachments/assets/34f415f9-ebb3-49c6-b998-c2983cfaef3f)
 
-### CI/CD
+### ⚙️ CI/CD
 ![image](https://github.com/user-attachments/assets/1a3fdb13-a45f-4e42-8057-c068734f7105)
 
-### ERD
+### 🗺️ ERD
 ![image](https://github.com/user-attachments/assets/4910721b-e95f-440c-b509-f539b4ed14f4)
 
 
