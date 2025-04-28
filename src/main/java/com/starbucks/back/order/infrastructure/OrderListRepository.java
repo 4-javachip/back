@@ -15,7 +15,7 @@ public interface OrderListRepository extends JpaRepository<OrderList, Long> {
     /**
      * 주문 내역 리스트 조회 by userUuid
      */
-    List<OrderList> findAllByUserUuidAndPaymentStatus(String userUuid, PaymentStatus paymentStatus);
+    List<OrderList> findAllByUserUuidAndPaymentStatusOrderByCreatedAtDesc(String userUuid, PaymentStatus paymentStatus);
 
     /**
      * 주문 내역 조회 by orderListUuid
