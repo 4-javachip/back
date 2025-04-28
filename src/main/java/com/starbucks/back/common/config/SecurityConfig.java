@@ -48,6 +48,7 @@ public class SecurityConfig {
                                     "/api/v1/season/**",
                                     "/api/v1/best/**",
                                     "/api/v1/event/**",
+                                    "/api/v1/event-product/**",
                                     "/api/v1/banner/**",
                                     "/swagger-ui/**",
                                     "/v3/api-docs/**",
