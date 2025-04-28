@@ -38,11 +38,28 @@ MSA 및 CQRS 도입 필요성을 학습하는 것을 목표로 진행되었습�
 |:------:|:-------------------------------------|
 | WAS | Spring Boot 3.4.3                    |
 | DB | Mysql 9.2.0                          |
-| Cache | Redis |
+| Cache | Redis 7.4.2 |
 | 언어 | Java (JDK 17)        |
 | 빌드 도구 | Gradle 8.13 |
 | IDE | Intellij IDEA                        |
 | 형상관리 | GIT                                  |
+
+### 기술 선정 이유
+Spring Boot
+* 기업용 백엔드 기준으로 널리 채택되어 있고, Spring Security 및 차후 MSA 확장성(Spring cloud) 등을 고려하여 선정
+* 최신 LTS 버전인 Spring Boot 3.4.3 선정
+
+Redis
+* 인증, 최근 본 상품, 쿠폰 등에서 사용
+* 인증 데이터의 빠른 접근, 만료 시간 설정, 쿠폰의 동시성 처리 기능 등을 편하게 사용하기 위해 사용
+
+Docker/Github Actions
+* Docker를 활용해 개발/운영 환경 통일
+* Github Actions와 Discord Webhook을 연동하여 자동 빌드, 테스트, 배포, 결과 알림까지 완전 자동화된 CI/CD 파이프라인 구축
+
+MySQL
+* 복잡한 비즈니스 데이터 모델링과 무결성 관리를 위한 RDB + Spring Boot와의 호환성을 고려하여 선정
+* 단, 차후 MSA 학습을 위한 용도로 각 도메인간의 relation은 최대한 끊는 방향으로 프로젝트 진행
 
 ## Distributing Roles
 ### 👨‍💻 Back-end
