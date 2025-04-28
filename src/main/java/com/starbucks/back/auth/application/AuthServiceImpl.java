@@ -134,8 +134,8 @@ public class AuthServiceImpl implements AuthService {
             throw new BaseException(BaseResponseStatus.WITHDRAWAL_PENDING);
         }
 
-        final String accessToken = "eyJhbGciOiJIUzUxMiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwidXVpZCI6IjVlNGM1NjFlLTU1YTgtNGE1MS1hNzg3LTQ2MGYwYTcyMmIwYiIsImlhdCI6MTc0NTU0NDg3MiwiZXhwIjoxNzQ1NjMxMjcyfQ.cGg9jP2LOkW47uIt995oIUd2tuS9z6TkxECNEk8D3pay9FqVnsZ9GcSkXugaNQp4hrdqRDPiR69yo1fhxRI0OQ";
-        final String refreshToken = "eyJhbGciOiJIUzUxMiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsInV1aWQiOiI1ZTRjNTYxZS01NWE4LTRhNTEtYTc4Ny00NjBmMGE3MjJiMGIiLCJpYXQiOjE3NDU1NDQ4NzIsImV4cCI6MTc0Njc1NDQ3Mn0.Gir1S7iveKX5kxoIxOqlzr60sdNeCkN4jd4sDBGOEQ2buG0XsJcPY71NaaxgUSP05yWKhg7cqKWFb75dNv-Z6w";
+        final String accessToken = "eyJhbGciOiJIUzUxMiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwidXVpZCI6IjVlNGM1NjFlLTU1YTgtNGE1MS1hNzg3LTQ2MGYwYTcyMmIwYiIsImlhdCI6MTc0NTgwNTQwMywiZXhwIjoxNzQ1ODkxODAzfQ.RPzR7oPE1D6RsEivsnOO8LPUNDtxIVVDX50DZgkVSEYl5F6KgC0z56HduPjei5HtsZRHtLXwFskVA2PvOydAqw";
+        final String refreshToken = "eyJhbGciOiJIUzUxMiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsInV1aWQiOiI1ZTRjNTYxZS01NWE4LTRhNTEtYTc4Ny00NjBmMGE3MjJiMGIiLCJpYXQiOjE3NDU4MDU0MDMsImV4cCI6MTc0NzAxNTAwM30.thAt6GXTcDRgeaJrIlPRR11r79td42Pz1zRCPue-9uLZ8fULZQHYElf0gNwTn96WXi_K_1uwPtXsD_ijDRi1gg";
 
         redisUtil.set(
                 "Access:" + user.getUserUuid(),
