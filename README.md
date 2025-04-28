@@ -9,7 +9,7 @@ MSA 및 CQRS 도입 필요성을 학습하는 것을 목표로 진행되었습�
 * [데이터](https://github.com/4-javachip/data)의 경우 SSG.com에서 50,000건 가량의 데이터를 크롤링하여 진행하였습니다.
 * 프로젝트 전체의 readme를 원하시면 [이곳](https://github.com/4-javachip)으로 이동하세요.
 
-### 주요 기능
+### 🛠️ 주요 기능
 - 회원가입/로그인/소셜 로그인
 - 상품/상품옵션/이벤트/기획전
 - 베스트 상품
@@ -19,7 +19,7 @@ MSA 및 CQRS 도입 필요성을 학습하는 것을 목표로 진행되었습�
 - 배송지 관리
 - 찜
 
-## Requirements
+## 📦 Requirements
 
 ### ⚒ Languages & Platforms
 <img src="https://img.shields.io/badge/Java-007396?style=flat-square&logo=Java&logoColor=white"> <img src="https://img.shields.io/badge/Spring Boot-6DB33F?style=flat-square&logo=SpringBoot&logoColor=white"> <img src="https://img.shields.io/badge/Spring Security-6DB33F?style=flat-square&logo=SpringSecurity&logoColor=white"> <img src="https://img.shields.io/badge/mysql-4479A1?style=flat-square&logo=mysql&logoColor=white"> <img src="https://img.shields.io/badge/redis-FF4438?style=flat-square&logo=redis&logoColor=white"> <img src="https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white">
@@ -44,22 +44,32 @@ MSA 및 CQRS 도입 필요성을 학습하는 것을 목표로 진행되었습�
 | IDE | Intellij IDEA                        |
 | 형상관리 | GIT                                  |
 
-### 기술 선정 이유
-Spring Boot
+### 🚀 기술 선정 이유
+**Spring Boot**
 * 기업용 백엔드 기준으로 널리 채택되어 있고, Spring Security 및 차후 MSA 확장성(Spring cloud) 등을 고려하여 선정
 * 최신 LTS 버전인 Spring Boot 3.4.3 선정
 
-Redis
+**Redis**
 * 인증, 최근 본 상품, 쿠폰 등에서 사용
 * 인증 데이터의 빠른 접근, 만료 시간 설정, 쿠폰의 동시성 처리 기능 등을 편하게 사용하기 위해 사용
 
-Docker/Github Actions
+**Docker/Github Actions**
 * Docker를 활용해 개발/운영 환경 통일
 * Github Actions와 Discord Webhook을 연동하여 자동 빌드, 테스트, 배포, 결과 알림까지 완전 자동화된 CI/CD 파이프라인 구축
 
-MySQL
+**MySQL**
 * 복잡한 비즈니스 데이터 모델링과 무결성 관리를 위한 RDB + Spring Boot와의 호환성을 고려하여 선정
 * 단, 차후 MSA 학습을 위한 용도로 각 도메인간의 relation은 최대한 끊는 방향으로 프로젝트 진행
+
+### System Architecture
+![image](https://github.com/user-attachments/assets/34f415f9-ebb3-49c6-b998-c2983cfaef3f)
+
+### CI/CD
+![image](https://github.com/user-attachments/assets/1a3fdb13-a45f-4e42-8057-c068734f7105)
+
+### ERD
+![image](https://github.com/user-attachments/assets/4910721b-e95f-440c-b509-f539b4ed14f4)
+
 
 ## Distributing Roles
 ### 👨‍💻 Back-end
@@ -67,8 +77,7 @@ MySQL
 * 팀원 조현재: 상품(카테고리/기획전/이벤트/베스트), 키워드 검색, 페이징 처리(QueryDSL, Cusor, Page), 댓글, 찜 기능 담당
 * 팀원 정동섭: 주문/결제(toss payments 연동)입
 
-
-### 폴더 구조
+### 🗂️ 폴더 구조
 
 ```bash
 src
@@ -112,8 +121,8 @@ src
 - SMTP를 이용하기 위해, 구글 계정(이메일 전송자)을 준비해야합니다.
 - toss-payments API를 이용하기 위해 [toss 개발자 문서](https://developers.tosspayments.com/)를 참고하여 
 toss-payments secret-key, client-key를 발급받아야 합니다.
-### 환경변수
 
+### 🔧 환경변수
 
 <details>
 <summary>application.yml</summary>
