@@ -232,12 +232,13 @@ git clone https://github.com/4-javachip/back.git
 cd back
 ```
 3. 빌드 및 실행
-Linux / Mac
+
+* Linux / Mac
 ```bash
 ./gradlew build
 ./gradlew bootRun
 ```
-Window
+* Window
 ```bash
 gradlew.bat build
 gradlew.bat bootRun
