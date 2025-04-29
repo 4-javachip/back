@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -56,12 +57,18 @@ public class UserShippingAddressServiceImpl implements UserShippingAddressServic
     @Override
     public ResponseReadShippingAddressWithDefaultedDto getDefaultShippingAddressByUserUuid(String userUuid) {
         // 기본 배송지 UUID 조회
-        UserShippingAddress userShippingAddress = userShippingAddressRepository
-                .findByUserUuidAndDefaultedTrueAndDeletedFalse(userUuid)
-                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_USER_SHIPPING_ADDRESS));
+        Optional<UserShippingAddress> optUserShippingAddress = userShippingAddressRepository
+                .findByUserUuidAndDefaultedTrueAndDeletedFalse(userUuid);
+//                .orElseGet(() -> new ResponseReadShippingAddressWithDefaultedDto());
+
+        if (optUserShippingAddress.isEmpty()) {
+            // 배송지가 없으면 빈 DTO 리턴 → JSON 으로는 result: {}
+            return new ResponseReadShippingAddressWithDefaultedDto();
+        }
+
         // 배송지 uuid 로 배송지 조회 (배송지 service 의 getShippingAddressByShippingAddressUuid 메서드 사용)
         return shippingAddressService.
-                getShippingAddressByShippingAddressUuid(userShippingAddress.getShippingAddressUuid());
+                getShippingAddressByShippingAddressUuid(optUserShippingAddress.get().getShippingAddressUuid());
     }
 
     /**
