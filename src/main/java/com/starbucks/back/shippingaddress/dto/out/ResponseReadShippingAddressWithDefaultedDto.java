@@ -4,21 +4,23 @@ import com.starbucks.back.shippingaddress.domain.ShippingAddress;
 import com.starbucks.back.shippingaddress.vo.out.ResponseShippingAddressVo;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 // id가 주어졌을 때 배송지 조회 dto
+@NoArgsConstructor
 @Getter
 public class ResponseReadShippingAddressWithDefaultedDto {
-    private final Long id;
-    private final String shippingAddressUuid;
-    private final String addressName;
-    private final String recipientName;
-    private final String zipCode;
-    private final String baseAddress;
-    private final String detailAddress;
-    private final String phoneNumber;
-    private final String secondPhoneNumber;
-    private final String shippingNote;
-    private final Boolean defaulted;
+    private Long id;
+    private String shippingAddressUuid;
+    private String addressName;
+    private String recipientName;
+    private String zipCode;
+    private String baseAddress;
+    private String detailAddress;
+    private String phoneNumber;
+    private String secondPhoneNumber;
+    private String shippingNote;
+    private Boolean defaulted;
 
 
     @Builder
