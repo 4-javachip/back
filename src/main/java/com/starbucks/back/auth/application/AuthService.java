@@ -17,5 +17,4 @@ public interface AuthService {
     boolean existsPhoneNumber(String phoneNumber);
     void oauthSignUp(User user);
     ResponseGetUserNicknameDto getUserNickname(RequestGetUserNicknameDto requestGetUserNicknameDto);
-    ResponseSignInDto qrSignIn(RequestSignInDto requestSignInDto);
 }

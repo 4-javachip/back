@@ -119,38 +119,5 @@ public class AuthServiceImpl implements AuthService {
         );
     }
 
-    @Transactional
-    @Override
-    public ResponseSignInDto qrSignIn(
-            RequestSignInDto requestSignInDto
-    ) {
-        final User user = userRepository.findByEmail(requestSignInDto.getEmail())
-                .orElseThrow(() -> new BaseException(BaseResponseStatus.INVALID_LOGIN));
-
-        // 비밀번호 검증
-        if (!passwordEncoder.matches(requestSignInDto.getPassword(), user.getPassword())) {
-            throw new BaseException(BaseResponseStatus.INVALID_LOGIN);
-        } else if (user.getState() == UserState.WITHDRAWAL_PENDING) {
-            throw new BaseException(BaseResponseStatus.WITHDRAWAL_PENDING);
-        }
-
-        final String accessToken = "eyJhbGciOiJIUzUxMiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwidXVpZCI6IjVlNGM1NjFlLTU1YTgtNGE1MS1hNzg3LTQ2MGYwYTcyMmIwYiIsImlhdCI6MTc0NTg5Mzk0NiwiZXhwIjoxNzQ1OTgwMzQ2fQ.i1gQLYYmJ3GxNp8GJRfdcsC2aSA_Hq0QwTz2X6GLGjMKeYfagqr0TUrxJkpIyRNRXt3JY-qyOD9h7YCi-uJEVA";
-        final String refreshToken = "eyJhbGciOiJIUzUxMiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsInV1aWQiOiI1ZTRjNTYxZS01NWE4LTRhNTEtYTc4Ny00NjBmMGE3MjJiMGIiLCJpYXQiOjE3NDU4OTM5NDYsImV4cCI6MTc0NzEwMzU0Nn0._k_1m6U5mCAbY-MTsVEfl69xHKHJLI4gv_-HArSe-A2Qt3hqT02-faRlKrMsWdOemOcCKpUvXgN7eGHRGKm-UA";
-
-        redisUtil.set(
-                "Access:" + user.getUserUuid(),
-                accessToken,
-                14,
-                TimeUnit.DAYS
-        );
-
-        redisUtil.set(
-                "Refresh:" + user.getUserUuid(),
-                refreshToken,
-                14,
-                TimeUnit.DAYS
-        );
-            return ResponseSignInDto.of(accessToken, refreshToken);
-        }
 }
 
